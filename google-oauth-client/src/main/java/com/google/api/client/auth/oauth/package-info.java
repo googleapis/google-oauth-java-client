@@ -72,9 +72,9 @@
  * server using {@link com.google.api.client.auth.oauth.OAuthGetAccessToken}. This access token must
  * be stored.</li>
  * <li>Use the stored access token to authorize HTTP requests to protected resources by setting the
- * {@link com.google.api.client.auth.oauth.OAuthParameters#token} and invoking
- * {@link com.google.api.client.auth.oauth.OAuthParameters#signRequestsUsingAuthorizationHeader}.
- * </li>
+ * {@link com.google.api.client.auth.oauth.OAuthParameters#token} and using
+ * {@link com.google.api.client.auth.oauth.OAuthParameters} as the
+ * {@link com.google.api.client.http.HttpRequestInitializer}.</li>
  * </ol>
  *
  *

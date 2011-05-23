@@ -15,11 +15,9 @@
 package com.google.api.client.auth.oauth;
 
 import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpExecuteIntercepter;
 import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.HttpTransport;
 import com.google.api.client.util.escape.PercentEscaper;
 
 import java.io.IOException;
@@ -238,25 +236,6 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
   /** Returns the escaped form of the given value using OAuth escaping rules. */
   public static String escape(String value) {
     return ESCAPER.escape(value);
-  }
-
-  /**
-   * Performs OAuth HTTP request signing via the {@code Authorization} header as the final HTTP
-   * request execute intercepter for the given HTTP transport.
-   *
-   * @deprecated (scheduled to be removed in 1.5) Use {@link OAuthParameters} directly
-   */
-  @Deprecated
-  public void signRequestsUsingAuthorizationHeader(HttpTransport transport) {
-    for (HttpExecuteIntercepter intercepter : transport.intercepters) {
-      if (intercepter.getClass() == OAuthAuthorizationHeaderIntercepter.class) {
-        ((OAuthAuthorizationHeaderIntercepter) intercepter).oauthParameters = this;
-        return;
-      }
-    }
-    OAuthAuthorizationHeaderIntercepter newIntercepter = new OAuthAuthorizationHeaderIntercepter();
-    newIntercepter.oauthParameters = this;
-    transport.intercepters.add(newIntercepter);
   }
 
   public void initialize(HttpRequest request) throws IOException {
