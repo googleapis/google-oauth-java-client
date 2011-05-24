@@ -53,7 +53,6 @@ import java.util.TreeMap;
  * @since 1.0
  * @author Yaniv Inbar
  */
-@SuppressWarnings("deprecation")
 public final class OAuthParameters implements HttpExecuteInterceptor, HttpRequestInitializer {
 
   /** Secure random number generator to sign requests. */
@@ -242,7 +241,6 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
     request.interceptor = this;
   }
 
-  @SuppressWarnings("deprecation")
   public void intercept(HttpRequest request) throws IOException {
     computeNonce();
     computeTimestamp();
