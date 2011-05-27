@@ -101,7 +101,7 @@ public abstract class AbstractFlowUserServlet extends HttpServlet {
    * @param userId User id to be passed to the constructor of the flow object
    * @return Flow object used to obtain credentials
    */
-  protected abstract ThreeLeggedFlow newFlow(String userId);
+  protected abstract ThreeLeggedFlow newFlow(String userId) throws IOException;
 
   /**
    * Create a new {@link HttpTransport} instance. Implementations can create any type of applicable
