@@ -15,7 +15,8 @@
 package com.google.api.client.extensions.servlet.auth;
 
 import com.google.api.client.extensions.auth.helpers.Credential;
-import com.google.api.client.extensions.auth.helpers.ThreeLeggedFlow;
+import com.google.api.client.extensions.auth.helpers.TwoLeggedFlow;
+import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 
@@ -29,14 +30,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet that can be used to invoke and manage a {@link ThreeLeggedFlow} object in the App Engine
- * container. Developers should subclass this to provide the necessary information for their
- * specific use case.
+ * This specialization of {@link HttpServlet} allows accessing OAuth resources using a credential
+ * that can be created without user intervention. Subclasses should call getCredential in their
+ * handlers when they want access to protected resources.
  *
  * @author moshenko@google.com (Jacob Moshenko)
- * @since 1.4
+ *
+ * @since 1.5
  */
-public abstract class AbstractFlowUserServlet extends HttpServlet {
+public abstract class AbstractTwoLeggedFlowServlet extends HttpServlet {
+
+  /**
+   * Reserved request context identifier used to store the persistence manager used to interact with
+   * JDO manager credential objects in an authorized servlet.
+   */
+  private static final String AUTH_PERSISTENCE_MANAGER =
+      "com.google.api.client.extensions.servlet.auth.persistence_manager";
 
   private static final long serialVersionUID = 1L;
 
@@ -44,54 +53,31 @@ public abstract class AbstractFlowUserServlet extends HttpServlet {
   private final JsonFactory jsonFactory;
 
   /**
-   * Reserved request context identifier used to store the credential instance in an authorized
-   * servlet.
+   * Create an instance of the servlet.
    */
-  private static final String AUTH_CREDENTIAL =
-      "com.google.api.client.extensions.servlet.auth.credential";
-
-  public AbstractFlowUserServlet() {
+  public AbstractTwoLeggedFlowServlet() {
     httpTransport = newHttpTransportInstance();
     jsonFactory = newJsonFactoryInstance();
   }
 
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, ServletException {
+      throws ServletException, IOException {
     PersistenceManager pm = getPersistenceManagerFactory().getPersistenceManager();
-
-    String userId = getUserId();
-
-    ThreeLeggedFlow oauthFlow = newFlow(userId);
-    oauthFlow.setJsonFactory(getJsonFactory());
-    oauthFlow.setHttpTransport(getHttpTransport());
+    req.setAttribute(AUTH_PERSISTENCE_MANAGER, pm);
 
     try {
-      Credential cred = oauthFlow.loadCredential(pm);
-
-      if (cred == null) {
-        pm.makePersistent(oauthFlow);
-
-        String authorizationUrl = oauthFlow.getAuthorizationUrl();
-        resp.sendRedirect(authorizationUrl);
-      } else {
-        req.setAttribute(AUTH_CREDENTIAL, cred);
-        super.service(req, resp);
-      }
+      // Invoke the user code
+      super.service(req, resp);
+    } catch (HttpResponseException e) {
+      // After this catch block, control flow would be returned to the servlet container, therefore
+      // Google APIs client requests will have their content consumed here to make it available for
+      // logging.
+      e.response.ignore();
+      throw e;
     } finally {
       pm.close();
     }
-  }
-
-  /**
-   * Provided for backward compatibility only. User should feel free to override this with their own
-   * implementation and call {@link #getCredential(HttpServletRequest)}. This bridge implementation
-   * will be removed in 1.6.
-   */
-  @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    Credential cred = getCredential(req);
-    doGetWithCredentials(req, resp, cred);
   }
 
   /**
@@ -99,13 +85,23 @@ public abstract class AbstractFlowUserServlet extends HttpServlet {
    *
    * @param req Request object to use as context for fetching the credential.
    * @return Credential object for this request and user.
-   *
-   * @since 1.5
    */
-  protected Credential getCredential(HttpServletRequest req) {
-    Credential cred = (Credential) req.getAttribute(AUTH_CREDENTIAL);
+  protected Credential getCredential(HttpServletRequest req) throws IOException {
+    PersistenceManager pm = (PersistenceManager) req.getAttribute(AUTH_PERSISTENCE_MANAGER);
+    String userId = getUserId();
+    TwoLeggedFlow oauthFlow = newFlow(userId);
+    Credential cred = oauthFlow.loadOrCreateCredential(pm);
     return cred;
   }
+
+  /**
+   * Create a two legged flow that can be used to create credentials for accessing protected
+   * resources using OAuth.
+   *
+   * @param userId Identifier used to associate a flow or credential object with a specific user.
+   * @return Flow object that the servlet can use to create a credential object.
+   */
+  protected abstract TwoLeggedFlow newFlow(String userId);
 
   /**
    * Return the {@link JsonFactory} instance for this servlet.
@@ -127,14 +123,6 @@ public abstract class AbstractFlowUserServlet extends HttpServlet {
    * @return PersistenceManagerFactory instance.
    */
   protected abstract PersistenceManagerFactory getPersistenceManagerFactory();
-
-  /**
-   * Create a flow object which will be used to obtain credentials
-   *
-   * @param userId User id to be passed to the constructor of the flow object
-   * @return Flow object used to obtain credentials
-   */
-  protected abstract ThreeLeggedFlow newFlow(String userId) throws IOException;
 
   /**
    * Create a new {@link HttpTransport} instance. Implementations can create any type of applicable
@@ -165,21 +153,4 @@ public abstract class AbstractFlowUserServlet extends HttpServlet {
    *         flows with a specific user.
    */
   protected abstract String getUserId();
-
-  /**
-   * Entry point for user code.
-   *
-   * @param req Request object passed to the servlet when invoked.
-   * @param resp Response object passed to the servlet when invoked.
-   * @param credential Credential which can be used to build a request factory for authenticated
-   *        calls.
-   * @throws IOException
-   *
-   * @deprecated Will be removed in 1.6
-   */
-  @Deprecated
-  protected void doGetWithCredentials(
-      HttpServletRequest req, HttpServletResponse resp, Credential credential) throws IOException {
-    // Intentionally blank
-  }
 }

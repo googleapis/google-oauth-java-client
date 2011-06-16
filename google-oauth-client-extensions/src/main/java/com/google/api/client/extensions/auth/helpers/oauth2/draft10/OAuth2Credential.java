@@ -57,7 +57,7 @@ public final class OAuth2Credential implements Credential, InstanceCallbacks {
    * Access token used to authorize requests.
    */
   @Persistent
-  volatile String accessToken;
+  private volatile String accessToken;
 
   /**
    * Refresh token used to request a new access token when the previous one has expired or {@code
@@ -167,7 +167,7 @@ public final class OAuth2Credential implements Credential, InstanceCallbacks {
 
       @Override
       protected void onAccessToken(String accessToken) {
-        OAuth2Credential.this.accessToken = accessToken;
+        OAuth2Credential.this.setAccessToken(accessToken);
       }
     };
   }
@@ -178,6 +178,10 @@ public final class OAuth2Credential implements Credential, InstanceCallbacks {
    */
   public String getAccessToken() {
     return authInterceptor.getAccessToken();
+  }
+
+  public void setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
   }
 
   /**
