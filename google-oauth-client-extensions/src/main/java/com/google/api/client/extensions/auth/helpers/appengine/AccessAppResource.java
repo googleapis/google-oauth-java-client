@@ -95,21 +95,16 @@ public class AccessAppResource extends AccessProtectedResource {
   protected boolean executeRefreshToken() throws IOException {
     JsonToken jwt = SignedTokenGenerator.createJsonTokenForScopes(scope, audience);
 
-    AssertionGrant tokenRequest;
-
-    tokenRequest = new AssertionGrant();
-    tokenRequest.transport = transport;
-    tokenRequest.jsonFactory = jsonFactory;
-    tokenRequest.authorizationServerUrl = authorizationServerUrl;
-    tokenRequest.assertionType = ASSERTION_TYPE;
+    String assertion;
     try {
-      tokenRequest.assertion = jwt.serializeAndSign();
+      assertion = jwt.serializeAndSign();
     } catch (SignatureException exception) {
       IOException rewrite = new IOException("Unable to sign JSON Web Token");
       rewrite.initCause(exception);
       throw rewrite;
     }
-
+    AssertionGrant tokenRequest = new AssertionGrant(
+        transport, jsonFactory, authorizationServerUrl, ASSERTION_TYPE, assertion);
     AccessTokenResponse tokenResponse = tokenRequest.execute();
     setAccessToken(tokenResponse.accessToken);
 

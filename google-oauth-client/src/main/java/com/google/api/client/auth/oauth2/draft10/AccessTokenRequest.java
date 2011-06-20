@@ -253,18 +253,13 @@ public class AccessTokenRequest extends GenericData {
      * @param transport HTTP transport for executing request in {@link #execute()}
      * @param jsonFactory JSON factory to use for parsing response in {@link #execute()}
      * @param authorizationServerUrl encoded authorization server URL
-     * @param clientSecret client secret
      * @param assertionType format of the assertion as defined by the authorization server. The
      *        value MUST be an absolute URI
      * @param assertion assertion
      */
-    public AssertionGrant(HttpTransport transport,
-        JsonFactory jsonFactory,
-        String authorizationServerUrl,
-        String clientSecret,
-        String assertionType,
-        String assertion) {
-      super(transport, jsonFactory, authorizationServerUrl, clientSecret);
+    public AssertionGrant(HttpTransport transport, JsonFactory jsonFactory,
+        String authorizationServerUrl, String assertionType, String assertion) {
+      super(transport, jsonFactory, authorizationServerUrl);
       this.assertionType = Preconditions.checkNotNull(assertionType);
       this.assertion = Preconditions.checkNotNull(assertion);
     }
@@ -338,14 +333,25 @@ public class AccessTokenRequest extends GenericData {
    * @param transport HTTP transport for executing request in {@link #execute()}
    * @param jsonFactory JSON factory to use for parsing response in {@link #execute()}
    * @param authorizationServerUrl encoded authorization server URL
-   * @param clientSecret client secret
    */
-  protected AccessTokenRequest(HttpTransport transport, JsonFactory jsonFactory,
-      String authorizationServerUrl, String clientSecret) {
+  protected AccessTokenRequest(
+      HttpTransport transport, JsonFactory jsonFactory, String authorizationServerUrl) {
     this();
     this.transport = Preconditions.checkNotNull(transport);
     this.jsonFactory = Preconditions.checkNotNull(jsonFactory);
     this.authorizationServerUrl = Preconditions.checkNotNull(authorizationServerUrl);
+  }
+
+
+  /**
+   * @param transport HTTP transport for executing request in {@link #execute()}
+   * @param jsonFactory JSON factory to use for parsing response in {@link #execute()}
+   * @param authorizationServerUrl encoded authorization server URL
+   * @param clientSecret client secret
+   */
+  protected AccessTokenRequest(HttpTransport transport, JsonFactory jsonFactory,
+      String authorizationServerUrl, String clientSecret) {
+    this(transport, jsonFactory, authorizationServerUrl);
     this.clientSecret = Preconditions.checkNotNull(clientSecret);
   }
 

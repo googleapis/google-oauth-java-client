@@ -74,12 +74,8 @@ public class AccessTokenRequestTest extends TestCase {
 
   public void testAssertionGrant() {
     check(new AssertionGrant(), false);
-    check(new AssertionGrant(TRANSPORT,
-        JSON_FACTORY,
-        AUTHORIZATION_SERVER_URL,
-        CLIENT_SECRET,
-        ASSERTION_TYPE,
-        ASSERTION), true);
+    check(new AssertionGrant(
+        TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, ASSERTION_TYPE, ASSERTION), true);
   }
 
   public void testRefreshTokenGrant() {
@@ -121,6 +117,7 @@ public class AccessTokenRequestTest extends TestCase {
   private void check(AssertionGrant request, boolean withParameters) {
     check(request, GrantType.ASSERTION, withParameters);
     assertNull(request.clientId);
+    assertNull(request.clientSecret);
     if (withParameters) {
       assertEquals(ASSERTION_TYPE, request.assertionType);
       assertEquals(ASSERTION, request.assertion);
@@ -153,7 +150,9 @@ public class AccessTokenRequestTest extends TestCase {
       assertEquals(TRANSPORT, request.transport);
       assertEquals(JSON_FACTORY, request.jsonFactory);
       assertEquals(AUTHORIZATION_SERVER_URL, request.authorizationServerUrl);
-      assertEquals(CLIENT_SECRET, request.clientSecret);
+      if (grantType != GrantType.ASSERTION) {
+        assertEquals(CLIENT_SECRET, request.clientSecret);
+      }
     } else {
       assertNull(request.transport);
       assertNull(request.jsonFactory);
