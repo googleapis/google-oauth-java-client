@@ -27,16 +27,16 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.annotations.PersistenceAware;
 
 /**
- * Class which will allow us to create or load instances of {@link RobotCredential}.
+ * Class which will allow us to create or load instances of {@link AppAssertionCredential}.
  *
  * @author moshenko@google.com (Jake Moshenko)
  *
  * @since 1.5
  */
 @PersistenceAware
-public class RobotFlow implements TwoLeggedFlow {
+public class AppAssertionFlow implements TwoLeggedFlow {
 
-  static final Logger LOGGER = Logger.getLogger(RobotFlow.class.getName());
+  static final Logger LOGGER = Logger.getLogger(AppAssertionFlow.class.getName());
 
   private final String robotName;
   private final String authorizationServerUrl;
@@ -58,7 +58,7 @@ public class RobotFlow implements TwoLeggedFlow {
    * @param jsonFactory {@link JsonFactory} instance whtat will be used to serialize and deserialize
    *        auth server communications.
    */
-  public RobotFlow(String robotName,
+  public AppAssertionFlow(String robotName,
       String authorizationServerUrl,
       String scope,
       String audience,
@@ -73,12 +73,12 @@ public class RobotFlow implements TwoLeggedFlow {
   }
 
   public Credential loadOrCreateCredential(PersistenceManager pm) throws IOException {
-    RobotCredential cred;
+    AppAssertionCredential cred;
     try {
-      cred = pm.getObjectById(RobotCredential.class, robotName);
+      cred = pm.getObjectById(AppAssertionCredential.class, robotName);
     } catch (JDOObjectNotFoundException e) {
       LOGGER.fine("Creating new credential instance");
-      cred = new RobotCredential(robotName, authorizationServerUrl, scope, audience);
+      cred = new AppAssertionCredential(robotName, authorizationServerUrl, scope, audience);
       pm.makePersistent(cred);
     }
 

@@ -39,9 +39,9 @@ import javax.jdo.annotations.PrimaryKey;
  * @since 1.5
  */
 @PersistenceCapable
-public final class RobotCredential implements Credential {
+public final class AppAssertionCredential implements Credential {
 
-  static final Logger LOGGER = Logger.getLogger(RobotCredential.class.getName());
+  static final Logger LOGGER = Logger.getLogger(AppAssertionCredential.class.getName());
 
   private static final Method AUTHORIZATION_METHOD = Method.AUTHORIZATION_HEADER;
 
@@ -78,7 +78,7 @@ public final class RobotCredential implements Credential {
   private String audience;
 
   @NotPersistent
-  private AccessRobotResource authInterceptor;
+  private AccessAppResource authInterceptor;
 
   /**
    * Create an instance of this class. This will only set up on the object, and a call to
@@ -91,7 +91,7 @@ public final class RobotCredential implements Credential {
    * @param scope Scope(s) for which this credential will request access.
    * @param audience Audience to be used in the JSON web token.
    */
-  public RobotCredential(
+  public AppAssertionCredential(
       String applicationName, String authorizationServerUrl, String scope, String audience) {
     this.applicationName = applicationName;
     this.authorizationServerUrl = authorizationServerUrl;
@@ -118,7 +118,7 @@ public final class RobotCredential implements Credential {
    * @throws IOException Thrown when we are unable to set up access token communications.
    */
   public void postConstruct(HttpTransport transport, JsonFactory jsonFactory) throws IOException {
-    authInterceptor = new AccessRobotResource(accessToken,
+    authInterceptor = new AccessAppResource(accessToken,
         AUTHORIZATION_METHOD,
         transport,
         jsonFactory,
@@ -128,7 +128,7 @@ public final class RobotCredential implements Credential {
 
       @Override
       protected void onAccessToken(String accessToken) {
-        RobotCredential.this.setAccessToken(accessToken);
+        AppAssertionCredential.this.setAccessToken(accessToken);
       }
     };
   }

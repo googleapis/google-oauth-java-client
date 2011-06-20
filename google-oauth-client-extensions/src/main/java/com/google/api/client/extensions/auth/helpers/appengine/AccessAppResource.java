@@ -34,7 +34,7 @@ import java.security.SignatureException;
  *
  * @since 1.5
  */
-public class AccessRobotResource extends AccessProtectedResource {
+public class AccessAppResource extends AccessProtectedResource {
   private static String ASSERTION_TYPE = "http://oauth.net/grant_type/jwt/1.0/bearer";
 
   /** HTTP transport for executing refresh token request or {@code null} for none. */
@@ -65,7 +65,7 @@ public class AccessRobotResource extends AccessProtectedResource {
    * @param scope Scope for which we are requesting access.
    * @param audience Audience used in the JSON web token used when obtaining access tokens.
    */
-  public AccessRobotResource(String accessToken,
+  public AccessAppResource(String accessToken,
       Method method,
       HttpTransport transport,
       JsonFactory jsonFactory,
@@ -105,7 +105,9 @@ public class AccessRobotResource extends AccessProtectedResource {
     try {
       tokenRequest.assertion = jwt.serializeAndSign();
     } catch (SignatureException exception) {
-      throw new IOException("Unable to sign JSON Web Token", exception);
+      IOException rewrite = new IOException("Unable to sign JSON Web Token");
+      rewrite.initCause(exception);
+      throw rewrite;
     }
 
     AccessTokenResponse tokenResponse = tokenRequest.execute();
