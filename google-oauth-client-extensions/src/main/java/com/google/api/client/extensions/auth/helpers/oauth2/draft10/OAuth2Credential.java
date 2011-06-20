@@ -123,8 +123,8 @@ public final class OAuth2Credential implements Credential, InstanceCallbacks {
   }
 
   public void initialize(HttpRequest request) throws IOException {
-    request.interceptor = authInterceptor;
-    request.unsuccessfulResponseHandler = authInterceptor;
+    request.setInterceptor(authInterceptor);
+    request.setUnsuccessfulResponseHandler(authInterceptor);
   }
 
   public void intercept(HttpRequest request) throws IOException {

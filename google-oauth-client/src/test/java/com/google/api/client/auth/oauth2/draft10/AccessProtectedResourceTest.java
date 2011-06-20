@@ -44,21 +44,21 @@ public class AccessProtectedResourceTest extends TestCase {
     AccessProtectedResource credential =
         new AccessProtectedResource("abc", Method.AUTHORIZATION_HEADER);
     HttpRequest request = subtestAccessProtectedResource(credential);
-    assertEquals("OAuth abc", request.headers.authorization);
+    assertEquals("OAuth abc", request.getHeaders().getAuthorization());
   }
 
   public void testAccessProtectedResource_queryParam() throws IOException {
     AccessProtectedResource credential = new AccessProtectedResource("abc", Method.QUERY_PARAMETER);
     HttpRequest request = subtestAccessProtectedResource(credential);
-    assertEquals("abc", request.url.get("oauth_token"));
+    assertEquals("abc", request.getUrl().get("oauth_token"));
   }
 
   public void testAccessProtectedResource_body() throws IOException {
     AccessProtectedResource credential =
         new AccessProtectedResource("abc", Method.FORM_ENCODED_BODY);
     HttpRequest request = subtestAccessProtectedResource(credential);
-    assertEquals(
-        "abc", ((GenericData) ((UrlEncodedContent) request.content).data).get("oauth_token"));
+    assertEquals("abc",
+        ((GenericData) ((UrlEncodedContent) request.getContent()).getData()).get("oauth_token"));
   }
 
   private HttpRequest subtestAccessProtectedResource(AccessProtectedResource credential)
@@ -75,10 +75,10 @@ public class AccessProtectedResourceTest extends TestCase {
         subtestAccessProtectedResource_expired(Method.AUTHORIZATION_HEADER, new CheckAuth() {
 
           public boolean checkAuth(MockLowLevelHttpRequest req) {
-            return req.headers.get("Authorization").contains("OAuth def");
+            return req.getHeaders().get("Authorization").contains("OAuth def");
           }
         });
-    assertEquals("OAuth def", request.headers.authorization);
+    assertEquals("OAuth def", request.getHeaders().getAuthorization());
   }
 
   public void testAccessProtectedResource_expiredQueryParam() throws IOException {
@@ -86,10 +86,10 @@ public class AccessProtectedResourceTest extends TestCase {
         subtestAccessProtectedResource_expired(Method.QUERY_PARAMETER, new CheckAuth() {
 
           public boolean checkAuth(MockLowLevelHttpRequest req) {
-            return req.url.contains("oauth_token=def");
+            return req.getUrl().contains("oauth_token=def");
           }
         });
-    assertEquals("def", request.url.get("oauth_token"));
+    assertEquals("def", request.getUrl().get("oauth_token"));
   }
 
   public void testAccessProtectedResource_expiredBody() throws IOException {
@@ -98,11 +98,12 @@ public class AccessProtectedResourceTest extends TestCase {
 
           public boolean checkAuth(MockLowLevelHttpRequest req) {
             return "def".equals(
-                ((GenericData) ((UrlEncodedContent) req.content).data).get("oauth_token"));
+                ((GenericData) ((UrlEncodedContent) req.getContent()).getData()).get(
+                    "oauth_token"));
           }
         });
-    assertEquals(
-        "def", ((GenericData) ((UrlEncodedContent) request.content).data).get("oauth_token"));
+    assertEquals("def",
+        ((GenericData) ((UrlEncodedContent) request.getContent()).getData()).get("oauth_token"));
   }
 
   interface CheckAuth {
@@ -119,7 +120,7 @@ public class AccessProtectedResourceTest extends TestCase {
               @Override
               public LowLevelHttpResponse execute() {
                 final MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
-                response.contentType = Json.CONTENT_TYPE;
+                response.setContentType(Json.CONTENT_TYPE);
                 response.setContent("{\"access_token\":\"def\"}");
                 return response;
               }
@@ -136,7 +137,7 @@ public class AccessProtectedResourceTest extends TestCase {
           public LowLevelHttpResponse execute() {
             MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
             if (!checkAuth.checkAuth(this)) {
-              response.statusCode = 401;
+              response.setStatusCode(401);
               if (resetAccessToken) {
                 credential.setAccessToken("def");
               }

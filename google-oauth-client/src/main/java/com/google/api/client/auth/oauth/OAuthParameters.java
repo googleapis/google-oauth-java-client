@@ -177,14 +177,15 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
     String normalizedParameters = parametersBuf.toString();
     // normalize URL, removing any query parameters and possibly port
     GenericUrl normalized = new GenericUrl();
-    String scheme = normalized.scheme = requestUrl.scheme;
-    normalized.host = requestUrl.host;
-    normalized.pathParts = requestUrl.pathParts;
-    int port = requestUrl.port;
+    String scheme = requestUrl.getScheme();
+    normalized.setScheme(scheme);
+    normalized.setHost(requestUrl.getHost());
+    normalized.setPathParts(requestUrl.getPathParts());
+    int port = requestUrl.getPort();
     if ("http".equals(scheme) && port == 80 || "https".equals(scheme) && port == 443) {
       port = -1;
     }
-    normalized.port = port;
+    normalized.setPort(port);
     String normalizedPath = normalized.build();
     // signature base string
     StringBuilder buf = new StringBuilder();
@@ -238,19 +239,19 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
   }
 
   public void initialize(HttpRequest request) throws IOException {
-    request.interceptor = this;
+    request.setInterceptor(this);
   }
 
   public void intercept(HttpRequest request) throws IOException {
     computeNonce();
     computeTimestamp();
     try {
-      computeSignature(request.method.name(), request.url);
+      computeSignature(request.getMethod().name(), request.getUrl());
     } catch (GeneralSecurityException e) {
       IOException io = new IOException();
       io.initCause(e);
       throw io;
     }
-    request.headers.authorization = getAuthorizationHeader();
+    request.getHeaders().setAuthorization(getAuthorizationHeader());
   }
 }

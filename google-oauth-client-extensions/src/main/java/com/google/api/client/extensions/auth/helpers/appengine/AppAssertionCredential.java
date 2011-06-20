@@ -136,8 +136,8 @@ public final class AppAssertionCredential implements Credential {
   public void initialize(HttpRequest request) throws IOException {
     checkIntializationStatus();
 
-    request.interceptor = authInterceptor;
-    request.unsuccessfulResponseHandler = authInterceptor;
+    request.setInterceptor(authInterceptor);
+    request.setUnsuccessfulResponseHandler(authInterceptor);
   }
 
   public void intercept(HttpRequest request) throws IOException {

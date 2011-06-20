@@ -71,7 +71,7 @@ public abstract class AbstractOAuthGetToken extends GenericUrl {
         requestFactory.buildRequest(usePost ? HttpMethod.POST : HttpMethod.GET, this, null);
     createParameters().intercept(request);
     HttpResponse response = request.execute();
-    response.disableContentLogging = true;
+    response.setDisableContentLogging(true);
     OAuthCredentialsResponse oauthResponse = new OAuthCredentialsResponse();
     UrlEncodedParser.parse(response.parseAsString(), oauthResponse);
     return oauthResponse;

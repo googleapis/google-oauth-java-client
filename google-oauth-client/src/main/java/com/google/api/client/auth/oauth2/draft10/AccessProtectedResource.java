@@ -269,8 +269,8 @@ public class AccessProtectedResource
   }
 
   public final void initialize(HttpRequest request) throws IOException {
-    request.interceptor = this;
-    request.unsuccessfulResponseHandler = this;
+    request.setInterceptor(this);
+    request.setUnsuccessfulResponseHandler(this);
   }
 
   /**
@@ -287,25 +287,25 @@ public class AccessProtectedResource
     }
     switch (method) {
       case AUTHORIZATION_HEADER:
-        request.headers.authorization = HEADER_PREFIX + accessToken;
+        request.getHeaders().setAuthorization(HEADER_PREFIX + accessToken);
         break;
       case QUERY_PARAMETER:
-        request.url.set("oauth_token", accessToken);
+        request.getUrl().set("oauth_token", accessToken);
         break;
       case FORM_ENCODED_BODY:
-        Preconditions.checkArgument(ALLOWED_METHODS.contains(request.method),
+        Preconditions.checkArgument(ALLOWED_METHODS.contains(request.getMethod()),
             "expected one of these HTTP methods: %s", ALLOWED_METHODS);
         // URL-encoded content (cast exception if not the right class)
-        UrlEncodedContent content = (UrlEncodedContent) request.content;
+        UrlEncodedContent content = (UrlEncodedContent) request.getContent();
         if (content == null) {
-          content = new UrlEncodedContent();
-          request.content = content;
+          content = new UrlEncodedContent(null);
+          request.setContent(content);
         }
         // Generic data (cast exception if not the right class)
-        GenericData data = (GenericData) content.data;
+        GenericData data = (GenericData) content.getData();
         if (data == null) {
           data = new GenericData();
-          content.data = data;
+          content.setData(data);
         }
         data.put("oauth_token", accessToken);
         break;
@@ -315,19 +315,19 @@ public class AccessProtectedResource
   private String getAccessTokenFromRequest(HttpRequest request) {
     switch (method) {
       case AUTHORIZATION_HEADER:
-        String header = request.headers.authorization;
+        String header = request.getHeaders().getAuthorization();
         if (header != null && header.startsWith(HEADER_PREFIX)) {
           return header.substring(HEADER_PREFIX.length());
         }
         return null;
       case QUERY_PARAMETER:
-        Object param = request.url.get("oauth_token");
+        Object param = request.getUrl().get("oauth_token");
         return param == null ? null : param.toString();
       default:
         // URL-encoded content (cast exception if not the right class)
-        UrlEncodedContent content = (UrlEncodedContent) request.content;
+        UrlEncodedContent content = (UrlEncodedContent) request.getContent();
         // Generic data (cast exception if not the right class)
-        GenericData data = (GenericData) content.data;
+        GenericData data = (GenericData) content.getData();
         Object bodyParam = data.get("oauth_token");
         return bodyParam == null ? null : bodyParam.toString();
     }
@@ -343,13 +343,14 @@ public class AccessProtectedResource
    */
   public boolean handleResponse(
       HttpRequest request, HttpResponse response, boolean retrySupported) {
-    if (response.statusCode == 401) {
+    if (response.getStatusCode() == 401) {
       try {
         try {
           tokenLock.lock();
           try {
             // need to check if another thread has already refreshed the token
-            return !Objects.equal(accessToken, getAccessTokenFromRequest(request)) || refreshToken();
+            return !Objects.equal(accessToken, getAccessTokenFromRequest(request))
+                || refreshToken();
           } finally {
             tokenLock.unlock();
           }

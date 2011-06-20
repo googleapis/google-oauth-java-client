@@ -442,15 +442,11 @@ public class AccessTokenRequest extends GenericData {
    *         {@link AccessTokenErrorResponse}
    */
   public final HttpResponse executeUnparsed() throws IOException {
-    JsonHttpParser parser = new JsonHttpParser();
-    parser.jsonFactory = jsonFactory;
-    UrlEncodedContent content = new UrlEncodedContent();
-    content.data = this;
     HttpRequest request = transport.createRequestFactory().buildPostRequest(
-        new GenericUrl(authorizationServerUrl), content);
-    request.addParser(parser);
+        new GenericUrl(authorizationServerUrl), new UrlEncodedContent(this));
+    request.addParser(new JsonHttpParser(jsonFactory));
     if (useBasicAuthorization) {
-      request.headers.setBasicAuthentication(clientId, clientSecret);
+      request.getHeaders().setBasicAuthentication(clientId, clientSecret);
     } else {
       put("client_secret", clientSecret);
     }
