@@ -124,7 +124,9 @@ public class AccessProtectedResource
   /** HTTP transport for executing refresh token request or {@code null} for none. */
   private final HttpTransport transport;
 
-  /** JSON factory to use for parsing response for refresh token request or {@code null} for none. */
+  /**
+   * JSON factory to use for parsing response for refresh token request or {@code null} for none.
+   */
   private final JsonFactory jsonFactory;
 
   /** Encoded authorization server URL or {@code null} for none. */

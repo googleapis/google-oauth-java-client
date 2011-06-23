@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+     "-//Puppy Crawl//DTD Suppressions 1.0//EN"
+     "http://www.puppycrawl.com/dtds/suppressions_1_0.dtd">
+
+<suppressions>
+
+  <!-- Don't check line length on this file because of strange case of long {@link}. -->
+  <suppress checks="LineLength" files="com/google/api/client/auth/oauth2/draft10/package-info.java"/>
+
+</suppressions>

@@ -129,7 +129,7 @@ public abstract class AbstractFlowUserServlet extends HttpServlet {
   protected abstract PersistenceManagerFactory getPersistenceManagerFactory();
 
   /**
-   * Create a flow object which will be used to obtain credentials
+   * Create a flow object which will be used to obtain credentials.
    *
    * @param userId User id to be passed to the constructor of the flow object
    * @return Flow object used to obtain credentials

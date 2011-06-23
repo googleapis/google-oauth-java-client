@@ -18,13 +18,12 @@ import com.google.appengine.api.appidentity.AppIdentityService;
 import com.google.appengine.api.appidentity.AppIdentityService.SigningResult;
 import com.google.appengine.api.appidentity.AppIdentityServiceFactory;
 
-import org.joda.time.Duration;
-import org.joda.time.Instant;
-
 import net.oauth.jsontoken.JsonToken;
 import net.oauth.jsontoken.crypto.AbstractSigner;
 import net.oauth.jsontoken.crypto.SignatureAlgorithm;
 import net.oauth.signatures.SignedJsonAssertionToken;
+import org.joda.time.Duration;
+import org.joda.time.Instant;
 
 import java.security.SecureRandom;
 import java.security.SignatureException;

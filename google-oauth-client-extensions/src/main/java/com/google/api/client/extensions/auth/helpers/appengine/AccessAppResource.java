@@ -35,7 +35,7 @@ import java.security.SignatureException;
  * @since 1.5
  */
 public class AccessAppResource extends AccessProtectedResource {
-  private static String ASSERTION_TYPE = "http://oauth.net/grant_type/jwt/1.0/bearer";
+  private static final String ASSERTION_TYPE = "http://oauth.net/grant_type/jwt/1.0/bearer";
 
   /** HTTP transport for executing refresh token request or {@code null} for none. */
   private final HttpTransport transport;
@@ -48,7 +48,7 @@ public class AccessAppResource extends AccessProtectedResource {
   /** Encoded authorization server URL or {@code null} for none. */
   private final String authorizationServerUrl;
 
-  /** Scope for which we are requesting access */
+  /** Scope for which we are requesting access. */
   private final String scope;
 
   /** Audience encoded in the JSON web token, used in the assertion grant. */

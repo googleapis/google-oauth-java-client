@@ -28,7 +28,7 @@ import com.google.common.base.Preconditions;
  */
 class AppEngineServletUtils {
   /**
-   * Private constructor to prevent instantiation
+   * Private constructor to prevent instantiation.
    */
   private AppEngineServletUtils() {
   }
