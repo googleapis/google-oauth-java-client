@@ -357,7 +357,7 @@ public class AccessProtectedResource
             tokenLock.unlock();
           }
         } catch (HttpResponseException e) {
-          LOGGER.severe(e.response.parseAsString());
+          LOGGER.severe(e.getResponse().parseAsString());
         }
       } catch (IOException exception) {
         LOGGER.severe(exception.toString());
