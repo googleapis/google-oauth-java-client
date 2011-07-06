@@ -444,8 +444,8 @@ public class AccessTokenRequest extends GenericData {
    * @return HTTP response, which can then be parsed directly using
    *         {@link HttpResponse#parseAs(Class)} or some other parsing method
    * @throws HttpResponseException for an HTTP error response, which can then be parsed using
-   *         {@link HttpResponse#parseAs(Class)} on {@link HttpResponseException#response} using
-   *         {@link AccessTokenErrorResponse}
+   *         {@link HttpResponse#parseAs(Class)} on {@link HttpResponseException#getResponse()}
+   *         using {@link AccessTokenErrorResponse}
    */
   public final HttpResponse executeUnparsed() throws IOException {
     HttpRequest request = transport.createRequestFactory().buildPostRequest(
@@ -468,8 +468,8 @@ public class AccessTokenRequest extends GenericData {
    *
    * @return parsed access token response
    * @throws HttpResponseException for an HTTP error response, which can then be parsed using
-   *         {@link HttpResponse#parseAs(Class)} on {@link HttpResponseException#response} using
-   *         {@link AccessTokenErrorResponse}
+   *         {@link HttpResponse#parseAs(Class)} on {@link HttpResponseException#getResponse()}
+   *         using {@link AccessTokenErrorResponse}
    */
   public final AccessTokenResponse execute() throws IOException {
     return executeUnparsed().parseAs(AccessTokenResponse.class);

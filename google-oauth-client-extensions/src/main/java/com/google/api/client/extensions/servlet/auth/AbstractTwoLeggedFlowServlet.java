@@ -73,7 +73,7 @@ public abstract class AbstractTwoLeggedFlowServlet extends HttpServlet {
       // After this catch block, control flow would be returned to the servlet container, therefore
       // Google APIs client requests will have their content consumed here to make it available for
       // logging.
-      e.response.ignore();
+      e.getResponse().ignore();
       throw e;
     } finally {
       pm.close();
