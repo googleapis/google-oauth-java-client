@@ -16,6 +16,7 @@ package com.google.api.client.extensions.servlet.auth;
 
 import com.google.api.client.extensions.auth.helpers.Credential;
 import com.google.api.client.extensions.auth.helpers.ThreeLeggedFlow;
+import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 
@@ -69,18 +70,48 @@ public abstract class AbstractFlowUserServlet extends HttpServlet {
     try {
       Credential cred = oauthFlow.loadCredential(pm);
 
-      if (cred == null) {
-        pm.makePersistent(oauthFlow);
+      if (cred != null && cred.isInvalid()) {
+        pm.deletePersistent(cred);
+        cred = null;
+      }
 
-        String authorizationUrl = oauthFlow.getAuthorizationUrl();
-        resp.sendRedirect(authorizationUrl);
-      } else {
+      if (cred != null) {
         req.setAttribute(AUTH_CREDENTIAL, cred);
-        super.service(req, resp);
+        try {
+          // Invoke the user code
+          super.service(req, resp);
+        } catch (HttpResponseException e) {
+          // Normally the response stream is preserved for processing by the user. There is no more
+          // user code between this catch block and the servlet container, so we will consume the
+          // response stream, which has the side effect of sending the content through any logging
+          // mechanisms installed on the response object.
+          e.getResponse().ignore();
+
+          // Determine if we failed due to auth, or just failed
+          if (cred.isInvalid()) {
+            pm.deletePersistent(cred);
+            startAuthFlow(resp, pm, oauthFlow);
+          } else {
+            throw e;
+          }
+        }
+      } else {
+        startAuthFlow(resp, pm, oauthFlow);
       }
     } finally {
       pm.close();
     }
+  }
+
+  /**
+   * Start the auth flow. Don't run any code after this method that will change the response object.
+   */
+  private void startAuthFlow(
+      HttpServletResponse resp, PersistenceManager pm, ThreeLeggedFlow oauthFlow)
+      throws IOException {
+    pm.makePersistent(oauthFlow);
+    String authorizationUrl = oauthFlow.getAuthorizationUrl();
+    resp.sendRedirect(authorizationUrl);
   }
 
   /**

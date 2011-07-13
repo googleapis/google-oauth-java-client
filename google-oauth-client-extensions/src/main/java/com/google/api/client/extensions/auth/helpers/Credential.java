@@ -34,4 +34,11 @@ import javax.jdo.annotations.PersistenceCapable;
  */
 public interface Credential
     extends HttpRequestInitializer, HttpExecuteInterceptor, HttpUnsuccessfulResponseHandler {
+
+  /**
+   * Determine if the Credential is no longer valid, after being revoked for example.
+   *
+   * @since 1.5
+   */
+  boolean isInvalid();
 }

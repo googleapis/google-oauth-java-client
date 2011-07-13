@@ -208,4 +208,8 @@ public final class OAuth2Credential implements Credential, InstanceCallbacks {
   public void jdoPreStore() {
     // Intentionally blank
   }
+
+  public boolean isInvalid() {
+    return accessToken == null;
+  }
 }
