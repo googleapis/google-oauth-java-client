@@ -388,7 +388,13 @@ public class AccessProtectedResource
           clientId,
           clientSecret,
           refreshToken);
-      setAccessToken(request.execute().accessToken);
+      try {
+        setAccessToken(request.execute().accessToken);
+      } catch (HttpResponseException e) {
+        // We were unable to get a new access token (e.g. it may have been revoked), we must now
+        // indicate that our current token is invalid.
+        setAccessToken(null);
+      }
       return true;
     }
     return false;

@@ -112,6 +112,7 @@ public final class OAuthHmacCredential implements Credential, InstanceCallbacks 
 
   public void initialize(HttpRequest request) throws IOException {
     authorizer.initialize(request);
+    request.setUnsuccessfulResponseHandler(this);
   }
 
   public void intercept(HttpRequest request) throws IOException {
@@ -120,7 +121,12 @@ public final class OAuthHmacCredential implements Credential, InstanceCallbacks 
 
   public boolean handleResponse(
       HttpRequest request, HttpResponse response, boolean retrySupported) {
-    // Intentionally does nothing, OAuth1 does not handle invalid responses
+    if (response.getStatusCode() == 401) {
+      // If the token was revoked, we must mark our credential as invalid
+      token = null;
+    }
+
+    // We didn't do anything to fix the problem
     return false;
   }
 
@@ -138,5 +144,9 @@ public final class OAuthHmacCredential implements Credential, InstanceCallbacks 
 
   public void jdoPreStore() {
     // Intentionally blank
+  }
+
+  public boolean isInvalid() {
+    return token == null;
   }
 }

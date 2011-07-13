@@ -156,4 +156,8 @@ public final class AppAssertionCredential implements Credential {
   private void checkIntializationStatus() {
     Preconditions.checkNotNull(authInterceptor, "Please call postConstruct before using.");
   }
+
+  public boolean isInvalid() {
+    return accessToken == null;
+  }
 }
