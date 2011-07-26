@@ -53,7 +53,7 @@ public final class AppAssertionCredential implements Credential {
   private String applicationName;
 
   /**
-   * Access token to use for OAuth2 authenticated requests.
+   * Access token to use for OAuth2 authenticated requests or {@code null} for none.
    */
   @Persistent
   private String accessToken;
@@ -102,7 +102,7 @@ public final class AppAssertionCredential implements Credential {
   /**
    * Set the access token to a new value.
    *
-   * @param accessToken New access token.
+   * @param accessToken New access token or {@code null} for none
    */
   public void setAccessToken(String accessToken) {
     this.accessToken = accessToken;

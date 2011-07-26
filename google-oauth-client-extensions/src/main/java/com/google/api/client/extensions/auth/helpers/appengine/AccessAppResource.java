@@ -16,7 +16,6 @@ package com.google.api.client.extensions.auth.helpers.appengine;
 
 import com.google.api.client.auth.oauth2.draft10.AccessProtectedResource;
 import com.google.api.client.auth.oauth2.draft10.AccessTokenRequest.AssertionGrant;
-import com.google.api.client.auth.oauth2.draft10.AccessTokenResponse;
 import com.google.api.client.extensions.appengine.auth.SignedTokenGenerator;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -105,9 +104,6 @@ public class AccessAppResource extends AccessProtectedResource {
     }
     AssertionGrant tokenRequest = new AssertionGrant(
         transport, jsonFactory, authorizationServerUrl, ASSERTION_TYPE, assertion);
-    AccessTokenResponse tokenResponse = tokenRequest.execute();
-    setAccessToken(tokenResponse.accessToken);
-
-    return true;
+    return executeAccessTokenRequest(tokenRequest);
   }
 }

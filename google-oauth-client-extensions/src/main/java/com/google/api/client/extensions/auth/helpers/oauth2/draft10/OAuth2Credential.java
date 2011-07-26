@@ -53,9 +53,7 @@ public final class OAuth2Credential implements Credential, InstanceCallbacks {
   @PrimaryKey
   private String userId;
 
-  /**
-   * Access token used to authorize requests.
-   */
+  /** Access token used to authorize requests or {@code null} for none. */
   @Persistent
   private volatile String accessToken;
 
@@ -180,6 +178,7 @@ public final class OAuth2Credential implements Credential, InstanceCallbacks {
     return authInterceptor.getAccessToken();
   }
 
+  /** Sets the access token or {@code null} for none. */
   public void setAccessToken(String accessToken) {
     this.accessToken = accessToken;
   }
