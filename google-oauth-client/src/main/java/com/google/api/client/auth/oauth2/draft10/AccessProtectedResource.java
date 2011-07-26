@@ -370,14 +370,17 @@ public class AccessProtectedResource
    * Request a new access token from the authorization endpoint.
    *
    * <p>
-   * Default implementation executes the refresh token grant parameter passed to the constructor or
-   * {@code false} if it was {@code null}. Subclasses may override. If a new access token was
-   * retrieved, implementations must call {@link #setAccessToken(String)}. Implementations can
-   * assume proper thread synchronization is already taken care of inside {@link #refreshToken()},
-   * where this is called from.
+   * If the refresh token grant parameter passed to the constructor was {@code null}, default
+   * implementation uses just always returns {@code false}. Otherwise, it uses
+   * {@link RefreshTokenGrant} based on the refresh token and then passes it to
+   * {@link #executeAccessTokenRequest(AccessTokenRequest)} to execute.
+   * </p>
+   * <p>
+   * Subclasses may override. Implementations can assume proper thread synchronization is already
+   * taken care of inside {@link #refreshToken()}, where this is called from.
    * </p>
    *
-   * @return whether a new access token was retrieved
+   * @return whether a new access token was successfully retrieved
    * @throws IOException I/O exception
    */
   protected boolean executeRefreshToken() throws IOException {
@@ -388,16 +391,35 @@ public class AccessProtectedResource
           clientId,
           clientSecret,
           refreshToken);
-      try {
-        setAccessToken(request.execute().accessToken);
-      } catch (HttpResponseException e) {
-        // We were unable to get a new access token (e.g. it may have been revoked), we must now
-        // indicate that our current token is invalid.
-        setAccessToken(null);
-      }
-      return true;
+      return executeAccessTokenRequest(request);
     }
     return false;
+  }
+
+  /**
+   * Executes the given access token request and calls {@link #setAccessToken(String)} to the access
+   * token from the response or {@code null} for an error response (whose error message is silently
+   * ignored).
+   *
+   * @param request access token request
+   * @return whether a new access token was successfully retrieved
+   * @throws IOException any I/O problem except {@link HttpResponseException} which is silently
+   *         handled
+   * @since 1.5
+   */
+  protected final boolean executeAccessTokenRequest(AccessTokenRequest request) throws IOException {
+    String newAccessToken;
+    try {
+      newAccessToken = request.execute().accessToken;
+    } catch (HttpResponseException e) {
+      // We were unable to get a new access token (e.g. it may have been revoked), we must now
+      // indicate that our current token is invalid.
+      newAccessToken = null;
+      // ignore the error response
+      e.getResponse().ignore();
+    }
+    setAccessToken(newAccessToken);
+    return newAccessToken != null;
   }
 
   /**

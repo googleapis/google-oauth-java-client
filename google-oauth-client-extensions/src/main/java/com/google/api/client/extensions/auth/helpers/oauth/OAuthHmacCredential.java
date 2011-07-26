@@ -67,7 +67,8 @@ public final class OAuthHmacCredential implements Credential, InstanceCallbacks 
   private String tokenSharedSecret;
 
   /**
-   * Token that has been authorized by the end user to allow the server to access the resources.
+   * Token that has been authorized by the end user to allow the server to access the resources or
+   * {@code null} for none.
    */
   @Persistent
   private String token;
@@ -86,7 +87,7 @@ public final class OAuthHmacCredential implements Credential, InstanceCallbacks 
    * @param sharedSecret Secret that the server shares with the service provider.
    * @param tokenSharedSecret Token secret that server uses to authenticate the requests.
    * @param token Token that has been authorized by the end user to allow the server to access the
-   *        resources.
+   *        resources or {@code null} for none
    */
   public OAuthHmacCredential(String userId, String consumerKey, String sharedSecret,
       String tokenSharedSecret, String token) {
