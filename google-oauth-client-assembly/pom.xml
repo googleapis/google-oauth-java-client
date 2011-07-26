@@ -2,23 +2,23 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.google.oauth.client</groupId>
+    <groupId>com.google.oauth-client</groupId>
     <artifactId>google-oauth-client-parent</artifactId>
     <version>1.6.0-beta-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <groupId>com.google.oauth.client</groupId>
+  <groupId>com.google.oauth-client</groupId>
   <artifactId>google-oauth-client-assembly</artifactId>
   <packaging>pom</packaging>
   <name>Assembly for the Google OAuth Client Library for Java</name>
 
   <dependencies>
     <dependency>
-      <groupId>com.google.oauth.client</groupId>
+      <groupId>com.google.oauth-client</groupId>
       <artifactId>google-oauth-client</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.google.oauth.client</groupId>
+      <groupId>com.google.oauth-client</groupId>
       <artifactId>google-oauth-client-extensions</artifactId>
     </dependency>
   </dependencies>
