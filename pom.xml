@@ -94,12 +94,12 @@
       <dependency>
         <groupId>com.google.http-client</groupId>
         <artifactId>google-http-client</artifactId>
-        <version>${project.version}</version>
+        <version>${project.http.version}</version>
       </dependency>
       <dependency>
         <groupId>com.google.http-client</groupId>
         <artifactId>google-http-client-extensions</artifactId>
-        <version>${project.version}</version>
+        <version>${project.http.version}</version>
       </dependency>
       <dependency>
         <groupId>com.google.oauth-client</groupId>
@@ -248,5 +248,6 @@
   </build>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.http.version>[1.5.0-beta-SNAPSHOT,1.6.0-beta-SNAPSHOT)</project.http.version>
   </properties>
 </project>
