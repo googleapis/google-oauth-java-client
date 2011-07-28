@@ -23,18 +23,18 @@
     Key".</li>
     <li>Add these lines to your <code>~/.hgrc</code>: <pre><code>
 [ui]
-username = Your Name <yourname @domain.com>
+username = Your Name <i>&lt;yourname@domain.com&gt;</i>
 
 [auth]
 google-oauth-java-client.prefix = https://google-oauth-java-client.googlecode.com/hg/
 google-oauth-java-client.username = <i>[username from <a
       href="https://code.google.com/hosting/settings">https://code.google.com/hosting/settings</a>]</i>
 google-oauth-java-client.password = <i>[password from <a
-      href="https://code.google.com/hosting/settings">https://code.google.com/hosting/settings</a>]</i></code></pre></li>
-    <li>Add these lines to your <code>~/.hgrc</code>: <pre><code>google-oauth-java-client.prefix = https://google-oauth-java-client.googlecode.com/hg/
-google-oauth-java-client.username = <i>[username from <a
       href="https://code.google.com/hosting/settings">https://code.google.com/hosting/settings</a>]</i>
-google-oauth-java-client.password = <i>[password from <a
+javadoc-google-oauth-java-client.prefix = https://javadoc.google-oauth-java-client.googlecode.com/hg/
+javadoc-google-oauth-java-client.username = <i>[username from <a
+      href="https://code.google.com/hosting/settings">https://code.google.com/hosting/settings</a>]</i>
+javadoc-google-oauth-java-client.password = <i>[password from <a
       href="https://code.google.com/hosting/settings">https://code.google.com/hosting/settings</a>]</i></code></pre></li>
     <li>Add these lines to your <code>~/.m2/settings.xml</code> (create
     this file if it does not already exist): <pre><code>&lt;settings&gt;
@@ -75,6 +75,7 @@ google-oauth-java-client.password = <i>[password from <a
 
 <h3>Release version 1.5.0-beta</h3>
 <ul>
+  <li>Consider changing value of $project.http.version variable in pom.xml</li>
   <li>Prepare the project
   <ul>
     <li><pre>
@@ -82,40 +83,8 @@ cd /tmp
 rm -rf google-oauth-java-client
 mkdir google-oauth-java-client
 cd google-oauth-java-client
-hg clone https://google-oauth-java-client.googlecode.com/hg/ default
-</pre></li>
-  </ul>
-  </li>
-  <li>For minor version update (i.e. feature release instead of just a bug
-  fix release), first merge the new minor version branch into the default
-  branch.
-  <ul>
-    <li>Merge dev branch into default branch: <pre>
-hg update default
-hg merge -r dev
-hg commit -m "merge with dev branch"
-hg push
-hg update dev 
-</pre></li>
-    <li>For the following files, replace <code>1.5.0-beta</code> with the next minor version:
-    <pre>
-pom.xml
-*/pom.xml
-jdiff.xml (first change "1.5" to next minor version, then change "1.4" to "1.5")
-release.html (first change "1.5" to next minor version, then change "1.4" to "1.5")
-</pre></li>
-    <li>Commit and push: <pre>
-hg commit -m "Start 1.5"
-hg push
-hg update default
-</pre></li>
-    <li>Merge dev branch for samples: <pre>
-cd /tmp
-hg clone https://samples.google-oauth-java-client.googlecode.com/hg/ samples
-cd samples
-hg merge -r dev
-hg commit -m "merge with dev branch"
-hg push
+hg clone -b 1.5 https://google-oauth-java-client.googlecode.com/hg/ 1.5
+cd 1.5
 </pre></li>
   </ul>
   </li>
@@ -124,18 +93,17 @@ hg push
   OSS Maven Repository Usage Guide</a>):
   <ul>
     <li>Prepare:<pre>
-cd /tmp/google-oauth-java-client/default
 mvn clean deploy
 mvn release:clean
 </pre></li>
     <li><code>mvn release:prepare -DautoVersionSubmodules=true</code>
     <ul>
-      <li>Accept default for 'What is the release version for "Google OAuth
-      Client - Parent"?'</li>
+      <li>Accept default for 'What is the release version for "Parent for
+      the Google OAuth Client Library for Java"?'</li>
       <li>Type <code>1.5.0-beta</code> for 'What is SCM release tag or
-      label for "Google OAuth Client - Parent"?'</li>
+      label for "Parent for the Google OAuth Client Library for Java"?'</li>
       <li>Accept default for 'What is the new development version for
-      "Google OAuth Client - Parent"?'</li>
+      "Parent for the Google OAuth Client Library for Java"?'</li>
     </ul>
     </li>
     <li><code>mvn release:perform -Darguments=-Dgpg.passphrase=<i>[YOUR
@@ -160,7 +128,8 @@ mvn release:clean
   <li>Start development of next bug fix version
   <ul>
     <li><code>hg update</code></li>
-    <li>For the following files, replace <code>1.5.0-beta</code> with the next bug fix version:
+    <li>For the following files, replace <code>1.5.0-beta</code> with the
+    next bug fix version:
     <ul>
       <li><code>jdiff.xml</code></li>
       <li><code>release.html</code></li>
@@ -174,23 +143,20 @@ hg push
   </li>
   <li>Prepare the released library zip file and javadoc
   <ul>
-    <li>Overview: JDiff is a tool for showing the difference between the JavaDoc of
-    one version of the library vs. the JavaDoc of an old version of the library.
-    Hence, we will check out the last minor version of the library into a
-    temporary directory and compare against the JavaDoc of the just released
-    version of the library, and then hg commit that diff into the javadoc Hg
-    repository.</li>
+    <li>Overview: JDiff is a tool for showing the difference between the
+    JavaDoc of one version of the library vs. the JavaDoc of an old version of
+    the library. Hence, we will check out the last minor version of the library
+    into a temporary directory and compare against the JavaDoc of the just
+    released version of the library, and then hg commit that diff into the
+    javadoc Hg repository.</li>
     <li><pre>
-cd /tmp
-rm -rf google-oauth-java-client
-mkdir google-oauth-java-client
-cd google-oauth-java-client
-hg clone https://javadoc.google-oauth-java-client.googlecode.com/hg/ javadoc
-hg clone -r 1.4.1-beta https://google-oauth-java-client.googlecode.com/hg/ 1.4.1-beta
+cd /tmp/google-oauth-java-client
+hg clone --insecure https://javadoc.google-oauth-java-client.googlecode.com/hg/ javadoc
+hg clone -r 1.4.1-beta https://google-api-java-client.googlecode.com/hg/ 1.4.1-beta
 hg clone -r 1.5.0-beta https://google-oauth-java-client.googlecode.com/hg/ 1.5.0-beta
 cd 1.5.0-beta
 mvn javadoc:jar install site
-cp -R target/site/apidocs/ ../javadoc/1.5.0-beta
+cp -R target/site/apidocs ../javadoc/1.5.0-beta
 </pre></li>
     <li>change these constants from jdiff.xml for your environment:
     JDIFF_HOME, MAVEN_REPOSITORY_HOME</li>
@@ -199,7 +165,7 @@ ant -f jdiff.xml
 cd ../javadoc
 hg add
 hg commit -m "1.5.0-beta"
-hg push
+hg push --insecure
 </pre></li>
   </ul>
   </li>
@@ -221,20 +187,10 @@ hg push
     <li>If it is a bug fix release, deprecate the library from any previous
     versions by removing any <code>Featured</code> label and adding the <code>Deprecated</code>
     label.</li>
-    <li>Update the following pages changing any reference from the previous
-    version to the new version <code>1.5.0-beta</code>:
-    <ul>
-      <li><a href="http://code.google.com/p/google-oauth-java-client/admin">admin</a></li>
-      <li><a
-        href="http://code.google.com/p/google-oauth-java-client/w/edit/Setup">wiki/Setup</a></li>
-      <li><a
-        href="http://code.google.com/p/google-oauth-java-client/w/edit/SampleProgram">wiki/SampleProgram</a></li>
-    </ul>
-    </li>
   </ul>
   </li>
   <li><a
-    href="http://www.blogger.com/post-create.g?blogID=4531100327392916335">New
+    href="http://www.blogger.com/post-create.g?blogID=2066139766786629439">New
   Post</a> on the <a href="http://google-oauth-java-client.blogspot.com/">announcement
   blog</a> about the new version, including links to <a
     href="http://code.google.com/p/google-oauth-java-client/issues/list?can=1&q=milestone=Version1.5.0%20status=Fixed&colspec=ID%20Type%20Priority%20Summary">new
