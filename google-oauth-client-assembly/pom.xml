@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.google.oauth-client</groupId>
     <artifactId>google-oauth-client-parent</artifactId>
-    <version>1.5.0-alpha</version>
+    <version>1.5.0-alpha2-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <groupId>com.google.oauth-client</groupId>
