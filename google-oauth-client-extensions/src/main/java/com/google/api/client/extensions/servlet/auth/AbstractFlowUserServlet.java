@@ -115,17 +115,6 @@ public abstract class AbstractFlowUserServlet extends HttpServlet {
   }
 
   /**
-   * Provided for backward compatibility only. User should feel free to override this with their own
-   * implementation and call {@link #getCredential(HttpServletRequest)}. This bridge implementation
-   * will be removed in 1.6.
-   */
-  @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    Credential cred = getCredential(req);
-    doGetWithCredentials(req, resp, cred);
-  }
-
-  /**
    * Fetch a credential associated with this request.
    *
    * @param req Request object to use as context for fetching the credential.
@@ -196,21 +185,4 @@ public abstract class AbstractFlowUserServlet extends HttpServlet {
    *         flows with a specific user.
    */
   protected abstract String getUserId();
-
-  /**
-   * Entry point for user code.
-   *
-   * @param req Request object passed to the servlet when invoked.
-   * @param resp Response object passed to the servlet when invoked.
-   * @param credential Credential which can be used to build a request factory for authenticated
-   *        calls.
-   * @throws IOException
-   *
-   * @deprecated Will be removed in 1.6
-   */
-  @Deprecated
-  protected void doGetWithCredentials(
-      HttpServletRequest req, HttpServletResponse resp, Credential credential) throws IOException {
-    // Intentionally blank
-  }
 }
