@@ -16,7 +16,6 @@ package com.google.api.client.auth.oauth2.draft10;
 
 
 import com.google.api.client.auth.oauth2.draft10.AccessProtectedResource.Method;
-import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.LowLevelHttpRequest;
@@ -25,6 +24,7 @@ import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.json.Json;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.api.client.testing.http.HttpTesting;
 import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
@@ -75,7 +75,7 @@ public class AccessProtectedResourceTest extends TestCase {
       throws IOException {
     MockHttpTransport transport = new MockHttpTransport();
     HttpRequestFactory requestFactory = transport.createRequestFactory(credential);
-    HttpRequest request = requestFactory.buildDeleteRequest(new GenericUrl());
+    HttpRequest request = requestFactory.buildDeleteRequest(HttpTesting.SIMPLE_GENERIC_URL);
     request.execute();
     return request;
   }
@@ -181,7 +181,7 @@ public class AccessProtectedResourceTest extends TestCase {
     }
     MyTransport transport = new MyTransport();
     HttpRequestFactory requestFactory = transport.createRequestFactory(credential);
-    HttpRequest request = requestFactory.buildDeleteRequest(new GenericUrl());
+    HttpRequest request = requestFactory.buildDeleteRequest(HttpTesting.SIMPLE_GENERIC_URL);
     request.execute();
     credential.setAccessToken(ACCESS_TOKEN);
     transport.resetAccessToken = true;
