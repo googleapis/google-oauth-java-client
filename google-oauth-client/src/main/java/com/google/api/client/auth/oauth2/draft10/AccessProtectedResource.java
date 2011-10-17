@@ -142,6 +142,8 @@ public class AccessProtectedResource
   private final String refreshToken;
 
   /**
+   * Constructor that uses a non-expired access token.
+   * 
    * @param accessToken access token or {@code null} for none (does not call
    *        {@link #setAccessToken(String)})
    * @param method method of accessing protected resources
@@ -168,7 +170,8 @@ public class AccessProtectedResource
    * @param authorizationServerUrl encoded authorization server URL
    * @param clientId client identifier
    * @param clientSecret client secret
-   * @param refreshToken refresh token associated with the access token to be refreshed
+   * @param refreshToken refresh token associated with the access token to be refreshed or
+   *        {@code null} for none
    */
   public AccessProtectedResource(String accessToken,
       Method method,
@@ -185,7 +188,7 @@ public class AccessProtectedResource
     this.authorizationServerUrl = Preconditions.checkNotNull(authorizationServerUrl);
     this.clientId = Preconditions.checkNotNull(clientId);
     this.clientSecret = Preconditions.checkNotNull(clientSecret);
-    this.refreshToken = Preconditions.checkNotNull(refreshToken);
+    this.refreshToken = refreshToken;
   }
 
   /** Returns the access token or {@code null} for none. */

@@ -195,6 +195,20 @@ public class AccessProtectedResourceTest extends TestCase {
     assertFalse(accesss.refreshToken());
   }
 
+  public void testRefreshToken_noRefreshToken2() throws IOException {
+    AccessTokenTransport transport = new AccessTokenTransport();
+    AccessProtectedResource access = new AccessProtectedResource(ACCESS_TOKEN,
+        Method.QUERY_PARAMETER,
+        transport,
+        JSON_FACTORY,
+        AUTHORIZATION_SERVER_URL,
+        CLIENT_ID,
+        CLIENT_SECRET,
+        null);
+    assertFalse(access.refreshToken());
+    assertEquals(ACCESS_TOKEN, access.getAccessToken());
+  }
+
   public void testRefreshToken_refreshToken() throws IOException {
     AccessTokenTransport transport = new AccessTokenTransport();
     AccessProtectedResource access = new AccessProtectedResource(ACCESS_TOKEN,
