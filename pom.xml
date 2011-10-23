@@ -260,6 +260,6 @@
   </build>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.http.version>1.5.0-beta</project.http.version>
+    <project.http.version>1.5.3-beta</project.http.version>
   </properties>
 </project>
