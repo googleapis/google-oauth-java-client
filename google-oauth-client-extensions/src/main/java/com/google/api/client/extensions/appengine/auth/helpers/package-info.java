@@ -21,10 +21,9 @@
  * possibly entirely removed in a future version of the library</b>
  * </p>
  *
- * @since 1.5
+ * @since 1.6
  * @author moshenko@google.com (Jacob Moshenko)
- * @deprecated (scheduled to be removed in 1.7) Use
- *             {@link com.google.api.client.extensions.appengine.auth.helpers}
  */
-package com.google.api.client.extensions.auth.helpers.appengine;
+
+package com.google.api.client.extensions.appengine.auth.helpers;
 

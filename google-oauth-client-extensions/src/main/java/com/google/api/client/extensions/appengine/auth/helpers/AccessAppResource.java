@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.google.api.client.extensions.auth.helpers.appengine;
+package com.google.api.client.extensions.appengine.auth.helpers;
 
 import com.google.api.client.auth.oauth2.draft10.AccessProtectedResource;
 import com.google.api.client.auth.oauth2.draft10.AccessTokenRequest.AssertionGrant;
@@ -31,11 +31,8 @@ import java.security.SignatureException;
  *
  * @author moshenko@google.com (Jake Moshenko)
  *
- * @since 1.5
- * @deprecated (scheduled to be removed in 1.7) Use
- *             {@link com.google.api.client.extensions.appengine.auth.helpers.AccessAppResource}
+ * @since 1.6
  */
-@Deprecated
 public class AccessAppResource extends AccessProtectedResource {
   private static final String ASSERTION_TYPE = "http://oauth.net/grant_type/jwt/1.0/bearer";
 
