@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.google.api.client.extensions.auth.helpers.appengine;
+package com.google.api.client.extensions.appengine.auth.helpers;
 
 import com.google.api.client.auth.oauth2.draft10.AccessProtectedResource.Method;
 import com.google.api.client.extensions.auth.helpers.Credential;
@@ -36,11 +36,8 @@ import javax.jdo.annotations.PrimaryKey;
  *
  * @author moshenko@google.com (Jake Moshenko)
  *
- * @since 1.5
- * @deprecated (scheduled to be removed in 1.7) Use {@link
- *             com.google.api.client.extensions.appengine.auth.helpers.AppAssertionCredential}
+ * @since 1.6
  */
-@Deprecated
 @PersistenceCapable
 public final class AppAssertionCredential implements Credential {
 

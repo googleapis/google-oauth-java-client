@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.google.api.client.extensions.auth.helpers.appengine;
+package com.google.api.client.extensions.appengine.auth.helpers;
 
 import com.google.api.client.extensions.auth.helpers.Credential;
 import com.google.api.client.extensions.auth.helpers.TwoLeggedFlow;
@@ -31,11 +31,8 @@ import javax.jdo.annotations.PersistenceAware;
  *
  * @author moshenko@google.com (Jake Moshenko)
  *
- * @since 1.5
- * @deprecated (scheduled to be removed in 1.7) Use
- *             {@link com.google.api.client.extensions.appengine.auth.helpers.AppAssertionFlow}
+ * @since 1.6
  */
-@Deprecated
 @PersistenceAware
 public class AppAssertionFlow implements TwoLeggedFlow {
 
