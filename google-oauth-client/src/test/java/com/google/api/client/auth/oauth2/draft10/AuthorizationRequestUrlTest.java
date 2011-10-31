@@ -39,7 +39,7 @@ public class AuthorizationRequestUrlTest extends TestCase {
     assertEquals(EXPECTED, url.build());
   }
 
-  public void testConstructor_withClienId() {
+  public void testConstructor_withClientId() {
     AuthorizationRequestUrl url =
         new AuthorizationRequestUrl("https://server.example.com/authorize", "s6BhdRkqt3");
     url.redirectUri = "https://client.example.com/cb";
