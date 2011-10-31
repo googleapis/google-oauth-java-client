@@ -76,12 +76,12 @@ public final class OAuth2Credential implements Credential, InstanceCallbacks {
    * @param userId Key that can be used to associate this Credential object with an end user.
    * @param accessToken Access token that can be used to authorize this request.
    * @param refreshToken Token that can be given to the token server in exchange for a new access
-   *        token.
+   *        token or {@code null} for none.
    */
   public OAuth2Credential(String userId, String accessToken, String refreshToken) {
     this.userId = Preconditions.checkNotNull(userId);
     this.accessToken = Preconditions.checkNotNull(accessToken);
-    this.refreshToken = Preconditions.checkNotNull(refreshToken);
+    this.refreshToken = refreshToken;
     initializeAfterConstruction();
   }
 
@@ -93,9 +93,7 @@ public final class OAuth2Credential implements Credential, InstanceCallbacks {
    * @param accessToken Access token that can be used to authorize this request.
    */
   public OAuth2Credential(String userId, String accessToken) {
-    this.userId = Preconditions.checkNotNull(userId);
-    this.accessToken = Preconditions.checkNotNull(accessToken);
-    initializeAfterConstruction();
+    this(userId, accessToken, null);
   }
 
   /**
@@ -146,14 +144,6 @@ public final class OAuth2Credential implements Credential, InstanceCallbacks {
    */
   public void initializeForRefresh(String clientId, String clientSecret, String refreshUrl,
       JsonFactory jsonFactory, HttpTransport transport) {
-    Preconditions.checkArgument(
-        refreshToken != null, "Must construct the object with a refreshToken");
-    Preconditions.checkNotNull(clientId);
-    Preconditions.checkNotNull(clientSecret);
-    Preconditions.checkNotNull(clientSecret);
-    Preconditions.checkNotNull(transport);
-    Preconditions.checkNotNull(jsonFactory);
-
     authInterceptor = new AccessProtectedResource(accessToken,
         Method.AUTHORIZATION_HEADER,
         transport,
@@ -184,9 +174,9 @@ public final class OAuth2Credential implements Credential, InstanceCallbacks {
   }
 
   /**
-   * Return the refresh token with which this object was constructed. This can be used for out of
-   * band use cases, but most users should just let the credential be refreshed by the library when
-   * a call fails.
+   * Return the refresh token with which this object was constructed or {@code null} for none. This
+   * can be used for out of band use cases, but most users should just let the credential be
+   * refreshed by the library when a call fails.
    */
   public String getRefreshToken() {
     return refreshToken;
