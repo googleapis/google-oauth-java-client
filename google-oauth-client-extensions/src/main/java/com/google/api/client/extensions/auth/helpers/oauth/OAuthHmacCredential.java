@@ -19,6 +19,7 @@ import com.google.api.client.auth.oauth.OAuthParameters;
 import com.google.api.client.extensions.auth.helpers.Credential;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpResponse;
+import com.google.api.client.http.HttpStatusCodes;
 
 import java.io.IOException;
 
@@ -122,7 +123,7 @@ public final class OAuthHmacCredential implements Credential, InstanceCallbacks 
 
   public boolean handleResponse(
       HttpRequest request, HttpResponse response, boolean retrySupported) {
-    if (response.getStatusCode() == 401) {
+    if (response.getStatusCode() == HttpStatusCodes.STATUS_CODE_UNAUTHORIZED) {
       // If the token was revoked, we must mark our credential as invalid
       token = null;
     }

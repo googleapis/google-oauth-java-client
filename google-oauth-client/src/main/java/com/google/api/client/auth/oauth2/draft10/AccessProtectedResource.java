@@ -21,6 +21,7 @@ import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
+import com.google.api.client.http.HttpStatusCodes;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.HttpUnsuccessfulResponseHandler;
 import com.google.api.client.http.UrlEncodedContent;
@@ -143,7 +144,7 @@ public class AccessProtectedResource
 
   /**
    * Constructor that uses a non-expired access token.
-   * 
+   *
    * @param accessToken access token or {@code null} for none (does not call
    *        {@link #setAccessToken(String)})
    * @param method method of accessing protected resources
@@ -170,8 +171,8 @@ public class AccessProtectedResource
    * @param authorizationServerUrl encoded authorization server URL
    * @param clientId client identifier
    * @param clientSecret client secret
-   * @param refreshToken refresh token associated with the access token to be refreshed or
-   *        {@code null} for none
+   * @param refreshToken refresh token associated with the access token to be refreshed or {@code
+   *        null} for none
    */
   public AccessProtectedResource(String accessToken,
       Method method,
@@ -348,7 +349,7 @@ public class AccessProtectedResource
    */
   public boolean handleResponse(
       HttpRequest request, HttpResponse response, boolean retrySupported) {
-    if (response.getStatusCode() == 401) {
+    if (response.getStatusCode() == HttpStatusCodes.STATUS_CODE_UNAUTHORIZED) {
       try {
         try {
           tokenLock.lock();

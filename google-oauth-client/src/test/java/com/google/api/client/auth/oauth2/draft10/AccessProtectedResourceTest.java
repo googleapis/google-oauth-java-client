@@ -18,6 +18,7 @@ package com.google.api.client.auth.oauth2.draft10;
 import com.google.api.client.auth.oauth2.draft10.AccessProtectedResource.Method;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
+import com.google.api.client.http.HttpStatusCodes;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
 import com.google.api.client.http.UrlEncodedContent;
@@ -169,7 +170,7 @@ public class AccessProtectedResourceTest extends TestCase {
           public LowLevelHttpResponse execute() {
             MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
             if (!checkAuth.checkAuth(this)) {
-              response.setStatusCode(401);
+              response.setStatusCode(HttpStatusCodes.STATUS_CODE_UNAUTHORIZED);
               if (resetAccessToken) {
                 credential.setAccessToken(NEW_ACCESS_TOKEN);
               }
