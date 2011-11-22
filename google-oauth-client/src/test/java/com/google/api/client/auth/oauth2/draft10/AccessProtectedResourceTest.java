@@ -34,6 +34,7 @@ import com.google.api.client.util.GenericData;
 import junit.framework.TestCase;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Tests {@link AccessProtectedResource}.
@@ -69,7 +70,7 @@ public class AccessProtectedResourceTest extends TestCase {
         new AccessProtectedResource(ACCESS_TOKEN, Method.FORM_ENCODED_BODY);
     HttpRequest request = subtestAccessProtectedResource(credential);
     assertEquals(ACCESS_TOKEN,
-        ((GenericData) ((UrlEncodedContent) request.getContent()).getData()).get("oauth_token"));
+        ((Map<?, ?>) ((UrlEncodedContent) request.getContent()).getData()).get("oauth_token"));
   }
 
   private HttpRequest subtestAccessProtectedResource(AccessProtectedResource credential)
@@ -108,13 +109,12 @@ public class AccessProtectedResourceTest extends TestCase {
         subtestAccessProtectedResource_expired(Method.FORM_ENCODED_BODY, new CheckAuth() {
 
           public boolean checkAuth(MockLowLevelHttpRequest req) {
-            return NEW_ACCESS_TOKEN.equals(
-                ((GenericData) ((UrlEncodedContent) req.getContent()).getData()).get(
-                    "oauth_token"));
+            return NEW_ACCESS_TOKEN.equals(((Map<?, ?>) ((UrlEncodedContent) req.getContent())
+                .getData()).get("oauth_token"));
           }
         });
     assertEquals(NEW_ACCESS_TOKEN,
-        ((GenericData) ((UrlEncodedContent) request.getContent()).getData()).get("oauth_token"));
+        ((Map<?, ?>) ((UrlEncodedContent) request.getContent()).getData()).get("oauth_token"));
   }
 
   interface CheckAuth {

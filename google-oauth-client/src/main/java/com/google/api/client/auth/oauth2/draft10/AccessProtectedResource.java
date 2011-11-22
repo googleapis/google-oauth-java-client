@@ -26,12 +26,13 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.HttpUnsuccessfulResponseHandler;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.util.GenericData;
+import com.google.api.client.util.Data;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 import java.io.IOException;
 import java.util.EnumSet;
+import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
@@ -301,18 +302,7 @@ public class AccessProtectedResource
       case FORM_ENCODED_BODY:
         Preconditions.checkArgument(ALLOWED_METHODS.contains(request.getMethod()),
             "expected one of these HTTP methods: %s", ALLOWED_METHODS);
-        // URL-encoded content (cast exception if not the right class)
-        UrlEncodedContent content = (UrlEncodedContent) request.getContent();
-        if (content == null) {
-          content = new UrlEncodedContent(null);
-          request.setContent(content);
-        }
-        // Generic data (cast exception if not the right class)
-        GenericData data = (GenericData) content.getData();
-        if (data == null) {
-          data = new GenericData();
-          content.setData(data);
-        }
+        Map<String, Object> data = Data.mapOf(UrlEncodedContent.getContent(request).getData());
         data.put("oauth_token", accessToken);
         break;
     }
@@ -330,10 +320,7 @@ public class AccessProtectedResource
         Object param = request.getUrl().get("oauth_token");
         return param == null ? null : param.toString();
       default:
-        // URL-encoded content (cast exception if not the right class)
-        UrlEncodedContent content = (UrlEncodedContent) request.getContent();
-        // Generic data (cast exception if not the right class)
-        GenericData data = (GenericData) content.getData();
+        Map<String, Object> data = Data.mapOf(UrlEncodedContent.getContent(request).getData());
         Object bodyParam = data.get("oauth_token");
         return bodyParam == null ? null : bodyParam.toString();
     }
