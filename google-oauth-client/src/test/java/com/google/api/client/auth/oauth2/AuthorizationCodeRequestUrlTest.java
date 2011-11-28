@@ -24,14 +24,14 @@ import junit.framework.TestCase;
  * 
  * @author Yaniv Inbar
  */
-public class AuthorizationCodeUrlTest extends TestCase {
+public class AuthorizationCodeRequestUrlTest extends TestCase {
 
   private static final String EXPECTED =
       "https://server.example.com/authorize?client_id=s6BhdRkqt3&"
           + "redirect_uri=https://client.example.com/cb&response_type=code"
           + "&scope=a%20b%20c&state=xyz";
 
-  public AuthorizationCodeUrlTest(String name) {
+  public AuthorizationCodeRequestUrlTest(String name) {
     super(name);
   }
 

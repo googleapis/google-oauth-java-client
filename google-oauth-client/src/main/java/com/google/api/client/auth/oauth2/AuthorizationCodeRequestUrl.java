@@ -39,6 +39,10 @@ package com.google.api.client.auth.oauth2;
   }
  * </pre>
  * 
+ * <p>
+ * Implementation is not thread-safe.
+ * </p>
+ * 
  * @since 1.7
  * @author Yaniv Inbar
  */

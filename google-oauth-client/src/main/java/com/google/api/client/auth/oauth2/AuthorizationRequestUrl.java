@@ -43,6 +43,10 @@ import com.google.common.base.Preconditions;
   }
  * </pre>
  * 
+ * <p>
+ * Implementation is not thread-safe.
+ * </p>
+ * 
  * @since 1.7
  * @author Yaniv Inbar
  */

@@ -14,7 +14,6 @@
 
 package com.google.api.client.auth.oauth2;
 
-import com.google.api.client.http.MultiHttpRequestInitializer;
 import com.google.api.client.http.BasicAuthentication;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
@@ -23,6 +22,7 @@ import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.MultiHttpRequestInitializer;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.http.json.JsonHttpParser;
 import com.google.api.client.json.JsonFactory;
@@ -36,6 +36,10 @@ import java.io.IOException;
 /**
  * OAuth 2.0 request for an access token as specified in <a
  * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-4">Obtaining Authorization</a>.
+ * 
+ * <p>
+ * Implementation is not thread-safe.
+ * </p>
  * 
  * @since 1.7
  * @author Yaniv Inbar

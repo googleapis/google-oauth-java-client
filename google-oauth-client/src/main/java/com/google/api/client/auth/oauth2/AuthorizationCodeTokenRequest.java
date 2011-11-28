@@ -14,6 +14,7 @@
 
 package com.google.api.client.auth.oauth2;
 
+import com.google.api.client.http.BasicAuthentication;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
@@ -22,7 +23,7 @@ import com.google.api.client.util.Key;
 import com.google.common.base.Preconditions;
 
 /**
- * OAuth 2.0 request for an access token based on an authorization code as specified in <a
+ * OAuth 2.0 request for an access token using an authorization code as specified in <a
  * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-4.1.3">Access Token Request</a>.
  * 
  * <p>
@@ -36,16 +37,25 @@ import com.google.common.base.Preconditions;
           new AuthorizationCodeTokenRequest(new NetHttpTransport(), new JacksonFactory(),
               new GenericUrl("https://server.example.com/token"), "SplxlOBeZQQYbYS6WxSbIA")
               .setRedirectUrl(new GenericUrl("https://client.example.com/cb"))
-              .setRequestInitializer(
+              .setClientAuthentication(
                   new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw")).execute();
-      System.out.println("Access token: " + response.accessToken);
+      System.out.println("Access token: " + response.getAccessToken());
     } catch (HttpResponseException e) {
-      AccessTokenErrorResponse response = e.getResponse().parseAs(AccessTokenErrorResponse.class);
-      System.out.println("Error: " + response.error);
+      TokenErrorResponse response = e.getResponse().parseAs(TokenErrorResponse.class);
+      System.out.println("Error: " + response.getError());
     }
   }
  * </pre>
- * TODO(yanivi): show example for setting client_id and client_secret as content parameters
+ * 
+ * <p>
+ * Some OAuth 2.0 providers don't support {@link BasicAuthentication} but instead support
+ * {@link ClientParametersAuthentication}. In the above sample code, simply replace the class name
+ * and it will work the same way.
+ * </p>
+ * 
+ * <p>
+ * Implementation is not thread-safe.
+ * </p>
  * 
  * @since 1.7
  * @author Yaniv Inbar

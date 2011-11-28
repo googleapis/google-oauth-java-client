@@ -23,6 +23,10 @@ import com.google.common.base.Preconditions;
  * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-4.1.2">Authorization
  * Response</a>.
  * 
+ * <p>
+ * Implementation is not thread-safe.
+ * </p>
+ * 
  * @since 1.7
  * @author Yaniv Inbar
  */
@@ -33,7 +37,7 @@ public class AuthorizationCodeResponseUrl extends AuthorizationResponseUrl {
   private String code;
 
   /**
-   * @param encodedResponseUrl
+   * @param encodedResponseUrl encoded response URL
    */
   public AuthorizationCodeResponseUrl(String encodedResponseUrl) {
     super(encodedResponseUrl);

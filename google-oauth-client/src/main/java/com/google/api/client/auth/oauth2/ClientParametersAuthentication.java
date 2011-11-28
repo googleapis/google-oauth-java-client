@@ -32,6 +32,7 @@ import java.util.Map;
  * This implementation assumes that the {@link HttpRequest#getContent()} is {@code null} or
  * {@link UrlEncodedContent}.
  * </p>
+ * 
  * <p>
  * Implementation is immutable and thread-safe.
  * </p>
@@ -64,5 +65,15 @@ public class ClientParametersAuthentication
     Map<String, Object> data = Data.mapOf(UrlEncodedContent.getContent(request).getData());
     data.put("client_id", clientId);
     data.put("client_secret", clientSecret);
+  }
+
+  /** Returns the client identifier issued to the client during the registration process. */
+  public final String getClientId() {
+    return clientId;
+  }
+
+  /** Returns the client secret. */
+  public final String getClientSecret() {
+    return clientSecret;
   }
 }

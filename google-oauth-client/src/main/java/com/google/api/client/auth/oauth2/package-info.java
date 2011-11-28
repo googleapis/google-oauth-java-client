@@ -14,12 +14,12 @@
 
 /**
  * OAuth 2.0 authorization as specified in the <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2">OAuth 2.0 Protocol</a>.
+ * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22">OAuth 2.0 Protocol</a>.
  * 
  * <p>
  * Before using this library, you will typically need to register your application with the
  * authorization server to receive a client ID and client secret. See <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2#section-2">Client Registration</a>.
+ * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-2">Client Registration</a>.
  * </p>
  * 
  * <p>
