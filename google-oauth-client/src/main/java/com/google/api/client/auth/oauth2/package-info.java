@@ -14,21 +14,48 @@
 
 /**
  * OAuth 2.0 authorization as specified in the <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22">OAuth 2.0 Protocol</a>.
+ * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23">OAuth 2.0 Protocol</a>.
  * 
  * <p>
  * Before using this library, you will typically need to register your application with the
  * authorization server to receive a client ID and client secret. See <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-2">Client Registration</a>.
+ * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-2">Client Registration</a>.
  * </p>
  * 
  * <p>
- * TODO(yanivi): describe the OAuth 2 authorization flow:
+ * These are the typical steps of the web server flow based on an authorization code, as specified
+ * in <a href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-4.1">Authorization Code
+ * Grant</a>:
+ * <ul>
+ * <li>Redirect the end user in the browser to the authorization page using
+ * {@link com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl} to grant your application
+ * access to the end user's protected data.</li>
+ * <li>Process the authorization response using
+ * {@link com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl} to parse the authorization
+ * code.</li>
+ * <li>Request an access token and possibly a refresh token using
+ * {@link com.google.api.client.auth.oauth2.AuthorizationCodeTokenRequest}.</li>
+ * <li>Access protected resources using {@link com.google.api.client.auth.oauth2.Credential}.
+ * Expired access tokens will automatically be refreshed using the refresh token (if applicable).
+ * </li>
+ * </ul>
  * </p>
  * 
  * <p>
+ * These are the typical steps of the the browser-based client flow specified in <a
+ * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-4.2">Implicit Grant</a>:
+ * <ul>
+ * <li>Redirect the end user in the browser to the authorization page using
+ * {@link com.google.api.client.auth.oauth2.BrowserClientRequestUrl} to grant your browser
+ * application access to the end user's protected data.</li>
+ * <li>Use a JavaScript application to process the access token found in the URL fragment at the
+ * redirect URI registered with the authorization server.</li>
+ * </ul>
+ * </p>
+ * <p>
+ * 
  * <b>Warning: this package is experimental, and its content may be changed in incompatible ways or
- * possibly entirely removed in a future version of the library</b>
+ * possibly entirely removed in a future version of the library.</b>
  * </p>
  * 
  * @since 1.7

@@ -16,6 +16,7 @@ package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.http.BasicAuthentication;
 import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -24,11 +25,17 @@ import com.google.common.base.Preconditions;
 
 /**
  * OAuth 2.0 request to refresh an access token using a refresh token as specified in <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-6">Refreshing an Access
+ * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-6">Refreshing an Access
  * Token</a>.
  * 
  * <p>
- * Samples usage:
+ * Use {@link Credential} to access protected resources from the resource server using
+ * the {@link TokenResponse} returned by {@link #execute()}. On error, it will instead throw
+ * {@link TokenResponseException}.
+ * </p>
+ * 
+ * <p>
+ * Sample usage:
  * </p>
  * 
  * <pre>
@@ -40,9 +47,18 @@ import com.google.common.base.Preconditions;
               .setClientAuthentication(
                   new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw")).execute();
       System.out.println("Access token: " + response.getAccessToken());
-    } catch (HttpResponseException e) {
-      AccessTokenErrorResponse response = e.getResponse().parseAs(AccessTokenErrorResponse.class);
-      System.out.println("Error: " + response.error);
+    } catch (TokenResponseException e) {
+      if (e.getDetails() != null) {
+        System.err.println("Error: " + e.getDetails().getError());
+        if (e.getDetails().getErrorDescription() != null) {
+          System.err.println(e.getDetails().getErrorDescription());
+        }
+        if (e.getDetails().getErrorUri() != null) {
+          System.err.println(e.getDetails().getErrorUri());
+        }
+      } else {
+        System.err.println(e.getMessage());
+      }
     }
   }
  * </pre>
@@ -94,8 +110,18 @@ public class RefreshTokenRequest extends TokenRequest {
   }
 
   @Override
+  public RefreshTokenRequest setScopes(Iterable<String> scopes) {
+    return (RefreshTokenRequest) super.setScopes(scopes);
+  }
+
+  @Override
   public RefreshTokenRequest setGrantType(String grantType) {
     return (RefreshTokenRequest) super.setGrantType(grantType);
+  }
+
+  @Override
+  public RefreshTokenRequest setClientAuthentication(HttpExecuteInterceptor clientAuthentication) {
+    return (RefreshTokenRequest) super.setClientAuthentication(clientAuthentication);
   }
 
   /** Returns the refresh token issued to the client. */

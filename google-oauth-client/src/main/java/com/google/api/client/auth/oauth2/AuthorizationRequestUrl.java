@@ -19,15 +19,12 @@ import com.google.api.client.util.Key;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 
+import java.util.Arrays;
+
 /**
  * OAuth 2.0 URL builder for an authorization web page to allow the end user to authorize the
- * application to access their protected resources (as specified in <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-4.1">Authorization Code</a>).
- * 
- * <p>
- * Use {@link AuthorizationResponseUrl} (or a subclass) to parse the redirect response after the end
- * user grants/denies the request.
- * </p>
+ * application to access their protected resources, as specified in <a
+ * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1">Authorization Endpoint</a>.
  * 
  * <p>
  * Sample usage for a web application:
@@ -35,10 +32,9 @@ import com.google.common.base.Preconditions;
  * 
  * <pre>
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String url =
-        new AuthorizationUrl("https://server.example.com/authorize", "s6BhdRkqt3", "code")
-            .setState("xyz").setRedirectUrl(new GenericUrl("https://client.example.com/cb"))
-            .build();
+    String url = new AuthorizationRequestUrl(
+        "https://server.example.com/authorize", "s6BhdRkqt3", Arrays.asList("code")).setState("xyz")
+        .setRedirectUri("https://client.example.com/rd").build();
     response.sendRedirect(url);
   }
  * </pre>
@@ -55,23 +51,23 @@ public class AuthorizationRequestUrl extends GenericUrl {
   /**
    * Space-separated list of response types, each of which must be {@code "code"} or a registered
    * extension value (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.1.1">Response Type</a>).
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.1">Response Type</a>).
    */
   @Key("response_type")
   private String responseTypes;
 
   /**
-   * URL that the authorization server directs the resource owner's user-agent back to the client
+   * URI that the authorization server directs the resource owner's user-agent back to the client
    * after a successful authorization grant (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.1.2">Redirection
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.2">Redirection
    * Endpoint</a>) or {@code null} for none.
    */
   @Key("redirect_uri")
-  private GenericUrl redirectUrl;
+  private String redirectUri;
 
   /**
    * Space-separated list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.3">Access Token Scope</a>) or
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
    * {@code null} for none.
    */
   @Key("scope")
@@ -83,8 +79,9 @@ public class AuthorizationRequestUrl extends GenericUrl {
 
   /**
    * State (an opaque value used by the client to maintain state between the request and callback,
-   * as specified in http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.1.2.2) or
-   * {@code null} for none.
+   * as mentioned in <a
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.2.2">Registration
+   * Requirements</a>) or {@code null} for none.
    */
   @Key
   private String state;
@@ -94,11 +91,11 @@ public class AuthorizationRequestUrl extends GenericUrl {
    * @param clientId client identifier
    * @param responseTypes space-separated list of response types, each of which must be
    *        {@code "code"}, {@code "token"}, or a registered extension value (as specified in <a
-   *        href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.1.1">Response
+   *        href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.1">Response
    *        Type</a>)
    */
-  public AuthorizationRequestUrl(String encodedAuthorizationServerUrl, String clientId,
-      String responseTypes) {
+  public AuthorizationRequestUrl(
+      String encodedAuthorizationServerUrl, String clientId, Iterable<String> responseTypes) {
     super(encodedAuthorizationServerUrl);
     Preconditions.checkArgument(getFragment() == null);
     setClientId(clientId);
@@ -108,7 +105,7 @@ public class AuthorizationRequestUrl extends GenericUrl {
   /**
    * Returns the space-separated list of response types, each of which must be {@code "code"},
    * {@code "token"}, or a registered extension value (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.1.1">Response Type</a>).
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.1">Response Type</a>).
    */
   public final String getResponseTypes() {
     return responseTypes;
@@ -117,7 +114,7 @@ public class AuthorizationRequestUrl extends GenericUrl {
   /**
    * Sets the list of response types, each of which must be {@code "code"}, {@code "token"}, or a
    * registered extension value (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.1.1">Response Type</a>).
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.1">Response Type</a>).
    * 
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
@@ -128,24 +125,41 @@ public class AuthorizationRequestUrl extends GenericUrl {
    *        containing multiple space-separated scopes)
    */
   public AuthorizationRequestUrl setResponseTypes(String... responseTypes) {
+    return setResponseTypes(Arrays.asList(responseTypes));
+  }
+
+  /**
+   * Sets the list of response types, each of which must be {@code "code"}, {@code "token"}, or a
+   * registered extension value (as specified in <a
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.1">Response Type</a>).
+   * 
+   * <p>
+   * Overriding is only supported for the purpose of calling the super implementation and changing
+   * the return type, but nothing else.
+   * </p>
+   * 
+   * @param responseTypes response types to be joined by a space separator (or a single value
+   *        containing multiple space-separated scopes)
+   */
+  public AuthorizationRequestUrl setResponseTypes(Iterable<String> responseTypes) {
     this.responseTypes = Joiner.on(' ').join(responseTypes);
     return this;
   }
 
   /**
-   * Returns the URL that the authorization server directs the resource owner's user-agent back to
+   * Returns the URI that the authorization server directs the resource owner's user-agent back to
    * the client after a successful authorization grant (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.1.2">Redirection
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.2">Redirection
    * Endpoint</a>) or {@code null} for none.
    */
-  public final GenericUrl getRedirectUrl() {
-    return redirectUrl;
+  public final String getRedirectUri() {
+    return redirectUri;
   }
 
   /**
-   * Sets the URL that the authorization server directs the resource owner's user-agent back to the
+   * Sets the URI that the authorization server directs the resource owner's user-agent back to the
    * client after a successful authorization grant (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.1.2">Redirection
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.2">Redirection
    * Endpoint</a>) or {@code null} for none.
    * 
    * <p>
@@ -153,15 +167,14 @@ public class AuthorizationRequestUrl extends GenericUrl {
    * the return type, but nothing else.
    * </p>
    */
-  public AuthorizationRequestUrl setRedirectUrl(GenericUrl redirectUrl) {
-    this.redirectUrl = redirectUrl;
-    Preconditions.checkArgument(redirectUrl.getFragment() == null);
+  public AuthorizationRequestUrl setRedirectUri(String redirectUri) {
+    this.redirectUri = redirectUri;
     return this;
   }
 
   /**
    * Returns the space-separated list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.3">Access Token Scope</a>) or
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
    * {@code null} for none.
    */
   public final String getScopes() {
@@ -170,7 +183,7 @@ public class AuthorizationRequestUrl extends GenericUrl {
 
   /**
    * Sets the list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.3">Access Token Scope</a>) or
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
    * {@code null} for none.
    * 
    * <p>
@@ -179,9 +192,26 @@ public class AuthorizationRequestUrl extends GenericUrl {
    * </p>
    * 
    * @param scopes list of scopes to be joined by a space separator (or a single value containing
-   *        multiple space-separated scopes)
+   *        multiple space-separated scopes) or {@code null} for none
    */
   public AuthorizationRequestUrl setScopes(String... scopes) {
+    return setScopes(scopes == null ? null : Arrays.asList(scopes));
+  }
+
+  /**
+   * Sets the list of scopes (as specified in <a
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
+   * {@code null} for none.
+   * 
+   * <p>
+   * Overriding is only supported for the purpose of calling the super implementation and changing
+   * the return type, but nothing else.
+   * </p>
+   * 
+   * @param scopes list of scopes to be joined by a space separator (or a single value containing
+   *        multiple space-separated scopes) or {@code null} for none
+   */
+  public AuthorizationRequestUrl setScopes(Iterable<String> scopes) {
     this.scopes = scopes == null ? null : Joiner.on(' ').join(scopes);
     return this;
   }
@@ -206,8 +236,9 @@ public class AuthorizationRequestUrl extends GenericUrl {
 
   /**
    * Returns the state (an opaque value used by the client to maintain state between the request and
-   * callback, as specified in http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.1.2.2) or
-   * {@code null} for none.
+   * callback, as mentioned in <a
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.2.2">Registration
+   * Requirements</a>) or {@code null} for none.
    */
   public final String getState() {
     return state;
@@ -215,8 +246,9 @@ public class AuthorizationRequestUrl extends GenericUrl {
 
   /**
    * Sets the state (an opaque value used by the client to maintain state between the request and
-   * callback, as specified in http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.1.2.2) or
-   * {@code null} for none.
+   * callback, as mentioned in <a
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.2.2">Registration
+   * Requirements</a>) or {@code null} for none.
    * 
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing

@@ -14,13 +14,18 @@
 
 package com.google.api.client.auth.oauth2;
 
+import java.util.Collections;
+
 /**
  * OAuth 2.0 URL builder for an authorization web page to allow the end user to authorize the
- * application to access their protected resources (as specified in <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-4.1">Authorization Code</a>).
+ * application to access their protected resources and that returns an authorization code, as
+ * specified in <a
+ * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-4.1">Authorization Code
+ * Grant</a>.
  * 
  * <p>
- * Use {@link AuthorizationCodeResponseUrl} to parse the redirect response after the end user
+ * The default for {@link #getResponseTypes()} is {@code "code"}. Use
+ * {@link AuthorizationCodeResponseUrl} to parse the redirect response after the end user
  * grants/denies the request. Using the authorization code in this response, use
  * {@link AuthorizationCodeTokenRequest} to request the access token.
  * </p>
@@ -32,9 +37,8 @@ package com.google.api.client.auth.oauth2;
  * <pre>
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String url =
-        new AuthorizationCodeUrl("https://server.example.com/authorize", "s6BhdRkqt3")
-            .setState("xyz").setRedirectUrl(new GenericUrl("https://client.example.com/cb"))
-            .build();
+        new AuthorizationCodeRequestUrl("https://server.example.com/authorize", "s6BhdRkqt3")
+            .setState("xyz").setRedirectUri("https://client.example.com/rd").build();
     response.sendRedirect(url);
   }
  * </pre>
@@ -53,6 +57,41 @@ public class AuthorizationCodeRequestUrl extends AuthorizationRequestUrl {
    * @param clientId client identifier
    */
   public AuthorizationCodeRequestUrl(String encodedAuthorizationServerUrl, String clientId) {
-    super(encodedAuthorizationServerUrl, clientId, "code");
+    super(encodedAuthorizationServerUrl, clientId, Collections.singleton("code"));
+  }
+
+  @Override
+  public AuthorizationCodeRequestUrl setResponseTypes(String... responseTypes) {
+    return (AuthorizationCodeRequestUrl) super.setResponseTypes(responseTypes);
+  }
+
+  @Override
+  public AuthorizationCodeRequestUrl setResponseTypes(Iterable<String> responseTypes) {
+    return (AuthorizationCodeRequestUrl) super.setResponseTypes(responseTypes);
+  }
+
+  @Override
+  public AuthorizationCodeRequestUrl setRedirectUri(String redirectUri) {
+    return (AuthorizationCodeRequestUrl) super.setRedirectUri(redirectUri);
+  }
+
+  @Override
+  public AuthorizationCodeRequestUrl setScopes(String... scopes) {
+    return (AuthorizationCodeRequestUrl) super.setScopes(scopes);
+  }
+
+  @Override
+  public AuthorizationCodeRequestUrl setScopes(Iterable<String> scopes) {
+    return (AuthorizationCodeRequestUrl) super.setScopes(scopes);
+  }
+
+  @Override
+  public AuthorizationCodeRequestUrl setClientId(String clientId) {
+    return (AuthorizationCodeRequestUrl) super.setClientId(clientId);
+  }
+
+  @Override
+  public AuthorizationCodeRequestUrl setState(String state) {
+    return (AuthorizationCodeRequestUrl) super.setState(state);
   }
 }

@@ -38,7 +38,7 @@ public class TokenResponseTest extends TestCase {
     TokenResponse response = jsonFactory.fromString(JSON, TokenResponse.class);
     assertEquals("2YotnFZFEjr1zCsicMWpAA", response.getAccessToken());
     assertEquals("example", response.getTokenType());
-    assertEquals(3600L, response.getExpiresIn().longValue());
+    assertEquals(3600L, response.getExpiresInSeconds().longValue());
     assertEquals("tGzv3JOkF0XG5Qx2TlKWIA", response.getRefreshToken());
     assertEquals("example_value", response.get("example_parameter"));
   }

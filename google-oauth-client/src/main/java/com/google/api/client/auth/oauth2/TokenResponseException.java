@@ -1,0 +1,103 @@
+/*
+ * Copyright (c) 2011 Google Inc.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.google.api.client.auth.oauth2;
+
+import com.google.api.client.http.HttpResponse;
+import com.google.api.client.http.HttpResponseException;
+import com.google.api.client.http.json.JsonHttpParser;
+import com.google.api.client.json.Json;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.util.Strings;
+import com.google.common.base.Preconditions;
+
+import java.io.IOException;
+
+/**
+ * Exception thrown when receiving an error response from the token server as specified in <a
+ * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-5.2">Error Response</a>
+ * 
+ * <p>
+ * To get the structured details, use {@link #getDetails()}.
+ * </p>
+ * 
+ * <p>
+ * Sample usage can be found for {@link AuthorizationCodeTokenRequest}.
+ * </p>
+ * 
+ * @since 1.7
+ * @author Yaniv Inbar
+ */
+public class TokenResponseException extends HttpResponseException {
+
+  private static final long serialVersionUID = 4020689092957439244L;
+
+  /** Token error response details or {@code null} if unable to parse. */
+  private final transient TokenErrorResponse details;
+
+  /**
+   * @param response HTTP response
+   * @param details token error response details or {@code null} if unable to parse
+   * @param message message details
+   */
+  private TokenResponseException(
+      HttpResponse response, TokenErrorResponse details, String message) {
+    super(response, message);
+    this.details = details;
+  }
+
+  /** Returns the token error response details or {@code null} if unable to parse. */
+  public final TokenErrorResponse getDetails() {
+    return details;
+  }
+
+  /**
+   * Returns a new instance of {@link TokenResponseException}.
+   * 
+   * <p>
+   * If there is a JSON error response, it is parsed using {@link TokenErrorResponse}, which can be
+   * inspected using {@link #getDetails()}. Otherwise, the full response content is read and
+   * included in the exception message.
+   * </p>
+   * 
+   * @param jsonFactory JSON factory
+   * @param response HTTP response
+   * @return new instance of {@link TokenErrorResponse}
+   */
+  public static TokenResponseException from(JsonFactory jsonFactory, HttpResponse response) {
+    // details
+    Preconditions.checkNotNull(jsonFactory);
+    TokenErrorResponse details = null;
+    String detailString = null;
+    String contentType = response.getContentType();
+    try {
+      if (!response.isSuccessStatusCode() && contentType != null
+          && contentType.startsWith(Json.CONTENT_TYPE)) {
+        details = new JsonHttpParser(jsonFactory).parse(response, TokenErrorResponse.class);
+        detailString = details.toPrettyString();
+      } else {
+        detailString = response.parseAsString();
+      }
+    } catch (IOException exception) {
+      // it would be bad to throw an exception while throwing an exception
+      exception.printStackTrace();
+    }
+    // message
+    StringBuilder message = HttpResponseException.computeMessageBuffer(response);
+    if (!com.google.common.base.Strings.isNullOrEmpty(detailString)) {
+      message.append(Strings.LINE_SEPARATOR).append(detailString);
+    }
+    return new TokenResponseException(response, details, message.toString());
+  }
+}

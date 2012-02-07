@@ -30,14 +30,12 @@ public class AuthorizationCodeResponseUrlTest extends TestCase {
     } catch (IllegalArgumentException e) {
       // expected
     }
-    AuthorizationCodeResponseUrl response =
-        new AuthorizationCodeResponseUrl(
-            "https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz");
+    AuthorizationCodeResponseUrl response = new AuthorizationCodeResponseUrl(
+        "https://client.example.com/rd?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz");
     assertEquals("SplxlOBeZQQYbYS6WxSbIA", response.getCode());
     assertEquals("xyz", response.getState());
-    response =
-        new AuthorizationCodeResponseUrl(
-            "https://client.example.com/cb?error=access_denied&state=xyz");
+    response = new AuthorizationCodeResponseUrl(
+        "https://client.example.com/rd?error=access_denied&state=xyz");
     assertEquals("access_denied", response.getError());
     assertEquals("xyz", response.getState());
   }

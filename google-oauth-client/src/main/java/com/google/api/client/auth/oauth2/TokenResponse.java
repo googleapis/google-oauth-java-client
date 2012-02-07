@@ -14,13 +14,13 @@
 
 package com.google.api.client.auth.oauth2;
 
-import com.google.api.client.util.GenericData;
+import com.google.api.client.json.GenericJson;
 import com.google.api.client.util.Key;
 import com.google.common.base.Preconditions;
 
 /**
- * OAuth 2.0 parser for a successful access token response as specified in <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-5.1">Successful Response</a>.
+ * OAuth 2.0 JSON model for a successful access token response as specified in <a
+ * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-5.1">Successful Response</a>.
  * 
  * <p>
  * Implementation is not thread-safe.
@@ -29,7 +29,7 @@ import com.google.common.base.Preconditions;
  * @since 1.7
  * @author Yaniv Inbar
  */
-public class TokenResponse extends GenericData {
+public class TokenResponse extends GenericJson {
 
   /** Access token issued by the authorization server. */
   @Key("access_token")
@@ -37,7 +37,7 @@ public class TokenResponse extends GenericData {
 
   /**
    * Token type (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-7.1">Access Token Types</a>).
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-7.1">Access Token Types</a>).
    */
   @Key("token_type")
   private String tokenType;
@@ -47,16 +47,20 @@ public class TokenResponse extends GenericData {
    * none.
    */
   @Key("expires_in")
-  private Long expiresIn;
+  private Long expiresInSeconds;
 
   /**
-   * Refresh token which can be used to obtain new access tokens using the same authorization grant
+   * Refresh token which can be used to obtain new access tokens using {@link RefreshTokenRequest}
    * or {@code null} for none.
    */
   @Key("refresh_token")
   private String refreshToken;
 
-  /** Scope of the access token or {@code null} for none. */
+  /**
+   * Scope of the access token as specified in <a
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a> or
+   * {@code null} for none.
+   */
   @Key
   private String scope;
 
@@ -80,7 +84,7 @@ public class TokenResponse extends GenericData {
 
   /**
    * Returns the token type (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-7.1">Access Token Types</a>).
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-7.1">Access Token Types</a>).
    */
   public final String getTokenType() {
     return tokenType;
@@ -88,7 +92,7 @@ public class TokenResponse extends GenericData {
 
   /**
    * Sets the token type (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-7.1">Access Token Types</a>).
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-7.1">Access Token Types</a>).
    * 
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
@@ -104,8 +108,8 @@ public class TokenResponse extends GenericData {
    * Returns the lifetime in seconds of the access token (for example 3600 for an hour) or
    * {@code null} for none.
    */
-  public final Long getExpiresIn() {
-    return expiresIn;
+  public final Long getExpiresInSeconds() {
+    return expiresInSeconds;
   }
 
   /**
@@ -117,8 +121,8 @@ public class TokenResponse extends GenericData {
    * the return type, but nothing else.
    * </p>
    */
-  public TokenResponse setExpiresIn(Long expiresIn) {
-    this.expiresIn = expiresIn;
+  public TokenResponse setExpiresInSeconds(Long expiresInSeconds) {
+    this.expiresInSeconds = expiresInSeconds;
     return this;
   }
 

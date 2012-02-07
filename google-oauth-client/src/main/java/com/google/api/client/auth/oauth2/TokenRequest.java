@@ -16,13 +16,12 @@ package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.http.BasicAuthentication;
 import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.MultiHttpRequestInitializer;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.http.json.JsonHttpParser;
 import com.google.api.client.json.JsonFactory;
@@ -32,10 +31,16 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * OAuth 2.0 request for an access token as specified in <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-4">Obtaining Authorization</a>.
+ * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-4">Obtaining Authorization</a>.
+ * 
+ * <p>
+ * Call {@link #execute()} to execute the request and use the returned {@link TokenResponse}. On
+ * error, it will instead throw {@link TokenResponseException}.
+ * </p>
  * 
  * <p>
  * Implementation is not thread-safe.
@@ -47,10 +52,10 @@ import java.io.IOException;
 public class TokenRequest extends GenericData {
 
   /** HTTP request initializer or {@code null} for none. */
-  private HttpRequestInitializer requestInitializer;
+  HttpRequestInitializer requestInitializer;
 
   /** Client authentication or {@code null} for none. */
-  private HttpRequestInitializer clientAuthentication;
+  HttpExecuteInterceptor clientAuthentication;
 
   /** HTTP transport. */
   private final HttpTransport transport;
@@ -63,7 +68,7 @@ public class TokenRequest extends GenericData {
 
   /**
    * Space-separated list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.3">Access Token Scope</a>) or
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
    * {@code null} for none.
    */
   @Key("scope")
@@ -121,7 +126,7 @@ public class TokenRequest extends GenericData {
   }
 
   /** Returns the client authentication or {@code null} for none. */
-  public final HttpRequestInitializer getClientAuthentication() {
+  public final HttpExecuteInterceptor getClientAuthentication() {
     return clientAuthentication;
   }
 
@@ -129,10 +134,16 @@ public class TokenRequest extends GenericData {
    * Sets the client authentication or {@code null} for none.
    * 
    * <p>
-   * The recommended initializer by the specification is {@link BasicAuthentication}. A common
-   * alternative is {@link ClientParametersAuthentication}. An alternative client authentication
-   * method may be provided that implements {@link HttpRequestInitializer}. This HTTP request
-   * initializer is run after the {@link #getRequestInitializer()}.
+   * The recommended initializer by the specification is {@link BasicAuthentication}. All
+   * authorization servers must support that. A common alternative is
+   * {@link ClientParametersAuthentication}. An alternative client authentication method may be
+   * provided that implements {@link HttpRequestInitializer}.
+   * </p>
+   * 
+   * <p>
+   * This HTTP request execute interceptor is guaranteed to be the last execute interceptor before
+   * the request is executed, and after any execute interceptor set by the
+   * {@link #getRequestInitializer()}.
    * </p>
    * 
    * <p>
@@ -140,7 +151,7 @@ public class TokenRequest extends GenericData {
    * the return type, but nothing else.
    * </p>
    */
-  public TokenRequest setClientAuthentication(HttpRequestInitializer clientAuthentication) {
+  public TokenRequest setClientAuthentication(HttpExecuteInterceptor clientAuthentication) {
     this.clientAuthentication = clientAuthentication;
     return this;
   }
@@ -166,7 +177,7 @@ public class TokenRequest extends GenericData {
 
   /**
    * Returns the space-separated list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.3">Access Token Scope</a>) or
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
    * {@code null} for none.
    */
   public final String getScopes() {
@@ -175,7 +186,8 @@ public class TokenRequest extends GenericData {
 
   /**
    * Sets the list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.3">Access Token Scope</a>).
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
+   * {@code null} for none.
    * 
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
@@ -186,6 +198,23 @@ public class TokenRequest extends GenericData {
    *        multiple space-separated scopes)
    */
   public TokenRequest setScopes(String... scopes) {
+    return setScopes(scopes == null ? null : Arrays.asList(scopes));
+  }
+
+  /**
+   * Sets the list of scopes (as specified in <a
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
+   * {@code null} for none.
+   * 
+   * <p>
+   * Overriding is only supported for the purpose of calling the super implementation and changing
+   * the return type, but nothing else.
+   * </p>
+   * 
+   * @param scopes list of scopes to be joined by a space separator (or a single value containing
+   *        multiple space-separated scopes)
+   */
+  public TokenRequest setScopes(Iterable<String> scopes) {
     this.scopes = scopes == null ? null : Joiner.on(' ').join(scopes);
     return this;
   }
@@ -218,36 +247,56 @@ public class TokenRequest extends GenericData {
    * Executes request for an access token, and returns the HTTP response.
    * 
    * <p>
-   * To execute and parse the response to {@link TokenResponse}, use {@link #execute()}
+   * To execute and parse the response to {@link TokenResponse}, instead use {@link #execute()}.
    * </p>
    * 
-   * @return HTTP response, which can then be parsed directly using
+   * @return successful access token response, which can then be parsed directly using
    *         {@link HttpResponse#parseAs(Class)} or some other parsing method
-   * @throws HttpResponseException for an HTTP error response, which can then be parsed using
-   *         {@link HttpResponse#parseAs(Class)} on {@link HttpResponseException#getResponse()}
-   *         using {@link TokenErrorResponse}
+   * @throws TokenResponseException for an error response
    */
   public final HttpResponse executeUnparsed() throws IOException {
+    // must set clientAuthentication as last execute interceptor in case it needs to sign request
     HttpRequestFactory requestFactory =
-        transport.createRequestFactory(new MultiHttpRequestInitializer(requestInitializer,
-            clientAuthentication));
-    HttpRequest request =
-        requestFactory.buildPostRequest(tokenServerUrl, new UrlEncodedContent(this));
+        transport.createRequestFactory(new HttpRequestInitializer() {
+
+          public void initialize(HttpRequest request) throws IOException {
+            if (requestInitializer != null) {
+              requestInitializer.initialize(request);
+            }
+            final HttpExecuteInterceptor interceptor = request.getInterceptor();
+            request.setInterceptor(new HttpExecuteInterceptor() {
+              public void intercept(HttpRequest request) throws IOException {
+                if (interceptor != null) {
+                  interceptor.intercept(request);
+                }
+                if (clientAuthentication != null) {
+                  clientAuthentication.intercept(request);
+                }
+              }
+            });
+          }
+        });
+    // make request
+    HttpRequest request = requestFactory.buildPostRequest(
+        tokenServerUrl, new UrlEncodedContent(this));
     request.addParser(new JsonHttpParser(jsonFactory));
-    return request.execute();
+    request.setThrowExceptionOnExecuteError(false);
+    HttpResponse response = request.execute();
+    if (response.isSuccessStatusCode()) {
+      return response;
+    }
+    throw TokenResponseException.from(jsonFactory, response);
   }
 
   /**
    * Executes request for an access token, and returns the parsed access token response.
    * 
    * <p>
-   * To execute without parsing the response, use {@link #executeUnparsed()}.
+   * To execute but parse the response in an alternate way, use {@link #executeUnparsed()}.
    * </p>
    * 
-   * @return parsed access token response
-   * @throws HttpResponseException for an HTTP error response, which can then be parsed using
-   *         {@link HttpResponse#parseAs(Class)} on {@link HttpResponseException#getResponse()}
-   *         using {@link TokenErrorResponse}
+   * @return parsed successful access token response
+   * @throws TokenResponseException for an error response
    */
   public final TokenResponse execute() throws IOException {
     return executeUnparsed().parseAs(TokenResponse.class);

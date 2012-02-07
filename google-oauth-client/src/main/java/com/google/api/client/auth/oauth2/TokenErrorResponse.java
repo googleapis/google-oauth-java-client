@@ -14,13 +14,13 @@
 
 package com.google.api.client.auth.oauth2;
 
-import com.google.api.client.util.GenericData;
+import com.google.api.client.json.GenericJson;
 import com.google.api.client.util.Key;
 import com.google.common.base.Preconditions;
 
 /**
  * OAuth 2.0 parser for an error access token response as specified in <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-5.2">Error Response</a>.
+ * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-5.2">Error Response</a>.
  * 
  * <p>
  * Implementation is not thread-safe.
@@ -29,13 +29,13 @@ import com.google.common.base.Preconditions;
  * @since 1.7
  * @author Yaniv Inbar
  */
-public class TokenErrorResponse extends GenericData {
+public class TokenErrorResponse extends GenericJson {
 
   /**
    * Error code ({@code "invalid_request"}, {@code "invalid_client"}, {@code "invalid_grant"},
    * {@code "unauthorized_client"}, {@code "unsupported_grant_type"}, {@code "invalid_scope"}, or an
    * extension error code as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-8.5">Defining Additional Error
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-8.5">Defining Additional Error
    * Codes</a>).
    */
   @Key
@@ -46,20 +46,20 @@ public class TokenErrorResponse extends GenericData {
    * understanding the error that occurred or {@code null} for none.
    */
   @Key("error_description")
-  public String errorDescription;
+  private String errorDescription;
 
   /**
    * URI identifying a human-readable web page with information about the error, used to provide the
    * client developer with additional information about the error or {@code null} for none.
    */
   @Key("error_uri")
-  public String errorUri;
+  private String errorUri;
 
   /**
    * Returns the error code ({@code "invalid_request"}, {@code "invalid_client"},
    * {@code "invalid_grant"}, {@code "unauthorized_client"}, {@code "unsupported_grant_type"},
    * {@code "invalid_scope"}, or an extension error code as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-8.5">Defining Additional Error
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-8.5">Defining Additional Error
    * Codes</a>).
    */
   public final String getError() {
@@ -70,7 +70,7 @@ public class TokenErrorResponse extends GenericData {
    * Sets the error code ({@code "invalid_request"}, {@code "invalid_client"},
    * {@code "invalid_grant"}, {@code "unauthorized_client"}, {@code "unsupported_grant_type"},
    * {@code "invalid_scope"}, or an extension error code as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-8.5">Defining Additional Error
+   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-8.5">Defining Additional Error
    * Codes</a>).
    * 
    * <p>

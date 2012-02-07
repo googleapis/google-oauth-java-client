@@ -33,7 +33,7 @@ public class TokenRequestTest extends TestCase {
       "https://server.example.com/authorize");
 
   public void testTokenRequest() {
-    check(new TokenRequest(TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo"), "foo");
+    check(new TokenRequest(TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo"){}, "foo");
   }
 
   static void check(TokenRequest request, String grantType) {

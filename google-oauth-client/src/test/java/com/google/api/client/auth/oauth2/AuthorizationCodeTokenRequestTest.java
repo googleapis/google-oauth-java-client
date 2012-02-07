@@ -14,8 +14,6 @@
 
 package com.google.api.client.auth.oauth2;
 
-import com.google.api.client.http.GenericUrl;
-
 import junit.framework.TestCase;
 
 /**
@@ -26,17 +24,17 @@ import junit.framework.TestCase;
 public class AuthorizationCodeTokenRequestTest extends TestCase {
 
   private static final String CODE = "i1WsRn1uB1";
-  private static final GenericUrl REDIRECT_URL = new GenericUrl("https://client.example.com/cb");
+  private static final String REDIRECT_URI = "https://client.example.com/rd";
 
   public void testConstructor() {
     check(new AuthorizationCodeTokenRequest(TokenRequestTest.TRANSPORT,
         TokenRequestTest.JSON_FACTORY, TokenRequestTest.AUTHORIZATION_SERVER_URL, CODE)
-        .setRedirectUrl(REDIRECT_URL));
+        .setRedirectUri(REDIRECT_URI));
   }
 
   private void check(AuthorizationCodeTokenRequest request) {
     TokenRequestTest.check(request, "authorization_code");
     assertEquals(CODE, request.getCode());
-    assertEquals(REDIRECT_URL, request.getRedirectUrl());
+    assertEquals(REDIRECT_URI, request.getRedirectUri());
   }
 }
