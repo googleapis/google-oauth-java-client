@@ -63,6 +63,7 @@ import java.io.IOException;
  * @since 1.4
  * @author Yaniv Inbar
  */
+@SuppressWarnings("deprecation")
 public class AccessTokenRequest extends GenericData {
 
   /**

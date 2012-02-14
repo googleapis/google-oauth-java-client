@@ -38,6 +38,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @since 1.5
  */
+@SuppressWarnings("deprecation")
 public abstract class AbstractTwoLeggedFlowServlet extends HttpServlet {
 
   /**

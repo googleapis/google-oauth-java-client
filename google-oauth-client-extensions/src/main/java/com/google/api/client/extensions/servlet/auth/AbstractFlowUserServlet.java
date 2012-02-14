@@ -37,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
  */
+@SuppressWarnings("deprecation")
 public abstract class AbstractFlowUserServlet extends HttpServlet {
 
   private static final long serialVersionUID = 1L;

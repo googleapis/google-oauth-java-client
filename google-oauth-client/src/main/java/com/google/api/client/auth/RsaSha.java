@@ -1,11 +1,11 @@
 /*
- *
+ * 
  * Copyright (c) 2010 Google Inc. Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy of the
  * License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -14,8 +14,9 @@
 
 package com.google.api.client.auth;
 
-import com.google.api.client.util.Base64;
-import com.google.api.client.util.Strings;
+import org.apache.commons.codec.binary.Base64;
+
+import org.apache.commons.codec.binary.StringUtils;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -33,7 +34,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 
 /**
  * Utility methods for {@code "RSA-SHA1"} signing method.
- *
+ * 
  * @since 1.0
  * @author Yaniv Inbar
  */
@@ -47,7 +48,7 @@ public class RsaSha {
 
   /**
    * Retrieves the private key from the specified key store.
-   *
+   * 
    * @param keyStream input stream to the key store file
    * @param storePass password protecting the key store file
    * @param alias alias under which the private key is stored
@@ -70,7 +71,7 @@ public class RsaSha {
 
   /**
    * Reads a {@code PKCS#8} format private key from a given file.
-   *
+   * 
    * @throws NoSuchAlgorithmException
    */
   public static PrivateKey getPrivateKeyFromPk8(File file)
@@ -87,19 +88,19 @@ public class RsaSha {
       str = str.substring(BEGIN.length(), str.lastIndexOf(END));
     }
     KeyFactory fac = KeyFactory.getInstance("RSA");
-    EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(Base64.decode(Strings.toBytesUtf8(str)));
+    EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(Base64.decodeBase64(str));
     return fac.generatePrivate(privKeySpec);
   }
 
   /**
    * Signs the given data using the given private key.
-   *
+   * 
    * @throws GeneralSecurityException general security exception
    */
   public static String sign(PrivateKey privateKey, String data) throws GeneralSecurityException {
     Signature signature = Signature.getInstance("SHA1withRSA");
     signature.initSign(privateKey);
-    signature.update(Strings.toBytesUtf8(data));
-    return Strings.fromBytesUtf8(Base64.encode(signature.sign()));
+    signature.update(StringUtils.getBytesUtf8(data));
+    return Base64.encodeBase64String(signature.sign());
   }
 }

@@ -76,6 +76,7 @@ import java.util.logging.Logger;
  * @author Yaniv Inbar
  * @since 1.4
  */
+@SuppressWarnings("deprecation")
 public class AccessProtectedResource
     implements HttpExecuteInterceptor, HttpRequestInitializer, HttpUnsuccessfulResponseHandler {
 
