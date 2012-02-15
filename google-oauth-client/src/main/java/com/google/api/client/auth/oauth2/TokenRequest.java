@@ -295,10 +295,16 @@ public class TokenRequest extends GenericData {
    * To execute but parse the response in an alternate way, use {@link #executeUnparsed()}.
    * </p>
    * 
+   * <p>
+   * Default implementation calls {@link #executeUnparsed()} and then parses using
+   * {@link TokenResponse}. Subclasses may override to change the return type, but must still call
+   * {@link #executeUnparsed()}.
+   * </p>
+   * 
    * @return parsed successful access token response
    * @throws TokenResponseException for an error response
    */
-  public final TokenResponse execute() throws IOException {
+  public TokenResponse execute() throws IOException {
     return executeUnparsed().parseAs(TokenResponse.class);
   }
 }

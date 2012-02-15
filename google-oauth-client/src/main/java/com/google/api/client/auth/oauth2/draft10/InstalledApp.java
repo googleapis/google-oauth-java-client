@@ -19,11 +19,12 @@ package com.google.api.client.auth.oauth2.draft10;
  *
  * @since 1.4
  * @author Yaniv Inbar
+ * @deprecated (scheduled to be removed in 1.8) Use
+ *             {@code com.google.api.client.googleapis.auth.oauth2.GoogleOAuthConstants} from <a
+ *             href="http://code.google.com/p/google-api-java-client/">google-api-java-client</a>
  */
+@Deprecated
 public class InstalledApp {
-
-  // TODO(yanivi): ideally long term this should probably go into a package like
-  // com.google.api.client.auth.oauth2.extensions.native
 
   /**
    * Redirect URI to use for "Out Of Band", meaning that the end-user is given an access code that
