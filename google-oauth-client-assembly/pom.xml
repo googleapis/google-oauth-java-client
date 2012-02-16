@@ -24,7 +24,11 @@
     </dependency>
     <dependency>
       <groupId>com.google.oauth-client</groupId>
-      <artifactId>google-oauth-client-extensions</artifactId>
+      <artifactId>google-oauth-client-appengine</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.oauth-client</groupId>
+      <artifactId>google-oauth-client-servlet</artifactId>
     </dependency>
   </dependencies>
 

@@ -7,8 +7,8 @@
     <version>1.7.0-beta-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>google-oauth-client-extensions</artifactId>
-  <name>Platform extensions to the Google OAuth Client Library for Java.</name>
+  <artifactId>google-oauth-client-servlet</artifactId>
+  <name>Servlet and JDO extensions to the Google OAuth Client Library for Java.</name>
   <build>
     <plugins>
       <plugin>
@@ -116,17 +116,8 @@
   </build>
   <dependencies>
     <dependency>
-      <groupId>com.google.http-client</groupId>
-      <artifactId>google-http-client-extensions</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.google.oauth-client</groupId>
       <artifactId>google-oauth-client</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.google.appengine</groupId>
-      <artifactId>appengine-api-1.0-sdk</artifactId>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -142,11 +133,11 @@
       <artifactId>jdo2-api</artifactId>
     </dependency>
     <dependency>
-    	<groupId>com.googlecode.jsontoken</groupId>
-    	<artifactId>jsontoken</artifactId>
-    	<version>1.0</version>
-    	<type>jar</type>
-    	<scope>compile</scope>
+      <groupId>com.googlecode.jsontoken</groupId>
+      <artifactId>jsontoken</artifactId>
+      <version>1.0</version>
+      <type>jar</type>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 </project>
