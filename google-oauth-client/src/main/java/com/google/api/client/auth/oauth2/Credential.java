@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2011 Google Inc.
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -27,6 +27,8 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
@@ -35,11 +37,11 @@ import java.util.logging.Logger;
 /**
  * Thread-safe OAuth 2.0 helper for accessing protected resources using an access token, as well as
  * optionally refreshing the access token when it expires using a refresh token.
- *
+ * 
  * <p>
  * Sample usage:
  * </p>
- *
+ * 
  * <pre>
   public static HttpRequestFactory createRequestFactoryWithAccessTokenOnly(HttpTransport transport,
       JsonFactory jsonFactory, TokenResponse tokenResponse) {
@@ -56,18 +58,18 @@ import java.util.logging.Logger;
                 .getRefreshToken(), tokenResponse.getAccessToken()));
   }
  * </pre>
- *
+ * 
  * <p>
- * If you need to persist the access token in a data store, override
- * {@link #onTokenResponse(TokenResponse)} and {@link #onTokenErrorResponse(TokenErrorResponse)}.
+ * If you need to persist the access token in a data store, use
+ * {@link #addRefreshListener(CredentialRefreshListener)}.
  * </p>
- *
+ * 
  * <p>
  * If you have a custom request initializer, request execute interceptor, or unsuccessful response
  * handler, take a look at the sample usage for {@link HttpExecuteInterceptor} and
  * {@link HttpUnsuccessfulResponseHandler}, which are interfaces that this class also implements.
  * </p>
- *
+ * 
  * @since 1.7
  * @author Yaniv Inbar
  */
@@ -89,7 +91,7 @@ public class Credential
     /**
      * Intercept the HTTP request during {@link Credential#intercept(HttpRequest)} right before the
      * HTTP request executes by providing the access token.
-     *
+     * 
      * @param request HTTP request
      * @param accessToken access token
      */
@@ -98,7 +100,7 @@ public class Credential
     /**
      * Retrieve the original access token in the HTTP request, as provided in
      * {@link #intercept(HttpRequest, String)}.
-     *
+     * 
      * @param request HTTP request
      * @return original access token or {@code null} for none
      */
@@ -143,9 +145,13 @@ public class Credential
   /** Encoded token server URL or {@code null} for none. */
   private final String tokenServerUrl;
 
+  /** Listeners for refresh token results. */
+  private final CopyOnWriteArrayList<CredentialRefreshListener> refreshListeners =
+      new CopyOnWriteArrayList<CredentialRefreshListener>();
+
   /**
-   * Constructor without ability to refresh tokens.
-   *
+   * Constructor without the ability to refresh tokens.
+   * 
    * @param method method of presenting the access token to the resource server (for example
    *        {@link BearerToken.AuthorizationHeaderAccessMethod})
    */
@@ -159,7 +165,7 @@ public class Credential
 
   /**
    * Constructor that has the ability to refresh access tokens when they expire.
-   *
+   * 
    * @param method method of presenting the access token to the resource server (for example
    *        {@link BearerToken#authorizationHeaderAccessMethod})
    * @param transport HTTP transport for executing refresh token request
@@ -247,12 +253,12 @@ public class Credential
 
   /**
    * Sets the access token.
-   *
+   * 
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
-   *
+   * 
    * @param accessToken access token or {@code null} for none
    */
   public Credential setAccessToken(String accessToken) {
@@ -306,12 +312,12 @@ public class Credential
 
   /**
    * Sets the refresh token.
-   *
+   * 
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
-   *
+   * 
    * @param refreshToken refresh token or {@code null} for none
    */
   public Credential setRefreshToken(String refreshToken) {
@@ -336,7 +342,7 @@ public class Credential
 
   /**
    * Sets the expected expiration time in milliseconds or {@code null} for none.
-   *
+   * 
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
@@ -371,18 +377,18 @@ public class Credential
   /**
    * Sets the lifetime in seconds of the access token (for example 3600 for an hour) or {@code null}
    * for none.
-   *
+   * 
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
-   *
+   * 
    * @param expiresIn lifetime in seconds of the access token (for example 3600 for an hour) or
    *        {@code null} for none
    */
   public Credential setExpiresInSeconds(Long expiresIn) {
-    return setExpirationTimeMilliseconds(expiresIn == null ? null : System.currentTimeMillis()
-        + expiresIn * 1000);
+    return setExpirationTimeMilliseconds(
+        expiresIn == null ? null : System.currentTimeMillis() + expiresIn * 1000);
   }
 
   /** Returns the client authentication or {@code null} for none. */
@@ -392,16 +398,16 @@ public class Credential
 
   /**
    * Request a new access token from the authorization endpoint.
-   *
+   * 
    * <p>
-   * On success, it will call {@link #setAccessToken(String)}, {@link #setRefreshToken(String)} and
-   * {@link #setExpiresInSeconds(Long)} with the values from the {@link TokenResponse}, call
-   * {@link #onTokenResponse(TokenResponse)} with the token response, and return {@code true}. On
-   * error, it will call {@link #setAccessToken(String)} and {@link #setExpiresInSeconds(Long)} with
-   * {@code null}, call {@link #onTokenErrorResponse(TokenErrorResponse)} with the token error
-   * response, and return {@code false}.
+   * On success, it will call {@link #setFromTokenResponse(TokenResponse)}, call
+   * {@link CredentialRefreshListener#onTokenResponse} with the token response, and return
+   * {@code true}. On error, it will call {@link #setAccessToken(String)} and
+   * {@link #setExpiresInSeconds(Long)} with {@code null}, call
+   * {@link CredentialRefreshListener#onTokenErrorResponse} with the token error response, and
+   * return {@code false}.
    * </p>
-   *
+   * 
    * @return whether a new access token was successfully retrieved
    */
   public final boolean refreshToken() throws IOException {
@@ -410,10 +416,10 @@ public class Credential
       if (refreshToken != null) {
         try {
           TokenResponse tokenResponse = executeRefreshToken();
-          setAccessToken(tokenResponse.getAccessToken());
-          setRefreshToken(tokenResponse.getRefreshToken());
-          setExpiresInSeconds(tokenResponse.getExpiresInSeconds());
-          onTokenResponse(tokenResponse);
+          setFromTokenResponse(tokenResponse);
+          for (CredentialRefreshListener refreshListener : refreshListeners) {
+            refreshListener.onTokenResponse(this, tokenResponse);
+          }
           return true;
         } catch (TokenResponseException e) {
           // check if it is a normal error response
@@ -423,7 +429,9 @@ public class Credential
             setAccessToken(null);
             setExpiresInSeconds(null);
           }
-          onTokenErrorResponse(e.getDetails());
+          for (CredentialRefreshListener refreshListener : refreshListeners) {
+            refreshListener.onTokenErrorResponse(this, e.getDetails());
+          }
         }
       }
       return false;
@@ -433,22 +441,49 @@ public class Credential
   }
 
   /**
+   * Sets the {@link #setAccessToken access token}, {@link #setRefreshToken refresh token} (if
+   * available), and {@link #setExpiresInSeconds expires-in time} based on the values from the token
+   * response.
+   * 
+   * <p>
+   * It does not call the refresh listeners.
+   * </p>
+   * 
+   * <p>
+   * Overriding is only supported for the purpose of calling the super implementation and changing
+   * the return type, but nothing else.
+   * </p>
+   * 
+   * @param tokenResponse successful token response
+   */
+  public Credential setFromTokenResponse(TokenResponse tokenResponse) {
+    setAccessToken(tokenResponse.getAccessToken());
+    // handle case of having a refresh token previous, but no refresh token in current
+    // response
+    if (tokenResponse.getRefreshToken() != null) {
+      setRefreshToken(tokenResponse.getRefreshToken());
+    }
+    setExpiresInSeconds(tokenResponse.getExpiresInSeconds());
+    return this;
+  }
+
+  /**
    * Executes the request for a new refresh token from the authorization endpoint from
    * {@link #refreshToken()}.
-   *
+   * 
    * <p>
    * The default implementation calls {@link RefreshTokenRequest#execute()} using the
    * {@link #getTransport()}, {@link #getJsonFactory()}, {@link #getTokenServerUrl()},
    * {@link #getRefreshToken()}, and the {@link #getClientAuthentication()}. Subclasses may override
    * for a different implementation.
    * </p>
-   *
+   * 
    * <p>
    * Subclasses may override for a different implementation. Implementations can assume proper
    * thread synchronization is already taken care of inside {@link #refreshToken()}. The
    * {@link #getRefreshToken()} is guaranteed not to be {@code null}.
    * </p>
-   *
+   * 
    * @return whether a new access token was successfully retrieved
    * @throws IOException I/O exception
    */
@@ -457,31 +492,18 @@ public class Credential
         refreshToken).setClientAuthentication(clientAuthentication).execute();
   }
 
-  /**
-   * Notifies of a successful token response from {@link #refreshToken()}.
-   *
-   * <p>
-   * Default implementation does nothing, but subclasses may override in order to provide
-   * functionality like persisting the access token in a data store. Implementations can assume
-   * proper thread synchronization is already taken care of inside {@link #refreshToken()}.
-   * </p>
-   *
-   * @param tokenResponse token response
-   */
-  protected void onTokenResponse(TokenResponse tokenResponse) {
+  /** Returns a modifiable list of listeners for refresh token results. */
+  public final List<CredentialRefreshListener> getRefreshListeners() {
+    return refreshListeners;
   }
 
   /**
-   * Notifies of an error token response from {@link #refreshToken()}.
-   *
-   * <p>
-   * Default implementation does nothing, but subclasses may override in order to provide
-   * functionality like persisting the access token in a data store. Implementations can assume
-   * proper thread synchronization is already taken care of inside {@link #refreshToken()}.
-   * </p>
-   *
-   * @param tokenErrorResponse token error response or {@code null} for none supplied
+   * Adds a listener for refresh token results.
+   * 
+   * @param refreshListener refresh listener
    */
-  protected void onTokenErrorResponse(TokenErrorResponse tokenErrorResponse) {
+  public Credential addRefreshListener(CredentialRefreshListener refreshListener) {
+    refreshListeners.add(Preconditions.checkNotNull(refreshListener));
+    return this;
   }
 }
