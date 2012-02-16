@@ -14,15 +14,21 @@
 
 package com.google.api.client.auth.oauth;
 
-import com.google.api.client.auth.RsaSha;
+import com.google.api.client.auth.security.PrivateKeys;
+
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.StringUtils;
 
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
+import java.security.Signature;
 
 /**
  * OAuth {@code "RSA-SHA1"} signature method.
+ *
  * <p>
- * The private key may be retrieved using the utilities in {@link RsaSha}.
+ * The private key may be loaded using the utilities in {@link PrivateKeys}.
+ * </p>
  *
  * @since 1.0
  * @author Yaniv Inbar
@@ -37,6 +43,9 @@ public final class OAuthRsaSigner implements OAuthSigner {
   }
 
   public String computeSignature(String signatureBaseString) throws GeneralSecurityException {
-    return RsaSha.sign(privateKey, signatureBaseString);
+    Signature signer = Signature.getInstance("SHA1withRSA");
+    signer.initSign(privateKey);
+    signer.update(StringUtils.getBytesUtf8(signatureBaseString));
+    return Base64.encodeBase64String(signer.sign());
   }
 }

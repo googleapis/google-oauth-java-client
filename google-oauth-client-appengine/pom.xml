@@ -145,5 +145,9 @@
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.googlecode.jsontoken</groupId>
+      <artifactId>jsontoken</artifactId>
+    </dependency>
   </dependencies>
 </project>

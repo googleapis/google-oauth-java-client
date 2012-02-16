@@ -14,9 +14,14 @@
 
 package com.google.api.client.auth.oauth;
 
-import com.google.api.client.auth.HmacSha;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.StringUtils;
 
 import java.security.GeneralSecurityException;
+
+import javax.crypto.Mac;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * OAuth {@code "HMAC-SHA1"} signature method.
@@ -37,6 +42,7 @@ public final class OAuthHmacSigner implements OAuthSigner {
   }
 
   public String computeSignature(String signatureBaseString) throws GeneralSecurityException {
+    // compute key
     StringBuilder keyBuf = new StringBuilder();
     String clientSharedSecret = this.clientSharedSecret;
     if (clientSharedSecret != null) {
@@ -47,6 +53,11 @@ public final class OAuthHmacSigner implements OAuthSigner {
     if (tokenSharedSecret != null) {
       keyBuf.append(OAuthParameters.escape(tokenSharedSecret));
     }
-    return HmacSha.sign(keyBuf.toString(), signatureBaseString);
+    String key = keyBuf.toString();
+    // sign
+    SecretKey secretKey = new SecretKeySpec(StringUtils.getBytesUtf8(key), "HmacSHA1");
+    Mac mac = Mac.getInstance("HmacSHA1");
+    mac.init(secretKey);
+    return Base64.encodeBase64String(mac.doFinal(StringUtils.getBytesUtf8(signatureBaseString)));
   }
 }

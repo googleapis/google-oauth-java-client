@@ -132,12 +132,5 @@
       <groupId>javax.jdo</groupId>
       <artifactId>jdo2-api</artifactId>
     </dependency>
-    <dependency>
-      <groupId>com.googlecode.jsontoken</groupId>
-      <artifactId>jsontoken</artifactId>
-      <version>1.0</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
   </dependencies>
 </project>

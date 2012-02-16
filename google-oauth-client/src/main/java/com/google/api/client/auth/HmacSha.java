@@ -13,9 +13,8 @@
 
 package com.google.api.client.auth;
 
-import org.apache.commons.codec.binary.Base64;
-
-import org.apache.commons.codec.binary.StringUtils;
+import com.google.api.client.util.Base64;
+import com.google.api.client.util.Strings;
 
 import java.security.GeneralSecurityException;
 
@@ -28,19 +27,24 @@ import javax.crypto.spec.SecretKeySpec;
  * 
  * @since 1.0
  * @author Yaniv Inbar
+ * @deprecated (scheduled to be removed in 1.8)
  */
+@Deprecated
 public final class HmacSha {
 
   /**
    * Signs the given data using the given secret key.
    * 
    * @throws GeneralSecurityException general security exception
+   * @deprecated (scheduled to be removed in 1.8)
    */
+  @Deprecated
   public static String sign(String key, String data) throws GeneralSecurityException {
-    SecretKey secretKey = new SecretKeySpec(StringUtils.getBytesUtf8(key), "HmacSHA1");
+    SecretKey secretKey = new SecretKeySpec(Strings.toBytesUtf8(key), "HmacSHA1");
     Mac mac = Mac.getInstance("HmacSHA1");
     mac.init(secretKey);
-    return Base64.encodeBase64String(mac.doFinal(StringUtils.getBytesUtf8(data)));
+    byte[] encoded = Base64.encode(mac.doFinal(Strings.toBytesUtf8(data)));
+    return Strings.fromBytesUtf8(encoded);
   }
 
   private HmacSha() {
