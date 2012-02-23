@@ -21,7 +21,7 @@ import com.google.common.base.Preconditions;
  * credential store.
  *
  * <p>
- * It needs to be added as a refresh listener using {@link Credential#addRefreshListener}.
+ * It needs to be added as a refresh listener using {@link Credential.Builder#addRefreshListener}.
  * </p>
  *
  * @since 1.7

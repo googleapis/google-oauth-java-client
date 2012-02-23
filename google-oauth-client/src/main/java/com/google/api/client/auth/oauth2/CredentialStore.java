@@ -15,7 +15,7 @@
 package com.google.api.client.auth.oauth2;
 
 /**
- * OAuth 2.0 Credential persistence store interface to provide a fully pluggable storage mechanism.
+ * OAuth 2.0 credential persistence store interface to provide a fully pluggable storage mechanism.
  *
  * <p>
  * The user ID should be used as the primary key for storage, and the rest of the data consists of
