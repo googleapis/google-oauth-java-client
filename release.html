@@ -107,7 +107,7 @@ This process is followed for the official launch. We are releasing the code from
 the 1.7 Mercurial branch.
 <ul>
   <li>Consider changing value of $project.http.version variable in pom.xml</li>
-  <li>Checkout the source and push to central Maven repository (based on
+  <li>Checkout the source, update dependencies.html, and push to central Maven repository (based on
   instructions from <a href="https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide">Sonatype OSS Maven Repository Usage Guide</a>):<pre>
 cd /tmp
 rm -rf google-oauth-java-client
@@ -115,6 +115,11 @@ mkdir google-oauth-java-client
 cd google-oauth-java-client
 hg clone -b 1.7 https://google-oauth-java-client.googlecode.com/hg/ 1.7
 cd 1.7
+
+mvn project-info-reports:dependencies
+cp google-oauth-client/target/site/dependencies.html google-oauth-client-assembly/dependencies/dependencies.html
+cp google-oauth-client-appengine/target/site/dependencies.html google-oauth-client-assembly/dependencies/appengine-dependencies.html
+cp google-oauth-client-servlet/target/site/dependencies.html google-oauth-client-assembly/dependencies/servlet-dependencies.html
 
 mvn clean deploy
 mvn release:clean
