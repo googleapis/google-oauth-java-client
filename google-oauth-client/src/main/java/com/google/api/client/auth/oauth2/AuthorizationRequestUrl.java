@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -25,11 +25,11 @@ import java.util.Arrays;
  * OAuth 2.0 URL builder for an authorization web page to allow the end user to authorize the
  * application to access their protected resources, as specified in <a
  * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1">Authorization Endpoint</a>.
- * 
+ *
  * <p>
  * Sample usage for a web application:
  * </p>
- * 
+ *
  * <pre>
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String url = new AuthorizationRequestUrl(
@@ -38,11 +38,11 @@ import java.util.Arrays;
     response.sendRedirect(url);
   }
  * </pre>
- * 
+ *
  * <p>
  * Implementation is not thread-safe.
  * </p>
- * 
+ *
  * @since 1.7
  * @author Yaniv Inbar
  */
@@ -87,7 +87,7 @@ public class AuthorizationRequestUrl extends GenericUrl {
   private String state;
 
   /**
-   * @param encodedAuthorizationServerUrl encoded authorization server URL
+   * @param authorizationServerEncodedUrl authorization server encoded URL
    * @param clientId client identifier
    * @param responseTypes space-separated list of response types, each of which must be
    *        {@code "code"}, {@code "token"}, or a registered extension value (as specified in <a
@@ -95,8 +95,8 @@ public class AuthorizationRequestUrl extends GenericUrl {
    *        Type</a>)
    */
   public AuthorizationRequestUrl(
-      String encodedAuthorizationServerUrl, String clientId, Iterable<String> responseTypes) {
-    super(encodedAuthorizationServerUrl);
+      String authorizationServerEncodedUrl, String clientId, Iterable<String> responseTypes) {
+    super(authorizationServerEncodedUrl);
     Preconditions.checkArgument(getFragment() == null);
     setClientId(clientId);
     setResponseTypes(responseTypes);
@@ -115,12 +115,12 @@ public class AuthorizationRequestUrl extends GenericUrl {
    * Sets the list of response types, each of which must be {@code "code"}, {@code "token"}, or a
    * registered extension value (as specified in <a
    * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.1">Response Type</a>).
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
-   * 
+   *
    * @param responseTypes response types to be joined by a space separator (or a single value
    *        containing multiple space-separated scopes)
    */
@@ -132,12 +132,12 @@ public class AuthorizationRequestUrl extends GenericUrl {
    * Sets the list of response types, each of which must be {@code "code"}, {@code "token"}, or a
    * registered extension value (as specified in <a
    * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.1">Response Type</a>).
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
-   * 
+   *
    * @param responseTypes response types to be joined by a space separator (or a single value
    *        containing multiple space-separated scopes)
    */
@@ -161,7 +161,7 @@ public class AuthorizationRequestUrl extends GenericUrl {
    * client after a successful authorization grant (as specified in <a
    * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.2">Redirection
    * Endpoint</a>) or {@code null} for none.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
@@ -185,12 +185,12 @@ public class AuthorizationRequestUrl extends GenericUrl {
    * Sets the list of scopes (as specified in <a
    * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
    * {@code null} for none.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
-   * 
+   *
    * @param scopes list of scopes to be joined by a space separator (or a single value containing
    *        multiple space-separated scopes) or {@code null} for none
    */
@@ -202,12 +202,12 @@ public class AuthorizationRequestUrl extends GenericUrl {
    * Sets the list of scopes (as specified in <a
    * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
    * {@code null} for none.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
-   * 
+   *
    * @param scopes list of scopes to be joined by a space separator (or a single value containing
    *        multiple space-separated scopes) or {@code null} for none
    */
@@ -223,7 +223,7 @@ public class AuthorizationRequestUrl extends GenericUrl {
 
   /**
    * Sets the client identifier.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
@@ -249,7 +249,7 @@ public class AuthorizationRequestUrl extends GenericUrl {
    * callback, as mentioned in <a
    * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.2.2">Registration
    * Requirements</a>) or {@code null} for none.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
