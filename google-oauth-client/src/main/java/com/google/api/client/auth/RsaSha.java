@@ -58,7 +58,8 @@ public class RsaSha {
    * @return the private key from the specified key store
    * @throws GeneralSecurityException if the key store cannot be loaded
    * @throws IOException if the file cannot be accessed
-   * @deprecated (scheduled to be removed in 1.8) Use {@link PrivateKeys#loadFromKeystore}
+   * @deprecated (scheduled to be removed in 1.8) Use
+   *             {@link PrivateKeys#loadFromKeyStore(InputStream, String, String, String)}
    */
   @Deprecated
   public static PrivateKey getPrivateKeyFromKeystore(
@@ -77,7 +78,7 @@ public class RsaSha {
    * Reads a {@code PKCS#8} format private key from a given file.
    *
    * @throws NoSuchAlgorithmException
-   * @deprecated (scheduled to be removed in 1.8) Use {@link PrivateKeys#loadFromPk8(File)}
+   * @deprecated (scheduled to be removed in 1.8) Use {@link PrivateKeys#loadFromPk8File(File)}
    */
   @Deprecated
   public static PrivateKey getPrivateKeyFromPk8(File file)

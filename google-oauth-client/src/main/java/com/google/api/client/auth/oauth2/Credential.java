@@ -441,25 +441,25 @@ public class Credential
   public final boolean refreshToken() throws IOException {
     lock.lock();
     try {
-      if (refreshToken != null) {
-        try {
-          TokenResponse tokenResponse = executeRefreshToken();
+      try {
+        TokenResponse tokenResponse = executeRefreshToken();
+        if (tokenResponse != null) {
           setFromTokenResponse(tokenResponse);
           for (CredentialRefreshListener refreshListener : refreshListeners) {
             refreshListener.onTokenResponse(this, tokenResponse);
           }
           return true;
-        } catch (TokenResponseException e) {
-          // check if it is a normal error response
-          if (e.getDetails() != null) {
-            // We were unable to get a new access token (e.g. it may have been revoked), we must now
-            // indicate that our current token is invalid.
-            setAccessToken(null);
-            setExpiresInSeconds(null);
-          }
-          for (CredentialRefreshListener refreshListener : refreshListeners) {
-            refreshListener.onTokenErrorResponse(this, e.getDetails());
-          }
+        }
+      } catch (TokenResponseException e) {
+        // check if it is a normal error response
+        if (e.getDetails() != null) {
+          // We were unable to get a new access token (e.g. it may have been revoked), we must now
+          // indicate that our current token is invalid.
+          setAccessToken(null);
+          setExpiresInSeconds(null);
+        }
+        for (CredentialRefreshListener refreshListener : refreshListeners) {
+          refreshListener.onTokenErrorResponse(this, e.getDetails());
         }
       }
       return false;
@@ -496,26 +496,30 @@ public class Credential
   }
 
   /**
-   * Executes the request for a new refresh token from the authorization endpoint from
-   * {@link #refreshToken()}.
+   * Executes a request for new credentials from the token server.
    *
    * <p>
    * The default implementation calls {@link RefreshTokenRequest#execute()} using the
    * {@link #getTransport()}, {@link #getJsonFactory()}, {@link #getRequestInitializer()},
    * {@link #getTokenServerEncodedUrl()}, {@link #getRefreshToken()}, and the
-   * {@link #getClientAuthentication()}. Subclasses may override for a different implementation.
+   * {@link #getClientAuthentication()}. If {@link #getRefreshToken()} is {@code null}, it instead
+   * returns {@code null}.
    * </p>
    *
    * <p>
    * Subclasses may override for a different implementation. Implementations can assume proper
-   * thread synchronization is already taken care of inside {@link #refreshToken()}. The
-   * {@link #getRefreshToken()} is guaranteed not to be {@code null}.
+   * thread synchronization is already taken care of inside {@link #refreshToken()}.
    * </p>
    *
-   * @return whether a new access token was successfully retrieved
+   * @return successful response from the token server or {@code null} if it is not possible to
+   *         refresh the access token
    * @throws IOException I/O exception
+   * @throws TokenResponseException if an error response was received from the token server
    */
   protected TokenResponse executeRefreshToken() throws IOException {
+    if (refreshToken == null) {
+      return null;
+    }
     return new RefreshTokenRequest(transport, jsonFactory, new GenericUrl(tokenServerEncodedUrl),
         refreshToken).setClientAuthentication(clientAuthentication)
         .setRequestInitializer(requestInitializer).execute();

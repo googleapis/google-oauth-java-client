@@ -121,7 +121,7 @@ public class JsonWebToken {
      * Principal claim that identifies the subject of the JWT or {@code null} for none.
      */
     @Key("prn")
-    private String prn;
+    private String principal;
 
     /**
      * JWT ID claim that provides a unique identifier for the JWT or {@code null} for none.
@@ -224,15 +224,15 @@ public class JsonWebToken {
     /**
      * Returns the principal claim that identifies the subject of the JWT or {@code null} for none.
      */
-    public String getPrn() {
-      return prn;
+    public String getPrincipal() {
+      return principal;
     }
 
     /**
      * Sets the principal claim that identifies the subject of the JWT or {@code null} for none.
      */
-    public Payload setPrn(String prn) {
-      this.prn = prn;
+    public Payload setPrincipal(String principal) {
+      this.principal = principal;
       return this;
     }
 
