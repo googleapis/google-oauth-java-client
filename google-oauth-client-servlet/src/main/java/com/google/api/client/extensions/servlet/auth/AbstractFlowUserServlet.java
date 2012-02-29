@@ -34,10 +34,14 @@ import javax.servlet.http.HttpServletResponse;
  * container. Developers should subclass this to provide the necessary information for their
  * specific use case.
  *
+ * <p>
+ * Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use {@link
+ *    com.google.api.client.extensions.servlet.auth.oauth2.AbstractAuthorizationCodeServlet}.
+ * </p>
+ *
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
  */
-@SuppressWarnings("deprecation")
 public abstract class AbstractFlowUserServlet extends HttpServlet {
 
   private static final long serialVersionUID = 1L;
@@ -82,12 +86,6 @@ public abstract class AbstractFlowUserServlet extends HttpServlet {
           // Invoke the user code
           super.service(req, resp);
         } catch (HttpResponseException e) {
-          // Normally the response stream is preserved for processing by the user. There is no more
-          // user code between this catch block and the servlet container, so we will consume the
-          // response stream, which has the side effect of sending the content through any logging
-          // mechanisms installed on the response object.
-          e.getResponse().ignore();
-
           // Determine if we failed due to auth, or just failed
           if (cred.isInvalid()) {
             pm.deletePersistent(cred);

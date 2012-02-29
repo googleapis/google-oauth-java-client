@@ -41,6 +41,7 @@ import java.util.Map;
  *
  * @author Yaniv Inbar
  */
+@Deprecated
 public class AccessProtectedResourceTest extends TestCase {
 
   static final JsonFactory JSON_FACTORY = new JacksonFactory();

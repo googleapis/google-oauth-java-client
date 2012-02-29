@@ -75,8 +75,10 @@ import java.util.logging.Logger;
  *
  * @author Yaniv Inbar
  * @since 1.4
+ * @deprecated (scheduled to be removed in 1.8) Use
+ *             {@link com.google.api.client.auth.oauth2.Credential}
  */
-@SuppressWarnings("deprecation")
+@Deprecated
 public class AccessProtectedResource
     implements HttpExecuteInterceptor, HttpRequestInitializer, HttpUnsuccessfulResponseHandler {
 
@@ -349,7 +351,7 @@ public class AccessProtectedResource
             tokenLock.unlock();
           }
         } catch (HttpResponseException e) {
-          LOGGER.severe(e.getResponse().parseAsString());
+          LOGGER.severe(e.getMessage());
         }
       } catch (IOException exception) {
         LOGGER.severe(exception.toString());
@@ -407,8 +409,6 @@ public class AccessProtectedResource
       // We were unable to get a new access token (e.g. it may have been revoked), we must now
       // indicate that our current token is invalid.
       newAccessToken = null;
-      // ignore the error response
-      e.getResponse().ignore();
     }
     setAccessToken(newAccessToken);
     return newAccessToken != null;

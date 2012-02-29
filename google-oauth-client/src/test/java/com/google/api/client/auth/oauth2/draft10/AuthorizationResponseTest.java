@@ -21,6 +21,7 @@ import junit.framework.TestCase;
  *
  * @author Yaniv Inbar
  */
+@Deprecated
 public class AuthorizationResponseTest extends TestCase {
 
   public void testConstructor() {

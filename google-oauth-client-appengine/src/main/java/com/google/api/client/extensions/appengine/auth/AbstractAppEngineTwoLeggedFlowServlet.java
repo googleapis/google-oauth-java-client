@@ -25,7 +25,11 @@ import com.google.api.client.json.jackson.JacksonFactory;
  *
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.5
+ * @deprecated (scheduled to be removed in 1.8) Use
+ *   {@code com.google.api.client.googleapis.extensions.appengine.auth.oauth2.AppIdentityCredential}
+ *   from {@code google-api-java-client}
  */
+@Deprecated
 public abstract class AbstractAppEngineTwoLeggedFlowServlet extends AbstractTwoLeggedFlowServlet {
 
   private static final long serialVersionUID = 1L;

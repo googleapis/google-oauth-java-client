@@ -21,6 +21,7 @@ import junit.framework.TestCase;
  *
  * @author Yaniv Inbar
  */
+@Deprecated
 public class AuthorizationRequestUrlTest extends TestCase {
 
   private static final String EXPECTED =

@@ -62,8 +62,10 @@ import java.io.IOException;
  *
  * @since 1.4
  * @author Yaniv Inbar
+ * @deprecated (scheduled to be removed in 1.8) Use
+ *             {@link com.google.api.client.auth.oauth2.TokenRequest}
  */
-@SuppressWarnings("deprecation")
+@Deprecated
 public class AccessTokenRequest extends GenericData {
 
   /**
@@ -94,7 +96,10 @@ public class AccessTokenRequest extends GenericData {
    * </code>
    * </pre>
    * </p>
+   * @deprecated (scheduled to be removed in 1.8) Use
+   *             {@link com.google.api.client.auth.oauth2.AuthorizationCodeTokenRequest}
    */
+  @Deprecated
   public static class AuthorizationCodeGrant extends AccessTokenRequest {
 
     /** (REQUIRED) The authorization code received from the authorization server. */
@@ -164,7 +169,10 @@ public class AccessTokenRequest extends GenericData {
    * </code>
    * </pre>
    * </p>
+   * @deprecated (scheduled to be removed in 1.8) Use
+   *             {@link com.google.api.client.auth.oauth2.TokenRequest}
    */
+  @Deprecated
   public static class ResourceOwnerPasswordCredentialsGrant extends AccessTokenRequest {
 
     /** (REQUIRED) The resource owner's username. */
@@ -229,7 +237,10 @@ public class AccessTokenRequest extends GenericData {
    * </code>
    * </pre>
    * </p>
+   * @deprecated (scheduled to be removed in 1.8) Use
+   *             {@link com.google.api.client.auth.oauth2.TokenRequest}
    */
+  @Deprecated
   public static class AssertionGrant extends AccessTokenRequest {
 
     /**
@@ -292,7 +303,10 @@ public class AccessTokenRequest extends GenericData {
    * </code>
    * </pre>
    * </p>
+   * @deprecated (scheduled to be removed in 1.8) Use
+   *             {@link com.google.api.client.auth.oauth2.RefreshTokenRequest}
    */
+  @Deprecated
   public static class RefreshTokenGrant extends AccessTokenRequest {
 
     /**

@@ -31,6 +31,11 @@ import javax.jdo.annotations.PersistenceCapable;
  * datastores during user authorization step.
  * </p>
  *
+ * <p>
+ * Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use
+ * {@link com.google.api.client.auth.oauth2.AuthorizationCodeFlow}.
+ * </p>
+ *
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
  */

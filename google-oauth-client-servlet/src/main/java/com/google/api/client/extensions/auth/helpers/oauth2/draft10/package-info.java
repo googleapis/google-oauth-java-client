@@ -23,6 +23,7 @@
  *
  * @since 1.4
  * @author moshenko@google.com (Jacob Moshenko)
+ * @deprecated (scheduled to be removed in 1.8) Use {@link com.google.api.client.auth.oauth2}
  */
 
 package com.google.api.client.extensions.auth.helpers.oauth2.draft10;

@@ -44,7 +44,10 @@ import javax.jdo.annotations.PrimaryKey;
  *
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
+ * @deprecated (scheduled to be removed in 1.8) Use
+ *             {@link com.google.api.client.auth.oauth2.AuthorizationCodeFlow}
  */
+@Deprecated
 @PersistenceCapable
 public class OAuth2ThreeLeggedFlow implements ThreeLeggedFlow {
 

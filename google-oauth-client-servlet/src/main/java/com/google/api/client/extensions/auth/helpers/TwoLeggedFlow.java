@@ -25,7 +25,11 @@ import javax.jdo.PersistenceManager;
  * @author moshenko@google.com (Jake Moshenko)
  *
  * @since 1.5
+ * @deprecated (scheduled to be removed in 1.8) Use
+ *   {@code com.google.api.client.googleapis.extensions.appengine.auth.oauth2.AppIdentityCredential}
+ *   from {@code google-api-java-client}
  */
+@Deprecated
 public interface TwoLeggedFlow {
   /**
    * Load the instance of {@link Credential} associated with this flow instance or create a new one

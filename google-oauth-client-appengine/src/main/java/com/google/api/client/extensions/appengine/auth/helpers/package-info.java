@@ -23,6 +23,9 @@
  *
  * @since 1.6
  * @author moshenko@google.com (Jacob Moshenko)
+ * @deprecated (scheduled to be removed in 1.8) Use
+ *   {@code com.google.api.client.googleapis.extensions.appengine.auth.oauth2.AppIdentityCredential}
+ *   from {@code google-api-java-client}
  */
 
 package com.google.api.client.extensions.appengine.auth.helpers;

@@ -44,6 +44,11 @@ import com.google.api.client.json.jackson.JacksonFactory;
  * </code>
  * </pre>
  *
+ * <p>
+ * Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use {@link
+ *   com.google.api.client.extensions.appengine.auth.oauth2.AbstractAppEngineAuthorizationCodeCallbackServlet}.
+ * </p>
+ *
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
  */

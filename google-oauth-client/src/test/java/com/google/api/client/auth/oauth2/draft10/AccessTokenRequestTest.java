@@ -29,6 +29,7 @@ import junit.framework.TestCase;
  *
  * @author Yaniv Inbar
  */
+@Deprecated
 public class AccessTokenRequestTest extends TestCase {
 
   private static final NetHttpTransport TRANSPORT = new NetHttpTransport();

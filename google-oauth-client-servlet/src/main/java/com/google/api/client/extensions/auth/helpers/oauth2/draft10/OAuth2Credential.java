@@ -41,7 +41,10 @@ import javax.jdo.annotations.PrimaryKey;
  *
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
+ * @deprecated (scheduled to be removed in 1.8) Use
+ *             {@link com.google.api.client.auth.oauth2.Credential}
  */
+@Deprecated
 @PersistenceCapable
 public final class OAuth2Credential implements Credential, InstanceCallbacks {
   // TODO(moshenko) Remove final modifier once we have a plan for subclassing in place

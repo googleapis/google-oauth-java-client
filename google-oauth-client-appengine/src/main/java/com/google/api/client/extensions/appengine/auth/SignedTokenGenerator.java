@@ -37,7 +37,11 @@ import java.util.logging.Logger;
  * @author moshenko@google.com (Jacob Moshenko)
  *
  * @since 1.5
+ * @deprecated (scheduled to be removed in 1.8) Use
+ *   {@code com.google.api.client.googleapis.extensions.appengine.auth.oauth2.AppIdentityCredential}
+ *   from {@code google-api-java-client}
  */
+@Deprecated
 public class SignedTokenGenerator {
   private static final Logger LOGGER = Logger.getLogger(SignedTokenGenerator.class.toString());
 
@@ -56,10 +60,12 @@ public class SignedTokenGenerator {
       this.identityService = identityService;
     }
 
+    @Override
     public SignatureAlgorithm getSignatureAlgorithm() {
       return SignatureAlgorithm.RS256;
     }
 
+    @Override
     public byte[] sign(byte[] source) throws SignatureException {
       SigningResult key = identityService.signForApp(source);
       this.setSigningKeyId(key.getKeyName());

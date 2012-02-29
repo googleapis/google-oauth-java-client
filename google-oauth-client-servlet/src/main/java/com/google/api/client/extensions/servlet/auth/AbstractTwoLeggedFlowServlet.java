@@ -16,7 +16,6 @@ package com.google.api.client.extensions.servlet.auth;
 
 import com.google.api.client.extensions.auth.helpers.Credential;
 import com.google.api.client.extensions.auth.helpers.TwoLeggedFlow;
-import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 
@@ -37,8 +36,11 @@ import javax.servlet.http.HttpServletResponse;
  * @author moshenko@google.com (Jacob Moshenko)
  *
  * @since 1.5
+ * @deprecated (scheduled to be removed in 1.8) Use
+ *   {@code com.google.api.client.googleapis.extensions.appengine.auth.oauth2.AppIdentityCredential}
+ *   from {@code google-api-java-client}
  */
-@SuppressWarnings("deprecation")
+@Deprecated
 public abstract class AbstractTwoLeggedFlowServlet extends HttpServlet {
 
   /**
@@ -70,12 +72,6 @@ public abstract class AbstractTwoLeggedFlowServlet extends HttpServlet {
     try {
       // Invoke the user code
       super.service(req, resp);
-    } catch (HttpResponseException e) {
-      // After this catch block, control flow would be returned to the servlet container, therefore
-      // Google APIs client requests will have their content consumed here to make it available for
-      // logging.
-      e.getResponse().ignore();
-      throw e;
     } finally {
       pm.close();
     }

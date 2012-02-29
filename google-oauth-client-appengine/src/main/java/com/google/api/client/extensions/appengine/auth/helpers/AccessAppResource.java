@@ -32,7 +32,11 @@ import java.security.SignatureException;
  * @author moshenko@google.com (Jake Moshenko)
  *
  * @since 1.6
+ * @deprecated (scheduled to be removed in 1.8) Use
+ *   {@code com.google.api.client.googleapis.extensions.appengine.auth.oauth2.AppIdentityCredential}
+ *   from {@code google-api-java-client}
  */
+@Deprecated
 public class AccessAppResource extends AccessProtectedResource {
   private static final String ASSERTION_TYPE = "http://oauth.net/grant_type/jwt/1.0/bearer";
 

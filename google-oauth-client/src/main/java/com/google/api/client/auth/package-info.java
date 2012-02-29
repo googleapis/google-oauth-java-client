@@ -22,7 +22,7 @@
  *
  * @since 1.0
  * @author Yaniv Inbar
- * @deprecated
+ * @deprecated (scheduled to be removed in 1.8)
  */
 
 package com.google.api.client.auth;
