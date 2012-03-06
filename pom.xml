@@ -9,7 +9,7 @@
   </parent>
   <groupId>com.google.oauth-client</groupId>
   <artifactId>google-oauth-client-parent</artifactId>
-  <version>1.7.0-beta-SNAPSHOT</version>
+  <version>1.8.0-beta-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Parent for the Google OAuth Client Library for Java</name>
 
@@ -302,6 +302,6 @@
   </build>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.http.version>1.7.0-beta-SNAPSHOT</project.http.version>
+    <project.http.version>1.8.0-beta-SNAPSHOT</project.http.version>
   </properties>
 </project>
