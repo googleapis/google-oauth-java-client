@@ -52,20 +52,20 @@ import javax.servlet.http.HttpServletRequest;
  * <pre>
 public class ServletSample extends AbstractAppEngineAuthorizationCodeServlet {
 
-  @Override
+  &#64;Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
     // do stuff
   }
 
-  @Override
+  &#64;Override
   protected String getRedirectUri(HttpServletRequest req) throws ServletException, IOException {
     GenericUrl url = new GenericUrl(req.getRequestURL().toString());
     url.setRawPath("/oauth2callback");
     return url.build();
   }
 
-  @Override
+  &#64;Override
   protected AuthorizationCodeFlow initializeFlow() throws IOException {
     return new AuthorizationCodeFlow.Builder(BearerToken.authorizationHeaderAccessMethod(),
         new UrlFetchTransport(),

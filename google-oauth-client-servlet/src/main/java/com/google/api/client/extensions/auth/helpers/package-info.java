@@ -23,7 +23,7 @@
  *
  * <p>
  * Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use
- * {@link com.google.api.client.auth.oauth2}.
+ * {@code com.google.api.client.auth.oauth2}.
  * </p>
  *
  * @since 1.4

@@ -44,21 +44,22 @@ import java.util.logging.Logger;
  * </p>
  *
  * <pre>
-  public static HttpRequestFactory createRequestFactoryWithAccessTokenOnly(
+  public static Credential createCredentialWithAccessTokenOnly(
       HttpTransport transport, JsonFactory jsonFactory, TokenResponse tokenResponse) {
-    return transport.createRequestFactory(new Credential(BearerToken
-        .authorizationHeaderAccessMethod()).setFromTokenResponse(tokenResponse));
+    return new Credential(BearerToken.authorizationHeaderAccessMethod()).setFromTokenResponse(
+        tokenResponse);
   }
 
-  public static HttpRequestFactory createRequestFactoryWithRefreshToken(
+  public static Credential createCredentialWithRefreshToken(
       HttpTransport transport, JsonFactory jsonFactory, TokenResponse tokenResponse) {
-    return transport.createRequestFactory(new Credential.Builder(BearerToken
-        .authorizationHeaderAccessMethod()).setTransport(transport)
+    return new Credential.Builder(BearerToken.authorizationHeaderAccessMethod()).setTransport(
+        transport)
         .setJsonFactory(jsonFactory)
-        .setTokenServerUrl(new GenericUrl("https://server.example.com/token"))
+        .setTokenServerUrl(
+            new GenericUrl("https://server.example.com/token"))
         .setClientAuthentication(new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw"))
         .build()
-        .setFromTokenResponse(tokenResponse));
+        .setFromTokenResponse(tokenResponse);
   }
  * </pre>
  *
