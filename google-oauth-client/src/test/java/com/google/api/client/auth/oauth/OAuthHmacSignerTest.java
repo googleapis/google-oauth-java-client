@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2012 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -14,18 +14,15 @@
 
 package com.google.api.client.auth.oauth;
 
-import com.google.api.client.auth.HmacSha;
+import junit.framework.TestCase;
 
 import java.security.GeneralSecurityException;
 
-import junit.framework.TestCase;
-
 /**
  * Tests {@link OAuthHmacSigner}.
- * 
+ *
  * @author Yaniv Inbar
  */
-@SuppressWarnings("deprecation")
 public class OAuthHmacSignerTest extends TestCase {
 
   private static final String EXPECTED_SIGNATURE = "0anl6O7gtZfslLZ5j3QoTwd0uPY=";
@@ -35,6 +32,5 @@ public class OAuthHmacSignerTest extends TestCase {
     signer.clientSharedSecret = "abc";
     signer.tokenSharedSecret = "def";
     assertEquals(EXPECTED_SIGNATURE, signer.computeSignature("foo"));
-    assertEquals(EXPECTED_SIGNATURE, HmacSha.sign("abc&def", "foo"));
   }
 }

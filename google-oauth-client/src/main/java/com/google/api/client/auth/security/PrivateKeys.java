@@ -14,7 +14,7 @@
 
 package com.google.api.client.auth.security;
 
-import org.apache.commons.codec.binary.Base64;
+import com.google.api.client.util.Base64;
 
 import java.io.DataInputStream;
 import java.io.File;

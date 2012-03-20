@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2012 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -15,11 +15,10 @@
 package com.google.api.client.auth.jsontoken;
 
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.util.Base64;
 import com.google.api.client.util.Key;
+import com.google.api.client.util.StringUtils;
 import com.google.common.base.Preconditions;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.StringUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -27,22 +26,22 @@ import java.io.IOException;
 /**
  * <a href="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature-00">JSON Web Signature
  * (JWS)</a>.
- * 
+ *
  * <p>
  * Sample usage:
  * </p>
- * 
+ *
  * <pre>
   public static void printPayload(JsonFactory jsonFactory, String tokenString) throws IOException {
     JsonWebSignature jws = JsonWebSignature.parse(jsonFactory, tokenString);
     System.out.println(jws.getPayload());
   }
  * </pre>
- * 
+ *
  * <p>
  * Implementation is not thread-safe.
  * </p>
- * 
+ *
  * @since 1.7
  * @author Yaniv Inbar
  */
@@ -227,7 +226,7 @@ public class JsonWebSignature extends JsonWebToken {
 
   /**
    * Parses the given JWS token string and returns the parsed {@link JsonWebSignature}.
-   * 
+   *
    * @param jsonFactory JSON factory
    * @param tokenString JWS token string
    * @return parsed JWS
@@ -244,7 +243,7 @@ public class JsonWebSignature extends JsonWebToken {
 
   /**
    * JWS parser.
-   * 
+   *
    * <p>
    * Implementation is not thread-safe.
    * </p>
@@ -308,7 +307,8 @@ public class JsonWebSignature extends JsonWebToken {
       Preconditions.checkArgument(secondDot != -1);
       Preconditions.checkArgument(tokenString.indexOf('.', secondDot + 1) == -1);
       // decode the bytes
-      byte[] payloadBytes = Base64.decodeBase64(tokenString.substring(firstDot + 1, secondDot));
+      byte[] payloadBytes =
+          Base64.decodeBase64(tokenString.substring(firstDot + 1, secondDot));
       byte[] signatureBytes = Base64.decodeBase64(tokenString.substring(secondDot + 1));
       byte[] signedContentBytes = StringUtils.getBytesUtf8(tokenString.substring(0, secondDot));
       // parse the header and payload

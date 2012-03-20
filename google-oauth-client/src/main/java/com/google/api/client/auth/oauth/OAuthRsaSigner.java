@@ -15,9 +15,8 @@
 package com.google.api.client.auth.oauth;
 
 import com.google.api.client.auth.security.PrivateKeys;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.StringUtils;
+import com.google.api.client.util.Base64;
+import com.google.api.client.util.StringUtils;
 
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
