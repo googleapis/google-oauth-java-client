@@ -287,7 +287,7 @@ public class JsonWebToken {
       return (expirationTimeSeconds == null
           || now <= (expirationTimeSeconds + acceptableTimeSkewSeconds) * 1000) && (
           issuedAtTimeSeconds == null
-          || now >= (issuedAtTimeSeconds + acceptableTimeSkewSeconds) * 1000);
+          || now >= (issuedAtTimeSeconds - acceptableTimeSkewSeconds) * 1000);
     }
   }
 
