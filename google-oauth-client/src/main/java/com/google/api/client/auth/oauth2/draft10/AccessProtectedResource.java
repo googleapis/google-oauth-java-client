@@ -75,7 +75,7 @@ import java.util.logging.Logger;
  *
  * @author Yaniv Inbar
  * @since 1.4
- * @deprecated (scheduled to be removed in 1.8) Use
+ * @deprecated (scheduled to be removed in 1.9) Use
  *             {@link com.google.api.client.auth.oauth2.Credential}
  */
 @Deprecated
