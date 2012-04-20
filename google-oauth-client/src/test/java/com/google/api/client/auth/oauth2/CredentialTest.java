@@ -230,6 +230,16 @@ public class CredentialTest extends TestCase {
     assertNotNull(access.getExpirationTimeMilliseconds());
   }
 
+  public void testRefreshToken_withoutRequiredParameters() {
+    Credential access = new Credential(BearerToken.queryParameterAccessMethod());
+    try {
+      access.setRefreshToken(REFRESH_TOKEN);
+      fail("Expected an " + IllegalArgumentException.class);
+    } catch (IllegalArgumentException e) {
+      // Expected
+    }
+  }
+
   public void testRefreshToken_refreshTokenError() throws IOException {
     AccessTokenTransport transport = new AccessTokenTransport();
     transport.error = true;

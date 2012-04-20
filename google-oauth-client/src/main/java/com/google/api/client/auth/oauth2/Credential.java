@@ -344,6 +344,12 @@ public class Credential
   public Credential setRefreshToken(String refreshToken) {
     lock.lock();
     try {
+      if (refreshToken != null) {
+        Preconditions.checkArgument(jsonFactory != null && transport != null
+            && clientAuthentication != null && tokenServerEncodedUrl != null,
+            "Please use the Builder and call setJsonFactory, setTransport, setClientAuthentication"
+                + " and setTokenServerUrl/setTokenServerEncodedUrl");
+      }
       this.refreshToken = refreshToken;
     } finally {
       lock.unlock();
