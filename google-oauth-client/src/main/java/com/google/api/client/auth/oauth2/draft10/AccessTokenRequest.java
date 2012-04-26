@@ -62,7 +62,7 @@ import java.io.IOException;
  *
  * @since 1.4
  * @author Yaniv Inbar
- * @deprecated (scheduled to be removed in 1.9) Use
+ * @deprecated (scheduled to be removed in 1.10) Use
  *             {@link com.google.api.client.auth.oauth2.TokenRequest}
  */
 @Deprecated
@@ -96,7 +96,7 @@ public class AccessTokenRequest extends GenericData {
    * </code>
    * </pre>
    * </p>
-   * @deprecated (scheduled to be removed in 1.9) Use
+   * @deprecated (scheduled to be removed in 1.10) Use
    *             {@link com.google.api.client.auth.oauth2.AuthorizationCodeTokenRequest}
    */
   @Deprecated
@@ -169,7 +169,7 @@ public class AccessTokenRequest extends GenericData {
    * </code>
    * </pre>
    * </p>
-   * @deprecated (scheduled to be removed in 1.9) Use
+   * @deprecated (scheduled to be removed in 1.10) Use
    *             {@link com.google.api.client.auth.oauth2.TokenRequest}
    */
   @Deprecated
@@ -237,7 +237,7 @@ public class AccessTokenRequest extends GenericData {
    * </code>
    * </pre>
    * </p>
-   * @deprecated (scheduled to be removed in 1.9) Use
+   * @deprecated (scheduled to be removed in 1.10) Use
    *             {@link com.google.api.client.auth.oauth2.TokenRequest}
    */
   @Deprecated
@@ -303,7 +303,7 @@ public class AccessTokenRequest extends GenericData {
    * </code>
    * </pre>
    * </p>
-   * @deprecated (scheduled to be removed in 1.9) Use
+   * @deprecated (scheduled to be removed in 1.10) Use
    *             {@link com.google.api.client.auth.oauth2.RefreshTokenRequest}
    */
   @Deprecated
@@ -458,9 +458,7 @@ public class AccessTokenRequest extends GenericData {
    *
    * @return HTTP response, which can then be parsed directly using
    *         {@link HttpResponse#parseAs(Class)} or some other parsing method
-   * @throws HttpResponseException for an HTTP error response, which can then be parsed using
-   *         {@link HttpResponse#parseAs(Class)} on {@link HttpResponseException#getResponse()}
-   *         using {@link AccessTokenErrorResponse}
+   * @throws HttpResponseException for an HTTP error response
    */
   public final HttpResponse executeUnparsed() throws IOException {
     HttpRequest request = transport.createRequestFactory().buildPostRequest(
@@ -482,9 +480,7 @@ public class AccessTokenRequest extends GenericData {
    * </p>
    *
    * @return parsed access token response
-   * @throws HttpResponseException for an HTTP error response, which can then be parsed using
-   *         {@link HttpResponse#parseAs(Class)} on {@link HttpResponseException#getResponse()}
-   *         using {@link AccessTokenErrorResponse}
+   * @throws HttpResponseException for an HTTP error response
    */
   public final AccessTokenResponse execute() throws IOException {
     return executeUnparsed().parseAs(AccessTokenResponse.class);
