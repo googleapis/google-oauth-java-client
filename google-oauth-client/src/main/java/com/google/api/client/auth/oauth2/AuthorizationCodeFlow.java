@@ -20,6 +20,7 @@ import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.util.Clock;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 
@@ -82,6 +83,9 @@ public class AuthorizationCodeFlow {
   /** HTTP request initializer or {@code null} for none. */
   private final HttpRequestInitializer requestInitializer;
 
+  /** Clock passed along to Credential. */
+  private final Clock clock;
+
   /** Space-separated list of scopes or {@code null} for none. */
   private String scopes;
 
@@ -109,6 +113,37 @@ public class AuthorizationCodeFlow {
       CredentialStore credentialStore,
       HttpRequestInitializer requestInitializer,
       String scopes) {
+    this(method, transport, jsonFactory, tokenServerUrl, clientAuthentication, clientId,
+        authorizationServerEncodedUrl, credentialStore, requestInitializer, scopes, Clock.SYSTEM);
+  }
+
+  /**
+   * @param method method of presenting the access token to the resource server (for example
+   *        {@link BearerToken#authorizationHeaderAccessMethod})
+   * @param transport HTTP transport
+   * @param jsonFactory JSON factory
+   * @param tokenServerUrl token server URL
+   * @param clientAuthentication client authentication or {@code null} for none (see
+   *        {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)})
+   * @param clientId client identifier
+   * @param authorizationServerEncodedUrl authorization server encoded URL
+   * @param credentialStore credential persistence store or {@code null} for none
+   * @param requestInitializer HTTP request initializer or {@code null} for none
+   * @param scopes space-separated list of scopes or {@code null} for none
+   * @param clock Clock used for Credential expiration
+   * @since 1.9
+   */
+  protected AuthorizationCodeFlow(AccessMethod method,
+      HttpTransport transport,
+      JsonFactory jsonFactory,
+      GenericUrl tokenServerUrl,
+      HttpExecuteInterceptor clientAuthentication,
+      String clientId,
+      String authorizationServerEncodedUrl,
+      CredentialStore credentialStore,
+      HttpRequestInitializer requestInitializer,
+      String scopes,
+      Clock clock) {
     this.method = Preconditions.checkNotNull(method);
     this.transport = Preconditions.checkNotNull(transport);
     this.jsonFactory = Preconditions.checkNotNull(jsonFactory);
@@ -119,6 +154,7 @@ public class AuthorizationCodeFlow {
     this.requestInitializer = requestInitializer;
     this.credentialStore = credentialStore;
     this.scopes = scopes;
+    this.clock = Preconditions.checkNotNull(clock);
   }
 
   /**
@@ -215,7 +251,8 @@ public class AuthorizationCodeFlow {
         .setJsonFactory(jsonFactory)
         .setTokenServerEncodedUrl(tokenServerEncodedUrl)
         .setClientAuthentication(clientAuthentication)
-        .setRequestInitializer(requestInitializer);
+        .setRequestInitializer(requestInitializer)
+        .setClock(clock);
     if (credentialStore != null) {
       builder.addRefreshListener(new CredentialStoreRefreshListener(userId, credentialStore));
     }
@@ -279,6 +316,14 @@ public class AuthorizationCodeFlow {
   }
 
   /**
+   * Returns the clock which will be passed along to the Credential.
+   * @since 1.9
+   */
+  public final Clock getClock() {
+    return clock;
+  }
+
+  /**
    * Authorization code flow builder.
    *
    * <p>
@@ -323,6 +368,9 @@ public class AuthorizationCodeFlow {
     /** Space-separated list of scopes or {@code null} for none. */
     private String scopes;
 
+    /** Clock passed along to the Credential. */
+    private Clock clock = Clock.SYSTEM;
+
     /**
      * @param method method of presenting the access token to the resource server (for example
      *        {@link BearerToken#authorizationHeaderAccessMethod})
@@ -362,7 +410,8 @@ public class AuthorizationCodeFlow {
           authorizationServerEncodedUrl,
           credentialStore,
           requestInitializer,
-          scopes);
+          scopes,
+          clock);
     }
 
     /**
@@ -409,6 +458,29 @@ public class AuthorizationCodeFlow {
     /** Returns the credential persistence store or {@code null} for none. */
     public final CredentialStore getCredentialStore() {
       return credentialStore;
+    }
+
+    /**
+     * Returns the clock passed along to the Credential or {@link Clock#SYSTEM} when system
+     * default is used.
+     * @since 1.9
+     */
+    public final Clock getClock() {
+      return clock;
+    }
+
+    /**
+     * Sets the clock to pass to the Credential.
+     *
+     * <p>
+     * The default value for this parameter is {@link Clock#SYSTEM}
+     * </p>
+     *
+     * @since 1.9
+     */
+    public Builder setClock(Clock clock) {
+      this.clock = Preconditions.checkNotNull(clock);
+      return this;
     }
 
     /**

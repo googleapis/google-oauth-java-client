@@ -23,6 +23,7 @@ import com.google.api.client.http.HttpStatusCodes;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.HttpUnsuccessfulResponseHandler;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.util.Clock;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
@@ -120,6 +121,9 @@ public class Credential
    */
   private final AccessMethod method;
 
+  /** Clock used to provide the currentMillis. */
+  private final Clock clock;
+
   /** Access token issued by the authorization server. */
   private String accessToken;
 
@@ -183,7 +187,7 @@ public class Credential
    * @param clientAuthentication client authentication or {@code null} for none (see
    *        {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)})
    * @param requestInitializer HTTP request initializer for refresh token requests to the token
-   *        server or {@code null} for none.
+   *        server or {@code null} for none
    * @param refreshListeners listeners for refresh token results or {@code null} for none
    */
   protected Credential(AccessMethod method,
@@ -193,6 +197,34 @@ public class Credential
       HttpExecuteInterceptor clientAuthentication,
       HttpRequestInitializer requestInitializer,
       List<CredentialRefreshListener> refreshListeners) {
+    this(method, transport, jsonFactory, tokenServerEncodedUrl, clientAuthentication,
+         requestInitializer, refreshListeners, Clock.SYSTEM);
+  }
+
+  /**
+   * @param method method of presenting the access token to the resource server (for example
+   *        {@link BearerToken#authorizationHeaderAccessMethod})
+   * @param transport HTTP transport for executing refresh token request or {@code null} if not
+   *        refreshing tokens
+   * @param jsonFactory JSON factory to use for parsing response for refresh token request or
+   *        {@code null} if not refreshing tokens
+   * @param tokenServerEncodedUrl encoded token server URL or {@code null} if not refreshing tokens
+   * @param clientAuthentication client authentication or {@code null} for none (see
+   *        {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)})
+   * @param requestInitializer HTTP request initializer for refresh token requests to the token
+   *        server or {@code null} for none
+   * @param refreshListeners listeners for refresh token results or {@code null} for none
+   * @param clock {@link Clock} used for retrieving the current time for expiration checks
+   * @since 1.9
+   */
+  protected Credential(AccessMethod method,
+      HttpTransport transport,
+      JsonFactory jsonFactory,
+      String tokenServerEncodedUrl,
+      HttpExecuteInterceptor clientAuthentication,
+      HttpRequestInitializer requestInitializer,
+      List<CredentialRefreshListener> refreshListeners,
+      Clock clock) {
     this.method = Preconditions.checkNotNull(method);
     this.transport = transport;
     this.jsonFactory = jsonFactory;
@@ -202,6 +234,7 @@ public class Credential
     this.refreshListeners = refreshListeners == null
         ? Collections.<CredentialRefreshListener>emptyList()
         : Collections.unmodifiableList(refreshListeners);
+    this.clock = Preconditions.checkNotNull(clock);
   }
 
   /**
@@ -300,6 +333,14 @@ public class Credential
     return method;
   }
 
+  /**
+   * Returns the clock used for expiration checks by this Credential. Mostly used for unit-testing.
+   * @since 1.9
+   */
+  public final Clock getClock() {
+    return clock;
+  }
+
   /** Return the HTTP transport for executing refresh token request or {@code null} for none. */
   public final HttpTransport getTransport() {
     return transport;
@@ -395,7 +436,7 @@ public class Credential
       if (expirationTimeMilliseconds == null) {
         return null;
       }
-      return (expirationTimeMilliseconds - System.currentTimeMillis()) / 1000;
+      return (expirationTimeMilliseconds - clock.currentTimeMillis()) / 1000;
     } finally {
       lock.unlock();
     }
@@ -415,7 +456,7 @@ public class Credential
    */
   public Credential setExpiresInSeconds(Long expiresIn) {
     return setExpirationTimeMilliseconds(
-        expiresIn == null ? null : System.currentTimeMillis() + expiresIn * 1000);
+        expiresIn == null ? null : clock.currentTimeMillis() + expiresIn * 1000);
   }
 
   /** Returns the client authentication or {@code null} for none. */
@@ -566,6 +607,9 @@ public class Credential
     /** Token server URL or {@code null} if not refreshing tokens. */
     private GenericUrl tokenServerUrl;
 
+    /** Clock used for expiration checks. */
+    private Clock clock = Clock.SYSTEM;
+
     /**
      * Client authentication or {@code null} for none (see
      * {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
@@ -598,7 +642,8 @@ public class Credential
           tokenServerUrl == null ? null : tokenServerUrl.build(),
           clientAuthentication,
           requestInitializer,
-          refreshListeners);
+          refreshListeners,
+          clock);
     }
 
     /**
@@ -628,6 +673,28 @@ public class Credential
      */
     public Builder setTransport(HttpTransport transport) {
       this.transport = transport;
+      return this;
+    }
+
+    /**
+     * Returns the clock to use for expiration checks or {@link Clock#SYSTEM} as default.
+     * @since 1.9
+     */
+    public final Clock getClock() {
+      return clock;
+    }
+
+    /**
+     * Sets the clock to use for expiration checks.
+     *
+     * <p>
+     * The default value is Clock.SYSTEM.
+     * </p>
+     *
+     * @since 1.9
+     */
+    public Builder setClock(Clock clock) {
+      this.clock = Preconditions.checkNotNull(clock);
       return this;
     }
 

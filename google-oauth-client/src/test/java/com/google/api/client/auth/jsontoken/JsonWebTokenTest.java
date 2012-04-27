@@ -15,6 +15,7 @@
 package com.google.api.client.auth.jsontoken;
 
 import com.google.api.client.auth.jsontoken.JsonWebToken.Payload;
+import com.google.api.client.testing.http.FixedClock;
 
 import junit.framework.TestCase;
 
@@ -26,14 +27,25 @@ import junit.framework.TestCase;
 public class JsonWebTokenTest extends TestCase {
 
   public void testPayloadIsValidTime() {
-    Payload payload = new Payload();
-    payload.setExpirationTimeSeconds(100 + System.currentTimeMillis() / 1000);
-    payload.setIssuedAtTimeSeconds(System.currentTimeMillis() / 1000);
-    Payload payload2 = new Payload();
-    payload2.setExpirationTimeSeconds(System.currentTimeMillis() / 1000);
-    payload2.setIssuedAtTimeSeconds(-1 + System.currentTimeMillis() / 1000);
-    assertTrue(payload.isValidTime(5));
-    assertFalse(payload2.isValidTime(0));
-    assertTrue(payload2.isValidTime(10));
+    FixedClock clock = new FixedClock();
+
+    // Test the payload.isValidTime() method
+    Payload payload = new Payload(clock);
+    payload.setExpirationTimeSeconds(8L); // seconds
+    payload.setIssuedAtTimeSeconds(2L); // seconds
+
+    clock.setTime(0); // Time before the token becomes valid
+    assertFalse(payload.isValidTime(0));
+    assertTrue(payload.isValidTime(2));
+
+    clock.setTime(2000); // Token just became valid
+    assertTrue(payload.isValidTime(0));
+
+    clock.setTime(8000); // Token is about to become invalid
+    assertTrue(payload.isValidTime(0));
+
+    clock.setTime(9000); // Token is invalid
+    assertFalse(payload.isValidTime(0));
+    assertTrue(payload.isValidTime(1));
   }
 }

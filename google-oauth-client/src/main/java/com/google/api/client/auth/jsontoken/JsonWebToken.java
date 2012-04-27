@@ -15,6 +15,7 @@
 package com.google.api.client.auth.jsontoken;
 
 import com.google.api.client.json.GenericJson;
+import com.google.api.client.util.Clock;
 import com.google.api.client.util.Key;
 import com.google.common.base.Preconditions;
 
@@ -82,6 +83,10 @@ public class JsonWebToken {
    * Names</a>.
    */
   public static class Payload extends GenericJson {
+    /**
+     * Clock used for expiration checks.
+     */
+    private final Clock clock;
 
     /**
      * Expiration time claim that identifies the expiration time (in seconds) on or after which the
@@ -135,6 +140,22 @@ public class JsonWebToken {
      */
     @Key("typ")
     private String type;
+
+    /**
+     * Constructs a new Payload using default settings.
+     */
+    public Payload() {
+      this(Clock.SYSTEM);
+    }
+
+    /**
+     * Constructs a new Payload with specific parameters. Primarily used for testing.
+     * @param clock Clock to use for expiration checks
+     * @since 1.9
+     */
+    public Payload(Clock clock) {
+      this.clock = Preconditions.checkNotNull(clock);
+    }
 
     /**
      * Returns the expiration time (in seconds) claim that identifies the expiration time on or
@@ -276,14 +297,14 @@ public class JsonWebToken {
      * <p>
      * Default implementation checks that the {@link #getExpirationTimeSeconds() expiration time}
      * and {@link #getIssuedAtTimeSeconds() issued at time} are valid based on the
-     * {@link System#currentTimeMillis() current time}, allowing for the clock skew. Subclasses may
+     * {@link Clock#currentTimeMillis() current time}, allowing for the clock skew. Subclasses may
      * override.
      * </p>
      *
      * @param acceptableTimeSkewSeconds seconds of acceptable clock skew
      */
     public boolean isValidTime(long acceptableTimeSkewSeconds) {
-      long now = System.currentTimeMillis();
+      long now = clock.currentTimeMillis();
       return (expirationTimeSeconds == null
           || now <= (expirationTimeSeconds + acceptableTimeSkewSeconds) * 1000) && (
           issuedAtTimeSeconds == null
