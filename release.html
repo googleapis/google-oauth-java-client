@@ -120,6 +120,8 @@ mvn project-info-reports:dependencies
 cp google-oauth-client/target/site/dependencies.html google-oauth-client-assembly/dependencies/dependencies.html
 cp google-oauth-client-appengine/target/site/dependencies.html google-oauth-client-assembly/dependencies/appengine-dependencies.html
 cp google-oauth-client-servlet/target/site/dependencies.html google-oauth-client-assembly/dependencies/servlet-dependencies.html
+hg commit -m "prepare 1.10.0-beta for release"
+hg push
 
 mvn clean deploy
 mvn release:clean
