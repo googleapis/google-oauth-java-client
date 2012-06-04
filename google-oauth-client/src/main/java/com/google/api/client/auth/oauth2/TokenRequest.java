@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -36,16 +36,16 @@ import java.util.Arrays;
 /**
  * OAuth 2.0 request for an access token as specified in <a
  * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-4">Obtaining Authorization</a>.
- * 
+ *
  * <p>
  * Call {@link #execute()} to execute the request and use the returned {@link TokenResponse}. On
  * error, it will instead throw {@link TokenResponseException}.
  * </p>
- * 
+ *
  * <p>
  * Implementation is not thread-safe.
  * </p>
- * 
+ *
  * @since 1.7
  * @author Yaniv Inbar
  */
@@ -114,7 +114,7 @@ public class TokenRequest extends GenericData {
 
   /**
    * Sets the HTTP request initializer or {@code null} for none.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
@@ -132,20 +132,20 @@ public class TokenRequest extends GenericData {
 
   /**
    * Sets the client authentication or {@code null} for none.
-   * 
+   *
    * <p>
    * The recommended initializer by the specification is {@link BasicAuthentication}. All
    * authorization servers must support that. A common alternative is
    * {@link ClientParametersAuthentication}. An alternative client authentication method may be
    * provided that implements {@link HttpRequestInitializer}.
    * </p>
-   * 
+   *
    * <p>
    * This HTTP request execute interceptor is guaranteed to be the last execute interceptor before
    * the request is executed, and after any execute interceptor set by the
    * {@link #getRequestInitializer()}.
    * </p>
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
@@ -163,7 +163,7 @@ public class TokenRequest extends GenericData {
 
   /**
    * Sets the token server URL.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
@@ -188,12 +188,12 @@ public class TokenRequest extends GenericData {
    * Sets the list of scopes (as specified in <a
    * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
    * {@code null} for none.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
-   * 
+   *
    * @param scopes list of scopes to be joined by a space separator (or a single value containing
    *        multiple space-separated scopes)
    */
@@ -205,12 +205,12 @@ public class TokenRequest extends GenericData {
    * Sets the list of scopes (as specified in <a
    * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
    * {@code null} for none.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
-   * 
+   *
    * @param scopes list of scopes to be joined by a space separator (or a single value containing
    *        multiple space-separated scopes)
    */
@@ -232,7 +232,7 @@ public class TokenRequest extends GenericData {
    * Sets the grant type ({@code "authorization_code"}, {@code "password"},
    * {@code "client_credentials"}, {@code "refresh_token"} or absolute URI of the extension grant
    * type).
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
@@ -245,11 +245,26 @@ public class TokenRequest extends GenericData {
 
   /**
    * Executes request for an access token, and returns the HTTP response.
-   * 
+   *
    * <p>
    * To execute and parse the response to {@link TokenResponse}, instead use {@link #execute()}.
    * </p>
-   * 
+   *
+   * <p>
+   * Callers should call {@link HttpResponse#disconnect} when the returned HTTP response object is
+   * no longer needed. However, {@link HttpResponse#disconnect} does not have to be called if the
+   * response stream is properly closed. Example usage:
+   * </p>
+   *
+   * <pre>
+     HttpResponse response = tokenRequest.executeUnparsed();
+     try {
+       // process the HTTP response object
+     } finally {
+       response.disconnect();
+     }
+   * </pre>
+   *
    * @return successful access token response, which can then be parsed directly using
    *         {@link HttpResponse#parseAs(Class)} or some other parsing method
    * @throws TokenResponseException for an error response
@@ -290,17 +305,17 @@ public class TokenRequest extends GenericData {
 
   /**
    * Executes request for an access token, and returns the parsed access token response.
-   * 
+   *
    * <p>
    * To execute but parse the response in an alternate way, use {@link #executeUnparsed()}.
    * </p>
-   * 
+   *
    * <p>
    * Default implementation calls {@link #executeUnparsed()} and then parses using
    * {@link TokenResponse}. Subclasses may override to change the return type, but must still call
    * {@link #executeUnparsed()}.
    * </p>
-   * 
+   *
    * @return parsed successful access token response
    * @throws TokenResponseException for an error response
    */
