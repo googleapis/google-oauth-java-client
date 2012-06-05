@@ -23,8 +23,8 @@ import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.UrlEncodedContent;
-import com.google.api.client.http.json.JsonHttpParser;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.util.GenericData;
 import com.google.api.client.util.Key;
 import com.google.common.base.Joiner;
@@ -294,7 +294,7 @@ public class TokenRequest extends GenericData {
     // make request
     HttpRequest request = requestFactory.buildPostRequest(
         tokenServerUrl, new UrlEncodedContent(this));
-    request.addParser(new JsonHttpParser(jsonFactory));
+    request.setParser(new JsonObjectParser(jsonFactory));
     request.setThrowExceptionOnExecuteError(false);
     HttpResponse response = request.execute();
     if (response.isSuccessStatusCode()) {

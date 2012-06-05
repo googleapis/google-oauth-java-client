@@ -132,7 +132,7 @@ public class CredentialTest extends TestCase {
         @Override
         public LowLevelHttpResponse execute() {
           MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
-          response.setContentType(Json.CONTENT_TYPE);
+          response.setContentType(Json.MEDIA_TYPE);
           GenericData responseData;
           if (error) {
             TokenErrorResponse json = new TokenErrorResponse();
