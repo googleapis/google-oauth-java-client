@@ -124,7 +124,8 @@ public class CredentialTest extends TestCase {
 
   static class AccessTokenTransport extends MockHttpTransport {
 
-    boolean error = false;
+    boolean error400 = false;
+    boolean error500 = false;
 
     @Override
     public LowLevelHttpRequest buildPostRequest(String url) {
@@ -134,11 +135,16 @@ public class CredentialTest extends TestCase {
           MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
           response.setContentType(Json.MEDIA_TYPE);
           GenericData responseData;
-          if (error) {
+          if (error400) {
             TokenErrorResponse json = new TokenErrorResponse();
             json.setError("invalid_client");
             responseData = json;
             response.setStatusCode(400);
+          } else if (error500) {
+            TokenErrorResponse json = new TokenErrorResponse();
+            json.setError("invalid_client");
+            responseData = json;
+            response.setStatusCode(500);
           } else {
             TokenResponse json = new TokenResponse();
             json.setAccessToken(NEW_ACCESS_TOKEN);
@@ -194,9 +200,9 @@ public class CredentialTest extends TestCase {
   }
 
   public void testRefreshToken_noRefreshToken() throws IOException {
-    Credential accesss =
+    Credential access =
         new Credential(BearerToken.queryParameterAccessMethod()).setAccessToken(ACCESS_TOKEN);
-    assertFalse(accesss.refreshToken());
+    assertFalse(access.refreshToken());
   }
 
   public void testRefreshToken_noRefreshToken2() throws IOException {
@@ -240,20 +246,45 @@ public class CredentialTest extends TestCase {
     }
   }
 
-  public void testRefreshToken_refreshTokenError() throws IOException {
+  public void testRefreshToken_refreshTokenErrorWith400() throws IOException {
     AccessTokenTransport transport = new AccessTokenTransport();
-    transport.error = true;
+    transport.error400 = true;
     Credential access =
         new Credential.Builder(BearerToken.queryParameterAccessMethod()).setTransport(transport)
             .setJsonFactory(JSON_FACTORY)
             .setTokenServerUrl(TOKEN_SERVER_URL)
             .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET))
             .build()
+            .setExpiresInSeconds(3600L)
             .setAccessToken(ACCESS_TOKEN)
             .setRefreshToken(REFRESH_TOKEN);
-    assertFalse(access.refreshToken());
+    try {
+      access.refreshToken();
+      fail("Expected " + TokenResponseException.class);
+    } catch (TokenResponseException e) {
+      // Expected
+    }
     assertNull(access.getAccessToken());
     assertEquals("refreshToken", access.getRefreshToken());
     assertNull(access.getExpirationTimeMilliseconds());
+  }
+
+  public void testRefreshToken_refreshTokenErrorWith500() throws IOException {
+    AccessTokenTransport transport = new AccessTokenTransport();
+    transport.error500 = true;
+    Credential access =
+        new Credential.Builder(BearerToken.queryParameterAccessMethod()).setTransport(transport)
+            .setJsonFactory(JSON_FACTORY)
+            .setTokenServerUrl(TOKEN_SERVER_URL)
+            .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET))
+            .build()
+            .setExpiresInSeconds(3600L)
+            .setAccessToken(ACCESS_TOKEN)
+            .setRefreshToken(REFRESH_TOKEN);
+
+    assertFalse(access.refreshToken());
+    assertNotNull(access.getAccessToken());
+    assertEquals("refreshToken", access.getRefreshToken());
+    assertNotNull(access.getExpirationTimeMilliseconds());
   }
 }

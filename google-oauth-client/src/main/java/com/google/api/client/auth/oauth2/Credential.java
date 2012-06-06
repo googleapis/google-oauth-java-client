@@ -245,6 +245,11 @@ public class Credential
    * access token even if has expired. If successful, it will call {@link #getMethod()} and
    * {@link AccessMethod#intercept}. Subclasses may override.
    * </p>
+   *
+   * <p>
+   * Upgrade warning: since version 1.10 a {@link TokenResponseException} is thrown if a 4xx is
+   * encountered while refreshing the token, this was not done prior to 1.10.
+   * </p>
    */
   public void intercept(HttpRequest request) throws IOException {
     lock.lock();
@@ -270,6 +275,11 @@ public class Credential
    * Default implementation checks for a 401 error code and calls {@link #refreshToken()}. If
    * {@link #executeRefreshToken()} throws an I/O exception, this implementation will log the
    * exception and return {@code false}. Subclasses may override.
+   * </p>
+   *
+   * <p>
+   * Upgrade warning: since version 1.10 a {@link TokenResponseException} is thrown if a 4xx is
+   * encountered while refreshing the token, this was not done prior to 1.10.
    * </p>
    */
   public boolean handleResponse(HttpRequest request, HttpResponse response, boolean supportsRetry) {
@@ -484,6 +494,11 @@ public class Credential
    * return {@code false}.
    * </p>
    *
+   * <p>
+   * Upgrade warning: since version 1.10 a {@link TokenResponseException} is thrown if a 4xx is
+   * encountered while refreshing the token, this was not done prior to 1.10.
+   * </p>
+   *
    * @return whether a new access token was successfully retrieved
    */
   public final boolean refreshToken() throws IOException {
@@ -499,8 +514,9 @@ public class Credential
           return true;
         }
       } catch (TokenResponseException e) {
+        boolean statusCode4xx = 400 <= e.getStatusCode() && e.getStatusCode() < 500;
         // check if it is a normal error response
-        if (e.getDetails() != null) {
+        if (e.getDetails() != null && statusCode4xx) {
           // We were unable to get a new access token (e.g. it may have been revoked), we must now
           // indicate that our current token is invalid.
           setAccessToken(null);
@@ -508,6 +524,9 @@ public class Credential
         }
         for (CredentialRefreshListener refreshListener : refreshListeners) {
           refreshListener.onTokenErrorResponse(this, e.getDetails());
+        }
+        if (statusCode4xx) {
+          throw e;
         }
       }
       return false;
