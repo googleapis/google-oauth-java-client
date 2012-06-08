@@ -62,7 +62,7 @@ import java.io.IOException;
  *
  * @since 1.4
  * @author Yaniv Inbar
- * @deprecated (scheduled to be removed in 1.10) Use
+ * @deprecated (scheduled to be removed in 1.11) Use
  *             {@link com.google.api.client.auth.oauth2.TokenRequest}
  */
 @Deprecated
@@ -96,7 +96,7 @@ public class AccessTokenRequest extends GenericData {
    * </code>
    * </pre>
    * </p>
-   * @deprecated (scheduled to be removed in 1.10) Use
+   * @deprecated (scheduled to be removed in 1.11) Use
    *             {@link com.google.api.client.auth.oauth2.AuthorizationCodeTokenRequest}
    */
   @Deprecated
@@ -169,7 +169,7 @@ public class AccessTokenRequest extends GenericData {
    * </code>
    * </pre>
    * </p>
-   * @deprecated (scheduled to be removed in 1.10) Use
+   * @deprecated (scheduled to be removed in 1.11) Use
    *             {@link com.google.api.client.auth.oauth2.TokenRequest}
    */
   @Deprecated
@@ -237,7 +237,7 @@ public class AccessTokenRequest extends GenericData {
    * </code>
    * </pre>
    * </p>
-   * @deprecated (scheduled to be removed in 1.10) Use
+   * @deprecated (scheduled to be removed in 1.11) Use
    *             {@link com.google.api.client.auth.oauth2.TokenRequest}
    */
   @Deprecated
@@ -303,7 +303,7 @@ public class AccessTokenRequest extends GenericData {
    * </code>
    * </pre>
    * </p>
-   * @deprecated (scheduled to be removed in 1.10) Use
+   * @deprecated (scheduled to be removed in 1.11) Use
    *             {@link com.google.api.client.auth.oauth2.RefreshTokenRequest}
    */
   @Deprecated
