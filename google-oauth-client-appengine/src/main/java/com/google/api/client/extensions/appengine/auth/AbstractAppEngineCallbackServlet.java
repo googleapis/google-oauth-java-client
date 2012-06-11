@@ -14,7 +14,7 @@
 
 package com.google.api.client.extensions.appengine.auth;
 
-import com.google.api.client.extensions.appengine.http.urlfetch.UrlFetchTransport;
+import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
 import com.google.api.client.extensions.servlet.auth.AbstractCallbackServlet;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
