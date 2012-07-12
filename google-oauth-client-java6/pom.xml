@@ -7,16 +7,15 @@
     <version>1.11.0-beta-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>google-oauth-client-servlet</artifactId>
-  <name>Servlet and JDO extensions to the Google OAuth Client Library for Java.</name>
+  <artifactId>google-oauth-client-java6</artifactId>
+  <name>Java 6 extensions to the Google OAuth Client Library for Java.</name>
   <build>
     <plugins>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <links>
-            <link>http://download.oracle.com/javase/1.5.0/docs/api/</link>
-            <link>http://code.google.com/appengine/docs/java/javadoc</link>
+            <link>http://download.oracle.com/javase/6/docs/api/</link>
             <link>http://javadoc.google-http-java-client.googlecode.com/hg/${project.http.version}</link>
           </links>
           <doctitle>${project.name} ${project.version}</doctitle>
@@ -54,35 +53,6 @@
           </execution>
         </executions>
       </plugin>
-      <plugin> 
-              <groupId>org.datanucleus</groupId> 
-              <artifactId>maven-datanucleus-plugin</artifactId> 
-              <version>2.2.1</version> 
-              <configuration> 
-                  <verbose>false</verbose> 
-                  <metadataIncludes>**/*.jdo</metadataIncludes> 
-              </configuration> 
-              <executions> 
-                  <execution> 
-                      <phase>process-classes</phase> 
-                      <goals> 
-                          <goal>enhance</goal> 
-                      </goals> 
-                  </execution> 
-              </executions> 
-              <dependencies> 
-                  <dependency> 
-                      <groupId>org.datanucleus</groupId> 
-                      <artifactId>datanucleus-core</artifactId> 
-                      <version>2.2.4</version> 
-                  </dependency> 
-                  <dependency> 
-                      <groupId>javax.jdo</groupId> 
-                      <artifactId>jdo-api</artifactId> 
-                      <version>3.0.1</version> 
-                  </dependency> 
-              </dependencies> 
-          </plugin>
     </plugins>
   </build>
   <dependencies>
@@ -94,14 +64,6 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>javax.jdo</groupId>
-      <artifactId>jdo2-api</artifactId>
     </dependency>
   </dependencies>
 </project>

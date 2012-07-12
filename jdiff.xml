@@ -29,6 +29,7 @@
         <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.11.0-beta/google-oauth-client/src/main/java" />
         <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.11.0-beta/google-oauth-client-appengine/src/main/java" />
         <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.11.0-beta/google-oauth-client-servlet/src/main/java" />
+	<dirset dir="${TMP_PROJECT_ROOT_DIR}/1.11.0-beta/google-oauth-client-java6/src/main/java" />
       </new>
     </jdiff>
   </target>
