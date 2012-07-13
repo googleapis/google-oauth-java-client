@@ -14,11 +14,6 @@ package com.google.api.client.extensions.java6.auth.oauth2;
  * the License.
  */
 
-import java.io.File;
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
 import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenErrorResponse;
@@ -28,24 +23,30 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.JsonGenerator;
 import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 import com.google.api.client.util.GenericData;
+import com.google.common.base.Charsets;
+
+import junit.framework.TestCase;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Tests {@link FileCredentialStore}.
- * 
+ *
  * @author Rafael Naufal
  */
 public class FileCredentialStoreTest extends TestCase {
 
-  private static final JsonFactory JSON_FACTORY = new JacksonFactory();
+  static final JsonFactory JSON_FACTORY = new JacksonFactory();
   private static final String ACCESS_TOKEN = "abc";
   static final String NEW_ACCESS_TOKEN = "def";
-  private static final String FILE_NAME = System.getProperty("user.dir")
-      + "/src/test/resources/credentials.json".replace('/', File.separatorChar);
   private static final GenericUrl TOKEN_SERVER_URL = new GenericUrl("http://example.com/token");
   private static final String CLIENT_ID = "id";
   private static final String CLIENT_SECRET = "secret";
@@ -66,11 +67,26 @@ public class FileCredentialStoreTest extends TestCase {
     assertTrue(message, exceptionThrow);
   }
 
+  public void testLoadCredentials_empty() throws IOException {
+    File file = createTempFile();
+    FileCredentialStore store = new FileCredentialStore(file, JSON_FACTORY);
+    Credential actual = createEmptyCredential();
+    boolean loaded = store.load(USER_ID, actual);
+    assertFalse(loaded);
+    assertNull(actual.getAccessToken());
+    assertNull(actual.getRefreshToken());
+    assertNull(actual.getExpirationTimeMilliseconds());
+  }
+
   public void testStoreCredentials() throws IOException {
     Credential expected = createCredential();
-    FileCredentialStore store = new FileCredentialStore(new File(FILE_NAME), JSON_FACTORY);
+    File file = createTempFile();
+    file.delete();
+    FileCredentialStore store = new FileCredentialStore(file, JSON_FACTORY);
+    store = new FileCredentialStore(file, JSON_FACTORY);
     store.store(USER_ID, expected);
 
+    store = new FileCredentialStore(file, JSON_FACTORY);
     Credential actual = createEmptyCredential();
     boolean loaded = store.load(USER_ID, actual);
     assertTrue(loaded);
@@ -79,58 +95,60 @@ public class FileCredentialStoreTest extends TestCase {
     assertEquals(EXPIRES_IN, actual.getExpirationTimeMilliseconds().longValue());
   }
 
-  public void testNotLoadCredentials() {
-    boolean exceptionThrow = false;
-    String message = "";
-    boolean loaded = false;
+  public void testNotLoadCredentials() throws IOException {
+    Credential expected = createCredential();
+    FileCredentialStore store = new FileCredentialStore(createTempFile(), JSON_FACTORY);
+    store.store(USER_ID, expected);
     try {
-      FileCredentialStore store = new FileCredentialStore(new File(FILE_NAME), JSON_FACTORY);
-      loaded = store.load(USER_ID, null);
-    } catch (Exception ex) {
-      exceptionThrow = true;
-      message = ex.getMessage();
+      store.load(USER_ID, null);
+      fail("expected " + NullPointerException.class);
+    } catch (NullPointerException ex) {
+      // expected
     }
-    assertTrue(message, exceptionThrow);
-    assertFalse(loaded);
   }
 
   public void testNotCredentialsNoExists() throws IOException {
-    FileCredentialStore store = new FileCredentialStore(new File(FILE_NAME), JSON_FACTORY);
+    FileCredentialStore store = new FileCredentialStore(createTempFile(), JSON_FACTORY);
     boolean loaded = store.load("123", createCredential());
     assertFalse(loaded);
   }
 
   public void testDeleteCredentials() throws IOException {
-    FileCredentialStore store = new FileCredentialStore(new File(FILE_NAME), JSON_FACTORY);
+    FileCredentialStore store = new FileCredentialStore(createTempFile(), JSON_FACTORY);
     store.delete(USER_ID, createCredential());
   }
 
   private Credential createCredential() {
-    Credential access = new Credential.Builder(BearerToken.queryParameterAccessMethod())
-        .setTransport(new AccessTokenTransport()).setJsonFactory(JSON_FACTORY)
+    Credential access = new Credential.Builder(
+        BearerToken.queryParameterAccessMethod()).setTransport(new AccessTokenTransport())
+        .setJsonFactory(JSON_FACTORY)
         .setTokenServerUrl(TOKEN_SERVER_URL)
-        .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET)).build()
-        .setAccessToken(ACCESS_TOKEN).setRefreshToken(REFRESH_TOKEN)
+        .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET))
+        .build()
+        .setAccessToken(ACCESS_TOKEN)
+        .setRefreshToken(REFRESH_TOKEN)
         .setExpirationTimeMilliseconds(EXPIRES_IN);
     return access;
   }
 
   private Credential createEmptyCredential() {
-    Credential access = new Credential.Builder(BearerToken.queryParameterAccessMethod())
-        .setTransport(new AccessTokenTransport()).setJsonFactory(JSON_FACTORY)
+    Credential access = new Credential.Builder(
+        BearerToken.queryParameterAccessMethod()).setTransport(new AccessTokenTransport())
+        .setJsonFactory(JSON_FACTORY)
         .setTokenServerUrl(TOKEN_SERVER_URL)
-        .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET)).build();
+        .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET))
+        .build();
     return access;
   }
 
-  private static class AccessTokenTransport extends MockHttpTransport {
+  static class AccessTokenTransport extends MockHttpTransport {
 
     boolean error = false;
 
     @Override
     public LowLevelHttpRequest buildPostRequest(String url) {
       return new MockLowLevelHttpRequest(url) {
-        @Override
+          @Override
         public LowLevelHttpResponse execute() {
           MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
           response.setContentType("UTF-8");
@@ -152,5 +170,15 @@ public class FileCredentialStoreTest extends TestCase {
         }
       };
     }
+  }
+
+  private File createTempFile() throws IOException {
+    File result = File.createTempFile("credentials", null);
+    result.deleteOnExit();
+    JsonGenerator generator =
+        JSON_FACTORY.createJsonGenerator(new FileOutputStream(result), Charsets.UTF_8);
+    generator.serialize(new FilePersistedCredentials());
+    generator.close();
+    return result;
   }
 }

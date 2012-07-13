@@ -23,9 +23,8 @@ import com.google.common.collect.Maps;
 import java.util.Map;
 
 /**
- * Persisted credential implementation to be used exclusively with
- * {@link FileCredentialStore}.
- * 
+ * Persisted credential implementation to be used exclusively with {@link FileCredentialStore}.
+ *
  * @author Rafael Naufal
  * @since 1.11
  */
@@ -37,48 +36,41 @@ public class FilePersistedCredentials extends GenericJson {
 
   /**
    * Store information from the credential.
-   * 
-   * @param userId
-   *          user ID whose credential needs to be stored
-   * @param credential
-   *          credential whose {@link Credential#getAccessToken access token},
-   *          {@link Credential#getRefreshToken refresh token}, and
-   *          {@link Credential#getExpirationTimeMilliseconds expiration time}
-   *          need to be stored
+   *
+   * @param userId user ID whose credential needs to be stored
+   * @param credential credential whose {@link Credential#getAccessToken access token},
+   *        {@link Credential#getRefreshToken refresh token}, and
+   *        {@link Credential#getExpirationTimeMilliseconds expiration time} need to be stored
    */
   void store(String userId, Credential credential) {
-    Preconditions.checkArgument(userId != null, "userId cannot be null");
-    Preconditions.checkArgument(credential != null, "credential cannot be null");
+    Preconditions.checkNotNull(userId);
     FilePersistedCredential fileCredential = credentials.get(userId);
     if (fileCredential == null) {
       fileCredential = new FilePersistedCredential();
       credentials.put(userId, fileCredential);
     }
-    fileCredential.store(userId, credential);
+    fileCredential.store(credential);
   }
 
   /**
-   * @param userId
-   *          user ID whose credential needs to be loaded
-   * @param credential
-   *          credential whose {@link Credential#setAccessToken access token},
-   *          {@link Credential#setRefreshToken refresh token}, and
-   *          {@link Credential#setExpirationTimeMilliseconds expiration time}
-   *          need to be set if the credential already exists in storage
+   * @param userId user ID whose credential needs to be loaded
+   * @param credential credential whose {@link Credential#setAccessToken access token},
+   *        {@link Credential#setRefreshToken refresh token}, and
+   *        {@link Credential#setExpirationTimeMilliseconds expiration time} need to be set if the
+   *        credential already exists in storage
    */
   boolean load(String userId, Credential credential) {
-    Preconditions.checkNotNull(userId != null, "userId cannot be null");
-    Preconditions.checkNotNull(credential != null, "credential cannot be null");
+    Preconditions.checkNotNull(userId);
     FilePersistedCredential fileCredential = credentials.get(userId);
     if (fileCredential == null) {
       return false;
     }
-    fileCredential.load(userId, credential);
+    fileCredential.load(credential);
     return true;
   }
 
   void delete(String userId) {
-    Preconditions.checkNotNull(userId != null, "userId cannot be null");
+    Preconditions.checkNotNull(userId);
     credentials.remove(userId);
   }
 }

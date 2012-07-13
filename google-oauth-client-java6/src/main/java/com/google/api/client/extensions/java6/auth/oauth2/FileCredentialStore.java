@@ -30,7 +30,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Thread-safe file implementation of a credential store.
- * 
+ *
  * @since 1.11
  * @author Rafael Naufal
  */
@@ -49,24 +49,22 @@ public class FileCredentialStore implements CredentialStore {
   private final File file;
 
   /**
-   * 
-   * @param file
-   *          File to store user credentials
-   * @param jsonFactory
-   *          JSON factory to serialize user credentials
+   *
+   * @param file File to store user credentials
+   * @param jsonFactory JSON factory to serialize user credentials
    */
   public FileCredentialStore(File file, JsonFactory jsonFactory) throws IOException {
-    this.file = Preconditions.checkNotNull(file, "missing file for credentials");
-    this.jsonFactory = Preconditions.checkNotNull(jsonFactory, "missing json factory");
-    if (file.exists()) {
+    this.file = Preconditions.checkNotNull(file);
+    this.jsonFactory = Preconditions.checkNotNull(jsonFactory);
+    if (!file.createNewFile()) {
       loadCredentials(file);
     } else {
-      file.setReadable(false, false);
-      Preconditions.checkState(file.setWritable(false, false),
-          "Error when setting permissions for %s", file);
-      file.setExecutable(false, false);
-      file.setReadable(true);
-      file.setWritable(true);
+      if (!file.setReadable(false, false) || !file.setWritable(false, false)
+          || !file.setExecutable(false, false) || !file.setReadable(true)
+          || !file.setWritable(true)) {
+        throw new IOException("unable to set file permissions");
+      }
+      save();
     }
   }
 
@@ -75,7 +73,7 @@ public class FileCredentialStore implements CredentialStore {
     lock.lock();
     try {
       credentials.store(userId, credential);
-      writeCredentials(userId, credential);
+      save();
     } finally {
       lock.unlock();
     }
@@ -86,7 +84,7 @@ public class FileCredentialStore implements CredentialStore {
     lock.lock();
     try {
       credentials.delete(userId);
-      writeCredentials(userId, credential);
+      save();
     } finally {
       lock.unlock();
     }
@@ -111,7 +109,7 @@ public class FileCredentialStore implements CredentialStore {
     }
   }
 
-  private void writeCredentials(String userId, Credential credential) throws IOException {
+  private void save() throws IOException {
     FileOutputStream fos = new FileOutputStream(file);
     try {
       JsonGenerator generator = jsonFactory.createJsonGenerator(fos, Charsets.UTF_8);

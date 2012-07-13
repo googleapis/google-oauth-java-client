@@ -19,9 +19,8 @@ import com.google.api.client.json.GenericJson;
 import com.google.api.client.util.Key;
 
 /**
- * Persisted credential implementation to be used exclusively with
- * {@link FileCredentialStore}.
- * 
+ * Persisted credential implementation to be used exclusively with {@link FileCredentialStore}.
+ *
  * @author Rafael Naufal
  * @since 1.11
  */
@@ -41,31 +40,26 @@ public class FilePersistedCredential extends GenericJson {
 
   /**
    * Store information from the credential.
-   * 
-   * @param userId
-   *          user ID whose credential needs to be stored
-   * @param credential
-   *          credential whose {@link Credential#getAccessToken access token},
-   *          {@link Credential#getRefreshToken refresh token}, and
-   *          {@link Credential#getExpirationTimeMilliseconds expiration time}
-   *          need to be stored
+   *
+   * @param credential credential whose {@link Credential#getAccessToken access token},
+   *        {@link Credential#getRefreshToken refresh token}, and
+   *        {@link Credential#getExpirationTimeMilliseconds expiration time} need to be stored
    */
-  void store(String userId, Credential credential) {
-    this.accessToken = credential.getAccessToken();
-    this.refreshToken = credential.getRefreshToken();
-    this.expirationTimeMillis = credential.getExpirationTimeMilliseconds();
+  void store(Credential credential) {
+    accessToken = credential.getAccessToken();
+    refreshToken = credential.getRefreshToken();
+    expirationTimeMillis = credential.getExpirationTimeMilliseconds();
   }
 
   /**
-   * @param credential
-   *          credential whose {@link Credential#setAccessToken access token},
-   *          {@link Credential#setRefreshToken refresh token}, and
-   *          {@link Credential#setExpirationTimeMilliseconds expiration time}
-   *          need to be set if the credential already exists in storage
+   * @param credential credential whose {@link Credential#setAccessToken access token},
+   *        {@link Credential#setRefreshToken refresh token}, and
+   *        {@link Credential#setExpirationTimeMilliseconds expiration time} need to be set if the
+   *        credential already exists in storage
    */
-  void load(String userId, Credential credential) {
-    credential.setAccessToken(this.accessToken);
-    credential.setRefreshToken(this.refreshToken);
-    credential.setExpirationTimeMilliseconds(this.expirationTimeMillis);
+  void load(Credential credential) {
+    credential.setAccessToken(accessToken);
+    credential.setRefreshToken(refreshToken);
+    credential.setExpirationTimeMilliseconds(expirationTimeMillis);
   }
 }
