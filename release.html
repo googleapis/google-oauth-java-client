@@ -101,7 +101,8 @@ sed -i -e "s@${ESC_VER_CUR}${VER_SUFFIX}@${ESC_VER_NEXT}${VER_SUFFIX}@g" -e "s@$
 sed -i -e "s@${ESC_VER_CUR}@${ESC_VER_NEXT}@g" -e "s@${ESC_VER_PREV}@${ESC_VER_CUR}@g" release.html
 echo -n && read -e -p "Version which comes after ${VER_NEXT}: " NV && sed -i -e "s@VER_NEXT=${ESC_VER_NEXT}@VER_NEXT=${NV}@g" release.html
 </pre></li>
-  <li>Commit and push: <pre>
+<li>For 1.11: Add -java6 to jdiff.xml. Remove this line from release.html after that.</li>
+<li>Commit and push: <pre>
 hg commit -m "Start next minor version"
 hg push
 </pre></li>
@@ -125,6 +126,7 @@ mvn project-info-reports:dependencies
 cp google-oauth-client/target/site/dependencies.html google-oauth-client-assembly/dependencies/dependencies.html
 cp google-oauth-client-appengine/target/site/dependencies.html google-oauth-client-assembly/dependencies/appengine-dependencies.html
 cp google-oauth-client-servlet/target/site/dependencies.html google-oauth-client-assembly/dependencies/servlet-dependencies.html
+cp google-oauth-client-java6/target/site/dependencies.html google-oauth-client-assembly/dependencies/java6-dependencies.html
 hg commit -m "prepare 1.11.0-beta for release"
 hg push
 
