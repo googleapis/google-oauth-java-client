@@ -17,8 +17,6 @@ package com.google.api.client.extensions.auth.helpers;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 
-import java.io.IOException;
-
 import javax.jdo.PersistenceManager;
 import javax.jdo.annotations.PersistenceCapable;
 
@@ -75,10 +73,15 @@ public interface ThreeLeggedFlow {
    * complete function to allow us to exchange the code with the authentication server for a
    * {@link Credential}.
    *
+   * <p>
+   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.10 it threw
+   * an {@link java.io.IOException}.
+   * </p>
+   *
    * @param authorizationCode Code or token obtained after the user grants permission
    * @return {@link Credential} object that is obtained from token server
    *
-   * @throws IOException When an error occurs when communicating with the token server
+   * @throws Exception When an error occurs when communicating with the token server
    */
-  Credential complete(String authorizationCode) throws IOException;
+  Credential complete(String authorizationCode) throws Exception;
 }

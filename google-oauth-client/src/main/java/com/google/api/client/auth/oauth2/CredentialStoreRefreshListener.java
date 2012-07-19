@@ -47,12 +47,12 @@ public final class CredentialStoreRefreshListener implements CredentialRefreshLi
   }
 
   public void onTokenResponse(Credential credential, TokenResponse tokenResponse)
-      throws IOException {
+      throws Exception {
     makePersistent(credential);
   }
 
   public void onTokenErrorResponse(Credential credential, TokenErrorResponse tokenErrorResponse)
-      throws IOException {
+      throws Exception {
     makePersistent(credential);
   }
 
@@ -69,7 +69,7 @@ public final class CredentialStoreRefreshListener implements CredentialRefreshLi
    * done prior to 1.10.
    * </p>
    */
-  public void makePersistent(Credential credential) throws IOException {
+  public void makePersistent(Credential credential) throws Exception {
     credentialStore.store(userId, credential);
   }
 }

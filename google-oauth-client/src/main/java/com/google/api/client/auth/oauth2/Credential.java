@@ -100,7 +100,7 @@ public class Credential
      * @param request HTTP request
      * @param accessToken access token
      */
-    void intercept(HttpRequest request, String accessToken) throws IOException;
+    void intercept(HttpRequest request, String accessToken) throws Exception;
 
     /**
      * Retrieve the original access token in the HTTP request, as provided in
@@ -250,8 +250,13 @@ public class Credential
    * Upgrade warning: since version 1.10 a {@link TokenResponseException} is thrown if a 4xx is
    * encountered while refreshing the token, this was not done prior to 1.10.
    * </p>
+   *
+   * <p>
+   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.10 it threw
+   * an {@link IOException}.
+   * </p>
    */
-  public void intercept(HttpRequest request) throws IOException {
+  public void intercept(HttpRequest request) throws Exception {
     lock.lock();
     try {
       Long expiresIn = getExpiresInSeconds();
@@ -293,7 +298,7 @@ public class Credential
         } finally {
           lock.unlock();
         }
-      } catch (IOException exception) {
+      } catch (Exception exception) {
         LOGGER.log(Level.SEVERE, "unable to refresh token", exception);
       }
     }
@@ -499,9 +504,14 @@ public class Credential
    * encountered while refreshing the token, this was not done prior to 1.10.
    * </p>
    *
+   * <p>
+   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.10 it threw
+   * an {@link IOException}.
+   * </p>
+   *
    * @return whether a new access token was successfully retrieved
    */
-  public final boolean refreshToken() throws IOException {
+  public final boolean refreshToken() throws Exception {
     lock.lock();
     try {
       try {
@@ -578,12 +588,16 @@ public class Credential
    * thread synchronization is already taken care of inside {@link #refreshToken()}.
    * </p>
    *
+   * <p>
+   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.10 it threw
+   * an {@link IOException}.
+   * </p>
+   *
    * @return successful response from the token server or {@code null} if it is not possible to
    *         refresh the access token
-   * @throws IOException I/O exception
    * @throws TokenResponseException if an error response was received from the token server
    */
-  protected TokenResponse executeRefreshToken() throws IOException {
+  protected TokenResponse executeRefreshToken() throws Exception {
     if (refreshToken == null) {
       return null;
     }

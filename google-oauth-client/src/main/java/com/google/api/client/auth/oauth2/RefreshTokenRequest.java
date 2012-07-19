@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -27,19 +27,19 @@ import com.google.common.base.Preconditions;
  * OAuth 2.0 request to refresh an access token using a refresh token as specified in <a
  * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-6">Refreshing an Access
  * Token</a>.
- * 
+ *
  * <p>
  * Use {@link Credential} to access protected resources from the resource server using
  * the {@link TokenResponse} returned by {@link #execute()}. On error, it will instead throw
  * {@link TokenResponseException}.
  * </p>
- * 
+ *
  * <p>
  * Sample usage:
  * </p>
- * 
+ *
  * <pre>
-  static void refreshAccessToken() throws IOException {
+  static void refreshAccessToken() throws Exception {
     try {
       TokenResponse response =
           new RefreshTokenRequest(new NetHttpTransport(), new JacksonFactory(), new GenericUrl(
@@ -62,17 +62,17 @@ import com.google.common.base.Preconditions;
     }
   }
  * </pre>
- * 
+ *
  * <p>
  * Some OAuth 2.0 providers don't support {@link BasicAuthentication} but instead support
  * {@link ClientParametersAuthentication}. In the above sample code, simply replace the class name
  * and it will work the same way.
  * </p>
- * 
+ *
  * <p>
  * Implementation is not thread-safe.
  * </p>
- * 
+ *
  * @since 1.7
  * @author Yaniv Inbar
  */
@@ -131,7 +131,7 @@ public class RefreshTokenRequest extends TokenRequest {
 
   /**
    * Sets the refresh token issued to the client.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.

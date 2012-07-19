@@ -33,7 +33,6 @@ import com.google.api.client.util.GenericData;
 
 import junit.framework.TestCase;
 
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -52,21 +51,21 @@ public class AccessProtectedResourceTest extends TestCase {
   static final String CLIENT_SECRET = "secret";
   static final String REFRESH_TOKEN = "refreshToken";
 
-  public void testAccessProtectedResource_header() throws IOException {
+  public void testAccessProtectedResource_header() throws Exception {
     AccessProtectedResource credential =
         new AccessProtectedResource(ACCESS_TOKEN, Method.AUTHORIZATION_HEADER);
     HttpRequest request = subtestAccessProtectedResource(credential);
     assertEquals("OAuth abc", request.getHeaders().getAuthorization());
   }
 
-  public void testAccessProtectedResource_queryParam() throws IOException {
+  public void testAccessProtectedResource_queryParam() throws Exception {
     AccessProtectedResource credential =
         new AccessProtectedResource(ACCESS_TOKEN, Method.QUERY_PARAMETER);
     HttpRequest request = subtestAccessProtectedResource(credential);
     assertEquals(ACCESS_TOKEN, request.getUrl().get("oauth_token"));
   }
 
-  public void testAccessProtectedResource_body() throws IOException {
+  public void testAccessProtectedResource_body() throws Exception {
     AccessProtectedResource credential =
         new AccessProtectedResource(ACCESS_TOKEN, Method.FORM_ENCODED_BODY);
     HttpRequest request = subtestAccessProtectedResource(credential);
@@ -75,7 +74,7 @@ public class AccessProtectedResourceTest extends TestCase {
   }
 
   private HttpRequest subtestAccessProtectedResource(AccessProtectedResource credential)
-      throws IOException {
+      throws Exception {
     MockHttpTransport transport = new MockHttpTransport();
     HttpRequestFactory requestFactory = transport.createRequestFactory(credential);
     HttpRequest request = requestFactory.buildDeleteRequest(HttpTesting.SIMPLE_GENERIC_URL);
@@ -83,7 +82,7 @@ public class AccessProtectedResourceTest extends TestCase {
     return request;
   }
 
-  public void testAccessProtectedResource_expiredHeader() throws IOException {
+  public void testAccessProtectedResource_expiredHeader() throws Exception {
     HttpRequest request =
         subtestAccessProtectedResource_expired(Method.AUTHORIZATION_HEADER, new CheckAuth() {
 
@@ -94,7 +93,7 @@ public class AccessProtectedResourceTest extends TestCase {
     assertEquals("OAuth def", request.getHeaders().getAuthorization());
   }
 
-  public void testAccessProtectedResource_expiredQueryParam() throws IOException {
+  public void testAccessProtectedResource_expiredQueryParam() throws Exception {
     HttpRequest request =
         subtestAccessProtectedResource_expired(Method.QUERY_PARAMETER, new CheckAuth() {
 
@@ -105,7 +104,7 @@ public class AccessProtectedResourceTest extends TestCase {
     assertEquals(NEW_ACCESS_TOKEN, request.getUrl().get("oauth_token"));
   }
 
-  public void testAccessProtectedResource_expiredBody() throws IOException {
+  public void testAccessProtectedResource_expiredBody() throws Exception {
     HttpRequest request =
         subtestAccessProtectedResource_expired(Method.FORM_ENCODED_BODY, new CheckAuth() {
 
@@ -152,7 +151,7 @@ public class AccessProtectedResourceTest extends TestCase {
   }
 
   private HttpRequest subtestAccessProtectedResource_expired(
-      Method method, final CheckAuth checkAuth) throws IOException {
+      Method method, final CheckAuth checkAuth) throws Exception {
     final AccessProtectedResource credential = new AccessProtectedResource(ACCESS_TOKEN,
         method,
         new AccessTokenTransport(),
@@ -191,13 +190,13 @@ public class AccessProtectedResourceTest extends TestCase {
     return request;
   }
 
-  public void testRefreshToken_noRefreshToken() throws IOException {
+  public void testRefreshToken_noRefreshToken() throws Exception {
     AccessProtectedResource accesss =
         new AccessProtectedResource(ACCESS_TOKEN, Method.QUERY_PARAMETER);
     assertFalse(accesss.refreshToken());
   }
 
-  public void testRefreshToken_noRefreshToken2() throws IOException {
+  public void testRefreshToken_noRefreshToken2() throws Exception {
     AccessTokenTransport transport = new AccessTokenTransport();
     AccessProtectedResource access = new AccessProtectedResource(ACCESS_TOKEN,
         Method.QUERY_PARAMETER,
@@ -211,7 +210,7 @@ public class AccessProtectedResourceTest extends TestCase {
     assertEquals(ACCESS_TOKEN, access.getAccessToken());
   }
 
-  public void testRefreshToken_refreshToken() throws IOException {
+  public void testRefreshToken_refreshToken() throws Exception {
     AccessTokenTransport transport = new AccessTokenTransport();
     AccessProtectedResource access = new AccessProtectedResource(ACCESS_TOKEN,
         Method.QUERY_PARAMETER,
@@ -225,7 +224,7 @@ public class AccessProtectedResourceTest extends TestCase {
     assertEquals(NEW_ACCESS_TOKEN, access.getAccessToken());
   }
 
-  public void testRefreshToken_refreshTokenError() throws IOException {
+  public void testRefreshToken_refreshTokenError() throws Exception {
     AccessTokenTransport transport = new AccessTokenTransport();
     transport.error = true;
     AccessProtectedResource access = new AccessProtectedResource(ACCESS_TOKEN,
