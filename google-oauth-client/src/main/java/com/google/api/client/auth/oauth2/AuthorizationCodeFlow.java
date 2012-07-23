@@ -24,6 +24,7 @@ import com.google.api.client.util.Clock;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -194,7 +195,7 @@ public class AuthorizationCodeFlow {
    *
    * <pre>
   static TokenResponse requestAccessToken(AuthorizationCodeFlow flow, String code)
-      throws Exception, TokenResponseException {
+      throws IOException, TokenResponseException {
     return flow.newTokenRequest(code).setRedirectUri("https://client.example.com/rd").execute();
   }
    * </pre>
@@ -212,8 +213,8 @@ public class AuthorizationCodeFlow {
    * the credential store.
    *
    * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.10 it threw
-   * an {@link java.io.IOException}.
+   * Upgrade warning: since version 1.10 this method throws an {@link IOException}. This was not
+   * done prior to 1.10.
    * </p>
    *
    * @param response token response
@@ -221,7 +222,7 @@ public class AuthorizationCodeFlow {
    * @return newly created credential
    */
   public Credential createAndStoreCredential(TokenResponse response, String userId)
-      throws Exception {
+      throws IOException {
     Credential credential = newCredential(userId).setFromTokenResponse(response);
     if (credentialStore != null) {
       credentialStore.store(userId, credential);
@@ -233,15 +234,15 @@ public class AuthorizationCodeFlow {
    * Loads the credential of the given user ID from the credential store.
    *
    * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.10 it threw
-   * an {@link java.io.IOException}.
+   * Upgrade warning: since version 1.10 this method throws an {@link IOException}. This was not
+   * done prior to 1.10.
    * </p>
    *
    * @param userId user ID or {@code null} if not using a persisted credential store
    * @return credential found in the credential store of the given user ID or {@code null} for none
    *         found
    */
-  public Credential loadCredential(String userId) throws Exception {
+  public Credential loadCredential(String userId) throws IOException {
     if (credentialStore == null) {
       return null;
     }

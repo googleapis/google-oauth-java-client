@@ -27,6 +27,8 @@ import com.google.api.client.util.Key;
 import com.google.api.client.util.Value;
 import com.google.common.base.Preconditions;
 
+import java.io.IOException;
+
 /**
  * OAuth 2.0 (draft 10) request for an access token as specified in <a
  * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-10#section-4">Obtaining an Access Token</a>.
@@ -454,16 +456,11 @@ public class AccessTokenRequest extends GenericData {
    * To execute and parse the response to {@link AccessTokenResponse}, use {@link #execute()}
    * </p>
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.10 it threw
-   * an {@link java.io.IOException}.
-   * </p>
-   *
    * @return HTTP response, which can then be parsed directly using
    *         {@link HttpResponse#parseAs(Class)} or some other parsing method
    * @throws HttpResponseException for an HTTP error response
    */
-  public final HttpResponse executeUnparsed() throws Exception {
+  public final HttpResponse executeUnparsed() throws IOException {
     HttpRequest request = transport.createRequestFactory().buildPostRequest(
         new GenericUrl(authorizationServerUrl), new UrlEncodedContent(this));
     request.addParser(new JsonHttpParser(jsonFactory));
@@ -482,15 +479,10 @@ public class AccessTokenRequest extends GenericData {
    * To execute without parsing the response, use {@link #executeUnparsed()}
    * </p>
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.10 it threw
-   * an {@link java.io.IOException}.
-   * </p>
-   *
    * @return parsed access token response
    * @throws HttpResponseException for an HTTP error response
    */
-  public final AccessTokenResponse execute() throws Exception {
+  public final AccessTokenResponse execute() throws IOException {
     return executeUnparsed().parseAs(AccessTokenResponse.class);
   }
 }

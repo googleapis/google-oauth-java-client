@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2011 Google Inc.
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -27,19 +27,19 @@ import java.util.Map;
 /**
  * Client credentials specified as URL-encoded parameters in the HTTP request body as specified in
  * <a href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-2.3.1">Client Password</a>
- *
+ * 
  * <p>
  * This implementation assumes that the {@link HttpRequest#getContent()} is {@code null} or an
  * instance of {@link UrlEncodedContent}. This is used as the client authentication in
  * {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}.
  * </p>
- *
+ * 
  * <p>
  * Sample usage:
  * </p>
- *
+ * 
  * <pre>
-  static void requestAccessToken() throws Exception {
+  static void requestAccessToken() throws IOException {
     try {
       TokenResponse response = new AuthorizationCodeTokenRequest(new NetHttpTransport(),
           new JacksonFactory(), new GenericUrl("https://server.example.com/token"),
@@ -62,11 +62,11 @@ import java.util.Map;
     }
   }
  * </pre>
- *
+ * 
  * <p>
  * Implementation is immutable and thread-safe.
  * </p>
- *
+ * 
  * @since 1.7
  * @author Yaniv Inbar
  */

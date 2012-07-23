@@ -267,14 +267,9 @@ public class AccessProtectedResource
    * token so other threads calling {@link #getAccessToken()} must wait until the new access token
    * has been retrieved.
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.10 it threw
-   * an {@link java.io.IOException}.
-   * </p>
-   *
    * @return whether a new access token was retrieved
    */
-  public final boolean refreshToken() throws Exception {
+  public final boolean refreshToken() throws IOException {
     tokenLock.lock();
     try {
       return executeRefreshToken();
@@ -358,7 +353,7 @@ public class AccessProtectedResource
         } catch (HttpResponseException e) {
           LOGGER.severe(e.getMessage());
         }
-      } catch (Exception exception) {
+      } catch (IOException exception) {
         LOGGER.severe(exception.toString());
       }
     }
@@ -379,14 +374,10 @@ public class AccessProtectedResource
    * taken care of inside {@link #refreshToken()}, where this is called from.
    * </p>
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.10 it threw
-   * an {@link java.io.IOException}.
-   * </p>
-   *
    * @return whether a new access token was successfully retrieved
+   * @throws IOException I/O exception
    */
-  protected boolean executeRefreshToken() throws Exception {
+  protected boolean executeRefreshToken() throws IOException {
     if (refreshToken != null) {
       RefreshTokenGrant request = new RefreshTokenGrant(transport,
           jsonFactory,
@@ -404,17 +395,13 @@ public class AccessProtectedResource
    * token from the response or {@code null} for an error response (whose error message is silently
    * ignored).
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.10 it threw
-   * an {@link java.io.IOException}.
-   * </p>
-   *
    * @param request access token request
    * @return whether a new access token was successfully retrieved
-   * @throws Exception any problem except {@link HttpResponseException} which is silently handled
+   * @throws IOException any I/O problem except {@link HttpResponseException} which is silently
+   *         handled
    * @since 1.5
    */
-  protected final boolean executeAccessTokenRequest(AccessTokenRequest request) throws Exception {
+  protected final boolean executeAccessTokenRequest(AccessTokenRequest request) throws IOException {
     String newAccessToken;
     try {
       newAccessToken = request.execute().accessToken;

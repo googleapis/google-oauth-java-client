@@ -14,6 +14,7 @@
 
 package com.google.api.client.auth.oauth2;
 
+import java.io.IOException;
 
 /**
  * OAuth 2.0 credential persistence store interface to provide a fully pluggable storage mechanism.
@@ -37,8 +38,8 @@ public interface CredentialStore {
    * Loads the credential for the given user ID.
    *
    * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.10 it threw
-   * an {@link java.io.IOException}.
+   * Upgrade warning: since version 1.10 this method throws an {@link IOException}. This was not
+   * done prior to 1.10.
    * </p>
    *
    * @param userId user ID whose credential needs to be loaded
@@ -49,14 +50,14 @@ public interface CredentialStore {
    * @return {@code true} if the credential has been successfully found and loaded or {@code false}
    *         otherwise
    */
-  boolean load(String userId, Credential credential) throws Exception;
+  boolean load(String userId, Credential credential) throws IOException;
 
   /**
    * Stores the credential of the given user ID.
    *
    * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.10 it threw
-   * an {@link java.io.IOException}.
+   * Upgrade warning: since version 1.10 this method throws an {@link IOException}. This was not
+   * done prior to 1.10.
    * </p>
    *
    * @param userId user ID whose credential needs to be stored
@@ -64,18 +65,18 @@ public interface CredentialStore {
    *        {@link Credential#getRefreshToken refresh token}, and
    *        {@link Credential#getExpirationTimeMilliseconds expiration time} need to be stored
    */
-  void store(String userId, Credential credential) throws Exception;
+  void store(String userId, Credential credential) throws IOException;
 
   /**
    * Deletes the credential of the given user ID.
    *
    * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.10 it threw
-   * an {@link java.io.IOException}.
+   * Upgrade warning: since version 1.10 this method throws an {@link IOException}. This was not
+   * done prior to 1.10.
    * </p>
    *
    * @param userId user ID whose credential needs to be deleted
    * @param credential credential to be deleted
    */
-  void delete(String userId, Credential credential) throws Exception;
+  void delete(String userId, Credential credential) throws IOException;
 }

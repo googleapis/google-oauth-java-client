@@ -33,6 +33,7 @@ import com.google.api.client.util.GenericData;
 
 import junit.framework.TestCase;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -52,21 +53,21 @@ public class CredentialTest extends TestCase {
   static final String NEW_REFRESH_TOKEN = "newRefreshToken";
   static final long EXPIRES_IN = 3600;
 
-  public void testConstructor_header() throws Exception {
+  public void testConstructor_header() throws IOException {
     Credential credential =
         new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(ACCESS_TOKEN);
     HttpRequest request = subtestConstructor(credential);
     assertEquals("Bearer abc", request.getHeaders().getAuthorization());
   }
 
-  public void testConstructor_queryParam() throws Exception {
+  public void testConstructor_queryParam() throws IOException {
     Credential credential =
         new Credential(BearerToken.queryParameterAccessMethod()).setAccessToken(ACCESS_TOKEN);
     HttpRequest request = subtestConstructor(credential);
     assertEquals(ACCESS_TOKEN, request.getUrl().get("access_token"));
   }
 
-  public void testConstructor_body() throws Exception {
+  public void testConstructor_body() throws IOException {
     Credential credential =
         new Credential(BearerToken.formEncodedBodyAccessMethod()).setAccessToken(ACCESS_TOKEN);
     HttpRequest request = subtestConstructor(credential);
@@ -74,7 +75,7 @@ public class CredentialTest extends TestCase {
         ((Map<?, ?>) ((UrlEncodedContent) request.getContent()).getData()).get("access_token"));
   }
 
-  private HttpRequest subtestConstructor(Credential credential) throws Exception {
+  private HttpRequest subtestConstructor(Credential credential) throws IOException {
     MockHttpTransport transport = new MockHttpTransport();
     HttpRequestFactory requestFactory = transport.createRequestFactory(credential);
     HttpRequest request = requestFactory.buildDeleteRequest(HttpTesting.SIMPLE_GENERIC_URL);
@@ -82,7 +83,7 @@ public class CredentialTest extends TestCase {
     return request;
   }
 
-  public void testConstructor_expiredHeader() throws Exception {
+  public void testConstructor_expiredHeader() throws IOException {
     HttpRequest request =
         subtestConstructor_expired(BearerToken.authorizationHeaderAccessMethod(), new CheckAuth() {
 
@@ -93,7 +94,7 @@ public class CredentialTest extends TestCase {
     assertEquals("Bearer def", request.getHeaders().getAuthorization());
   }
 
-  public void testConstructor_expiredQueryParam() throws Exception {
+  public void testConstructor_expiredQueryParam() throws IOException {
     HttpRequest request =
         subtestConstructor_expired(BearerToken.queryParameterAccessMethod(), new CheckAuth() {
 
@@ -104,7 +105,7 @@ public class CredentialTest extends TestCase {
     assertEquals(NEW_ACCESS_TOKEN, request.getUrl().get("access_token"));
   }
 
-  public void testConstructor_expiredBody() throws Exception {
+  public void testConstructor_expiredBody() throws IOException {
     HttpRequest request =
         subtestConstructor_expired(BearerToken.formEncodedBodyAccessMethod(), new CheckAuth() {
 
@@ -159,7 +160,7 @@ public class CredentialTest extends TestCase {
   }
 
   private HttpRequest subtestConstructor_expired(
-      Credential.AccessMethod method, final CheckAuth checkAuth) throws Exception {
+      Credential.AccessMethod method, final CheckAuth checkAuth) throws IOException {
     final Credential credential =
         new Credential.Builder(method).setTransport(new AccessTokenTransport())
             .setJsonFactory(JSON_FACTORY)
@@ -198,13 +199,13 @@ public class CredentialTest extends TestCase {
     return request;
   }
 
-  public void testRefreshToken_noRefreshToken() throws Exception {
+  public void testRefreshToken_noRefreshToken() throws IOException {
     Credential access =
         new Credential(BearerToken.queryParameterAccessMethod()).setAccessToken(ACCESS_TOKEN);
     assertFalse(access.refreshToken());
   }
 
-  public void testRefreshToken_noRefreshToken2() throws Exception {
+  public void testRefreshToken_noRefreshToken2() throws IOException {
     AccessTokenTransport transport = new AccessTokenTransport();
     Credential access =
         new Credential.Builder(BearerToken.queryParameterAccessMethod()).setTransport(transport)
@@ -219,7 +220,7 @@ public class CredentialTest extends TestCase {
     assertNull(access.getExpirationTimeMilliseconds());
   }
 
-  public void testRefreshToken_refreshToken() throws Exception {
+  public void testRefreshToken_refreshToken() throws IOException {
     AccessTokenTransport transport = new AccessTokenTransport();
     Credential access =
         new Credential.Builder(BearerToken.queryParameterAccessMethod()).setTransport(transport)
@@ -245,7 +246,7 @@ public class CredentialTest extends TestCase {
     }
   }
 
-  public void testRefreshToken_refreshTokenErrorWith400() throws Exception {
+  public void testRefreshToken_refreshTokenErrorWith400() throws IOException {
     AccessTokenTransport transport = new AccessTokenTransport();
     transport.error400 = true;
     Credential access =
@@ -268,7 +269,7 @@ public class CredentialTest extends TestCase {
     assertNull(access.getExpirationTimeMilliseconds());
   }
 
-  public void testRefreshToken_refreshTokenErrorWith500() throws Exception {
+  public void testRefreshToken_refreshTokenErrorWith500() throws IOException {
     AccessTokenTransport transport = new AccessTokenTransport();
     transport.error500 = true;
     Credential access =

@@ -23,6 +23,8 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.common.base.Preconditions;
 
+import java.io.IOException;
+
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.annotations.NotPersistent;
@@ -108,7 +110,7 @@ public class OAuth2ThreeLeggedFlow implements ThreeLeggedFlow {
     authorizationUrl = authorizeUrl.build();
   }
 
-  public Credential complete(String authorizationCode) throws Exception {
+  public Credential complete(String authorizationCode) throws IOException {
     Preconditions.checkNotNull(transport, "Must call setHttpTransport before calling complete.");
 
     // Ask the authorization server for an access and refresh token in exchange

@@ -110,19 +110,14 @@ public final class OAuth2Credential implements Credential, InstanceCallbacks {
    * Force a refresh of this credential if possible using the {@link HttpTransport} and
    * {@link JsonFactory} objects provided for the network communication.
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.10 it threw
-   * an {@link IOException}.
-   * </p>
-   *
    * @param transport {@link HttpTransport} to use for the refresh
    * @param factory {@link JsonFactory} to use to parse the auth response
    *
    * @return Success or failure of refresh operation
    *
-   * @throws Exception When the credential can not communicate with the token server.
+   * @throws IOException When the credential can not communicate with the token server.
    */
-  public boolean refresh(HttpTransport transport, JsonFactory factory) throws Exception {
+  public boolean refresh(HttpTransport transport, JsonFactory factory) throws IOException {
     return authInterceptor.refreshToken();
   }
 

@@ -25,6 +25,8 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.common.base.Preconditions;
 
+import java.io.IOException;
+
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.annotations.NotPersistent;
@@ -98,11 +100,6 @@ public class OAuthHmacThreeLeggedFlow implements ThreeLeggedFlow {
   /**
    * Create an OAuthThreeLeggedFlow instance from the required information.
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.10 it threw
-   * an {@link java.io.IOException}.
-   * </p>
-   *
    * @param userId Key that can be used to associate this flow with an end user.
    * @param consumerKey Key that identifies the server to the service provider.
    * @param consumerSecret Secret that is shared between the server and the service provider.
@@ -111,7 +108,7 @@ public class OAuthHmacThreeLeggedFlow implements ThreeLeggedFlow {
    * @param callbackUrl Url which the server should redirect the user to after obtaining
    *        authorization.
    *
-   * @throws Exception Exception thrown when the flow is unable to communicate with the service
+   * @throws IOException Exception thrown when the flow is unable to communicate with the service
    *         provider.
    */
   public OAuthHmacThreeLeggedFlow(String userId,
@@ -120,7 +117,7 @@ public class OAuthHmacThreeLeggedFlow implements ThreeLeggedFlow {
       String authorizationServerUrl,
       String temporaryTokenUrl,
       String callbackUrl,
-      HttpTransport transport) throws Exception {
+      HttpTransport transport) throws IOException {
 
     this.userId = userId;
     this.consumerSecret = consumerSecret;
@@ -151,7 +148,7 @@ public class OAuthHmacThreeLeggedFlow implements ThreeLeggedFlow {
     return authorizationUrl;
   }
 
-  public Credential complete(String authorizationCode) throws Exception {
+  public Credential complete(String authorizationCode) throws IOException {
     Preconditions.checkNotNull(transport, "Must call setHttpTransport before calling complete.");
 
     OAuthGetAccessToken accessToken = new OAuthGetAccessToken(authorizationServerUrl);
