@@ -48,10 +48,14 @@
   </developers>
 
   <!--
-    If you add a new module, make sure to also add it in the jdiff.xml file, the
-    dependencies section of google-oauth-client-assembly/pom.xml, and in this
-    pom.xml file below in the dependencyManagement and maven-javadoc-plugin
-    sections.
+    If you add a new module, make sure to also add it in the following places:
+    * release.html
+    * google-oauth-client-assembly/pom.xml
+    * google-oauth-client-assembly/readme.xml
+    * google-oauth-client-assembly/.classpath
+    * google-oauth-client-assembly/dependencies/*-dependencies.html
+    * jdiff.xml
+    * This pom.xml file below in the dependencyManagement and maven-javadoc-plugin sections
   -->
   <modules>
     <module>google-oauth-client</module>
