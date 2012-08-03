@@ -53,7 +53,9 @@
     * google-oauth-client-assembly/pom.xml
     * google-oauth-client-assembly/readme.xml
     * google-oauth-client-assembly/.classpath
-    * google-oauth-client-assembly/dependencies/*-dependencies.html
+    * google-oauth-client-assembly/dependencies/<name>-dependencies.html
+        (use mvn project-info-reports:dependencies and copy from
+        google-oauth-client-<name>/target/site/dependencies.html)
     * jdiff.xml
     * This pom.xml file below in the dependencyManagement and maven-javadoc-plugin sections
   -->
@@ -117,6 +119,11 @@
       <dependency>
         <groupId>com.google.http-client</groupId>
         <artifactId>google-http-client-appengine</artifactId>
+        <version>${project.http.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.http-client</groupId>
+        <artifactId>google-http-client-jackson</artifactId>
         <version>${project.http.version}</version>
       </dependency>
       <dependency>

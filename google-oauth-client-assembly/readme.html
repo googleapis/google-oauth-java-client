@@ -39,6 +39,24 @@ For information on how to add these libraries to your Maven project please see
 A .classpath file snippet that can be included in your project's .classpath has been provided <a href='.classpath'>here</a>.
 Please only use the classpathentry's you actually need (see below for details).
 
+  <h3>ProGuard</h3>
+  <p>
+    A ProGuard configuration file <a href="proguard-google-oauth-client.txt">proguard-google-oauth-client.txt</a>
+    is included for common settings for using the library. On Android projects,
+    you may want to add a reference to
+    <code>proguard-google-oauth-client.txt</code>
+    in the
+    <code>project.properties</code>
+    file under the
+    <code>proguard.config</code>
+    property.
+  </p>
+  <p>
+    Please read <a
+      href="http://code.google.com/p/google-http-java-client/wiki/Setup#ProGuard">Setup
+      ProGuard</a> for more details.
+  </p>
+
 <h3>Android Dependencies</h3>
 The following are the jars from the <a href='libs'>libs</a> folder required for android applications or a newer compatible version:
 <ul>
