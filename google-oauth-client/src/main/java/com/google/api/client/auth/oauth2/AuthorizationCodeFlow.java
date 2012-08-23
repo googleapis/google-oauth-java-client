@@ -221,11 +221,6 @@ public class AuthorizationCodeFlow {
    * Creates a new credential for the given user ID based on the given token response and store in
    * the credential store.
    *
-   * <p>
-   * Upgrade warning: since version 1.10 this method throws an {@link IOException}. This was not
-   * done prior to 1.10.
-   * </p>
-   *
    * @param response token response
    * @param userId user ID or {@code null} if not using a persisted credential store
    * @return newly created credential
@@ -241,11 +236,6 @@ public class AuthorizationCodeFlow {
 
   /**
    * Loads the credential of the given user ID from the credential store.
-   *
-   * <p>
-   * Upgrade warning: since version 1.10 this method throws an {@link IOException}. This was not
-   * done prior to 1.10.
-   * </p>
    *
    * @param userId user ID or {@code null} if not using a persisted credential store
    * @return credential found in the credential store of the given user ID or {@code null} for none

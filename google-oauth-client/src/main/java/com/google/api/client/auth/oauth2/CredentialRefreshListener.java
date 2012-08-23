@@ -42,11 +42,6 @@ public interface CredentialRefreshListener {
    * from the {@link TokenResponse}.
    * </p>
    *
-   * <p>
-   * Upgrade warning: since version 1.10 this method throws an {@link IOException}. This was not
-   * done prior to 1.10.
-   * </p>
-   *
    * @param credential credential on which the token refresh applied
    * @param tokenResponse token response
    */
@@ -61,11 +56,6 @@ public interface CredentialRefreshListener {
    * inside {@link Credential#refreshToken()}. Implementations can also assume that
    * {@link Credential#setAccessToken}, and {@link Credential#setExpiresInSeconds} have already been
    * called previously with {@code null} to clear their values.
-   * </p>
-   *
-   * <p>
-   * Upgrade warning: since version 1.10 this method throws an {@link IOException}. This was not
-   * done prior to 1.10.
    * </p>
    *
    * @param credential credential on which the token refresh applied

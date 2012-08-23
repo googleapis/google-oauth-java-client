@@ -61,14 +61,7 @@ public final class CredentialStoreRefreshListener implements CredentialRefreshLi
     return credentialStore;
   }
 
-  /**
-   * Stores the updated credential in the credential store.
-   *
-   * <p>
-   * Upgrade warning: since version 1.10 this method throws an {@link IOException}. This was not
-   * done prior to 1.10.
-   * </p>
-   */
+  /** Stores the updated credential in the credential store. */
   public void makePersistent(Credential credential) throws IOException {
     credentialStore.store(userId, credential);
   }

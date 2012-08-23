@@ -37,11 +37,6 @@ public interface CredentialStore {
   /**
    * Loads the credential for the given user ID.
    *
-   * <p>
-   * Upgrade warning: since version 1.10 this method throws an {@link IOException}. This was not
-   * done prior to 1.10.
-   * </p>
-   *
    * @param userId user ID whose credential needs to be loaded
    * @param credential credential whose {@link Credential#setAccessToken access token},
    *        {@link Credential#setRefreshToken refresh token}, and
@@ -55,11 +50,6 @@ public interface CredentialStore {
   /**
    * Stores the credential of the given user ID.
    *
-   * <p>
-   * Upgrade warning: since version 1.10 this method throws an {@link IOException}. This was not
-   * done prior to 1.10.
-   * </p>
-   *
    * @param userId user ID whose credential needs to be stored
    * @param credential credential whose {@link Credential#getAccessToken access token},
    *        {@link Credential#getRefreshToken refresh token}, and
@@ -69,11 +59,6 @@ public interface CredentialStore {
 
   /**
    * Deletes the credential of the given user ID.
-   *
-   * <p>
-   * Upgrade warning: since version 1.10 this method throws an {@link IOException}. This was not
-   * done prior to 1.10.
-   * </p>
    *
    * @param userId user ID whose credential needs to be deleted
    * @param credential credential to be deleted
