@@ -114,8 +114,17 @@ public class AuthorizationCodeFlow {
       CredentialStore credentialStore,
       HttpRequestInitializer requestInitializer,
       String scopes) {
-    this(method, transport, jsonFactory, tokenServerUrl, clientAuthentication, clientId,
-        authorizationServerEncodedUrl, credentialStore, requestInitializer, scopes, Clock.SYSTEM);
+    this(method,
+        transport,
+        jsonFactory,
+        tokenServerUrl,
+        clientAuthentication,
+        clientId,
+        authorizationServerEncodedUrl,
+        credentialStore,
+        requestInitializer,
+        scopes,
+        Clock.SYSTEM);
   }
 
   /**
@@ -203,9 +212,9 @@ public class AuthorizationCodeFlow {
    * @param authorizationCode authorization code.
    */
   public AuthorizationCodeTokenRequest newTokenRequest(String authorizationCode) {
-    return new AuthorizationCodeTokenRequest(transport, jsonFactory, new GenericUrl(
-        tokenServerEncodedUrl), authorizationCode).setClientAuthentication(clientAuthentication)
-        .setRequestInitializer(requestInitializer).setScopes(scopes);
+    return new AuthorizationCodeTokenRequest(transport, jsonFactory,
+        new GenericUrl(tokenServerEncodedUrl), authorizationCode).setClientAuthentication(
+        clientAuthentication).setRequestInitializer(requestInitializer).setScopes(scopes);
   }
 
   /**
@@ -348,28 +357,28 @@ public class AuthorizationCodeFlow {
      * Method of presenting the access token to the resource server (for example
      * {@link BearerToken#authorizationHeaderAccessMethod}).
      */
-    private final AccessMethod method;
+    private AccessMethod method;
 
     /** HTTP transport. */
-    private final HttpTransport transport;
+    private HttpTransport transport;
 
     /** JSON factory. */
-    private final JsonFactory jsonFactory;
+    private JsonFactory jsonFactory;
 
     /** Token server URL. */
-    private final GenericUrl tokenServerUrl;
+    private GenericUrl tokenServerUrl;
 
     /**
      * Client authentication or {@code null} for none (see
      * {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
      */
-    private final HttpExecuteInterceptor clientAuthentication;
+    private HttpExecuteInterceptor clientAuthentication;
 
     /** Client identifier. */
-    private final String clientId;
+    private String clientId;
 
     /** Authorization server encoded URL. */
-    private final String authorizationServerEncodedUrl;
+    private String authorizationServerEncodedUrl;
 
     /** Credential persistence store or {@code null} for none. */
     private CredentialStore credentialStore;
@@ -401,14 +410,13 @@ public class AuthorizationCodeFlow {
         HttpExecuteInterceptor clientAuthentication,
         String clientId,
         String authorizationServerEncodedUrl) {
-      this.method = Preconditions.checkNotNull(method);
-      this.transport = Preconditions.checkNotNull(transport);
-      this.jsonFactory = Preconditions.checkNotNull(jsonFactory);
-      this.tokenServerUrl = Preconditions.checkNotNull(tokenServerUrl);
-      this.clientAuthentication = clientAuthentication;
-      this.clientId = Preconditions.checkNotNull(clientId);
-      this.authorizationServerEncodedUrl =
-          Preconditions.checkNotNull(authorizationServerEncodedUrl);
+      setMethod(method);
+      setTransport(transport);
+      setJsonFactory(jsonFactory);
+      setTokenServerUrl(tokenServerUrl);
+      setClientAuthentication(clientAuthentication);
+      setClientId(clientId);
+      setAuthorizationServerEncodedUrl(authorizationServerEncodedUrl);
     }
 
     /** Returns a new instance of an authorization code flow based on this builder. */
@@ -434,9 +442,38 @@ public class AuthorizationCodeFlow {
       return method;
     }
 
+    /**
+     * Sets the method of presenting the access token to the resource server (for example
+     * {@link BearerToken#authorizationHeaderAccessMethod}).
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+     * @since 1.11
+     */
+    public Builder setMethod(AccessMethod method) {
+      this.method = Preconditions.checkNotNull(method);
+      return this;
+    }
+
     /** Returns the HTTP transport. */
     public final HttpTransport getTransport() {
       return transport;
+    }
+
+    /**
+     * Sets the HTTP transport.
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+     * @since 1.11
+     */
+    public Builder setTransport(HttpTransport transport) {
+      this.transport = Preconditions.checkNotNull(transport);
+      return this;
     }
 
     /** Returns the JSON factory. */
@@ -444,9 +481,37 @@ public class AuthorizationCodeFlow {
       return jsonFactory;
     }
 
+    /**
+     * Sets the JSON factory.
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+     * @since 1.11
+     */
+    public Builder setJsonFactory(JsonFactory jsonFactory) {
+      this.jsonFactory = Preconditions.checkNotNull(jsonFactory);
+      return this;
+    }
+
     /** Returns the token server URL. */
     public final GenericUrl getTokenServerUrl() {
       return tokenServerUrl;
+    }
+
+    /**
+     * Sets the token server URL.
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+     * @since 1.11
+     */
+    public Builder setTokenServerUrl(GenericUrl tokenServerUrl) {
+      this.tokenServerUrl = Preconditions.checkNotNull(tokenServerUrl);
+      return this;
     }
 
     /**
@@ -457,14 +522,58 @@ public class AuthorizationCodeFlow {
       return clientAuthentication;
     }
 
+    /**
+     * Sets the client authentication or {@code null} for none (see
+     * {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+     * @since 1.11
+     */
+    public Builder setClientAuthentication(HttpExecuteInterceptor clientAuthentication) {
+      this.clientAuthentication = clientAuthentication;
+      return this;
+    }
+
     /** Returns the client identifier. */
     public final String getClientId() {
       return clientId;
     }
 
+    /**
+     * Sets the client identifier.
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+     * @since 1.11
+     */
+    public Builder setClientId(String clientId) {
+      this.clientId = Preconditions.checkNotNull(clientId);
+      return this;
+    }
+
     /** Returns the authorization server encoded URL. */
     public final String getAuthorizationServerEncodedUrl() {
       return authorizationServerEncodedUrl;
+    }
+
+    /**
+     * Sets the authorization server encoded URL.
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+     * @since 1.11
+     */
+    public Builder setAuthorizationServerEncodedUrl(String authorizationServerEncodedUrl) {
+      this.authorizationServerEncodedUrl =
+          Preconditions.checkNotNull(authorizationServerEncodedUrl);
+      return this;
     }
 
     /** Returns the credential persistence store or {@code null} for none. */
@@ -473,8 +582,8 @@ public class AuthorizationCodeFlow {
     }
 
     /**
-     * Returns the clock passed along to the Credential or {@link Clock#SYSTEM} when system
-     * default is used.
+     * Returns the clock passed along to the Credential or {@link Clock#SYSTEM} when system default
+     * is used.
      * @since 1.9
      */
     public final Clock getClock() {
@@ -488,6 +597,10 @@ public class AuthorizationCodeFlow {
      * The default value for this parameter is {@link Clock#SYSTEM}
      * </p>
      *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
      * @since 1.9
      */
     public Builder setClock(Clock clock) {
