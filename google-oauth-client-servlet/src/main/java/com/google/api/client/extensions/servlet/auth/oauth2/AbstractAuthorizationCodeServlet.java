@@ -15,6 +15,7 @@
 package com.google.api.client.extensions.servlet.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
+import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.http.HttpResponseException;
 
@@ -137,8 +138,9 @@ public abstract class AbstractAuthorizationCodeServlet extends HttpServlet {
         }
       }
       // redirect to the authorization flow
-      String redirectUri = getRedirectUri(req);
-      resp.sendRedirect(flow.newAuthorizationUrl().setRedirectUri(redirectUri).build());
+      AuthorizationCodeRequestUrl authorizationUrl = flow.newAuthorizationUrl();
+      authorizationUrl.setRedirectUri(getRedirectUri(req));
+      onAuthorization(req, resp, authorizationUrl);
       credential = null;
     } finally {
       lock.unlock();
@@ -163,5 +165,33 @@ public abstract class AbstractAuthorizationCodeServlet extends HttpServlet {
    */
   protected final Credential getCredential() {
     return credential;
+  }
+
+  /**
+   * Handles user authorization by redirecting to the OAuth 2.0 authorization server.
+   *
+   * <p>
+   * Default implementation is to call {@code resp.sendRedirect(authorizationUrl.build())}.
+   * Subclasses may override to provide optional parameters such as the recommended state parameter.
+   * Sample implementation:
+   * </p>
+   *
+   * <pre>
+  &#64;Override
+  protected void onAuthorization(HttpServletRequest req, HttpServletResponse resp,
+      AuthorizationCodeRequestUrl authorizationUrl) throws ServletException, IOException {
+    authorizationUrl.setState("xyz");
+    super.onAuthorization(req, resp, authorizationUrl);
+  }
+   * </pre>
+   *
+   * @param authorizationUrl authorization code request URL
+   * @param req HTTP servlet request
+   * @throws ServletException servlet exception
+   * @since 1.11
+   */
+  protected void onAuthorization(HttpServletRequest req, HttpServletResponse resp,
+      AuthorizationCodeRequestUrl authorizationUrl) throws ServletException, IOException {
+    resp.sendRedirect(authorizationUrl.build());
   }
 }
