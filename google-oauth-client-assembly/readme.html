@@ -18,6 +18,7 @@
   <li>google-oauth-client-appengine is for Google App Engine.</li>
   <li>google-oauth-client-servlet is for the HTTP Servlet environment.</li>
   <li>google-oauth-client-java6 contains Java 6 extensions.</li>
+  <li>google-oauth-client-jetty is for Jetty.</li>
 </ul>
 
 <h3>Dependencies and Licenses</h3>
@@ -29,6 +30,7 @@ The dependency structure and licenses for the different libraries can be found h
   <li>google-oauth-client-appengine: <a href='dependencies/appengine-dependencies.html'>appengine-dependencies.html</a></li>
   <li>google-oauth-client-servlet: <a href='dependencies/servlet-dependencies.html'>servlet-dependencies.html</a></li>
   <li>google-oauth-client-java6: <a href='dependencies/java6-dependencies.html'>java6-dependencies.html</a></li>
+  <li>google-oauth-client-jetty: <a href='dependencies/jetty-dependencies.html'>jetty-dependencies.html</a></li>
 </ul>
 
 <h3>Maven Usage</h3>
@@ -61,7 +63,6 @@ Please only use the classpathentry's you actually need (see below for details).
 The following are the jars from the <a href='libs'>libs</a> folder required for Android applications or a newer compatible version:
 <ul>
   <li>google-oauth-client-${project.version}.jar</li>
-  <li>google-oauth-client-java6-${project.version}.jar (only for JDK >= 6)</li>
   <li>google-http-client-${project.http.version}.jar</li>
   <li>google-http-client-android-${project.http.version}.jar (only for SDK >= 2.1)</li>
   <li>[deprecated] google-http-client-android2-${project.http.version}.jar (only for SDK >= 2.1)</li>
@@ -82,7 +83,6 @@ folder required for Google App Engine applications or a newer compatible version
   <li>google-oauth-client-${project.version}.jar</li>
   <li>google-oauth-client-appengine-${project.version}.jar</li>
   <li>google-oauth-client-servlet-${project.version}.jar</li>
-  <li>google-oauth-client-java6-${project.version}.jar (only for JDK >= 6)</li>
   <li>google-http-client-${project.http.version}.jar</li>
   <li>google-http-client-appengine-${project.http.version}.jar</li>
   <li>gson-${project.gson.version}.jar</li>
@@ -102,7 +102,6 @@ folder required for Servlet applications or a newer compatible version:
 <ul>
   <li>google-oauth-client-${project.version}.jar</li>
   <li>google-oauth-client-servlet-${project.version}.jar</li>
-  <li>google-oauth-client-java6-${project.version}.jar (only for JDK >= 6)</li>
   <li>google-http-client-${project.http.version}.jar</li>
   <li>commons-logging-${project.commons-logging.version}.jar</li>
   <li>gson-${project.gson.version}.jar</li>
@@ -117,11 +116,18 @@ folder required for Servlet applications or a newer compatible version:
   <li>xpp3-${project.xpp3.version}.jar</li>
 </ul>
 
-<h3>General Purpose Java 5 Environment Dependencies</h3>
+<h3>General Purpose Java Environment Dependencies</h3>
 The following are the jars from the <a href='libs'>libs</a>
-folder required for general purpose Java 5 applications or a newer compatible version:
+folder required for general purpose Java applications or a newer compatible version:
 <ul>
   <li>google-oauth-client-${project.version}.jar</li>
+  <li>google-oauth-client-java6-${project.version}.jar (only for JDK >= 6)</li>
+  <li>google-oauth-client-jetty-${project.version}.jar
+    <ul>
+      <li>jetty-${project.jetty.version}.jar</li>
+      <li>jetty-util-${project.jetty.version}.jar</li>
+    </ul>
+  </li>
   <li>google-http-client-${project.http.version}.jar</li>
   <li>commons-logging-${project.commons-logging.version}.jar</li>
   <li>gson-${project.gson.version}.jar</li>

@@ -34,6 +34,10 @@
       <groupId>com.google.oauth-client</groupId>
       <artifactId>google-oauth-client-java6</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.google.oauth-client</groupId>
+      <artifactId>google-oauth-client-jetty</artifactId>
+    </dependency>
   </dependencies>
 
   <build>

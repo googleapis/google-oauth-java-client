@@ -49,21 +49,29 @@ public class FileCredentialStore implements CredentialStore {
   private final File file;
 
   /**
-   *
    * @param file File to store user credentials
    * @param jsonFactory JSON factory to serialize user credentials
    */
   public FileCredentialStore(File file, JsonFactory jsonFactory) throws IOException {
     this.file = Preconditions.checkNotNull(file);
     this.jsonFactory = Preconditions.checkNotNull(jsonFactory);
+    // create parent directory (if necessary)
+    File parentDir = file.getCanonicalFile().getParentFile();
+    if (parentDir != null && !parentDir.exists() && !parentDir.mkdirs()) {
+      throw new IOException("unable to create parent directory");
+    }
+    // create new file (if necessary)
     if (!file.createNewFile()) {
+      // load credentials from existing file
       loadCredentials(file);
     } else {
+      // set file permissions to be only readable by user
       if (!file.setReadable(false, false) || !file.setWritable(false, false)
           || !file.setExecutable(false, false) || !file.setReadable(true)
           || !file.setWritable(true)) {
         throw new IOException("unable to set file permissions");
       }
+      // save the credentials to create a new file
       save();
     }
   }
