@@ -15,15 +15,12 @@
 package com.google.api.client.auth.oauth;
 
 import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpMethod;
+import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.UrlEncodedParser;
-
-import java.io.IOException;
 
 /**
  * Generic OAuth 1.0a URL to request a temporary or long-lived token from an authorization server.
@@ -61,14 +58,17 @@ public abstract class AbstractOAuthGetToken extends GenericUrl {
   /**
    * Executes the HTTP request for a temporary or long-lived token.
    *
+   * <p>
+   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
+   * {@link java.io.IOException}.
+   * </p>
+   *
    * @return OAuth credentials response object
-   * @throws HttpResponseException for an HTTP error code
-   * @throws IOException I/O exception
    */
-  public final OAuthCredentialsResponse execute() throws IOException {
+  public final OAuthCredentialsResponse execute() throws Exception {
     HttpRequestFactory requestFactory = transport.createRequestFactory();
     HttpRequest request =
-        requestFactory.buildRequest(usePost ? HttpMethod.POST : HttpMethod.GET, this, null);
+        requestFactory.buildRequest(usePost ? HttpMethods.POST : HttpMethods.GET, this, null);
     createParameters().intercept(request);
     HttpResponse response = request.execute();
     response.setContentLoggingLimit(0);

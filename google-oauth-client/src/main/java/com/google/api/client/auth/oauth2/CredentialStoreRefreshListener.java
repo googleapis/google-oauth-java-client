@@ -16,8 +16,6 @@ package com.google.api.client.auth.oauth2;
 
 import com.google.common.base.Preconditions;
 
-import java.io.IOException;
-
 /**
  * Thread-safe OAuth 2.0 credential refresh listener that stores the refresh token response in the
  * credential store.
@@ -47,12 +45,12 @@ public final class CredentialStoreRefreshListener implements CredentialRefreshLi
   }
 
   public void onTokenResponse(Credential credential, TokenResponse tokenResponse)
-      throws IOException {
+      throws Exception {
     makePersistent(credential);
   }
 
   public void onTokenErrorResponse(Credential credential, TokenErrorResponse tokenErrorResponse)
-      throws IOException {
+      throws Exception {
     makePersistent(credential);
   }
 
@@ -61,8 +59,15 @@ public final class CredentialStoreRefreshListener implements CredentialRefreshLi
     return credentialStore;
   }
 
-  /** Stores the updated credential in the credential store. */
-  public void makePersistent(Credential credential) throws IOException {
+  /**
+   * Stores the updated credential in the credential store.
+   *
+   * <p>
+   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
+   * {@link java.io.IOException}.
+   * </p>
+   */
+  public void makePersistent(Credential credential) throws Exception {
     credentialStore.store(userId, credential);
   }
 }

@@ -146,7 +146,7 @@ public class FileCredentialStoreTest extends TestCase {
     boolean error = false;
 
     @Override
-    public LowLevelHttpRequest buildPostRequest(String url) {
+    public LowLevelHttpRequest buildRequest(String method, String url) {
       return new MockLowLevelHttpRequest(url) {
           @Override
         public LowLevelHttpResponse execute() {

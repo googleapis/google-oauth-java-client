@@ -16,7 +16,6 @@ package com.google.api.client.extensions.servlet.auth;
 
 import com.google.api.client.extensions.auth.helpers.Credential;
 import com.google.api.client.extensions.auth.helpers.ThreeLeggedFlow;
-import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 
@@ -85,7 +84,7 @@ public abstract class AbstractFlowUserServlet extends HttpServlet {
         try {
           // Invoke the user code
           super.service(req, resp);
-        } catch (HttpResponseException e) {
+        } catch (IOException e) {
           // Determine if we failed due to auth, or just failed
           if (cred.isInvalid()) {
             pm.deletePersistent(cred);

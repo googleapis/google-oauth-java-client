@@ -93,7 +93,7 @@ public class AuthorizationCodeInstalledApp {
    *
    * <pre>
   &#64;Override
-  protected void onAuthorization(AuthorizationCodeRequestUrl authorizationUrl) throws IOException {
+  protected void onAuthorization(AuthorizationCodeRequestUrl authorizationUrl) throws Exception {
     authorizationUrl.setState("xyz");
     super.onAuthorization(authorizationUrl);
   }

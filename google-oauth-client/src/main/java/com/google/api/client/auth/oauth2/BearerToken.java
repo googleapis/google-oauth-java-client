@@ -14,7 +14,7 @@
 
 package com.google.api.client.auth.oauth2;
 
-import com.google.api.client.http.HttpMethod;
+import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.util.Data;
@@ -77,7 +77,7 @@ public class BearerToken {
 
     public void intercept(HttpRequest request, String accessToken) throws IOException {
       Preconditions.checkArgument(
-          request.getMethod() != HttpMethod.GET, "HTTP GET method is not supported");
+          !HttpMethods.GET.equals(request.getRequestMethod()), "HTTP GET method is not supported");
       getData(request).put(PARAM_NAME, accessToken);
     }
 

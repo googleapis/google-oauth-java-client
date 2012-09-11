@@ -246,7 +246,7 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
     computeNonce();
     computeTimestamp();
     try {
-      computeSignature(request.getMethod().name(), request.getUrl());
+      computeSignature(request.getRequestMethod(), request.getUrl());
     } catch (GeneralSecurityException e) {
       IOException io = new IOException();
       io.initCause(e);

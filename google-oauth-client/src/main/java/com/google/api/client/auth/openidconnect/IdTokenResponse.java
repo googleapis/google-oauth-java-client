@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2012 Google Inc.
- * 
+0 *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -27,18 +27,18 @@ import java.io.IOException;
  * OAuth ID Connect JSON model for a successful access token response as specified in <a
  * href="http://openid.net/specs/openid-connect-session-1_0.html">OpenID Connect Session Management
  * 1.0</a>.
- * 
+ *
  * <p>
  * Implementation is not thread-safe. Sample usage:
  * </p>
- * 
+ *
  * <pre>
-  static JsonWebSignature executeIdToken(TokenRequest tokenRequest) throws IOException {
+  static JsonWebSignature executeIdToken(TokenRequest tokenRequest) throws Exception {
     IdTokenResponse idTokenResponse = IdTokenResponse.execute(tokenRequest);
     return idTokenResponse.parseIdToken();
   }
  * </pre>
- * 
+ *
  * @since 1.7
  * @author Yaniv Inbar
  */
@@ -57,7 +57,7 @@ public class IdTokenResponse extends TokenResponse {
 
   /**
    * Sets the ID token.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
@@ -108,12 +108,17 @@ public class IdTokenResponse extends TokenResponse {
 
   /**
    * Executes the given ID token request, and returns the parsed ID token response.
-   * 
+   *
+   * <p>
+   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
+   * {@link java.io.IOException}.
+   * </p>
+   *
    * @param tokenRequest token request
    * @return parsed successful ID token response
    * @throws TokenResponseException for an error response
    */
-  public static IdTokenResponse execute(TokenRequest tokenRequest) throws IOException {
+  public static IdTokenResponse execute(TokenRequest tokenRequest) throws Exception {
     return tokenRequest.executeUnparsed().parseAs(IdTokenResponse.class);
   }
 }

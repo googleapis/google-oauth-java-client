@@ -14,7 +14,6 @@
 
 package com.google.api.client.auth.oauth2;
 
-import java.io.IOException;
 
 /**
  * OAuth 2.0 credential persistence store interface to provide a fully pluggable storage mechanism.
@@ -37,6 +36,11 @@ public interface CredentialStore {
   /**
    * Loads the credential for the given user ID.
    *
+   * <p>
+   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
+   * {@link java.io.IOException}.
+   * </p>
+   *
    * @param userId user ID whose credential needs to be loaded
    * @param credential credential whose {@link Credential#setAccessToken access token},
    *        {@link Credential#setRefreshToken refresh token}, and
@@ -45,23 +49,33 @@ public interface CredentialStore {
    * @return {@code true} if the credential has been successfully found and loaded or {@code false}
    *         otherwise
    */
-  boolean load(String userId, Credential credential) throws IOException;
+  boolean load(String userId, Credential credential) throws Exception;
 
   /**
    * Stores the credential of the given user ID.
+   *
+   * <p>
+   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
+   * {@link java.io.IOException}.
+   * </p>
    *
    * @param userId user ID whose credential needs to be stored
    * @param credential credential whose {@link Credential#getAccessToken access token},
    *        {@link Credential#getRefreshToken refresh token}, and
    *        {@link Credential#getExpirationTimeMilliseconds expiration time} need to be stored
    */
-  void store(String userId, Credential credential) throws IOException;
+  void store(String userId, Credential credential) throws Exception;
 
   /**
    * Deletes the credential of the given user ID.
    *
+   * <p>
+   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
+   * {@link java.io.IOException}.
+   * </p>
+   *
    * @param userId user ID whose credential needs to be deleted
    * @param credential credential to be deleted
    */
-  void delete(String userId, Credential credential) throws IOException;
+  void delete(String userId, Credential credential) throws Exception;
 }

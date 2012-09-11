@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -39,11 +39,11 @@ import java.util.logging.Logger;
 /**
  * Thread-safe OAuth 2.0 helper for accessing protected resources using an access token, as well as
  * optionally refreshing the access token when it expires using a refresh token.
- * 
+ *
  * <p>
  * Sample usage:
  * </p>
- * 
+ *
  * <pre>
   public static Credential createCredentialWithAccessTokenOnly(
       HttpTransport transport, JsonFactory jsonFactory, TokenResponse tokenResponse) {
@@ -63,18 +63,18 @@ import java.util.logging.Logger;
         .setFromTokenResponse(tokenResponse);
   }
  * </pre>
- * 
+ *
  * <p>
  * If you need to persist the access token in a data store, use {@link CredentialStore} and
  * {@link Builder#addRefreshListener(CredentialRefreshListener)}.
  * </p>
- * 
+ *
  * <p>
  * If you have a custom request initializer, request execute interceptor, or unsuccessful response
  * handler, take a look at the sample usage for {@link HttpExecuteInterceptor} and
  * {@link HttpUnsuccessfulResponseHandler}, which are interfaces that this class also implements.
  * </p>
- * 
+ *
  * @since 1.7
  * @author Yaniv Inbar
  */
@@ -96,16 +96,21 @@ public class Credential
     /**
      * Intercept the HTTP request during {@link Credential#intercept(HttpRequest)} right before the
      * HTTP request executes by providing the access token.
-     * 
+     *
+     * <p>
+     * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw
+     * an {@link java.io.IOException}.
+     * </p>
+     *
      * @param request HTTP request
      * @param accessToken access token
      */
-    void intercept(HttpRequest request, String accessToken) throws IOException;
+    void intercept(HttpRequest request, String accessToken) throws Exception;
 
     /**
      * Retrieve the original access token in the HTTP request, as provided in
      * {@link #intercept(HttpRequest, String)}.
-     * 
+     *
      * @param request HTTP request
      * @return original access token or {@code null} for none
      */
@@ -164,11 +169,11 @@ public class Credential
 
   /**
    * Constructor with the ability to access protected resources, but not refresh tokens.
-   * 
+   *
    * <p>
    * To use with the ability to refresh tokens, use {@link Builder}.
    * </p>
-   * 
+   *
    * @param method method of presenting the access token to the resource server (for example
    *        {@link BearerToken.AuthorizationHeaderAccessMethod})
    */
@@ -252,12 +257,17 @@ public class Credential
    * {@link TokenResponseException} is thrown. If successful, it will call {@link #getMethod()} and
    * {@link AccessMethod#intercept}.
    * </p>
-   * 
+   *
+   * <p>
+   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
+   * {@link java.io.IOException}.
+   * </p>
+   *
    * <p>
    * Subclasses may override.
    * </p>
    */
-  public void intercept(HttpRequest request) throws IOException {
+  public void intercept(HttpRequest request) throws Exception {
     lock.lock();
     try {
       Long expiresIn = getExpiresInSeconds();
@@ -294,7 +304,7 @@ public class Credential
         } finally {
           lock.unlock();
         }
-      } catch (IOException exception) {
+      } catch (Exception exception) {
         LOGGER.log(Level.SEVERE, "unable to refresh token", exception);
       }
     }
@@ -318,12 +328,12 @@ public class Credential
 
   /**
    * Sets the access token.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
-   * 
+   *
    * @param accessToken access token or {@code null} for none
    */
   public Credential setAccessToken(String accessToken) {
@@ -385,12 +395,12 @@ public class Credential
 
   /**
    * Sets the refresh token.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
-   * 
+   *
    * @param refreshToken refresh token or {@code null} for none
    */
   public Credential setRefreshToken(String refreshToken) {
@@ -421,7 +431,7 @@ public class Credential
 
   /**
    * Sets the expected expiration time in milliseconds or {@code null} for none.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
@@ -456,12 +466,12 @@ public class Credential
   /**
    * Sets the lifetime in seconds of the access token (for example 3600 for an hour) or {@code null}
    * for none.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
-   * 
+   *
    * @param expiresIn lifetime in seconds of the access token (for example 3600 for an hour) or
    *        {@code null} for none
    */
@@ -485,7 +495,7 @@ public class Credential
 
   /**
    * Request a new access token from the authorization endpoint.
-   * 
+   *
    * <p>
    * On success, it will call {@link #setFromTokenResponse(TokenResponse)}, call
    * {@link CredentialRefreshListener#onTokenResponse} with the token response, and return
@@ -495,10 +505,15 @@ public class Credential
    * return {@code false}. If a 4xx error is encountered while refreshing the token,
    * {@link TokenResponseException} is thrown.
    * </p>
-   * 
+   *
+   * <p>
+   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
+   * {@link java.io.IOException}.
+   * </p>
+   *
    * @return whether a new access token was successfully retrieved
    */
-  public final boolean refreshToken() throws IOException {
+  public final boolean refreshToken() throws Exception {
     lock.lock();
     try {
       try {
@@ -536,16 +551,16 @@ public class Credential
    * Sets the {@link #setAccessToken access token}, {@link #setRefreshToken refresh token} (if
    * available), and {@link #setExpiresInSeconds expires-in time} based on the values from the token
    * response.
-   * 
+   *
    * <p>
    * It does not call the refresh listeners.
    * </p>
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
-   * 
+   *
    * @param tokenResponse successful token response
    */
   public Credential setFromTokenResponse(TokenResponse tokenResponse) {
@@ -561,7 +576,7 @@ public class Credential
 
   /**
    * Executes a request for new credentials from the token server.
-   * 
+   *
    * <p>
    * The default implementation calls {@link RefreshTokenRequest#execute()} using the
    * {@link #getTransport()}, {@link #getJsonFactory()}, {@link #getRequestInitializer()},
@@ -569,18 +584,23 @@ public class Credential
    * {@link #getClientAuthentication()}. If {@link #getRefreshToken()} is {@code null}, it instead
    * returns {@code null}.
    * </p>
-   * 
+   *
    * <p>
    * Subclasses may override for a different implementation. Implementations can assume proper
    * thread synchronization is already taken care of inside {@link #refreshToken()}.
    * </p>
-   * 
+   *
+   * <p>
+   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
+   * {@link java.io.IOException}.
+   * </p>
+   *
    * @return successful response from the token server or {@code null} if it is not possible to
    *         refresh the access token
    * @throws IOException I/O exception
    * @throws TokenResponseException if an error response was received from the token server
    */
-  protected TokenResponse executeRefreshToken() throws IOException {
+  protected TokenResponse executeRefreshToken() throws Exception {
     if (refreshToken == null) {
       return null;
     }
@@ -596,7 +616,7 @@ public class Credential
 
   /**
    * Credential builder.
-   * 
+   *
    * <p>
    * Implementation is not thread-safe.
    * </p>
@@ -681,7 +701,7 @@ public class Credential
     /**
      * Sets the HTTP transport for executing refresh token request or {@code null} if not refreshing
      * tokens.
-     * 
+     *
      * <p>
      * Overriding is only supported for the purpose of calling the super implementation and changing
      * the return type, but nothing else.
@@ -702,11 +722,11 @@ public class Credential
 
     /**
      * Sets the clock to use for expiration checks.
-     * 
+     *
      * <p>
      * The default value is Clock.SYSTEM.
      * </p>
-     * 
+     *
      * @since 1.9
      */
     public Builder setClock(Clock clock) {
@@ -725,7 +745,7 @@ public class Credential
     /**
      * Sets the JSON factory to use for parsing response for refresh token request or {@code null}
      * if not refreshing tokens.
-     * 
+     *
      * <p>
      * Overriding is only supported for the purpose of calling the super implementation and changing
      * the return type, but nothing else.
@@ -743,7 +763,7 @@ public class Credential
 
     /**
      * Sets the token server URL or {@code null} if not refreshing tokens.
-     * 
+     *
      * <p>
      * Overriding is only supported for the purpose of calling the super implementation and changing
      * the return type, but nothing else.
@@ -756,7 +776,7 @@ public class Credential
 
     /**
      * Sets the encoded token server URL or {@code null} if not refreshing tokens.
-     * 
+     *
      * <p>
      * Overriding is only supported for the purpose of calling the super implementation and changing
      * the return type, but nothing else.
@@ -779,7 +799,7 @@ public class Credential
     /**
      * Sets the client authentication or {@code null} for none (see
      * {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
-     * 
+     *
      * <p>
      * Overriding is only supported for the purpose of calling the super implementation and changing
      * the return type, but nothing else.
@@ -801,7 +821,7 @@ public class Credential
     /**
      * Sets the HTTP request initializer for refresh token requests to the token server or
      * {@code null} for none.
-     * 
+     *
      * <p>
      * Overriding is only supported for the purpose of calling the super implementation and changing
      * the return type, but nothing else.
@@ -814,12 +834,12 @@ public class Credential
 
     /**
      * Adds a listener for refresh token results.
-     * 
+     *
      * <p>
      * Overriding is only supported for the purpose of calling the super implementation and changing
      * the return type, but nothing else.
      * </p>
-     * 
+     *
      * @param refreshListener refresh listener
      */
     public Builder addRefreshListener(CredentialRefreshListener refreshListener) {
@@ -834,7 +854,7 @@ public class Credential
 
     /**
      * Sets the listeners for refresh token results or {@code null} for none.
-     * 
+     *
      * <p>
      * Overriding is only supported for the purpose of calling the super implementation and changing
      * the return type, but nothing else.

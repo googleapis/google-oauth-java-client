@@ -190,6 +190,12 @@ public abstract class AbstractCallbackServlet extends HttpServlet {
       manager.makePersistent(c);
       manager.deletePersistent(flow);
       resp.sendRedirect(redirectUrl);
+    } catch (IOException exception) {
+      throw exception;
+    } catch (Exception exception) {
+      IOException ioexception = new IOException();
+      ioexception.initCause(exception);
+      throw ioexception;
     } finally {
       manager.close();
     }

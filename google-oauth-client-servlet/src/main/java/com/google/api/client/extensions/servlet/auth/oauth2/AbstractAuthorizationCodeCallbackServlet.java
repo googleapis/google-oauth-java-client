@@ -130,6 +130,12 @@ public abstract class AbstractAuthorizationCodeCallbackServlet extends HttpServl
         String userId = getUserId(req);
         Credential credential = flow.createAndStoreCredential(response, userId);
         onSuccess(req, resp, credential);
+      } catch (IOException exception) {
+        throw exception;
+      } catch (Exception exception) {
+        IOException ioexception = new IOException();
+        ioexception.initCause(exception);
+        throw ioexception;
       } finally {
         lock.unlock();
       }

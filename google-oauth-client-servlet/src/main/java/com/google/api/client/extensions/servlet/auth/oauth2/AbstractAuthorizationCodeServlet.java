@@ -17,7 +17,6 @@ package com.google.api.client.extensions.servlet.auth.oauth2;
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
 import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.http.HttpResponseException;
 
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
@@ -129,11 +128,16 @@ public abstract class AbstractAuthorizationCodeServlet extends HttpServlet {
         try {
           super.service(req, resp);
           return;
-        } catch (HttpResponseException e) {
+        } catch (Exception e) {
           // if access token is null, assume it is because auth failed and we need to re-authorize
           // but if access token is not null, it is some other problem
           if (credential.getAccessToken() != null) {
-            throw e;
+            if (e instanceof IOException) {
+              throw (IOException) e;
+            }
+            IOException ioexception = new IOException();
+            ioexception.initCause(e);
+            throw ioexception;
           }
         }
       }
@@ -142,6 +146,12 @@ public abstract class AbstractAuthorizationCodeServlet extends HttpServlet {
       authorizationUrl.setRedirectUri(getRedirectUri(req));
       onAuthorization(req, resp, authorizationUrl);
       credential = null;
+    } catch (IOException exception) {
+      throw exception;
+    } catch (Exception exception) {
+      IOException ioexception = new IOException();
+      ioexception.initCause(exception);
+      throw ioexception;
     } finally {
       lock.unlock();
     }
