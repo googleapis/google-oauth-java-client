@@ -597,7 +597,6 @@ public class Credential
    *
    * @return successful response from the token server or {@code null} if it is not possible to
    *         refresh the access token
-   * @throws IOException I/O exception
    * @throws TokenResponseException if an error response was received from the token server
    */
   protected TokenResponse executeRefreshToken() throws Exception {
