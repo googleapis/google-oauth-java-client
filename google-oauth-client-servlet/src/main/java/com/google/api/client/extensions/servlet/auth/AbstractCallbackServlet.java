@@ -18,6 +18,7 @@ import com.google.api.client.extensions.auth.helpers.Credential;
 import com.google.api.client.extensions.auth.helpers.ThreeLeggedFlow;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
+import com.google.common.base.Throwables;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -25,6 +26,7 @@ import java.util.logging.Logger;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -151,7 +153,8 @@ public abstract class AbstractCallbackServlet extends HttpServlet {
   protected abstract JsonFactory newJsonFactoryInstance();
 
   @Override
-  protected final void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  protected final void doGet(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, ServletException {
     // Parse the token that will be used to look up the flow object
     String completionCode = req.getParameter(completionCodeQueryParam);
     String errorCode = req.getParameter(ERROR_PARAM);
@@ -190,12 +193,9 @@ public abstract class AbstractCallbackServlet extends HttpServlet {
       manager.makePersistent(c);
       manager.deletePersistent(flow);
       resp.sendRedirect(redirectUrl);
-    } catch (IOException exception) {
-      throw exception;
-    } catch (Exception exception) {
-      IOException ioexception = new IOException();
-      ioexception.initCause(exception);
-      throw ioexception;
+    } catch (Exception e) {
+      Throwables.propagateIfPossible(e, IOException.class, ServletException.class);
+      throw new ServletException(e);
     } finally {
       manager.close();
     }

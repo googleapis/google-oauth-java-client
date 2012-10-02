@@ -17,6 +17,7 @@ package com.google.api.client.extensions.servlet.auth.oauth2;
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.common.base.Throwables;
 
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
@@ -129,15 +130,11 @@ public abstract class AbstractAuthorizationCodeServlet extends HttpServlet {
           super.service(req, resp);
           return;
         } catch (Exception e) {
+          Throwables.propagateIfPossible(e);
           // if access token is null, assume it is because auth failed and we need to re-authorize
           // but if access token is not null, it is some other problem
           if (credential.getAccessToken() != null) {
-            if (e instanceof IOException) {
-              throw (IOException) e;
-            }
-            IOException ioexception = new IOException();
-            ioexception.initCause(e);
-            throw ioexception;
+            throw e;
           }
         }
       }
@@ -146,12 +143,9 @@ public abstract class AbstractAuthorizationCodeServlet extends HttpServlet {
       authorizationUrl.setRedirectUri(getRedirectUri(req));
       onAuthorization(req, resp, authorizationUrl);
       credential = null;
-    } catch (IOException exception) {
-      throw exception;
-    } catch (Exception exception) {
-      IOException ioexception = new IOException();
-      ioexception.initCause(exception);
-      throw ioexception;
+    } catch (Exception e) {
+      Throwables.propagateIfPossible(e, IOException.class, ServletException.class);
+      throw new ServletException(e);
     } finally {
       lock.unlock();
     }
@@ -161,14 +155,13 @@ public abstract class AbstractAuthorizationCodeServlet extends HttpServlet {
    * Loads the authorization code flow to be used across all HTTP servlet requests (only called
    * during the first HTTP servlet request).
    */
-  protected abstract AuthorizationCodeFlow initializeFlow() throws ServletException, IOException;
+  protected abstract AuthorizationCodeFlow initializeFlow() throws Exception;
 
   /** Returns the redirect URI for the given HTTP servlet request. */
-  protected abstract String getRedirectUri(HttpServletRequest req)
-      throws ServletException, IOException;
+  protected abstract String getRedirectUri(HttpServletRequest req) throws Exception;
 
   /** Returns the user ID for the given HTTP servlet request. */
-  protected abstract String getUserId(HttpServletRequest req) throws ServletException, IOException;
+  protected abstract String getUserId(HttpServletRequest req) throws Exception;
 
   /**
    * Return the persisted credential associated with the current request or {@code null} for none.
@@ -189,7 +182,7 @@ public abstract class AbstractAuthorizationCodeServlet extends HttpServlet {
    * <pre>
   &#64;Override
   protected void onAuthorization(HttpServletRequest req, HttpServletResponse resp,
-      AuthorizationCodeRequestUrl authorizationUrl) throws ServletException, IOException {
+      AuthorizationCodeRequestUrl authorizationUrl) throws Exception {
     authorizationUrl.setState("xyz");
     super.onAuthorization(req, resp, authorizationUrl);
   }
@@ -197,11 +190,10 @@ public abstract class AbstractAuthorizationCodeServlet extends HttpServlet {
    *
    * @param authorizationUrl authorization code request URL
    * @param req HTTP servlet request
-   * @throws ServletException servlet exception
    * @since 1.11
    */
   protected void onAuthorization(HttpServletRequest req, HttpServletResponse resp,
-      AuthorizationCodeRequestUrl authorizationUrl) throws ServletException, IOException {
+      AuthorizationCodeRequestUrl authorizationUrl) throws Exception {
     resp.sendRedirect(authorizationUrl.build());
   }
 }

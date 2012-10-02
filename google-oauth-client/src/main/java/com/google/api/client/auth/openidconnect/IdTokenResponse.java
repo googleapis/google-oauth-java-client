@@ -21,8 +21,6 @@ import com.google.api.client.auth.oauth2.TokenResponseException;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Key;
 
-import java.io.IOException;
-
 /**
  * OAuth ID Connect JSON model for a successful access token response as specified in <a
  * href="http://openid.net/specs/openid-connect-session-1_0.html">OpenID Connect Session Management
@@ -101,8 +99,13 @@ public class IdTokenResponse extends TokenResponse {
   /**
    * Parses using {@link JsonWebSignature#parse(JsonFactory, String)} based on the
    * {@link #getFactory() JSON factory} and {@link #getIdToken() ID token}.
+   *
+   * <p>
+   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
+   * {@link java.io.IOException}.
+   * </p>
    */
-  public JsonWebSignature parseIdToken() throws IOException {
+  public JsonWebSignature parseIdToken() throws Exception {
     return JsonWebSignature.parse(getFactory(), idToken);
   }
 

@@ -18,6 +18,7 @@ import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
+import com.google.common.base.Throwables;
 
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
@@ -108,37 +109,36 @@ public abstract class AbstractAuthorizationCodeCallbackServlet extends HttpServl
   @Override
   protected final void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    StringBuffer buf = req.getRequestURL();
-    if (req.getQueryString() != null) {
-      buf.append('?').append(req.getQueryString());
-    }
-    AuthorizationCodeResponseUrl responseUrl = new AuthorizationCodeResponseUrl(buf.toString());
-    String code = responseUrl.getCode();
-    if (responseUrl.getError() != null) {
-      onError(req, resp, responseUrl);
-    } else if (code == null) {
-      resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-      resp.getWriter().print("Missing authorization code");
-    } else {
-      String redirectUri = getRedirectUri(req);
-      lock.lock();
-      try {
-        if (flow == null) {
-          flow = initializeFlow();
-        }
-        TokenResponse response = flow.newTokenRequest(code).setRedirectUri(redirectUri).execute();
-        String userId = getUserId(req);
-        Credential credential = flow.createAndStoreCredential(response, userId);
-        onSuccess(req, resp, credential);
-      } catch (IOException exception) {
-        throw exception;
-      } catch (Exception exception) {
-        IOException ioexception = new IOException();
-        ioexception.initCause(exception);
-        throw ioexception;
-      } finally {
-        lock.unlock();
+    try {
+      StringBuffer buf = req.getRequestURL();
+      if (req.getQueryString() != null) {
+        buf.append('?').append(req.getQueryString());
       }
+      AuthorizationCodeResponseUrl responseUrl = new AuthorizationCodeResponseUrl(buf.toString());
+      String code = responseUrl.getCode();
+      if (responseUrl.getError() != null) {
+        onError(req, resp, responseUrl);
+      } else if (code == null) {
+        resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        resp.getWriter().print("Missing authorization code");
+      } else {
+        lock.lock();
+        try {
+          if (flow == null) {
+            flow = initializeFlow();
+          }
+          String redirectUri = getRedirectUri(req);
+          TokenResponse response = flow.newTokenRequest(code).setRedirectUri(redirectUri).execute();
+          String userId = getUserId(req);
+          Credential credential = flow.createAndStoreCredential(response, userId);
+          onSuccess(req, resp, credential);
+        } finally {
+          lock.unlock();
+        }
+      }
+    } catch (Exception e) {
+      Throwables.propagateIfPossible(e, IOException.class, ServletException.class);
+      throw new ServletException(e);
     }
   }
 
@@ -146,14 +146,13 @@ public abstract class AbstractAuthorizationCodeCallbackServlet extends HttpServl
    * Loads the authorization code flow to be used across all HTTP servlet requests (only called
    * during the first HTTP servlet request with an authorization code).
    */
-  protected abstract AuthorizationCodeFlow initializeFlow() throws ServletException, IOException;
+  protected abstract AuthorizationCodeFlow initializeFlow() throws Exception;
 
   /** Returns the redirect URI for the given HTTP servlet request. */
-  protected abstract String getRedirectUri(HttpServletRequest req)
-      throws ServletException, IOException;
+  protected abstract String getRedirectUri(HttpServletRequest req) throws Exception;
 
   /** Returns the user ID for the given HTTP servlet request. */
-  protected abstract String getUserId(HttpServletRequest req) throws ServletException, IOException;
+  protected abstract String getUserId(HttpServletRequest req) throws Exception;
 
   /**
    * Handles a successfully granted authorization.
@@ -170,11 +169,9 @@ public abstract class AbstractAuthorizationCodeCallbackServlet extends HttpServl
    * @param req HTTP servlet request
    * @param resp HTTP servlet response
    * @param credential credential
-   * @throws ServletException HTTP servlet exception
-   * @throws IOException some I/O exception
    */
   protected void onSuccess(HttpServletRequest req, HttpServletResponse resp, Credential credential)
-      throws ServletException, IOException {
+      throws Exception {
   }
 
   /**
@@ -193,11 +190,9 @@ public abstract class AbstractAuthorizationCodeCallbackServlet extends HttpServl
    * @param resp HTTP servlet response
    * @param errorResponse error response ({@link AuthorizationCodeResponseUrl#getError()} is not
    *        {@code null})
-   * @throws ServletException HTTP servlet exception
-   * @throws IOException some I/O exception
    */
   protected void onError(
       HttpServletRequest req, HttpServletResponse resp, AuthorizationCodeResponseUrl errorResponse)
-      throws ServletException, IOException {
+      throws Exception {
   }
 }

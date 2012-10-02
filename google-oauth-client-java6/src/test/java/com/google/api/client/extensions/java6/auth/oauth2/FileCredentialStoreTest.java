@@ -35,7 +35,6 @@ import junit.framework.TestCase;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * Tests {@link FileCredentialStore}.
@@ -67,7 +66,7 @@ public class FileCredentialStoreTest extends TestCase {
     assertTrue(message, exceptionThrow);
   }
 
-  public void testLoadCredentials_empty() throws IOException {
+  public void testLoadCredentials_empty() throws Exception {
     File file = createTempFile();
     FileCredentialStore store = new FileCredentialStore(file, JSON_FACTORY);
     Credential actual = createEmptyCredential();
@@ -78,7 +77,7 @@ public class FileCredentialStoreTest extends TestCase {
     assertNull(actual.getExpirationTimeMilliseconds());
   }
 
-  public void testStoreCredentials() throws IOException {
+  public void testStoreCredentials() throws Exception {
     Credential expected = createCredential();
     File file = createTempFile();
     file.delete();
@@ -95,7 +94,7 @@ public class FileCredentialStoreTest extends TestCase {
     assertEquals(EXPIRES_IN, actual.getExpirationTimeMilliseconds().longValue());
   }
 
-  public void testNotLoadCredentials() throws IOException {
+  public void testNotLoadCredentials() throws Exception {
     Credential expected = createCredential();
     FileCredentialStore store = new FileCredentialStore(createTempFile(), JSON_FACTORY);
     store.store(USER_ID, expected);
@@ -107,13 +106,13 @@ public class FileCredentialStoreTest extends TestCase {
     }
   }
 
-  public void testNotCredentialsNoExists() throws IOException {
+  public void testNotCredentialsNoExists() throws Exception {
     FileCredentialStore store = new FileCredentialStore(createTempFile(), JSON_FACTORY);
     boolean loaded = store.load("123", createCredential());
     assertFalse(loaded);
   }
 
-  public void testDeleteCredentials() throws IOException {
+  public void testDeleteCredentials() throws Exception {
     FileCredentialStore store = new FileCredentialStore(createTempFile(), JSON_FACTORY);
     store.delete(USER_ID, createCredential());
   }
@@ -149,7 +148,7 @@ public class FileCredentialStoreTest extends TestCase {
     public LowLevelHttpRequest buildRequest(String method, String url) {
       return new MockLowLevelHttpRequest(url) {
           @Override
-        public LowLevelHttpResponse execute() {
+        public LowLevelHttpResponse execute() throws Exception {
           MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
           response.setContentType("UTF-8");
           GenericData responseData;
@@ -172,7 +171,7 @@ public class FileCredentialStoreTest extends TestCase {
     }
   }
 
-  private File createTempFile() throws IOException {
+  private File createTempFile() throws Exception {
     File result = File.createTempFile("credentials", null);
     result.deleteOnExit();
     JsonGenerator generator =

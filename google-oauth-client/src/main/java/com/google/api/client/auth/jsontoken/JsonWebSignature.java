@@ -21,7 +21,6 @@ import com.google.api.client.util.StringUtils;
 import com.google.common.base.Preconditions;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 
 /**
  * <a href="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature-00">JSON Web Signature
@@ -227,12 +226,17 @@ public class JsonWebSignature extends JsonWebToken {
   /**
    * Parses the given JWS token string and returns the parsed {@link JsonWebSignature}.
    *
+   * <p>
+   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
+   * {@link java.io.IOException}.
+   * </p>
+   *
    * @param jsonFactory JSON factory
    * @param tokenString JWS token string
    * @return parsed JWS
    */
   public static JsonWebSignature parse(JsonFactory jsonFactory, String tokenString)
-      throws IOException {
+      throws Exception {
     return parser(jsonFactory).parse(tokenString);
   }
 
@@ -295,10 +299,16 @@ public class JsonWebSignature extends JsonWebToken {
 
     /**
      * Parses a JWS token into a parsed {@link JsonWebSignature}.
+     *
+     * <p>
+     * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw
+     * an {@link java.io.IOException}.
+     * </p>
+     *
      * @param tokenString JWS token string
      * @return parsed {@link JsonWebSignature}
      */
-    public JsonWebSignature parse(String tokenString) throws IOException {
+    public JsonWebSignature parse(String tokenString) throws Exception {
       // split on the dots
       int firstDot = tokenString.indexOf('.');
       Preconditions.checkArgument(firstDot != -1);
@@ -307,8 +317,7 @@ public class JsonWebSignature extends JsonWebToken {
       Preconditions.checkArgument(secondDot != -1);
       Preconditions.checkArgument(tokenString.indexOf('.', secondDot + 1) == -1);
       // decode the bytes
-      byte[] payloadBytes =
-          Base64.decodeBase64(tokenString.substring(firstDot + 1, secondDot));
+      byte[] payloadBytes = Base64.decodeBase64(tokenString.substring(firstDot + 1, secondDot));
       byte[] signatureBytes = Base64.decodeBase64(tokenString.substring(secondDot + 1));
       byte[] signedContentBytes = StringUtils.getBytesUtf8(tokenString.substring(0, secondDot));
       // parse the header and payload

@@ -26,6 +26,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Clock;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Throwables;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -305,6 +306,7 @@ public class Credential
           lock.unlock();
         }
       } catch (Exception exception) {
+        Throwables.propagateIfPossible(exception);
         LOGGER.log(Level.SEVERE, "unable to refresh token", exception);
       }
     }

@@ -19,7 +19,6 @@ import com.google.api.client.testing.http.FixedClock;
 
 import junit.framework.TestCase;
 
-import java.security.GeneralSecurityException;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.SecureRandom;
@@ -31,14 +30,14 @@ import java.security.SecureRandom;
  */
 public class RsaSHA256SignerTest extends TestCase {
 
-  public void testSign() throws GeneralSecurityException {
+  public void testSign() throws Exception {
     FixedClock clock = new FixedClock(0L);
     JsonWebSignature.Header header = new JsonWebSignature.Header();
     header.setAlgorithm("RS256");
     header.setType("JWT");
     JsonWebToken.Payload payload = new JsonWebToken.Payload(clock);
-    payload.setIssuer("issuer").setAudience("audience").setIssuedAtTimeSeconds(0L)
-        .setExpirationTimeSeconds(3600L);
+    payload.setIssuer("issuer")
+        .setAudience("audience").setIssuedAtTimeSeconds(0L).setExpirationTimeSeconds(3600L);
     KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
     keyGen.initialize(512, new SecureRandom(new byte[0]));
     PrivateKey privateKey = keyGen.generateKeyPair().getPrivate();

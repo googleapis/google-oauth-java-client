@@ -52,7 +52,7 @@ public class FileCredentialStore implements CredentialStore {
    * @param file File to store user credentials
    * @param jsonFactory JSON factory to serialize user credentials
    */
-  public FileCredentialStore(File file, JsonFactory jsonFactory) throws IOException {
+  public FileCredentialStore(File file, JsonFactory jsonFactory) throws Exception {
     this.file = Preconditions.checkNotNull(file);
     this.jsonFactory = Preconditions.checkNotNull(jsonFactory);
     // create parent directory (if necessary)
@@ -77,7 +77,7 @@ public class FileCredentialStore implements CredentialStore {
   }
 
   @Override
-  public void store(String userId, Credential credential) throws IOException {
+  public void store(String userId, Credential credential) throws Exception {
     lock.lock();
     try {
       credentials.store(userId, credential);
@@ -88,7 +88,7 @@ public class FileCredentialStore implements CredentialStore {
   }
 
   @Override
-  public void delete(String userId, Credential credential) throws IOException {
+  public void delete(String userId, Credential credential) throws Exception {
     lock.lock();
     try {
       credentials.delete(userId);
@@ -108,7 +108,7 @@ public class FileCredentialStore implements CredentialStore {
     }
   }
 
-  private void loadCredentials(File file) throws IOException {
+  private void loadCredentials(File file) throws Exception {
     FileInputStream is = new FileInputStream(file);
     try {
       this.credentials = this.jsonFactory.fromInputStream(is, FilePersistedCredentials.class);
@@ -117,7 +117,7 @@ public class FileCredentialStore implements CredentialStore {
     }
   }
 
-  private void save() throws IOException {
+  private void save() throws Exception {
     FileOutputStream fos = new FileOutputStream(file);
     try {
       JsonGenerator generator = jsonFactory.createJsonGenerator(fos, Charsets.UTF_8);
