@@ -39,7 +39,7 @@ import com.google.common.base.Preconditions;
  * </p>
  *
  * <pre>
-  static void refreshAccessToken() throws Exception {
+  static void refreshAccessToken() throws IOException {
     try {
       TokenResponse response =
           new RefreshTokenRequest(new NetHttpTransport(), new JacksonFactory(), new GenericUrl(

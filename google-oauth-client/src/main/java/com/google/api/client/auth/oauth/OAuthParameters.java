@@ -242,10 +242,16 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
     request.setInterceptor(this);
   }
 
-  public void intercept(HttpRequest request) throws Exception {
+  public void intercept(HttpRequest request) throws IOException {
     computeNonce();
     computeTimestamp();
-    computeSignature(request.getRequestMethod(), request.getUrl());
+    try {
+      computeSignature(request.getRequestMethod(), request.getUrl());
+    } catch (GeneralSecurityException e) {
+      IOException io = new IOException();
+      io.initCause(e);
+      throw io;
+    }
     request.getHeaders().setAuthorization(getAuthorizationHeader());
   }
 }

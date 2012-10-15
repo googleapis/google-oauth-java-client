@@ -14,6 +14,8 @@
 
 package com.google.api.client.extensions.java6.auth.oauth2;
 
+import java.io.IOException;
+
 /**
  * OAuth 2.0 verification code receiver.
  *
@@ -26,12 +28,33 @@ package com.google.api.client.extensions.java6.auth.oauth2;
  */
 public interface VerificationCodeReceiver {
 
-  /** Returns the redirect URI. */
-  String getRedirectUri() throws Exception;
+  /**
+   * Returns the redirect URI.
+   *
+   * <p>
+   * Upgrade warning: this method now throws an {@link IOException}. In prior version 1.11 it threw
+   * an {@link Exception}.
+   * </p>
+   */
+  String getRedirectUri() throws IOException;
 
-  /** Waits for a verification code. */
-  String waitForCode() throws Exception;
+  /**
+   * Waits for a verification code.
+   *
+   * <p>
+   * Upgrade warning: this method now throws an {@link IOException}. In prior version 1.11 it threw
+   * an {@link Exception}.
+   * </p>
+   */
+  String waitForCode() throws IOException;
 
-  /** Releases any resources and stops any processes started. */
-  void stop() throws Exception;
+  /**
+   * Releases any resources and stops any processes started.
+   *
+   * <p>
+   * Upgrade warning: this method now throws an {@link IOException}. In prior version 1.11 it threw
+   * an {@link Exception}.
+   * </p>
+   */
+  void stop() throws IOException;
 }

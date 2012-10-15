@@ -21,6 +21,8 @@ import com.google.api.client.auth.oauth2.TokenResponseException;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Key;
 
+import java.io.IOException;
+
 /**
  * OAuth ID Connect JSON model for a successful access token response as specified in <a
  * href="http://openid.net/specs/openid-connect-session-1_0.html">OpenID Connect Session Management
@@ -31,7 +33,7 @@ import com.google.api.client.util.Key;
  * </p>
  *
  * <pre>
-  static JsonWebSignature executeIdToken(TokenRequest tokenRequest) throws Exception {
+  static JsonWebSignature executeIdToken(TokenRequest tokenRequest) throws IOException {
     IdTokenResponse idTokenResponse = IdTokenResponse.execute(tokenRequest);
     return idTokenResponse.parseIdToken();
   }
@@ -99,29 +101,19 @@ public class IdTokenResponse extends TokenResponse {
   /**
    * Parses using {@link JsonWebSignature#parse(JsonFactory, String)} based on the
    * {@link #getFactory() JSON factory} and {@link #getIdToken() ID token}.
-   *
-   * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
-   * {@link java.io.IOException}.
-   * </p>
    */
-  public JsonWebSignature parseIdToken() throws Exception {
+  public JsonWebSignature parseIdToken() throws IOException {
     return JsonWebSignature.parse(getFactory(), idToken);
   }
 
   /**
    * Executes the given ID token request, and returns the parsed ID token response.
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
-   * {@link java.io.IOException}.
-   * </p>
-   *
    * @param tokenRequest token request
    * @return parsed successful ID token response
    * @throws TokenResponseException for an error response
    */
-  public static IdTokenResponse execute(TokenRequest tokenRequest) throws Exception {
+  public static IdTokenResponse execute(TokenRequest tokenRequest) throws IOException {
     return tokenRequest.executeUnparsed().parseAs(IdTokenResponse.class);
   }
 }

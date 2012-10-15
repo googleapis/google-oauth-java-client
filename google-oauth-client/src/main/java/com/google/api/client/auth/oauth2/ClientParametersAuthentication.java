@@ -39,7 +39,7 @@ import java.util.Map;
  * </p>
  *
  * <pre>
-  static void requestAccessToken() throws Exception {
+  static void requestAccessToken() throws IOException {
     try {
       TokenResponse response = new AuthorizationCodeTokenRequest(new NetHttpTransport(),
           new JacksonFactory(), new GenericUrl("https://server.example.com/token"),

@@ -27,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Logger;
 
 /**
  * Thread-safe file implementation of a credential store.
@@ -35,6 +36,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author Rafael Naufal
  */
 public class FileCredentialStore implements CredentialStore {
+
+  private static final Logger LOGGER = Logger.getLogger(FileCredentialStore.class.getName());
 
   /** Json factory for serializing user credentials. */
   private final JsonFactory jsonFactory;
@@ -49,27 +52,35 @@ public class FileCredentialStore implements CredentialStore {
   private final File file;
 
   /**
+   * <p>
+   * Upgrade warning: this method now throws an {@link IOException}. In prior version 1.11 it threw
+   * an {@link Exception}.
+   * </p>
+   *
    * @param file File to store user credentials
    * @param jsonFactory JSON factory to serialize user credentials
    */
-  public FileCredentialStore(File file, JsonFactory jsonFactory) throws Exception {
+  public FileCredentialStore(File file, JsonFactory jsonFactory) throws IOException {
     this.file = Preconditions.checkNotNull(file);
     this.jsonFactory = Preconditions.checkNotNull(jsonFactory);
     // create parent directory (if necessary)
     File parentDir = file.getCanonicalFile().getParentFile();
     if (parentDir != null && !parentDir.exists() && !parentDir.mkdirs()) {
-      throw new IOException("unable to create parent directory");
+      throw new IOException("unable to create parent directory: " + parentDir);
     }
     // create new file (if necessary)
     if (!file.createNewFile()) {
       // load credentials from existing file
       loadCredentials(file);
     } else {
-      // set file permissions to be only readable by user
+      // disable access by other users if O/S allows it
       if (!file.setReadable(false, false) || !file.setWritable(false, false)
-          || !file.setExecutable(false, false) || !file.setReadable(true)
-          || !file.setWritable(true)) {
-        throw new IOException("unable to set file permissions");
+          || !file.setExecutable(false, false)) {
+        LOGGER.warning("unable to change file permissions for everybody: " + file);
+      }
+      // set file permissions to readable and writable by user
+      if (!file.setReadable(true) || !file.setWritable(true)) {
+        throw new IOException("unable to set file permissions: " + file);
       }
       // save the credentials to create a new file
       save();
@@ -77,7 +88,7 @@ public class FileCredentialStore implements CredentialStore {
   }
 
   @Override
-  public void store(String userId, Credential credential) throws Exception {
+  public void store(String userId, Credential credential) throws IOException {
     lock.lock();
     try {
       credentials.store(userId, credential);
@@ -88,7 +99,7 @@ public class FileCredentialStore implements CredentialStore {
   }
 
   @Override
-  public void delete(String userId, Credential credential) throws Exception {
+  public void delete(String userId, Credential credential) throws IOException {
     lock.lock();
     try {
       credentials.delete(userId);
@@ -108,7 +119,7 @@ public class FileCredentialStore implements CredentialStore {
     }
   }
 
-  private void loadCredentials(File file) throws Exception {
+  private void loadCredentials(File file) throws IOException {
     FileInputStream is = new FileInputStream(file);
     try {
       this.credentials = this.jsonFactory.fromInputStream(is, FilePersistedCredentials.class);
@@ -117,7 +128,7 @@ public class FileCredentialStore implements CredentialStore {
     }
   }
 
-  private void save() throws Exception {
+  private void save() throws IOException {
     FileOutputStream fos = new FileOutputStream(file);
     try {
       JsonGenerator generator = jsonFactory.createJsonGenerator(fos, Charsets.UTF_8);

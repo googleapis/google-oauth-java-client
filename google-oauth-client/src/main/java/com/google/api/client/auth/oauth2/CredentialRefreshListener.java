@@ -14,6 +14,8 @@
 
 package com.google.api.client.auth.oauth2;
 
+import java.io.IOException;
+
 
 /**
  * Listener for refresh token results.
@@ -41,15 +43,10 @@ public interface CredentialRefreshListener {
    * from the {@link TokenResponse}.
    * </p>
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
-   * {@link java.io.IOException}.
-   * </p>
-   *
    * @param credential credential on which the token refresh applied
    * @param tokenResponse token response
    */
-  void onTokenResponse(Credential credential, TokenResponse tokenResponse) throws Exception;
+  void onTokenResponse(Credential credential, TokenResponse tokenResponse) throws IOException;
 
   /**
    * Notifies of an error token response from {@link Credential#refreshToken()}.
@@ -62,14 +59,9 @@ public interface CredentialRefreshListener {
    * called previously with {@code null} to clear their values.
    * </p>
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
-   * {@link java.io.IOException}.
-   * </p>
-   *
    * @param credential credential on which the token refresh applied
    * @param tokenErrorResponse token error response or {@code null} for none supplied
    */
   void onTokenErrorResponse(Credential credential, TokenErrorResponse tokenErrorResponse)
-      throws Exception;
+      throws IOException;
 }

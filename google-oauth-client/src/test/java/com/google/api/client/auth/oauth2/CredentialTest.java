@@ -33,6 +33,7 @@ import com.google.api.client.util.GenericData;
 
 import junit.framework.TestCase;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -130,7 +131,7 @@ public class CredentialTest extends TestCase {
     public LowLevelHttpRequest buildRequest(String method, String url) {
       return new MockLowLevelHttpRequest(url) {
         @Override
-        public LowLevelHttpResponse execute() throws Exception {
+        public LowLevelHttpResponse execute() throws IOException {
           MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
           response.setContentType(Json.MEDIA_TYPE);
           GenericData responseData;

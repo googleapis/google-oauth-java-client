@@ -117,7 +117,7 @@ public final class OAuthHmacCredential implements Credential, InstanceCallbacks 
     request.setUnsuccessfulResponseHandler(this);
   }
 
-  public void intercept(HttpRequest request) throws Exception {
+  public void intercept(HttpRequest request) throws IOException {
     authorizer.intercept(request);
   }
 

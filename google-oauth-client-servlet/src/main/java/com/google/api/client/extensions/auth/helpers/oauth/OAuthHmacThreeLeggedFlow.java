@@ -108,11 +108,6 @@ public class OAuthHmacThreeLeggedFlow implements ThreeLeggedFlow {
    * @param callbackUrl Url which the server should redirect the user to after obtaining
    *        authorization.
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
-   * {@link java.io.IOException}.
-   * </p>
-   *
    * @throws IOException Exception thrown when the flow is unable to communicate with the service
    *         provider.
    */
@@ -122,7 +117,7 @@ public class OAuthHmacThreeLeggedFlow implements ThreeLeggedFlow {
       String authorizationServerUrl,
       String temporaryTokenUrl,
       String callbackUrl,
-      HttpTransport transport) throws Exception {
+      HttpTransport transport) throws IOException {
 
     this.userId = userId;
     this.consumerSecret = consumerSecret;
@@ -153,7 +148,7 @@ public class OAuthHmacThreeLeggedFlow implements ThreeLeggedFlow {
     return authorizationUrl;
   }
 
-  public Credential complete(String authorizationCode) throws Exception {
+  public Credential complete(String authorizationCode) throws IOException {
     Preconditions.checkNotNull(transport, "Must call setHttpTransport before calling complete.");
 
     OAuthGetAccessToken accessToken = new OAuthGetAccessToken(authorizationServerUrl);

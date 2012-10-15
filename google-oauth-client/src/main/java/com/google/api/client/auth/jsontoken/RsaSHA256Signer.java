@@ -18,6 +18,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Base64;
 import com.google.api.client.util.StringUtils;
 
+import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 import java.security.Signature;
@@ -34,8 +35,8 @@ public class RsaSHA256Signer {
    * Signs a given JWS header and payload based on the given private key.
    *
    * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
-   * {@link GeneralSecurityException}.
+   * Upgrade warning: this method now throws an {@link IOException}. In prior version 1.11 it did
+   * not throw {@link IOException}.
    * </p>
    *
    * @param privateKey private key
@@ -45,7 +46,8 @@ public class RsaSHA256Signer {
    * @return signed JWS string
    */
   public static String sign(PrivateKey privateKey, JsonFactory jsonFactory,
-      JsonWebSignature.Header header, JsonWebToken.Payload payload) throws Exception {
+      JsonWebSignature.Header header, JsonWebToken.Payload payload)
+      throws GeneralSecurityException, IOException {
     String content = Base64.encodeBase64URLSafeString(jsonFactory.toByteArray(header)) + "."
         + Base64.encodeBase64URLSafeString(jsonFactory.toByteArray(payload));
     byte[] contentBytes = StringUtils.getBytesUtf8(content);

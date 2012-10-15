@@ -38,7 +38,7 @@ import com.google.common.base.Preconditions;
  * </p>
  *
  * <pre>
-  static void requestAccessToken() throws Exception {
+  static void requestAccessToken() throws IOException {
     try {
       TokenResponse response =
           new AuthorizationCodeTokenRequest(new NetHttpTransport(), new JacksonFactory(),

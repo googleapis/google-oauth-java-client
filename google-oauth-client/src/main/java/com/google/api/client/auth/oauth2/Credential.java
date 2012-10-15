@@ -26,7 +26,6 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Clock;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Throwables;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -98,15 +97,10 @@ public class Credential
      * Intercept the HTTP request during {@link Credential#intercept(HttpRequest)} right before the
      * HTTP request executes by providing the access token.
      *
-     * <p>
-     * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw
-     * an {@link java.io.IOException}.
-     * </p>
-     *
      * @param request HTTP request
      * @param accessToken access token
      */
-    void intercept(HttpRequest request, String accessToken) throws Exception;
+    void intercept(HttpRequest request, String accessToken) throws IOException;
 
     /**
      * Retrieve the original access token in the HTTP request, as provided in
@@ -260,15 +254,10 @@ public class Credential
    * </p>
    *
    * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
-   * {@link java.io.IOException}.
-   * </p>
-   *
-   * <p>
    * Subclasses may override.
    * </p>
    */
-  public void intercept(HttpRequest request) throws Exception {
+  public void intercept(HttpRequest request) throws IOException {
     lock.lock();
     try {
       Long expiresIn = getExpiresInSeconds();
@@ -305,8 +294,7 @@ public class Credential
         } finally {
           lock.unlock();
         }
-      } catch (Exception exception) {
-        Throwables.propagateIfPossible(exception);
+      } catch (IOException exception) {
         LOGGER.log(Level.SEVERE, "unable to refresh token", exception);
       }
     }
@@ -508,14 +496,9 @@ public class Credential
    * {@link TokenResponseException} is thrown.
    * </p>
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
-   * {@link java.io.IOException}.
-   * </p>
-   *
    * @return whether a new access token was successfully retrieved
    */
-  public final boolean refreshToken() throws Exception {
+  public final boolean refreshToken() throws IOException {
     lock.lock();
     try {
       try {
@@ -592,16 +575,11 @@ public class Credential
    * thread synchronization is already taken care of inside {@link #refreshToken()}.
    * </p>
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
-   * {@link java.io.IOException}.
-   * </p>
-   *
    * @return successful response from the token server or {@code null} if it is not possible to
    *         refresh the access token
    * @throws TokenResponseException if an error response was received from the token server
    */
-  protected TokenResponse executeRefreshToken() throws Exception {
+  protected TokenResponse executeRefreshToken() throws IOException {
     if (refreshToken == null) {
       return null;
     }

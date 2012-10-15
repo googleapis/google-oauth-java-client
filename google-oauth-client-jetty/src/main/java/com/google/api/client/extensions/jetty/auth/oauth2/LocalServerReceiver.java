@@ -15,6 +15,7 @@
 package com.google.api.client.extensions.jetty.auth.oauth2;
 
 import com.google.api.client.extensions.java6.auth.oauth2.VerificationCodeReceiver;
+import com.google.common.base.Throwables;
 
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Request;
@@ -90,7 +91,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
   }
 
   @Override
-  public String getRedirectUri() throws Exception {
+  public String getRedirectUri() throws IOException {
     if (port == -1) {
       port = getUnusedPort();
     }
@@ -99,19 +100,24 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
       c.setHost(host);
     }
     server.addHandler(new CallbackHandler());
-    server.start();
+    try {
+      server.start();
+    } catch (Exception e) {
+      Throwables.propagateIfPossible(e);
+      throw new IOException(e);
+    }
     return "http://" + host + ":" + port + CALLBACK_PATH;
   }
 
   @Override
-  public String waitForCode() throws Exception {
+  public String waitForCode() throws IOException {
     lock.lock();
     try {
       while (code == null && error == null) {
         gotAuthorizationResponse.awaitUninterruptibly();
       }
       if (error != null) {
-        throw new Exception("User authorization failed (" + error + ")");
+        throw new IOException("User authorization failed (" + error + ")");
       }
       return code;
     } finally {
@@ -120,9 +126,14 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
   }
 
   @Override
-  public void stop() throws Exception {
+  public void stop() throws IOException {
     if (server != null) {
-      server.stop();
+      try {
+        server.stop();
+      } catch (Exception e) {
+        Throwables.propagateIfPossible(e);
+        throw new IOException(e);
+      }
       server = null;
     }
   }

@@ -57,10 +57,15 @@ public class AuthorizationCodeInstalledApp {
   /**
    * Authorizes the installed application to access user's protected data.
    *
+   * <p>
+   * Upgrade warning: this method now throws an {@link IOException}. In prior version 1.11 it threw
+   * an {@link Exception}.
+   * </p>
+   *
    * @param userId user ID or {@code null} if not using a persisted credential store
    * @return credential
    */
-  public Credential authorize(String userId) throws Exception {
+  public Credential authorize(String userId) throws IOException {
     try {
       Credential credential = flow.loadCredential(userId);
       if (credential != null
@@ -93,16 +98,21 @@ public class AuthorizationCodeInstalledApp {
    *
    * <pre>
   &#64;Override
-  protected void onAuthorization(AuthorizationCodeRequestUrl authorizationUrl) throws Exception {
+  protected void onAuthorization(AuthorizationCodeRequestUrl authorizationUrl) throws IOException {
     authorizationUrl.setState("xyz");
     super.onAuthorization(authorizationUrl);
   }
    * </pre>
    *
+   * <p>
+   * Upgrade warning: this method now throws an {@link IOException}. In prior version 1.11 it threw
+   * an {@link Exception}.
+   * </p>
+   *
    * @param authorizationUrl authorization URL
-   * @throws Exception exception
+   * @throws IOException I/O exception
    */
-  protected void onAuthorization(AuthorizationCodeRequestUrl authorizationUrl) throws Exception {
+  protected void onAuthorization(AuthorizationCodeRequestUrl authorizationUrl) throws IOException {
     browse(authorizationUrl.build());
   }
 

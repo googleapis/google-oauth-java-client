@@ -35,6 +35,7 @@ import junit.framework.TestCase;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Tests {@link FileCredentialStore}.
@@ -148,7 +149,7 @@ public class FileCredentialStoreTest extends TestCase {
     public LowLevelHttpRequest buildRequest(String method, String url) {
       return new MockLowLevelHttpRequest(url) {
           @Override
-        public LowLevelHttpResponse execute() throws Exception {
+        public LowLevelHttpResponse execute() throws IOException {
           MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
           response.setContentType("UTF-8");
           GenericData responseData;

@@ -18,7 +18,6 @@ import com.google.api.client.extensions.auth.helpers.Credential;
 import com.google.api.client.extensions.auth.helpers.ThreeLeggedFlow;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.common.base.Throwables;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -193,9 +192,6 @@ public abstract class AbstractCallbackServlet extends HttpServlet {
       manager.makePersistent(c);
       manager.deletePersistent(flow);
       resp.sendRedirect(redirectUrl);
-    } catch (Exception e) {
-      Throwables.propagateIfPossible(e, IOException.class, ServletException.class);
-      throw new ServletException(e);
     } finally {
       manager.close();
     }

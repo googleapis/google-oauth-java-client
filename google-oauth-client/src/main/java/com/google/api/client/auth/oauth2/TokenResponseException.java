@@ -23,6 +23,8 @@ import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.util.StringUtils;
 import com.google.common.base.Preconditions;
 
+import java.io.IOException;
+
 /**
  * Exception thrown when receiving an error response from the token server as specified in <a
  * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-5.2">Error Response</a>
@@ -89,7 +91,7 @@ public class TokenResponseException extends HttpResponseException {
       } else {
         detailString = response.parseAsString();
       }
-    } catch (Exception exception) {
+    } catch (IOException exception) {
       // it would be bad to throw an exception while throwing an exception
       exception.printStackTrace();
     }

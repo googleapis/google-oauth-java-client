@@ -30,6 +30,7 @@ import com.google.api.client.util.Key;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -264,27 +265,22 @@ public class TokenRequest extends GenericData {
      }
    * </pre>
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
-   * {@link java.io.IOException}.
-   * </p>
-   *
    * @return successful access token response, which can then be parsed directly using
    *         {@link HttpResponse#parseAs(Class)} or some other parsing method
    * @throws TokenResponseException for an error response
    */
-  public final HttpResponse executeUnparsed() throws Exception {
+  public final HttpResponse executeUnparsed() throws IOException {
     // must set clientAuthentication as last execute interceptor in case it needs to sign request
     HttpRequestFactory requestFactory =
         transport.createRequestFactory(new HttpRequestInitializer() {
 
-          public void initialize(HttpRequest request) throws Exception {
+          public void initialize(HttpRequest request) throws IOException {
             if (requestInitializer != null) {
               requestInitializer.initialize(request);
             }
             final HttpExecuteInterceptor interceptor = request.getInterceptor();
             request.setInterceptor(new HttpExecuteInterceptor() {
-              public void intercept(HttpRequest request) throws Exception {
+              public void intercept(HttpRequest request) throws IOException {
                 if (interceptor != null) {
                   interceptor.intercept(request);
                 }
@@ -296,8 +292,8 @@ public class TokenRequest extends GenericData {
           }
         });
     // make request
-    HttpRequest request = requestFactory.buildPostRequest(
-        tokenServerUrl, new UrlEncodedContent(this));
+    HttpRequest request =
+        requestFactory.buildPostRequest(tokenServerUrl, new UrlEncodedContent(this));
     request.setParser(new JsonObjectParser(jsonFactory));
     request.setThrowExceptionOnExecuteError(false);
     HttpResponse response = request.execute();
@@ -320,15 +316,10 @@ public class TokenRequest extends GenericData {
    * {@link #executeUnparsed()}.
    * </p>
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
-   * {@link java.io.IOException}.
-   * </p>
-   *
    * @return parsed successful access token response
    * @throws TokenResponseException for an error response
    */
-  public TokenResponse execute() throws Exception {
+  public TokenResponse execute() throws IOException {
     return executeUnparsed().parseAs(TokenResponse.class);
   }
 }

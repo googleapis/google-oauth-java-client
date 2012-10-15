@@ -21,6 +21,7 @@ import com.google.api.client.util.StringUtils;
 import com.google.common.base.Preconditions;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 /**
  * <a href="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature-00">JSON Web Signature
@@ -226,17 +227,12 @@ public class JsonWebSignature extends JsonWebToken {
   /**
    * Parses the given JWS token string and returns the parsed {@link JsonWebSignature}.
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw an
-   * {@link java.io.IOException}.
-   * </p>
-   *
    * @param jsonFactory JSON factory
    * @param tokenString JWS token string
    * @return parsed JWS
    */
   public static JsonWebSignature parse(JsonFactory jsonFactory, String tokenString)
-      throws Exception {
+      throws IOException {
     return parser(jsonFactory).parse(tokenString);
   }
 
@@ -300,15 +296,10 @@ public class JsonWebSignature extends JsonWebToken {
     /**
      * Parses a JWS token into a parsed {@link JsonWebSignature}.
      *
-     * <p>
-     * Upgrade warning: this method now throws an {@link Exception}. In prior version 1.11 it threw
-     * an {@link java.io.IOException}.
-     * </p>
-     *
      * @param tokenString JWS token string
      * @return parsed {@link JsonWebSignature}
      */
-    public JsonWebSignature parse(String tokenString) throws Exception {
+    public JsonWebSignature parse(String tokenString) throws IOException {
       // split on the dots
       int firstDot = tokenString.indexOf('.');
       Preconditions.checkArgument(firstDot != -1);
