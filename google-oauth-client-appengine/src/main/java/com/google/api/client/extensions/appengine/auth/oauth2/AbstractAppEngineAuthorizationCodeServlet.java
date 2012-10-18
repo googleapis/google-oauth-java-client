@@ -19,6 +19,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 import java.io.IOException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -87,7 +88,7 @@ public abstract class AbstractAppEngineAuthorizationCodeServlet
   private static final long serialVersionUID = 1L;
 
   @Override
-  protected String getUserId(HttpServletRequest req) throws IOException {
+  protected String getUserId(HttpServletRequest req) throws ServletException, IOException {
     return UserServiceFactory.getUserService().getCurrentUser().getUserId();
   }
 }
