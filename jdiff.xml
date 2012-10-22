@@ -16,23 +16,23 @@
 
     <taskdef name="jdiff" classname="jdiff.JDiffAntTask"
       classpath="${JDIFF_HOME}/antjdiff.jar:${MAVEN_REPOSITORY_HOME}/org/codehaus/jackson/jackson-core-asl/1.6.7/jackson-core-asl-1.6.7.jar:${MAVEN_REPOSITORY_HOME}/xpp3/xpp3/1.1.4c/xpp3-1.1.4c.jar:${MAVEN_REPOSITORY_HOME}/org/mortbay/jetty/jetty/6.1.26/jetty-6.1.26.jar" />
-    <jdiff destdir="${JAVADOC_PROJECT_ROOT_DIR}/1.12.0-beta/jdiff" verbose="on"
+    <jdiff destdir="${JAVADOC_PROJECT_ROOT_DIR}/1.13.0-beta/jdiff" verbose="on"
       stats="on" docchanges="on">
-      <old name="Google OAuth Client Library for Java 1.11.0-beta">
+      <old name="Google OAuth Client Library for Java 1.12.0-beta">
         <!-- This is the location of your old source files -->
-        <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.11.0-beta/google-oauth-client/src/main/java" />
-        <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.11.0-beta/google-oauth-client-appengine/src/main/java" />
-        <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.11.0-beta/google-oauth-client-servlet/src/main/java" />
-        <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.11.0-beta/google-oauth-client-java6/src/main/java" />
-        <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.11.0-beta/google-oauth-client-jetty/src/main/java" />
-      </old>
-      <new name="Google OAuth Client Library for Java 1.12.0-beta">
-        <!-- This is the location of your new source files -->
         <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.12.0-beta/google-oauth-client/src/main/java" />
         <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.12.0-beta/google-oauth-client-appengine/src/main/java" />
         <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.12.0-beta/google-oauth-client-servlet/src/main/java" />
         <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.12.0-beta/google-oauth-client-java6/src/main/java" />
         <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.12.0-beta/google-oauth-client-jetty/src/main/java" />
+      </old>
+      <new name="Google OAuth Client Library for Java 1.13.0-beta">
+        <!-- This is the location of your new source files -->
+        <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.13.0-beta/google-oauth-client/src/main/java" />
+        <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.13.0-beta/google-oauth-client-appengine/src/main/java" />
+        <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.13.0-beta/google-oauth-client-servlet/src/main/java" />
+        <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.13.0-beta/google-oauth-client-java6/src/main/java" />
+        <dirset dir="${TMP_PROJECT_ROOT_DIR}/1.13.0-beta/google-oauth-client-jetty/src/main/java" />
       </new>
     </jdiff>
   </target>
