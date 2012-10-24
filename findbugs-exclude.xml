@@ -13,4 +13,8 @@
     <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2"/> 
     <Class name="com.google.api.client.auth.jsontoken.JsonWebSignature"/>
   </And>
+  <!-- TODO(ngmiceli): remove this once upgraded to newer FindBugs -->
+  <And>
+    <Bug pattern="NP_ALWAYS_NULL"/>
+  </And>
 </FindBugsFilter>
