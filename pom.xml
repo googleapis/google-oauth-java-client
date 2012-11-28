@@ -49,16 +49,16 @@
 
   <!--
     If you add a new module, make sure to also add it in the following places:
+    * below in the dependencyManagement and maven-javadoc-plugin sections
+    * jdiff.xml
     * release.html
     * google-oauth-client-assembly/pom.xml
-    * google-oauth-client-assembly/readme.xml
+    * google-oauth-client-assembly/readme.html
     * google-oauth-client-assembly/.classpath
     * google-oauth-client-assembly/dependencies/<name>-dependencies.html
         (use mvn project-info-reports:dependencies and copy from
         google-oauth-client-<name>/target/site/dependencies.html)
-    * jdiff.xml
     * google-oauth-client-assembly/android-properties/*.properties
-    * This pom.xml file below in the dependencyManagement and maven-javadoc-plugin sections
   -->
   <modules>
     <module>google-oauth-client</module>
@@ -106,7 +106,12 @@
         <artifactId>commons-codec</artifactId>
         <scope>provided</scope>
         <version>1.6</version>
-     </dependency>
+      </dependency>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>${project.commons-io.version}</version>
+      </dependency>
       <dependency>
         <groupId>com.google.http-client</groupId>
         <artifactId>google-http-client</artifactId>
@@ -393,5 +398,6 @@
     <project.httpcore.version>4.0.1</project.httpcore.version>
     <project.jdo2-api.version>2.3-eb</project.jdo2-api.version>
     <project.transaction-api.version>1.1</project.transaction-api.version>
+    <project.commons-io.version>2.4</project.commons-io.version>
   </properties>
 </project>

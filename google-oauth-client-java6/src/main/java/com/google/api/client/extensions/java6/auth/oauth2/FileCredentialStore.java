@@ -21,6 +21,8 @@ import com.google.api.client.json.JsonGenerator;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -68,6 +70,10 @@ public class FileCredentialStore implements CredentialStore {
     if (parentDir != null && !parentDir.exists() && !parentDir.mkdirs()) {
       throw new IOException("unable to create parent directory: " + parentDir);
     }
+    // error if it is a symbolic link
+    if (isSymbolicLink(file)) {
+      throw new IOException("unable to use a symbolic link: " + file);
+    }
     // create new file (if necessary)
     if (!file.createNewFile()) {
       // load credentials from existing file
@@ -85,6 +91,16 @@ public class FileCredentialStore implements CredentialStore {
       // save the credentials to create a new file
       save();
     }
+  }
+
+  /**
+   * Returns whether the given file is a symbolic link.
+   *
+   * @since 1.13
+   */
+  protected boolean isSymbolicLink(File file) throws IOException {
+    // TODO(yanivi): in Java 7 use Files.isSymbolicLink(file.toPath())
+    return FileUtils.isSymlink(file);
   }
 
   @Override

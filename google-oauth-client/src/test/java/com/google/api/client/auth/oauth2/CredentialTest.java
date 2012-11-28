@@ -88,7 +88,7 @@ public class CredentialTest extends TestCase {
         subtestConstructor_expired(BearerToken.authorizationHeaderAccessMethod(), new CheckAuth() {
 
           public boolean checkAuth(MockLowLevelHttpRequest req) {
-            return req.getHeaders().get("Authorization").contains("Bearer def");
+            return req.getFirstHeaderValue("Authorization").equals("Bearer def");
           }
         });
     assertEquals("Bearer def", request.getHeaders().getAuthorization());
