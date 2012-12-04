@@ -78,7 +78,14 @@ public class PrivateKeys {
     }
   }
 
-  /** Reads a {@code PKCS#8} format private key from a given file. */
+  /**
+   * Reads a {@code PKCS#8} format private key from a given file.
+   *
+   * @deprecated (scheduled to be removed in 1.14) Use {@link #loadFromPkcs8PemFile} instead. Note
+   *             that the file formatting requirements for {@link #loadFromPkcs8PemFile} are
+   *             stricter than this method's requirements.
+   */
+  @Deprecated
   public static PrivateKey loadFromPk8File(File file) throws IOException, GeneralSecurityException {
     byte[] privKeyBytes = new byte[(int) file.length()];
     DataInputStream inputStream = new DataInputStream(new FileInputStream(file));
@@ -94,6 +101,66 @@ public class PrivateKeys {
     KeyFactory fac = KeyFactory.getInstance("RSA");
     EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(Base64.decodeBase64(str));
     return fac.generatePrivate(privKeySpec);
+  }
+
+  /**
+   * Reads a {@code PEM} formatted private key from a given file.
+   *
+   * <p>
+   * This supports any file if and only if it contains a DER and Base64 encoded key, and the
+   * contents are enclosed by the following:
+   * </p>
+   *
+   * <pre>
+   *-----BEGIN PRIVATE KEY-----
+   *-----END PRIVATE KEY-----
+   *</pre>
+   *
+   * <p>
+   * The file may contain additional content outside of the BEGIN and END tags, but it will be
+   * ignored. This method does not support additional content such as headers inside the BEGIN and
+   * END tags. If the file contains multiple BEGIN and END tags, only the content inside the first
+   * pair will be read.
+   * </p>
+   *
+   * @since 1.13
+   */
+  public static byte[] readFromPemFormattedFile(File file)
+      throws IOException, GeneralSecurityException {
+    byte[] privKeyBytes = new byte[(int) file.length()];
+    DataInputStream inputStream = new DataInputStream(new FileInputStream(file));
+    try {
+      inputStream.readFully(privKeyBytes);
+    } finally {
+      inputStream.close();
+    }
+    String str = new String(privKeyBytes);
+    if (!str.contains(BEGIN) || !str.contains(END)) {
+      throw new GeneralSecurityException(
+          "File missing required BEGIN PRIVATE KEY or END PRIVATE KEY tags.");
+    }
+    if (str.indexOf(BEGIN) + BEGIN.length() > str.indexOf(END)) {
+      throw new GeneralSecurityException("END PRIVATE KEY tag found before BEGIN PRIVATE KEY tag.");
+    }
+
+    String privKey = str.substring(str.indexOf(BEGIN) + BEGIN.length(), str.indexOf(END));
+    return Base64.decodeBase64(privKey);
+  }
+
+  /**
+   * Reads a {@code PEM} formatted PKCS8 encoded private key from a given file.
+   *
+   * <p>
+   * This method uses {@link #readFromPemFormattedFile}, and the file formatting requirements from
+   * that method apply.
+   * <p>
+   *
+   * @since 1.13
+   */
+  public static PrivateKey loadFromPkcs8PemFile(File pemFile)
+      throws IOException, GeneralSecurityException {
+    KeyFactory kf = KeyFactory.getInstance("RSA");
+    return kf.generatePrivate(new PKCS8EncodedKeySpec(readFromPemFormattedFile(pemFile)));
   }
 
   /**
