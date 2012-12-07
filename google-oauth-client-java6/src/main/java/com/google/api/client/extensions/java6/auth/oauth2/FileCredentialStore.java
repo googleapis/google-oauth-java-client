@@ -21,8 +21,6 @@ import com.google.api.client.json.JsonGenerator;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -52,6 +50,8 @@ public class FileCredentialStore implements CredentialStore {
 
   /** File to store user credentials. */
   private final File file;
+
+  private static final boolean IS_WINDOWS = File.separatorChar == '\\';
 
   /**
    * <p>
@@ -100,7 +100,15 @@ public class FileCredentialStore implements CredentialStore {
    */
   protected boolean isSymbolicLink(File file) throws IOException {
     // TODO(yanivi): in Java 7 use Files.isSymbolicLink(file.toPath())
-    return FileUtils.isSymlink(file);
+    if (IS_WINDOWS) {
+      return false;
+    }
+
+    File canonical = file;
+    if (file.getParent() != null) {
+      canonical = new File(file.getParentFile().getCanonicalFile(), file.getName());
+    }
+    return !canonical.getCanonicalFile().equals(canonical.getAbsoluteFile());
   }
 
   @Override
