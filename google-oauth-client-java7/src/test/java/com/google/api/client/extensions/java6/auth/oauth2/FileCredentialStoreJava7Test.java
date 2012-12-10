@@ -18,6 +18,7 @@ import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenErrorResponse;
 import com.google.api.client.auth.oauth2.TokenResponse;
+import com.google.api.client.extensions.java7.auth.oauth2.FileCredentialStoreJava7;
 import com.google.api.client.http.BasicAuthentication;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.LowLevelHttpRequest;
@@ -36,13 +37,15 @@ import junit.framework.TestCase;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
- * Tests {@link FileCredentialStore}.
+ * Tests {@link FileCredentialStoreJava7}.
  *
- * @author Rafael Naufal
+ * @author Yaniv Inbar
  */
-public class FileCredentialStoreTest extends TestCase {
+public class FileCredentialStoreJava7Test extends TestCase {
 
   static final JsonFactory JSON_FACTORY = new JacksonFactory();
   private static final String ACCESS_TOKEN = "abc";
@@ -59,7 +62,7 @@ public class FileCredentialStoreTest extends TestCase {
     boolean exceptionThrow = false;
     String message = "";
     try {
-      new FileCredentialStore(null, null);
+      new FileCredentialStoreJava7(null, null);
     } catch (Exception ex) {
       exceptionThrow = true;
       message = ex.getMessage();
@@ -69,7 +72,7 @@ public class FileCredentialStoreTest extends TestCase {
 
   public void testLoadCredentials_empty() throws Exception {
     File file = createTempFile();
-    FileCredentialStore store = new FileCredentialStore(file, JSON_FACTORY);
+    FileCredentialStoreJava7 store = new FileCredentialStoreJava7(file, JSON_FACTORY);
     Credential actual = createEmptyCredential();
     boolean loaded = store.load(USER_ID, actual);
     assertFalse(loaded);
@@ -82,11 +85,11 @@ public class FileCredentialStoreTest extends TestCase {
     Credential expected = createCredential();
     File file = createTempFile();
     file.delete();
-    FileCredentialStore store = new FileCredentialStore(file, JSON_FACTORY);
-    store = new FileCredentialStore(file, JSON_FACTORY);
+    FileCredentialStoreJava7 store = new FileCredentialStoreJava7(file, JSON_FACTORY);
+    store = new FileCredentialStoreJava7(file, JSON_FACTORY);
     store.store(USER_ID, expected);
 
-    store = new FileCredentialStore(file, JSON_FACTORY);
+    store = new FileCredentialStoreJava7(file, JSON_FACTORY);
     Credential actual = createEmptyCredential();
     boolean loaded = store.load(USER_ID, actual);
     assertTrue(loaded);
@@ -97,7 +100,7 @@ public class FileCredentialStoreTest extends TestCase {
 
   public void testNotLoadCredentials() throws Exception {
     Credential expected = createCredential();
-    FileCredentialStore store = new FileCredentialStore(createTempFile(), JSON_FACTORY);
+    FileCredentialStoreJava7 store = new FileCredentialStoreJava7(createTempFile(), JSON_FACTORY);
     store.store(USER_ID, expected);
     try {
       store.load(USER_ID, null);
@@ -108,13 +111,13 @@ public class FileCredentialStoreTest extends TestCase {
   }
 
   public void testNotCredentialsNoExists() throws Exception {
-    FileCredentialStore store = new FileCredentialStore(createTempFile(), JSON_FACTORY);
+    FileCredentialStoreJava7 store = new FileCredentialStoreJava7(createTempFile(), JSON_FACTORY);
     boolean loaded = store.load("123", createCredential());
     assertFalse(loaded);
   }
 
   public void testDeleteCredentials() throws Exception {
-    FileCredentialStore store = new FileCredentialStore(createTempFile(), JSON_FACTORY);
+    FileCredentialStoreJava7 store = new FileCredentialStoreJava7(createTempFile(), JSON_FACTORY);
     store.delete(USER_ID, createCredential());
   }
 
@@ -180,5 +183,19 @@ public class FileCredentialStoreTest extends TestCase {
     generator.serialize(new FilePersistedCredentials());
     generator.close();
     return result;
+  }
+
+  public void testSymbolicLink() throws Exception {
+    File file = createTempFile();
+    Path path = Files.createSymbolicLink(
+        new File(file.getParentFile(), file.getName() + "-link").toPath(), file.toPath());
+    File symFile = path.toFile();
+    symFile.deleteOnExit();
+    try {
+      new FileCredentialStoreJava7(symFile, JSON_FACTORY);
+      fail("expected " + IOException.class);
+    } catch (IOException e) {
+      assertTrue(e.getMessage(), e.getMessage().startsWith("unable to use a symbolic link"));
+    }
   }
 }

@@ -148,6 +148,7 @@ cp google-oauth-client/target/site/dependencies.html google-oauth-client-assembl
 cp google-oauth-client-appengine/target/site/dependencies.html google-oauth-client-assembly/dependencies/appengine-dependencies.html
 cp google-oauth-client-servlet/target/site/dependencies.html google-oauth-client-assembly/dependencies/servlet-dependencies.html
 cp google-oauth-client-java6/target/site/dependencies.html google-oauth-client-assembly/dependencies/java6-dependencies.html
+cp google-oauth-client-java7/target/site/dependencies.html google-oauth-client-assembly/dependencies/java7-dependencies.html
 cp google-oauth-client-jetty/target/site/dependencies.html google-oauth-client-assembly/dependencies/jetty-dependencies.html
 
 for filename in google-oauth-client-assembly/android-properties/*.properties; do newname=`echo $filename | sed -e 's/-SNAPSHOT//g'`; mv $filename $newname; done
