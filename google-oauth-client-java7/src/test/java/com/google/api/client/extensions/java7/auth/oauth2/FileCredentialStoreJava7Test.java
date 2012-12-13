@@ -12,13 +12,13 @@
  * the License.
  */
 
-package com.google.api.client.extensions.java6.auth.oauth2;
+package com.google.api.client.extensions.java7.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenErrorResponse;
 import com.google.api.client.auth.oauth2.TokenResponse;
-import com.google.api.client.extensions.java7.auth.oauth2.FileCredentialStoreJava7;
+import com.google.api.client.extensions.java6.auth.oauth2.FilePersistedCredentials;
 import com.google.api.client.http.BasicAuthentication;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.LowLevelHttpRequest;
