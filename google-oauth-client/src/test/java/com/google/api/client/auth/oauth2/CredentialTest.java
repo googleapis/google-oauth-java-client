@@ -110,8 +110,8 @@ public class CredentialTest extends TestCase {
         subtestConstructor_expired(BearerToken.formEncodedBodyAccessMethod(), new CheckAuth() {
 
           public boolean checkAuth(MockLowLevelHttpRequest req) {
-            return NEW_ACCESS_TOKEN.equals(
-                ((Map<?, ?>) ((UrlEncodedContent) req.getContent()).getData()).get("access_token"));
+            return NEW_ACCESS_TOKEN.equals(((Map<?, ?>) ((UrlEncodedContent) req
+                .getStreamingContent()).getData()).get("access_token"));
           }
         });
     assertEquals(NEW_ACCESS_TOKEN,
