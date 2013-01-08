@@ -14,8 +14,8 @@
 
 package com.google.api.client.auth.oauth;
 
-import com.google.api.client.auth.security.PrivateKeys;
 import com.google.api.client.util.Base64;
+import com.google.api.client.util.SecurityUtils;
 import com.google.api.client.util.StringUtils;
 
 import java.security.GeneralSecurityException;
@@ -26,7 +26,7 @@ import java.security.Signature;
  * OAuth {@code "RSA-SHA1"} signature method.
  *
  * <p>
- * The private key may be loaded using the utilities in {@link PrivateKeys}.
+ * The private key may be loaded using the utilities in {@link SecurityUtils}.
  * </p>
  *
  * @since 1.0
@@ -42,9 +42,8 @@ public final class OAuthRsaSigner implements OAuthSigner {
   }
 
   public String computeSignature(String signatureBaseString) throws GeneralSecurityException {
-    Signature signer = Signature.getInstance("SHA1withRSA");
-    signer.initSign(privateKey);
-    signer.update(StringUtils.getBytesUtf8(signatureBaseString));
-    return Base64.encodeBase64String(signer.sign());
+    Signature signer = SecurityUtils.getSha1WithRsaSignatureAlgorithm();
+    byte[] data = StringUtils.getBytesUtf8(signatureBaseString);
+    return Base64.encodeBase64String(SecurityUtils.sign(signer, privateKey, data));
   }
 }

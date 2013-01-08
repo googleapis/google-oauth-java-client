@@ -22,6 +22,7 @@ import java.security.PrivateKey;
  *
  * @author ngmiceli@google.com (Nick Miceli)
  */
+@Deprecated
 public class PrivateKeysTest extends TestCase {
 
   /**

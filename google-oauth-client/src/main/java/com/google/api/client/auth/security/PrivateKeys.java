@@ -15,6 +15,7 @@
 package com.google.api.client.auth.security;
 
 import com.google.api.client.util.Base64;
+import com.google.api.client.util.SecurityUtils;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -33,7 +34,9 @@ import java.security.spec.PKCS8EncodedKeySpec;
  *
  * @since 1.7
  * @author Yaniv Inbar
+ * @deprecated (scheduled to be removed in 1.15) Use {@link SecurityUtils} instead.
  */
+@Deprecated
 public class PrivateKeys {
 
   private static final String BEGIN = "-----BEGIN PRIVATE KEY-----";
@@ -48,7 +51,11 @@ public class PrivateKeys {
    * @param alias alias under which the private key is stored
    * @param keyPass password protecting the private key
    * @return the private key from the specified key store
+   * @deprecated (scheduled to be removed in 1.15) Use
+   *             {@link SecurityUtils#loadPrivateKeyFromKeyStore} with
+   *             {@link SecurityUtils#getDefaultKeyStore()} instead
    */
+  @Deprecated
   public static PrivateKey loadFromKeyStore(
       InputStream keyStream, String storePass, String alias, String keyPass)
       throws IOException, GeneralSecurityException {
@@ -66,7 +73,10 @@ public class PrivateKeys {
    * @param alias alias under which the private key is stored
    * @param keyPass password protecting the private key
    * @return the private key from the specified key store
+   * @deprecated (scheduled to be removed in 1.15) Use
+   *             {@link SecurityUtils#loadPrivateKeyFromKeyStore} instead.
    */
+  @Deprecated
   public static PrivateKey loadFromKeyStore(
       KeyStore keyStore, InputStream keyStream, String storePass, String alias, String keyPass)
       throws IOException, GeneralSecurityException {
@@ -124,7 +134,10 @@ public class PrivateKeys {
    * </p>
    *
    * @since 1.13
+   * @deprecated (scheduled to be removed in 1.15) Use
+   *             {@link SecurityUtils#readPrivateKeyFromPem(InputStream)} instead.
    */
+  @Deprecated
   public static byte[] readFromPemFormattedFile(File file)
       throws IOException, GeneralSecurityException {
     byte[] privKeyBytes = new byte[(int) file.length()];
@@ -156,7 +169,10 @@ public class PrivateKeys {
    * <p>
    *
    * @since 1.13
+   * @deprecated (scheduled to be removed in 1.15) Use
+   *             {@link SecurityUtils#loadPkcs8PrivateKeyFromPem(KeyFactory, InputStream)} instead.
    */
+  @Deprecated
   public static PrivateKey loadFromPkcs8PemFile(File pemFile)
       throws IOException, GeneralSecurityException {
     KeyFactory kf = KeyFactory.getInstance("RSA");
@@ -171,7 +187,11 @@ public class PrivateKeys {
    * @param alias alias under which the private key is stored
    * @param keyPass password protecting the private key
    * @return loaded private key
+   * @deprecated (scheduled to be removed in 1.15) Use
+   *             {@link SecurityUtils#loadPrivateKeyFromKeyStore} with
+   *             {@link SecurityUtils#getPkcs12KeyStore()} instead
    */
+  @Deprecated
   public static PrivateKey loadFromP12File(
       File p12File, String storePass, String alias, String keyPass)
       throws GeneralSecurityException, IOException {

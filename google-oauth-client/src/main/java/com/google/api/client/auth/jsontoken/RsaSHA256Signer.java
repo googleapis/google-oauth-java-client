@@ -16,12 +16,12 @@ package com.google.api.client.auth.jsontoken;
 
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Base64;
+import com.google.api.client.util.SecurityUtils;
 import com.google.api.client.util.StringUtils;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
-import java.security.Signature;
 
 /**
  * Signs a JSON Web Signature (JWS) using RSA and SHA-256.
@@ -51,10 +51,8 @@ public class RsaSHA256Signer {
     String content = Base64.encodeBase64URLSafeString(jsonFactory.toByteArray(header)) + "."
         + Base64.encodeBase64URLSafeString(jsonFactory.toByteArray(payload));
     byte[] contentBytes = StringUtils.getBytesUtf8(content);
-    Signature signer = Signature.getInstance("SHA256withRSA");
-    signer.initSign(privateKey);
-    signer.update(contentBytes);
-    byte[] signature = signer.sign();
+    byte[] signature = SecurityUtils.sign(
+        SecurityUtils.getSha256WithRsaSignatureAlgorithm(), privateKey, contentBytes);
     return content + "." + Base64.encodeBase64URLSafeString(signature);
   }
 
