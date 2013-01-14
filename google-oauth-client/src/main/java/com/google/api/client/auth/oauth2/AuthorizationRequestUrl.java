@@ -24,7 +24,7 @@ import java.util.Arrays;
 /**
  * OAuth 2.0 URL builder for an authorization web page to allow the end user to authorize the
  * application to access their protected resources, as specified in <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1">Authorization Endpoint</a>.
+ * href="http://tools.ietf.org/html/rfc6749#section-3.1">Authorization Endpoint</a>.
  *
  * <p>
  * Sample usage for a web application:
@@ -49,9 +49,9 @@ import java.util.Arrays;
 public class AuthorizationRequestUrl extends GenericUrl {
 
   /**
-   * Space-separated list of response types, each of which must be {@code "code"} or a registered
-   * extension value (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.1">Response Type</a>).
+   * <a href="http://tools.ietf.org/html/rfc6749#section-3.1.1">Response type</a>, which must be
+   * {@code "code"} for requesting an authorization code, {@code "token"} for requesting an access
+   * token (implicit grant), or space-separated registered extension values.
    */
   @Key("response_type")
   private String responseTypes;
@@ -59,16 +59,16 @@ public class AuthorizationRequestUrl extends GenericUrl {
   /**
    * URI that the authorization server directs the resource owner's user-agent back to the client
    * after a successful authorization grant (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.2">Redirection
-   * Endpoint</a>) or {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-3.1.2">Redirection Endpoint</a>) or
+   * {@code null} for none.
    */
   @Key("redirect_uri")
   private String redirectUri;
 
   /**
    * Space-separated list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
-   * {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-3.3">Access Token Scope</a>) or {@code null}
+   * for none.
    */
   @Key("scope")
   private String scopes;
@@ -79,8 +79,7 @@ public class AuthorizationRequestUrl extends GenericUrl {
 
   /**
    * State (an opaque value used by the client to maintain state between the request and callback,
-   * as mentioned in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.2.2">Registration
+   * as mentioned in <a href="http://tools.ietf.org/html/rfc6749#section-3.1.2.2">Registration
    * Requirements</a>) or {@code null} for none.
    */
   @Key
@@ -89,10 +88,10 @@ public class AuthorizationRequestUrl extends GenericUrl {
   /**
    * @param authorizationServerEncodedUrl authorization server encoded URL
    * @param clientId client identifier
-   * @param responseTypes space-separated list of response types, each of which must be
-   *        {@code "code"}, {@code "token"}, or a registered extension value (as specified in <a
-   *        href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.1">Response
-   *        Type</a>)
+   * @param responseTypes <a href="http://tools.ietf.org/html/rfc6749#section-3.1.1">response
+   *        type</a>, which must be {@code "code"} for requesting an authorization code,
+   *        {@code "token"} for requesting an access token (implicit grant), or a list of registered
+   *        extension values to join with a space
    */
   public AuthorizationRequestUrl(
       String authorizationServerEncodedUrl, String clientId, Iterable<String> responseTypes) {
@@ -103,43 +102,37 @@ public class AuthorizationRequestUrl extends GenericUrl {
   }
 
   /**
-   * Returns the space-separated list of response types, each of which must be {@code "code"},
-   * {@code "token"}, or a registered extension value (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.1">Response Type</a>).
+   * Returns the <a href="http://tools.ietf.org/html/rfc6749#section-3.1.1">Response type</a>, which
+   * must be {@code "code"} for requesting an authorization code, {@code "token"} for requesting an
+   * access token (implicit grant), or space-separated registered extension values.
    */
   public final String getResponseTypes() {
     return responseTypes;
   }
 
   /**
-   * Sets the list of response types, each of which must be {@code "code"}, {@code "token"}, or a
-   * registered extension value (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.1">Response Type</a>).
+   * Sets the <a href="http://tools.ietf.org/html/rfc6749#section-3.1.1">response type</a>, which
+   * must be {@code "code"} for requesting an authorization code, {@code "token"} for requesting an
+   * access token (implicit grant), or an array of registered extension values to join with a space.
    *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
-   *
-   * @param responseTypes response types to be joined by a space separator (or a single value
-   *        containing multiple space-separated scopes)
    */
   public AuthorizationRequestUrl setResponseTypes(String... responseTypes) {
     return setResponseTypes(Arrays.asList(responseTypes));
   }
 
   /**
-   * Sets the list of response types, each of which must be {@code "code"}, {@code "token"}, or a
-   * registered extension value (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.1">Response Type</a>).
+   * Sets the <a href="http://tools.ietf.org/html/rfc6749#section-3.1.1">response type</a>, which
+   * must be {@code "code"} for requesting an authorization code, {@code "token"} for requesting an
+   * access token (implicit grant), or a list of registered extension values to join with a space.
    *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
-   *
-   * @param responseTypes response types to be joined by a space separator (or a single value
-   *        containing multiple space-separated scopes)
    */
   public AuthorizationRequestUrl setResponseTypes(Iterable<String> responseTypes) {
     this.responseTypes = Joiner.on(' ').join(responseTypes);
@@ -149,8 +142,8 @@ public class AuthorizationRequestUrl extends GenericUrl {
   /**
    * Returns the URI that the authorization server directs the resource owner's user-agent back to
    * the client after a successful authorization grant (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.2">Redirection
-   * Endpoint</a>) or {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-3.1.2">Redirection Endpoint</a>) or
+   * {@code null} for none.
    */
   public final String getRedirectUri() {
     return redirectUri;
@@ -159,8 +152,8 @@ public class AuthorizationRequestUrl extends GenericUrl {
   /**
    * Sets the URI that the authorization server directs the resource owner's user-agent back to the
    * client after a successful authorization grant (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.2">Redirection
-   * Endpoint</a>) or {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-3.1.2">Redirection Endpoint</a>) or
+   * {@code null} for none.
    *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
@@ -174,8 +167,8 @@ public class AuthorizationRequestUrl extends GenericUrl {
 
   /**
    * Returns the space-separated list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
-   * {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-3.3">Access Token Scope</a>) or {@code null}
+   * for none.
    */
   public final String getScopes() {
     return scopes;
@@ -183,8 +176,8 @@ public class AuthorizationRequestUrl extends GenericUrl {
 
   /**
    * Sets the list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
-   * {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-3.3">Access Token Scope</a>) or {@code null}
+   * for none.
    *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
@@ -200,8 +193,8 @@ public class AuthorizationRequestUrl extends GenericUrl {
 
   /**
    * Sets the list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
-   * {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-3.3">Access Token Scope</a>) or {@code null}
+   * for none.
    *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
@@ -237,8 +230,8 @@ public class AuthorizationRequestUrl extends GenericUrl {
   /**
    * Returns the state (an opaque value used by the client to maintain state between the request and
    * callback, as mentioned in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.2.2">Registration
-   * Requirements</a>) or {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-3.1.2.2">Registration Requirements</a>) or
+   * {@code null} for none.
    */
   public final String getState() {
     return state;
@@ -247,8 +240,8 @@ public class AuthorizationRequestUrl extends GenericUrl {
   /**
    * Sets the state (an opaque value used by the client to maintain state between the request and
    * callback, as mentioned in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.2.2">Registration
-   * Requirements</a>) or {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-3.1.2.2">Registration Requirements</a>) or
+   * {@code null} for none.
    *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing

@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -20,12 +20,12 @@ import com.google.common.base.Preconditions;
 
 /**
  * OAuth 2.0 JSON model for a successful access token response as specified in <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-5.1">Successful Response</a>.
- * 
+ * href="http://tools.ietf.org/html/rfc6749#section-5.1">Successful Response</a>.
+ *
  * <p>
  * Implementation is not thread-safe.
  * </p>
- * 
+ *
  * @since 1.7
  * @author Yaniv Inbar
  */
@@ -36,8 +36,8 @@ public class TokenResponse extends GenericJson {
   private String accessToken;
 
   /**
-   * Token type (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-7.1">Access Token Types</a>).
+   * Token type (as specified in <a href="http://tools.ietf.org/html/rfc6749#section-7.1">Access
+   * Token Types</a>).
    */
   @Key("token_type")
   private String tokenType;
@@ -58,8 +58,8 @@ public class TokenResponse extends GenericJson {
 
   /**
    * Scope of the access token as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a> or
-   * {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-3.3">Access Token Scope</a> or {@code null}
+   * for none.
    */
   @Key
   private String scope;
@@ -71,7 +71,7 @@ public class TokenResponse extends GenericJson {
 
   /**
    * Sets the access token issued by the authorization server.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
@@ -84,7 +84,7 @@ public class TokenResponse extends GenericJson {
 
   /**
    * Returns the token type (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-7.1">Access Token Types</a>).
+   * href="http://tools.ietf.org/html/rfc6749#section-7.1">Access Token Types</a>).
    */
   public final String getTokenType() {
     return tokenType;
@@ -92,8 +92,8 @@ public class TokenResponse extends GenericJson {
 
   /**
    * Sets the token type (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-7.1">Access Token Types</a>).
-   * 
+   * href="http://tools.ietf.org/html/rfc6749#section-7.1">Access Token Types</a>).
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
@@ -115,7 +115,7 @@ public class TokenResponse extends GenericJson {
   /**
    * Sets the lifetime in seconds of the access token (for example 3600 for an hour) or {@code null}
    * for none.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
@@ -137,7 +137,7 @@ public class TokenResponse extends GenericJson {
   /**
    * Sets the refresh token which can be used to obtain new access tokens using the same
    * authorization grant or {@code null} for none.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
@@ -157,7 +157,7 @@ public class TokenResponse extends GenericJson {
 
   /**
    * Sets the scope of the access token or {@code null} for none.
-   * 
+   *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.

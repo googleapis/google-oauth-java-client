@@ -26,7 +26,7 @@ import java.util.Map;
 
 /**
  * Client credentials specified as URL-encoded parameters in the HTTP request body as specified in
- * <a href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-2.3.1">Client Password</a>
+ * <a href="http://tools.ietf.org/html/rfc6749#section-2.3.1">Client Password</a>
  *
  * <p>
  * This implementation assumes that the {@link HttpRequest#getContent()} is {@code null} or an
@@ -75,16 +75,19 @@ public class ClientParametersAuthentication
       HttpRequestInitializer,
       HttpExecuteInterceptor {
 
+  /** Client identifier issued to the client during the registration process. */
   private final String clientId;
+
+  /** Client secret or {@code null} for none. */
   private final String clientSecret;
 
   /**
    * @param clientId client identifier issued to the client during the registration process
-   * @param clientSecret client secret
+   * @param clientSecret client secret or {@code null} for none
    */
   public ClientParametersAuthentication(String clientId, String clientSecret) {
     this.clientId = Preconditions.checkNotNull(clientId);
-    this.clientSecret = Preconditions.checkNotNull(clientSecret);
+    this.clientSecret = clientSecret;
   }
 
   public void initialize(HttpRequest request) throws IOException {
@@ -94,7 +97,9 @@ public class ClientParametersAuthentication
   public void intercept(HttpRequest request) throws IOException {
     Map<String, Object> data = Data.mapOf(UrlEncodedContent.getContent(request).getData());
     data.put("client_id", clientId);
-    data.put("client_secret", clientSecret);
+    if (clientSecret != null) {
+      data.put("client_secret", clientSecret);
+    }
   }
 
   /** Returns the client identifier issued to the client during the registration process. */
@@ -102,7 +107,15 @@ public class ClientParametersAuthentication
     return clientId;
   }
 
-  /** Returns the client secret. */
+  /**
+   * Returns the client secret or {@code null} for none.
+   *
+   * <p>
+   * Upgrade warning: in prior version 1.13 this could not be {@code null}, but starting with
+   * version 1.14 it may be {@code null}.
+   * </p>
+   *
+   */
   public final String getClientSecret() {
     return clientSecret;
   }

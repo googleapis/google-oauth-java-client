@@ -20,8 +20,7 @@ import com.google.common.base.Preconditions;
 
 /**
  * OAuth 2.0 URL parser for the redirect URL after end user grants or denies authorization as
- * specified in <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-4.1.2">Authorization
+ * specified in <a href="http://tools.ietf.org/html/rfc6749#section-4.1.2">Authorization
  * Response</a>.
  *
  * <p>
@@ -73,8 +72,8 @@ public class AuthorizationCodeResponseUrl extends GenericUrl {
    * Error code ({@code "invalid_request"}, {@code "unauthorized_client"}, {@code "access_denied"},
    * {@code "unsupported_response_type"}, {@code "invalid_scope"}, {@code "server_error"},
    * {@code "temporarily_unavailable"}, or an extension error code as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-8.5">Defining Additional Error
-   * Codes</a>) or {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-8.5">Defining Additional Error Codes</a>) or
+   * {@code null} for none.
    */
   @Key
   private String error;
@@ -148,8 +147,8 @@ public class AuthorizationCodeResponseUrl extends GenericUrl {
    * Returns the error code ({@code "invalid_request"}, {@code "unauthorized_client"},
    * {@code "access_denied"}, {@code "unsupported_response_type"}, {@code "invalid_scope"},
    * {@code "server_error"}, {@code "temporarily_unavailable"}, or an extension error code as
-   * specified in <a href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-8.5">Defining
-   * Additional Error Codes</a>) or {@code null} for none.
+   * specified in <a href="http://tools.ietf.org/html/rfc6749#section-8.5">Defining Additional Error
+   * Codes</a>) or {@code null} for none.
    */
   public final String getError() {
     return error;
@@ -159,8 +158,8 @@ public class AuthorizationCodeResponseUrl extends GenericUrl {
    * Sets the error code ({@code "invalid_request"}, {@code "unauthorized_client"},
    * {@code "access_denied"}, {@code "unsupported_response_type"}, {@code "invalid_scope"},
    * {@code "server_error"}, {@code "temporarily_unavailable"}, or an extension error code as
-   * specified in <a href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-8.5">Defining
-   * Additional Error Codes</a>) or {@code null} for none.
+   * specified in <a href="http://tools.ietf.org/html/rfc6749#section-8.5">Defining Additional Error
+   * Codes</a>) or {@code null} for none.
    *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing

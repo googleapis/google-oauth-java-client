@@ -21,11 +21,12 @@ import com.google.api.client.util.Data;
 import com.google.common.base.Preconditions;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
  * OAuth 2.0 helper for accessing protected resources using the <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-14">Bearer Token specification</a>.
+ * href="http://tools.ietf.org/html/rfc6750">Bearer Token specification</a>.
  *
  * @since 1.7
  * @author Yaniv Inbar
@@ -37,8 +38,7 @@ public class BearerToken {
 
   /**
    * Immutable and thread-safe OAuth 2.0 method for accessing protected resources using the <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-14#section-2.1">Authorization
-   * Request Header Field</a>.
+   * href="http://tools.ietf.org/html/rfc6750#section-2.1">Authorization Request Header Field</a>.
    *
    * <p>
    * According to the specification, this method MUST be supported by resource servers.
@@ -57,9 +57,13 @@ public class BearerToken {
     }
 
     public String getAccessTokenFromRequest(HttpRequest request) {
-      String header = request.getHeaders().getAuthorization();
-      if (header != null && header.startsWith(HEADER_PREFIX)) {
-        return header.substring(HEADER_PREFIX.length());
+      List<String> authorizationAsList = request.getHeaders().getAuthorizationAsList();
+      if (authorizationAsList != null) {
+        for (String header : authorizationAsList) {
+          if (header.startsWith(HEADER_PREFIX)) {
+            return header.substring(HEADER_PREFIX.length());
+          }
+        }
       }
       return null;
     }
@@ -67,8 +71,7 @@ public class BearerToken {
 
   /**
    * Immutable and thread-safe OAuth 2.0 method for accessing protected resources using the <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-14#section-2.2">Form-Encoded Body
-   * Parameter</a>.
+   * href="http://tools.ietf.org/html/rfc6750#section-2.2">Form-Encoded Body Parameter</a>.
    */
   static final class FormEncodedBodyAccessMethod implements Credential.AccessMethod {
 
@@ -93,8 +96,7 @@ public class BearerToken {
 
   /**
    * Immutable and thread-safe OAuth 2.0 method for accessing protected resources using the <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-14#section-2.3">URI Query
-   * Parameter</a>.
+   * href="http://tools.ietf.org/html/rfc6750#section-2.3">URI Query Parameter</a>.
    */
   static final class QueryParameterAccessMethod implements Credential.AccessMethod {
 
@@ -113,8 +115,7 @@ public class BearerToken {
 
   /**
    * Returns a new instance of an immutable and thread-safe OAuth 2.0 method for accessing protected
-   * resources using the <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-14#section-2.1">Authorization
+   * resources using the <a href="http://tools.ietf.org/html/rfc6750#section-2.1">Authorization
    * Request Header Field</a>.
    *
    * <p>
@@ -127,8 +128,7 @@ public class BearerToken {
 
   /**
    * Returns a new instance of an immutable and thread-safe OAuth 2.0 method for accessing protected
-   * resources using the <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-14#section-2.2">Form-Encoded Body
+   * resources using the <a href="http://tools.ietf.org/html/rfc6750#section-2.2">Form-Encoded Body
    * Parameter</a>.
    */
   public static Credential.AccessMethod formEncodedBodyAccessMethod() {
@@ -137,8 +137,7 @@ public class BearerToken {
 
   /**
    * Returns a new instance of an immutable and thread-safe OAuth 2.0 method for accessing protected
-   * resources using the <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-14#section-2.3">URI Query
+   * resources using the <a href="http://tools.ietf.org/html/rfc6750#section-2.3">URI Query
    * Parameter</a>.
    */
   public static Credential.AccessMethod queryParameterAccessMethod() {

@@ -27,7 +27,7 @@ import java.io.IOException;
 
 /**
  * Exception thrown when receiving an error response from the token server as specified in <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-5.2">Error Response</a>
+ * href="http://tools.ietf.org/html/rfc6749#section-5.2">Error Response</a>
  *
  * <p>
  * To get the structured details, use {@link #getDetails()}.

@@ -88,8 +88,7 @@ public class Credential
 
   /**
    * Method of presenting the access token to the resource server as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-7">Accessing Protected
-   * Resources</a>.
+   * href="http://tools.ietf.org/html/rfc6749#section-7">Accessing Protected Resources</a>.
    */
   public interface AccessMethod {
 
@@ -173,7 +172,25 @@ public class Credential
    *        {@link BearerToken.AuthorizationHeaderAccessMethod})
    */
   public Credential(AccessMethod method) {
-    this(method, null, null, null, null, null, null);
+    this(new Builder(method));
+  }
+
+  /**
+   * @param builder credential builder
+   *
+   * @since 1.14
+   */
+  protected Credential(Builder builder) {
+    method = Preconditions.checkNotNull(builder.method);
+    transport = builder.transport;
+    jsonFactory = builder.jsonFactory;
+    tokenServerEncodedUrl = builder.tokenServerUrl == null ? null : builder.tokenServerUrl.build();
+    clientAuthentication = builder.clientAuthentication;
+    requestInitializer = builder.requestInitializer;
+    refreshListeners = builder.refreshListeners == null
+        ? Collections.<CredentialRefreshListener>emptyList()
+        : Collections.unmodifiableList(builder.refreshListeners);
+    clock = Preconditions.checkNotNull(builder.clock);
   }
 
   /**
@@ -189,7 +206,9 @@ public class Credential
    * @param requestInitializer HTTP request initializer for refresh token requests to the token
    *        server or {@code null} for none
    * @param refreshListeners listeners for refresh token results or {@code null} for none
+   * @deprecated (scheduled to be removed in 1.15) Use {@link #Credential(Builder)}
    */
+  @Deprecated
   protected Credential(AccessMethod method,
       HttpTransport transport,
       JsonFactory jsonFactory,
@@ -222,7 +241,9 @@ public class Credential
    * @param refreshListeners listeners for refresh token results or {@code null} for none
    * @param clock {@link Clock} used for retrieving the current time for expiration checks
    * @since 1.9
+   * @deprecated (scheduled to be removed in 1.15) Use {@link #Credential(Builder)}
    */
+  @Deprecated
   protected Credential(AccessMethod method,
       HttpTransport transport,
       JsonFactory jsonFactory,
@@ -606,40 +627,39 @@ public class Credential
      * Method of presenting the access token to the resource server (for example
      * {@link BearerToken.AuthorizationHeaderAccessMethod}).
      */
-    private final AccessMethod method;
+    final AccessMethod method;
 
     /**
      * HTTP transport for executing refresh token request or {@code null} if not refreshing tokens.
      */
-    private HttpTransport transport;
+    HttpTransport transport;
 
     /**
      * JSON factory to use for parsing response for refresh token request or {@code null} if not
      * refreshing tokens.
      */
-    private JsonFactory jsonFactory;
+    JsonFactory jsonFactory;
 
     /** Token server URL or {@code null} if not refreshing tokens. */
-    private GenericUrl tokenServerUrl;
+    GenericUrl tokenServerUrl;
 
     /** Clock used for expiration checks. */
-    private Clock clock = Clock.SYSTEM;
+    Clock clock = Clock.SYSTEM;
 
     /**
      * Client authentication or {@code null} for none (see
      * {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
      */
-    private HttpExecuteInterceptor clientAuthentication;
+    HttpExecuteInterceptor clientAuthentication;
 
     /**
      * HTTP request initializer for refresh token requests to the token server or {@code null} for
      * none.
      */
-    private HttpRequestInitializer requestInitializer;
+    HttpRequestInitializer requestInitializer;
 
     /** Listeners for refresh token results or {@code null} for none. */
-    private List<CredentialRefreshListener> refreshListeners =
-        new ArrayList<CredentialRefreshListener>();
+    List<CredentialRefreshListener> refreshListeners = new ArrayList<CredentialRefreshListener>();
 
     /**
      * @param method method of presenting the access token to the resource server (for example
@@ -651,14 +671,7 @@ public class Credential
 
     /** Returns a new credential instance. */
     public Credential build() {
-      return new Credential(method,
-          transport,
-          jsonFactory,
-          tokenServerUrl == null ? null : tokenServerUrl.build(),
-          clientAuthentication,
-          requestInitializer,
-          refreshListeners,
-          clock);
+      return new Credential(this);
     }
 
     /**

@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2011 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -13,19 +13,18 @@
  */
 
 /**
- * OAuth 2.0 authorization as specified in the <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23">OAuth 2.0 Protocol</a>.
- * 
+ * Implementation of the <a href="http://tools.ietf.org/html/rfc6749">OAuth 2.0 Authorization
+ * Framework</a>.
+ *
  * <p>
  * Before using this library, you will typically need to register your application with the
  * authorization server to receive a client ID and client secret. See <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-2">Client Registration</a>.
+ * href="http://tools.ietf.org/html/rfc6749#section-2">Client Registration</a>.
  * </p>
- * 
+ *
  * <p>
  * These are the typical steps of the web server flow based on an authorization code, as specified
- * in <a href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-4.1">Authorization Code
- * Grant</a>:
+ * in <a href="http://tools.ietf.org/html/rfc6749#section-4.1">Authorization Code Grant</a>:
  * <ul>
  * <li>Redirect the end user in the browser to the authorization page using
  * {@link com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl} to grant your application
@@ -40,10 +39,10 @@
  * </li>
  * </ul>
  * </p>
- * 
+ *
  * <p>
  * These are the typical steps of the the browser-based client flow specified in <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-4.2">Implicit Grant</a>:
+ * href="http://tools.ietf.org/html/rfc6749#section-4.2">Implicit Grant</a>:
  * <ul>
  * <li>Redirect the end user in the browser to the authorization page using
  * {@link com.google.api.client.auth.oauth2.BrowserClientRequestUrl} to grant your browser
@@ -53,11 +52,11 @@
  * </ul>
  * </p>
  * <p>
- * 
+ *
  * <b>Warning: this package is experimental, and its content may be changed in incompatible ways or
  * possibly entirely removed in a future version of the library.</b>
  * </p>
- * 
+ *
  * @since 1.7
  * @author Yaniv Inbar
  */

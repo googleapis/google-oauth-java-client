@@ -35,7 +35,7 @@ import java.util.Arrays;
 
 /**
  * OAuth 2.0 request for an access token as specified in <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-4">Obtaining Authorization</a>.
+ * href="http://tools.ietf.org/html/rfc6749#section-4">Obtaining Authorization</a>.
  *
  * <p>
  * Call {@link #execute()} to execute the request and use the returned {@link TokenResponse}. On
@@ -68,8 +68,8 @@ public class TokenRequest extends GenericData {
 
   /**
    * Space-separated list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
-   * {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-3.3">Access Token Scope</a>) or {@code null}
+   * for none.
    */
   @Key("scope")
   private String scopes;
@@ -177,8 +177,8 @@ public class TokenRequest extends GenericData {
 
   /**
    * Returns the space-separated list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
-   * {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-3.3">Access Token Scope</a>) or {@code null}
+   * for none.
    */
   public final String getScopes() {
     return scopes;
@@ -186,8 +186,8 @@ public class TokenRequest extends GenericData {
 
   /**
    * Sets the list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
-   * {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-3.3">Access Token Scope</a>) or {@code null}
+   * for none.
    *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
@@ -203,8 +203,8 @@ public class TokenRequest extends GenericData {
 
   /**
    * Sets the list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.3">Access Token Scope</a>) or
-   * {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-3.3">Access Token Scope</a>) or {@code null}
+   * for none.
    *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing

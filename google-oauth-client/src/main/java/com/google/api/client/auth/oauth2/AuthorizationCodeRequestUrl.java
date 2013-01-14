@@ -19,8 +19,7 @@ import java.util.Collections;
 /**
  * OAuth 2.0 URL builder for an authorization web page to allow the end user to authorize the
  * application to access their protected resources and that returns an authorization code, as
- * specified in <a
- * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-4.1">Authorization Code
+ * specified in <a href="http://tools.ietf.org/html/rfc6749#section-4.1">Authorization Code
  * Grant</a>.
  *
  * <p>

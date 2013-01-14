@@ -47,4 +47,19 @@ public class ClientParametersAuthenticationTest extends TestCase {
     assertEquals(CLIENT_ID, data.get("client_id"));
     assertEquals(CLIENT_SECRET, data.get("client_secret"));
   }
+
+  public void test_noSecret() throws Exception {
+    HttpRequest request = new MockHttpTransport().createRequestFactory()
+        .buildGetRequest(HttpTesting.SIMPLE_GENERIC_URL);
+    ClientParametersAuthentication auth =
+        new ClientParametersAuthentication(CLIENT_ID, null);
+    assertEquals(CLIENT_ID, auth.getClientId());
+    assertNull(auth.getClientSecret());
+    auth.intercept(request);
+    UrlEncodedContent content = (UrlEncodedContent) request.getContent();
+    @SuppressWarnings("unchecked")
+    Map<String, ?> data = (Map<String, ?>) content.getData();
+    assertEquals(CLIENT_ID, data.get("client_id"));
+    assertNull(data.get("client_secret"));
+  }
 }

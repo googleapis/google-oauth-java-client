@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Google Inc.
+ * Copyright (c) 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -20,12 +20,10 @@ import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.util.Key;
-import com.google.common.base.Preconditions;
 
 /**
- * OAuth 2.0 request to refresh an access token using a refresh token as specified in <a
- * href="http://tools.ietf.org/html/rfc6749#section-6">Refreshing an Access Token</a>.
+ * OAuth 2.0 request for an access token using only its client credentials as specified in <a
+ * href="http://tools.ietf.org/html/rfc6749#section-4.4">Client Credentials Grant</a>.
  *
  * <p>
  * Use {@link Credential} to access protected resources from the resource server using the
@@ -38,11 +36,12 @@ import com.google.common.base.Preconditions;
  * </p>
  *
  * <pre>
-  static void refreshAccessToken() throws IOException {
+  static void requestAccessToken() throws IOException {
     try {
       TokenResponse response =
-          new RefreshTokenRequest(new NetHttpTransport(), new JacksonFactory(), new GenericUrl(
-              "https://server.example.com/token"), "tGzv3JOkF0XG5Qx2TlKWIA")
+          new ClientCredentialsTokenRequest(new NetHttpTransport(), new JacksonFactory(),
+              new GenericUrl("https://server.example.com/token"))
+              .setRedirectUri("https://client.example.com/rd")
               .setClientAuthentication(
                   new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw")).execute();
       System.out.println("Access token: " + response.getAccessToken());
@@ -72,72 +71,50 @@ import com.google.common.base.Preconditions;
  * Implementation is not thread-safe.
  * </p>
  *
- * @since 1.7
+ * @since 1.14
  * @author Yaniv Inbar
  */
-public class RefreshTokenRequest extends TokenRequest {
-
-  /** Refresh token issued to the client. */
-  @Key("refresh_token")
-  private String refreshToken;
+public class ClientCredentialsTokenRequest extends TokenRequest {
 
   /**
    * @param transport HTTP transport
    * @param jsonFactory JSON factory
    * @param tokenServerUrl token server URL
-   * @param refreshToken refresh token issued to the client
    */
-  public RefreshTokenRequest(HttpTransport transport, JsonFactory jsonFactory,
-      GenericUrl tokenServerUrl, String refreshToken) {
-    super(transport, jsonFactory, tokenServerUrl, "refresh_token");
-    setRefreshToken(refreshToken);
+  public ClientCredentialsTokenRequest(
+      HttpTransport transport, JsonFactory jsonFactory, GenericUrl tokenServerUrl) {
+    super(transport, jsonFactory, tokenServerUrl, "client_credentials");
   }
 
   @Override
-  public RefreshTokenRequest setRequestInitializer(HttpRequestInitializer requestInitializer) {
-    return (RefreshTokenRequest) super.setRequestInitializer(requestInitializer);
+  public ClientCredentialsTokenRequest setRequestInitializer(
+      HttpRequestInitializer requestInitializer) {
+    return (ClientCredentialsTokenRequest) super.setRequestInitializer(requestInitializer);
   }
 
   @Override
-  public RefreshTokenRequest setTokenServerUrl(GenericUrl tokenServerUrl) {
-    return (RefreshTokenRequest) super.setTokenServerUrl(tokenServerUrl);
+  public ClientCredentialsTokenRequest setTokenServerUrl(GenericUrl tokenServerUrl) {
+    return (ClientCredentialsTokenRequest) super.setTokenServerUrl(tokenServerUrl);
   }
 
   @Override
-  public RefreshTokenRequest setScopes(String... scopes) {
-    return (RefreshTokenRequest) super.setScopes(scopes);
+  public ClientCredentialsTokenRequest setScopes(String... scopes) {
+    return (ClientCredentialsTokenRequest) super.setScopes(scopes);
   }
 
   @Override
-  public RefreshTokenRequest setScopes(Iterable<String> scopes) {
-    return (RefreshTokenRequest) super.setScopes(scopes);
+  public ClientCredentialsTokenRequest setScopes(Iterable<String> scopes) {
+    return (ClientCredentialsTokenRequest) super.setScopes(scopes);
   }
 
   @Override
-  public RefreshTokenRequest setGrantType(String grantType) {
-    return (RefreshTokenRequest) super.setGrantType(grantType);
+  public ClientCredentialsTokenRequest setGrantType(String grantType) {
+    return (ClientCredentialsTokenRequest) super.setGrantType(grantType);
   }
 
   @Override
-  public RefreshTokenRequest setClientAuthentication(HttpExecuteInterceptor clientAuthentication) {
-    return (RefreshTokenRequest) super.setClientAuthentication(clientAuthentication);
-  }
-
-  /** Returns the refresh token issued to the client. */
-  public final String getRefreshToken() {
-    return refreshToken;
-  }
-
-  /**
-   * Sets the refresh token issued to the client.
-   *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
-   */
-  public RefreshTokenRequest setRefreshToken(String refreshToken) {
-    this.refreshToken = Preconditions.checkNotNull(refreshToken);
-    return this;
+  public ClientCredentialsTokenRequest setClientAuthentication(
+      HttpExecuteInterceptor clientAuthentication) {
+    return (ClientCredentialsTokenRequest) super.setClientAuthentication(clientAuthentication);
   }
 }

@@ -100,10 +100,61 @@ public class AuthorizationCodeFlow {
    *        {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)})
    * @param clientId client identifier
    * @param authorizationServerEncodedUrl authorization server encoded URL
+   *
+   * @since 1.14
+   */
+  public AuthorizationCodeFlow(AccessMethod method,
+      HttpTransport transport,
+      JsonFactory jsonFactory,
+      GenericUrl tokenServerUrl,
+      HttpExecuteInterceptor clientAuthentication,
+      String clientId,
+      String authorizationServerEncodedUrl) {
+    this(new Builder(method,
+        transport,
+        jsonFactory,
+        tokenServerUrl,
+        clientAuthentication,
+        clientId,
+        authorizationServerEncodedUrl));
+  }
+
+  /**
+   * @param builder authorization code flow builder
+   *
+   * @since 1.14
+   */
+  protected AuthorizationCodeFlow(Builder builder) {
+    method = Preconditions.checkNotNull(builder.method);
+    transport = Preconditions.checkNotNull(builder.transport);
+    jsonFactory = Preconditions.checkNotNull(builder.jsonFactory);
+    tokenServerEncodedUrl = Preconditions.checkNotNull(builder.tokenServerUrl).build();
+    clientAuthentication = builder.clientAuthentication;
+    clientId = Preconditions.checkNotNull(builder.clientId);
+    authorizationServerEncodedUrl =
+        Preconditions.checkNotNull(builder.authorizationServerEncodedUrl);
+    requestInitializer = builder.requestInitializer;
+    credentialStore = builder.credentialStore;
+    scopes = builder.scopes;
+    clock = Preconditions.checkNotNull(builder.clock);
+  }
+
+  /**
+   * @param method method of presenting the access token to the resource server (for example
+   *        {@link BearerToken#authorizationHeaderAccessMethod})
+   * @param transport HTTP transport
+   * @param jsonFactory JSON factory
+   * @param tokenServerUrl token server URL
+   * @param clientAuthentication client authentication or {@code null} for none (see
+   *        {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)})
+   * @param clientId client identifier
+   * @param authorizationServerEncodedUrl authorization server encoded URL
    * @param credentialStore credential persistence store or {@code null} for none
    * @param requestInitializer HTTP request initializer or {@code null} for none
    * @param scopes space-separated list of scopes or {@code null} for none
+   * @deprecated (scheduled to be removed in 1.15) Use {@link #AuthorizationCodeFlow(Builder)}
    */
+  @Deprecated
   protected AuthorizationCodeFlow(AccessMethod method,
       HttpTransport transport,
       JsonFactory jsonFactory,
@@ -142,7 +193,9 @@ public class AuthorizationCodeFlow {
    * @param scopes space-separated list of scopes or {@code null} for none
    * @param clock Clock used for Credential expiration
    * @since 1.9
+   * @deprecated (scheduled to be removed in 1.15) Use {@link #AuthorizationCodeFlow(Builder)}
    */
+  @Deprecated
   protected AuthorizationCodeFlow(AccessMethod method,
       HttpTransport transport,
       JsonFactory jsonFactory,
@@ -347,40 +400,40 @@ public class AuthorizationCodeFlow {
      * Method of presenting the access token to the resource server (for example
      * {@link BearerToken#authorizationHeaderAccessMethod}).
      */
-    private AccessMethod method;
+    AccessMethod method;
 
     /** HTTP transport. */
-    private HttpTransport transport;
+    HttpTransport transport;
 
     /** JSON factory. */
-    private JsonFactory jsonFactory;
+    JsonFactory jsonFactory;
 
     /** Token server URL. */
-    private GenericUrl tokenServerUrl;
+    GenericUrl tokenServerUrl;
 
     /**
      * Client authentication or {@code null} for none (see
      * {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
      */
-    private HttpExecuteInterceptor clientAuthentication;
+    HttpExecuteInterceptor clientAuthentication;
 
     /** Client identifier. */
-    private String clientId;
+    String clientId;
 
     /** Authorization server encoded URL. */
-    private String authorizationServerEncodedUrl;
+    String authorizationServerEncodedUrl;
 
     /** Credential persistence store or {@code null} for none. */
-    private CredentialStore credentialStore;
+    CredentialStore credentialStore;
 
     /** HTTP request initializer or {@code null} for none. */
-    private HttpRequestInitializer requestInitializer;
+    HttpRequestInitializer requestInitializer;
 
     /** Space-separated list of scopes or {@code null} for none. */
-    private String scopes;
+    String scopes;
 
     /** Clock passed along to the Credential. */
-    private Clock clock = Clock.SYSTEM;
+    Clock clock = Clock.SYSTEM;
 
     /**
      * @param method method of presenting the access token to the resource server (for example
@@ -411,17 +464,7 @@ public class AuthorizationCodeFlow {
 
     /** Returns a new instance of an authorization code flow based on this builder. */
     public AuthorizationCodeFlow build() {
-      return new AuthorizationCodeFlow(method,
-          transport,
-          jsonFactory,
-          tokenServerUrl,
-          clientAuthentication,
-          clientId,
-          authorizationServerEncodedUrl,
-          credentialStore,
-          requestInitializer,
-          scopes,
-          clock);
+      return new AuthorizationCodeFlow(this);
     }
 
     /**
