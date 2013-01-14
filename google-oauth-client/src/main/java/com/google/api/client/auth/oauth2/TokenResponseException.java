@@ -48,13 +48,11 @@ public class TokenResponseException extends HttpResponseException {
   private final transient TokenErrorResponse details;
 
   /**
-   * @param response HTTP response
+   * @param builder builder
    * @param details token error response details or {@code null} if unable to parse
-   * @param message message details
    */
-  private TokenResponseException(
-      HttpResponse response, TokenErrorResponse details, String message) {
-    super(response, message);
+  TokenResponseException(Builder builder, TokenErrorResponse details) {
+    super(builder);
     this.details = details;
   }
 
@@ -77,6 +75,8 @@ public class TokenResponseException extends HttpResponseException {
    * @return new instance of {@link TokenErrorResponse}
    */
   public static TokenResponseException from(JsonFactory jsonFactory, HttpResponse response) {
+    HttpResponseException.Builder builder = new HttpResponseException.Builder(
+        response.getStatusCode(), response.getStatusMessage(), response.getHeaders());
     // details
     Preconditions.checkNotNull(jsonFactory);
     TokenErrorResponse details = null;
@@ -99,7 +99,9 @@ public class TokenResponseException extends HttpResponseException {
     StringBuilder message = HttpResponseException.computeMessageBuffer(response);
     if (!com.google.common.base.Strings.isNullOrEmpty(detailString)) {
       message.append(StringUtils.LINE_SEPARATOR).append(detailString);
+      builder.setContent(detailString);
     }
-    return new TokenResponseException(response, details, message.toString());
+    builder.setMessage(message.toString());
+    return new TokenResponseException(builder, details);
   }
 }
