@@ -62,4 +62,9 @@ public class FilePersistedCredential extends GenericJson {
     credential.setRefreshToken(refreshToken);
     credential.setExpirationTimeMilliseconds(expirationTimeMillis);
   }
+
+  @Override
+  public FilePersistedCredential set(String fieldName, Object value) {
+    return (FilePersistedCredential) super.set(fieldName, value);
+  }
 }

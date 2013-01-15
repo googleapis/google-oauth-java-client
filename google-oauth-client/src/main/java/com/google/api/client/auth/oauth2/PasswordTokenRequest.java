@@ -166,4 +166,9 @@ public class PasswordTokenRequest extends TokenRequest {
     this.password = Preconditions.checkNotNull(password);
     return this;
   }
+
+  @Override
+  public PasswordTokenRequest set(String fieldName, Object value) {
+    return (PasswordTokenRequest) super.set(fieldName, value);
+  }
 }

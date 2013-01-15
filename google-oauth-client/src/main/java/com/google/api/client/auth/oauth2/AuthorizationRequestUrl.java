@@ -252,4 +252,9 @@ public class AuthorizationRequestUrl extends GenericUrl {
     this.state = state;
     return this;
   }
+
+  @Override
+  public AuthorizationRequestUrl set(String fieldName, Object value) {
+    return (AuthorizationRequestUrl) super.set(fieldName, value);
+  }
 }

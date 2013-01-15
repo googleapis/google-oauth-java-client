@@ -117,4 +117,9 @@ public class ClientCredentialsTokenRequest extends TokenRequest {
       HttpExecuteInterceptor clientAuthentication) {
     return (ClientCredentialsTokenRequest) super.setClientAuthentication(clientAuthentication);
   }
+
+  @Override
+  public ClientCredentialsTokenRequest set(String fieldName, Object value) {
+    return (ClientCredentialsTokenRequest) super.set(fieldName, value);
+  }
 }

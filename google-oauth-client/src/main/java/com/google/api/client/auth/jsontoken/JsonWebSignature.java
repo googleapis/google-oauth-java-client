@@ -207,6 +207,11 @@ public class JsonWebSignature extends JsonWebToken {
       this.x509Thumbprint = x509Thumbprint;
       return this;
     }
+
+    @Override
+    public Header set(String fieldName, Object value) {
+      return (Header) super.set(fieldName, value);
+    }
   }
 
   @Override

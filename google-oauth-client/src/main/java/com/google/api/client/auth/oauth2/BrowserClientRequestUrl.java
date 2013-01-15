@@ -90,4 +90,10 @@ public class BrowserClientRequestUrl extends AuthorizationRequestUrl {
   public BrowserClientRequestUrl setState(String state) {
     return (BrowserClientRequestUrl) super.setState(state);
   }
+
+  @Override
+  public BrowserClientRequestUrl set(String fieldName, Object value) {
+     return (BrowserClientRequestUrl) super.set(fieldName, value);
+  }
+
 }

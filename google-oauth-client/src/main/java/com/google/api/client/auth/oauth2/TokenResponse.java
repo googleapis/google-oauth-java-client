@@ -167,4 +167,9 @@ public class TokenResponse extends GenericJson {
     this.scope = scope;
     return this;
   }
+
+  @Override
+  public TokenResponse set(String fieldName, Object value) {
+    return (TokenResponse) super.set(fieldName, value);
+  }
 }

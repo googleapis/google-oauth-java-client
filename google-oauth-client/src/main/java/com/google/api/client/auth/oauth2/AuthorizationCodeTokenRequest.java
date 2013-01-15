@@ -172,4 +172,9 @@ public class AuthorizationCodeTokenRequest extends TokenRequest {
     this.redirectUri = redirectUri;
     return this;
   }
+
+  @Override
+  public AuthorizationCodeTokenRequest set(String fieldName, Object value) {
+    return (AuthorizationCodeTokenRequest) super.set(fieldName, value);
+  }
 }

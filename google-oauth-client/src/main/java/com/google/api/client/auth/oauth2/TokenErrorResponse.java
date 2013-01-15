@@ -125,4 +125,9 @@ public class TokenErrorResponse extends GenericJson {
     this.errorUri = errorUri;
     return this;
   }
+
+  @Override
+  public TokenErrorResponse set(String fieldName, Object value) {
+    return (TokenErrorResponse) super.set(fieldName, value);
+  }
 }

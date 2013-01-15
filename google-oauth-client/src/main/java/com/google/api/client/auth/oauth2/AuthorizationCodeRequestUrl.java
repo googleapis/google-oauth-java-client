@@ -93,4 +93,9 @@ public class AuthorizationCodeRequestUrl extends AuthorizationRequestUrl {
   public AuthorizationCodeRequestUrl setState(String state) {
     return (AuthorizationCodeRequestUrl) super.setState(state);
   }
+
+  @Override
+  public AuthorizationCodeRequestUrl set(String fieldName, Object value) {
+    return (AuthorizationCodeRequestUrl) super.set(fieldName, value);
+  }
 }

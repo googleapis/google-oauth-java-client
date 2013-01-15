@@ -75,6 +75,11 @@ public class JsonWebToken {
       this.type = type;
       return this;
     }
+
+    @Override
+    public Header set(String fieldName, Object value) {
+      return (Header) super.set(fieldName, value);
+    }
   }
 
   /**
@@ -309,6 +314,11 @@ public class JsonWebToken {
           || now <= (expirationTimeSeconds + acceptableTimeSkewSeconds) * 1000) && (
           issuedAtTimeSeconds == null
           || now >= (issuedAtTimeSeconds - acceptableTimeSkewSeconds) * 1000);
+    }
+
+    @Override
+    public Payload set(String fieldName, Object value) {
+      return (Payload) super.set(fieldName, value);
     }
   }
 

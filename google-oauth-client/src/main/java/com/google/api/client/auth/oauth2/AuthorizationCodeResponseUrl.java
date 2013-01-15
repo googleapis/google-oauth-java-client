@@ -216,4 +216,9 @@ public class AuthorizationCodeResponseUrl extends GenericUrl {
     this.errorUri = errorUri;
     return this;
   }
+
+  @Override
+  public AuthorizationCodeRequestUrl set(String fieldName, Object value) {
+    return (AuthorizationCodeRequestUrl) super.set(fieldName, value);
+  }
 }

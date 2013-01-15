@@ -140,4 +140,9 @@ public class RefreshTokenRequest extends TokenRequest {
     this.refreshToken = Preconditions.checkNotNull(refreshToken);
     return this;
   }
+
+  @Override
+  public RefreshTokenRequest set(String fieldName, Object value) {
+    return (RefreshTokenRequest) super.set(fieldName, value);
+  }
 }

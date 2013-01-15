@@ -116,4 +116,9 @@ public class IdTokenResponse extends TokenResponse {
   public static IdTokenResponse execute(TokenRequest tokenRequest) throws IOException {
     return tokenRequest.executeUnparsed().parseAs(IdTokenResponse.class);
   }
+
+  @Override
+  public IdTokenResponse set(String fieldName, Object value) {
+    return (IdTokenResponse) super.set(fieldName, value);
+  }
 }

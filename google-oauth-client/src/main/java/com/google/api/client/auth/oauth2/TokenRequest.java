@@ -322,4 +322,9 @@ public class TokenRequest extends GenericData {
   public TokenResponse execute() throws IOException {
     return executeUnparsed().parseAs(TokenResponse.class);
   }
+
+  @Override
+  public TokenRequest set(String fieldName, Object value) {
+    return (TokenRequest) super.set(fieldName, value);
+  }
 }

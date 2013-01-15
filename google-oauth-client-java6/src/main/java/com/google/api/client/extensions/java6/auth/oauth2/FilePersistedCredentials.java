@@ -73,4 +73,9 @@ public class FilePersistedCredentials extends GenericJson {
     Preconditions.checkNotNull(userId);
     credentials.remove(userId);
   }
+
+  @Override
+  public FilePersistedCredentials set(String fieldName, Object value) {
+    return (FilePersistedCredentials) super.set(fieldName, value);
+  }
 }
