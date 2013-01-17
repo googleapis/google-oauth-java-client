@@ -172,4 +172,9 @@ public class TokenResponse extends GenericJson {
   public TokenResponse set(String fieldName, Object value) {
     return (TokenResponse) super.set(fieldName, value);
   }
+
+  @Override
+  public TokenResponse clone() {
+    return (TokenResponse) super.clone();
+  }
 }

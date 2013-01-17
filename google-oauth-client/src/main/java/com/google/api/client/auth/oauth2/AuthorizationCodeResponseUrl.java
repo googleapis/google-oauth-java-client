@@ -221,4 +221,9 @@ public class AuthorizationCodeResponseUrl extends GenericUrl {
   public AuthorizationCodeRequestUrl set(String fieldName, Object value) {
     return (AuthorizationCodeRequestUrl) super.set(fieldName, value);
   }
+
+  @Override
+  public AuthorizationCodeRequestUrl clone() {
+    return (AuthorizationCodeRequestUrl) super.clone();
+  }
 }

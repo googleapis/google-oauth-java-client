@@ -257,4 +257,9 @@ public class AuthorizationRequestUrl extends GenericUrl {
   public AuthorizationRequestUrl set(String fieldName, Object value) {
     return (AuthorizationRequestUrl) super.set(fieldName, value);
   }
+
+  @Override
+  public AuthorizationRequestUrl clone() {
+    return (AuthorizationRequestUrl) super.clone();
+  }
 }

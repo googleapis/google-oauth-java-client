@@ -17,4 +17,8 @@
   <And>
     <Bug pattern="NP_ALWAYS_NULL"/>
   </And>
+  <And>
+    <Class name="com.google.api.client.auth.oauth2.TokenRequest"/>
+    <Bug pattern="CN_IDIOM_NO_SUPER_CALL"/>
+  </And>
 </FindBugsFilter>

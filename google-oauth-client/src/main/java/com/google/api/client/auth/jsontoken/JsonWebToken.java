@@ -80,6 +80,11 @@ public class JsonWebToken {
     public Header set(String fieldName, Object value) {
       return (Header) super.set(fieldName, value);
     }
+
+    @Override
+    public Header clone() {
+      return (Header) super.clone();
+    }
   }
 
   /**
@@ -319,6 +324,11 @@ public class JsonWebToken {
     @Override
     public Payload set(String fieldName, Object value) {
       return (Payload) super.set(fieldName, value);
+    }
+
+    @Override
+    public Payload clone() {
+      return (Payload) super.clone();
     }
   }
 

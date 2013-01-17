@@ -121,4 +121,9 @@ public class IdTokenResponse extends TokenResponse {
   public IdTokenResponse set(String fieldName, Object value) {
     return (IdTokenResponse) super.set(fieldName, value);
   }
+
+  @Override
+  public IdTokenResponse clone() {
+    return (IdTokenResponse) super.clone();
+  }
 }

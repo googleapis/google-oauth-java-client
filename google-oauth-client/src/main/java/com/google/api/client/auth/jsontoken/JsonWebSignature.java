@@ -212,6 +212,11 @@ public class JsonWebSignature extends JsonWebToken {
     public Header set(String fieldName, Object value) {
       return (Header) super.set(fieldName, value);
     }
+
+    @Override
+    public Header clone() {
+      return (Header) super.clone();
+    }
   }
 
   @Override

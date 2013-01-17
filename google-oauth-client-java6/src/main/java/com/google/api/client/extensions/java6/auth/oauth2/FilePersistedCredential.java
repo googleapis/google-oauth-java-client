@@ -67,4 +67,9 @@ public class FilePersistedCredential extends GenericJson {
   public FilePersistedCredential set(String fieldName, Object value) {
     return (FilePersistedCredential) super.set(fieldName, value);
   }
+
+  @Override
+  public FilePersistedCredential clone() {
+    return (FilePersistedCredential) super.clone();
+  }
 }

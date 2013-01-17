@@ -130,4 +130,9 @@ public class TokenErrorResponse extends GenericJson {
   public TokenErrorResponse set(String fieldName, Object value) {
     return (TokenErrorResponse) super.set(fieldName, value);
   }
+
+  @Override
+  public TokenErrorResponse clone() {
+    return (TokenErrorResponse) super.clone();
+  }
 }

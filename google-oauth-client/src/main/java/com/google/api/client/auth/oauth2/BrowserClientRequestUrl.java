@@ -96,4 +96,8 @@ public class BrowserClientRequestUrl extends AuthorizationRequestUrl {
      return (BrowserClientRequestUrl) super.set(fieldName, value);
   }
 
+  @Override
+  public BrowserClientRequestUrl clone() {
+    return (BrowserClientRequestUrl) super.clone();
+  }
 }
