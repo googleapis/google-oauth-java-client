@@ -6,11 +6,6 @@
   <!-- The following have not yet been investigated -->
   
   <!-- The following are known to be bugs and should be fixed -->
-  <And>
-    <Bug pattern="CN_IDIOM_NO_SUPER_CALL"/>
-    <!-- clone method does not call super.clone() -->
-    <Class name="com.google.api.client.auth.oauth2.TokenRequest"/>
-  </And>
   
   <!-- The following are known to NOT be bugs and should not be fixed -->
   <And>

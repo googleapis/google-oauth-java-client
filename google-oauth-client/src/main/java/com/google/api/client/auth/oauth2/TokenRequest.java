@@ -327,9 +327,4 @@ public class TokenRequest extends GenericData {
   public TokenRequest set(String fieldName, Object value) {
     return (TokenRequest) super.set(fieldName, value);
   }
-
-  @Override
-  public GenericData clone() {
-    throw new UnsupportedOperationException();
-  }
 }
