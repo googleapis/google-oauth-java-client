@@ -135,7 +135,7 @@ public class PrivateKeys {
    *
    * @since 1.13
    * @deprecated (scheduled to be removed in 1.15) Use
-   *             {@link SecurityUtils#readPrivateKeyFromPem(InputStream)} instead.
+   *             {@link SecurityUtils#readPrivateKeyFromPem(InputStream, String)} instead.
    */
   @Deprecated
   public static byte[] readFromPemFormattedFile(File file)
@@ -170,7 +170,8 @@ public class PrivateKeys {
    *
    * @since 1.13
    * @deprecated (scheduled to be removed in 1.15) Use
-   *             {@link SecurityUtils#loadPkcs8PrivateKeyFromPem(KeyFactory, InputStream)} instead.
+   *             {@link SecurityUtils#loadPkcs8PrivateKeyFromPem(KeyFactory, InputStream, String)}
+   *             instead.
    */
   @Deprecated
   public static PrivateKey loadFromPkcs8PemFile(File pemFile)
