@@ -17,7 +17,7 @@ package com.google.api.client.auth.jsontoken;
 import com.google.api.client.json.GenericJson;
 import com.google.api.client.util.Clock;
 import com.google.api.client.util.Key;
-import com.google.common.base.Preconditions;
+import com.google.api.client.util.Preconditions;
 
 /**
  * <a href="http://tools.ietf.org/html/draft-jones-json-web-token-07">JSON Web Token (JWT)</a>.

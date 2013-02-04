@@ -21,8 +21,8 @@ import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Clock;
-import com.google.common.base.Joiner;
-import com.google.common.base.Preconditions;
+import com.google.api.client.util.Joiner;
+import com.google.api.client.util.Preconditions;
 
 import java.io.IOException;
 import java.util.Arrays;

@@ -16,7 +16,7 @@ package com.google.api.client.extensions.jdo.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.CredentialStore;
-import com.google.common.base.Preconditions;
+import com.google.api.client.util.Preconditions;
 
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;

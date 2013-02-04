@@ -20,8 +20,8 @@ import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.json.Json;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
+import com.google.api.client.util.Preconditions;
 import com.google.api.client.util.StringUtils;
-import com.google.common.base.Preconditions;
 
 import java.io.IOException;
 
@@ -97,7 +97,7 @@ public class TokenResponseException extends HttpResponseException {
     }
     // message
     StringBuilder message = HttpResponseException.computeMessageBuffer(response);
-    if (!com.google.common.base.Strings.isNullOrEmpty(detailString)) {
+    if (!com.google.api.client.util.Strings.isNullOrEmpty(detailString)) {
       message.append(StringUtils.LINE_SEPARATOR).append(detailString);
       builder.setContent(detailString);
     }

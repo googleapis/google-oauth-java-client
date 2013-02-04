@@ -18,8 +18,8 @@ import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.CredentialStore;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonGenerator;
-import com.google.common.base.Charsets;
-import com.google.common.base.Preconditions;
+import com.google.api.client.util.Charsets;
+import com.google.api.client.util.Preconditions;
 
 import java.io.File;
 import java.io.FileInputStream;

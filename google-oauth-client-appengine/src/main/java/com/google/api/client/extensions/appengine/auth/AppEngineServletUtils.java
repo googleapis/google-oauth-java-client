@@ -14,10 +14,10 @@
 
 package com.google.api.client.extensions.appengine.auth;
 
+import com.google.api.client.util.Preconditions;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.common.base.Preconditions;
 
 /**
  * Utility methods that can be shared across App Engine specializations of the abstract auth

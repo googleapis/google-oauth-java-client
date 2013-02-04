@@ -15,9 +15,9 @@
 package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.http.GenericUrl;
+import com.google.api.client.util.Joiner;
 import com.google.api.client.util.Key;
-import com.google.common.base.Joiner;
-import com.google.common.base.Preconditions;
+import com.google.api.client.util.Preconditions;
 
 import java.util.Arrays;
 

@@ -17,8 +17,8 @@ package com.google.api.client.extensions.java6.auth.oauth2;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.json.GenericJson;
 import com.google.api.client.util.Key;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
+import com.google.api.client.util.Maps;
+import com.google.api.client.util.Preconditions;
 
 import java.util.Map;
 

@@ -16,7 +16,7 @@ package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.util.Key;
-import com.google.common.base.Preconditions;
+import com.google.api.client.util.Preconditions;
 
 /**
  * OAuth 2.0 URL parser for the redirect URL after end user grants or denies authorization as

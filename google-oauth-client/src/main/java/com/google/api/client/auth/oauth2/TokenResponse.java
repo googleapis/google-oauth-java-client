@@ -16,7 +16,7 @@ package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.json.GenericJson;
 import com.google.api.client.util.Key;
-import com.google.common.base.Preconditions;
+import com.google.api.client.util.Preconditions;
 
 /**
  * OAuth 2.0 JSON model for a successful access token response as specified in <a

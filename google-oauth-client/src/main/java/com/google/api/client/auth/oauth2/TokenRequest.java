@@ -26,9 +26,9 @@ import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.util.GenericData;
+import com.google.api.client.util.Joiner;
 import com.google.api.client.util.Key;
-import com.google.common.base.Joiner;
-import com.google.common.base.Preconditions;
+import com.google.api.client.util.Preconditions;
 
 import java.io.IOException;
 import java.util.Arrays;

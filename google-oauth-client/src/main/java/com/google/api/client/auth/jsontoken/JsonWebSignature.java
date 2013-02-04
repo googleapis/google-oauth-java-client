@@ -17,8 +17,8 @@ package com.google.api.client.auth.jsontoken;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Base64;
 import com.google.api.client.util.Key;
+import com.google.api.client.util.Preconditions;
 import com.google.api.client.util.StringUtils;
-import com.google.common.base.Preconditions;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

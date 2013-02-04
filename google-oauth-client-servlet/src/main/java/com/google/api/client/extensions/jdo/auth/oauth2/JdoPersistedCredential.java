@@ -15,7 +15,7 @@
 package com.google.api.client.extensions.jdo.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.Credential;
-import com.google.common.base.Preconditions;
+import com.google.api.client.util.Preconditions;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;

@@ -15,7 +15,7 @@
 package com.google.api.client.extensions.jetty.auth.oauth2;
 
 import com.google.api.client.extensions.java6.auth.oauth2.VerificationCodeReceiver;
-import com.google.common.base.Throwables;
+import com.google.api.client.util.Throwables;
 
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Request;

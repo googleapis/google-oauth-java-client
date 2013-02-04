@@ -18,7 +18,7 @@ import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
-import com.google.common.base.Preconditions;
+import com.google.api.client.util.Preconditions;
 
 import java.awt.Desktop;
 import java.awt.Desktop.Action;

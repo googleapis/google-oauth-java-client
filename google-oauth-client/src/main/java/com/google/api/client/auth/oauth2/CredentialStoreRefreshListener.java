@@ -14,7 +14,7 @@
 
 package com.google.api.client.auth.oauth2;
 
-import com.google.common.base.Preconditions;
+import com.google.api.client.util.Preconditions;
 
 import java.io.IOException;
 

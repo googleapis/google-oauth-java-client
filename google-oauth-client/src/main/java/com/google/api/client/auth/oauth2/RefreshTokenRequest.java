@@ -21,7 +21,7 @@ import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Key;
-import com.google.common.base.Preconditions;
+import com.google.api.client.util.Preconditions;
 
 /**
  * OAuth 2.0 request to refresh an access token using a refresh token as specified in <a
