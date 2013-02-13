@@ -24,6 +24,7 @@ import junit.framework.TestCase;
  *
  * @author Yaniv Inbar
  */
+@Deprecated
 public class JsonWebTokenTest extends TestCase {
 
   public void testPayloadIsValidTime() {

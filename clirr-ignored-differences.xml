@@ -2,5 +2,12 @@
 <!-- see http://mojo.codehaus.org/clirr-maven-plugin/examples/ignored-differences.html -->
 
 <differences>
+  <difference>
+    <!-- 7006 (Method Return Type changed): className, method, to (to is just the return type) -->
+    <differenceType>7006</differenceType>
+    <className>com/google/api/client/auth/openidconnect/IdTokenResponse</className>
+    <method>com.google.api.client.auth.jsontoken.JsonWebSignature parseIdToken()</method>
+    <to>com.google.api.client.json.webtoken.JsonWebSignature</to>
+  </difference>
 </differences>
 
