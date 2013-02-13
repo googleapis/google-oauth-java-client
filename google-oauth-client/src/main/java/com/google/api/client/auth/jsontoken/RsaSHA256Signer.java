@@ -28,11 +28,7 @@ import java.security.PrivateKey;
  *
  * @since 1.7
  * @author Yaniv Inbar
- * @deprecated (scheduled to be removed in the future) Use
- *             {@link com.google.api.client.json.webtoken.JsonWebSignature#signUsingRsaSha256}
- *             instead
  */
-@Deprecated
 public class RsaSHA256Signer {
 
   /**
@@ -48,11 +44,7 @@ public class RsaSHA256Signer {
    * @param header JWS header
    * @param payload JWS payload
    * @return signed JWS string
-   * @deprecated (scheduled to be removed in the future) Use
-   *             {@link com.google.api.client.json.webtoken.JsonWebSignature#signUsingRsaSha256}
-   *             instead
    */
-  @Deprecated
   public static String sign(PrivateKey privateKey, JsonFactory jsonFactory,
       JsonWebSignature.Header header, JsonWebToken.Payload payload)
       throws GeneralSecurityException, IOException {
