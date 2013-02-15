@@ -34,7 +34,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
  *
  * @since 1.7
  * @author Yaniv Inbar
- * @deprecated (scheduled to be removed in 1.15) Use {@link SecurityUtils} instead.
+ * @deprecated (scheduled to be removed in the future) Use {@link SecurityUtils} instead.
  */
 @Deprecated
 public class PrivateKeys {
@@ -51,7 +51,7 @@ public class PrivateKeys {
    * @param alias alias under which the private key is stored
    * @param keyPass password protecting the private key
    * @return the private key from the specified key store
-   * @deprecated (scheduled to be removed in 1.15) Use
+   * @deprecated (scheduled to be removed in the future) Use
    *             {@link SecurityUtils#loadPrivateKeyFromKeyStore} with
    *             {@link SecurityUtils#getDefaultKeyStore()} instead
    */
@@ -73,7 +73,7 @@ public class PrivateKeys {
    * @param alias alias under which the private key is stored
    * @param keyPass password protecting the private key
    * @return the private key from the specified key store
-   * @deprecated (scheduled to be removed in 1.15) Use
+   * @deprecated (scheduled to be removed in the future) Use
    *             {@link SecurityUtils#loadPrivateKeyFromKeyStore} instead.
    */
   @Deprecated
@@ -91,8 +91,8 @@ public class PrivateKeys {
   /**
    * Reads a {@code PKCS#8} format private key from a given file.
    *
-   * @deprecated (scheduled to be removed in 1.14) Use {@link #loadFromPkcs8PemFile} instead. Note
-   *             that the file formatting requirements for {@link #loadFromPkcs8PemFile} are
+   * @deprecated (scheduled to be removed in the future) Use {@link #loadFromPkcs8PemFile} instead.
+   *             Note that the file formatting requirements for {@link #loadFromPkcs8PemFile} are
    *             stricter than this method's requirements.
    */
   @Deprecated
@@ -134,7 +134,7 @@ public class PrivateKeys {
    * </p>
    *
    * @since 1.13
-   * @deprecated (scheduled to be removed in 1.15) Use
+   * @deprecated (scheduled to be removed in the future) Use
    *             {@link SecurityUtils#readPrivateKeyFromPem(InputStream, String)} instead.
    */
   @Deprecated
@@ -169,7 +169,7 @@ public class PrivateKeys {
    * <p>
    *
    * @since 1.13
-   * @deprecated (scheduled to be removed in 1.15) Use
+   * @deprecated (scheduled to be removed in the future) Use
    *             {@link SecurityUtils#loadPkcs8PrivateKeyFromPem(KeyFactory, InputStream, String)}
    *             instead.
    */
@@ -188,7 +188,7 @@ public class PrivateKeys {
    * @param alias alias under which the private key is stored
    * @param keyPass password protecting the private key
    * @return loaded private key
-   * @deprecated (scheduled to be removed in 1.15) Use
+   * @deprecated (scheduled to be removed in the future) Use
    *             {@link SecurityUtils#loadPrivateKeyFromKeyStore} with
    *             {@link SecurityUtils#getPkcs12KeyStore()} instead
    */
