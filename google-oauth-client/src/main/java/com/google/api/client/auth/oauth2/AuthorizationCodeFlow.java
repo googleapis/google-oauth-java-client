@@ -90,6 +90,9 @@ public class AuthorizationCodeFlow {
   /** Space-separated list of scopes or {@code null} for none. */
   private String scopes;
 
+  /** Credential created listener or {@code null} for none. */
+  private final CredentialCreatedListener credentialCreatedListener;
+
   /**
    * @param method method of presenting the access token to the resource server (for example
    *        {@link BearerToken#authorizationHeaderAccessMethod})
@@ -137,6 +140,7 @@ public class AuthorizationCodeFlow {
     credentialStore = builder.credentialStore;
     scopes = builder.scopes;
     clock = Preconditions.checkNotNull(builder.clock);
+    credentialCreatedListener = builder.credentialCreatedListener;
   }
 
   /**
@@ -218,6 +222,7 @@ public class AuthorizationCodeFlow {
     this.credentialStore = credentialStore;
     this.scopes = scopes;
     this.clock = Preconditions.checkNotNull(clock);
+    credentialCreatedListener = null;
   }
 
   /**
@@ -283,6 +288,9 @@ public class AuthorizationCodeFlow {
     Credential credential = newCredential(userId).setFromTokenResponse(response);
     if (credentialStore != null) {
       credentialStore.store(userId, credential);
+    }
+    if (credentialCreatedListener != null) {
+      credentialCreatedListener.onCredentialCreated(credential, response);
     }
     return credential;
   }
@@ -388,6 +396,28 @@ public class AuthorizationCodeFlow {
   }
 
   /**
+   * Listener for a created credential after a successful token response in
+   * {@link #createAndStoreCredential}.
+   *
+   * @since 1.14
+   */
+  public interface CredentialCreatedListener {
+
+    /**
+     * Notifies of a created credential after a successful token response in
+     * {@link #createAndStoreCredential}.
+     *
+     * <p>
+     * Typical use is to parse additional fields from the credential created, such as an ID token.
+     * </p>
+     *
+     * @param credential created credential
+     * @param tokenResponse successful token response
+     */
+    void onCredentialCreated(Credential credential, TokenResponse tokenResponse) throws IOException;
+  }
+
+  /**
    * Authorization code flow builder.
    *
    * <p>
@@ -434,6 +464,9 @@ public class AuthorizationCodeFlow {
 
     /** Clock passed along to the Credential. */
     Clock clock = Clock.SYSTEM;
+
+    /** Credential created listener or {@code null} for none. */
+    CredentialCreatedListener credentialCreatedListener;
 
     /**
      * @param method method of presenting the access token to the resource server (for example
@@ -706,6 +739,31 @@ public class AuthorizationCodeFlow {
     /** Returns the space-separated list of scopes or {@code null} for none. */
     public final String getScopes() {
       return scopes;
+    }
+
+    /**
+     * Sets the credential created listener or {@code null} for none.
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+     *
+     * @since 1.14
+     */
+    public Builder setCredentialCreatedListener(
+        CredentialCreatedListener credentialCreatedListener) {
+      this.credentialCreatedListener = credentialCreatedListener;
+      return this;
+    }
+
+    /**
+     * Returns the credential created listener or {@code null} for none.
+     *
+     * @since 1.14
+     */
+    public final CredentialCreatedListener getCredentialCreatedListener() {
+      return credentialCreatedListener;
     }
   }
 }
