@@ -24,7 +24,9 @@
  *
  * @since 1.7
  * @author Yaniv Inbar
+ *
+ * @deprecated (scheduled to be removed in the future) Use
+ *             {@link com.google.api.client.json.webtoken} instead
  */
-
 package com.google.api.client.auth.jsontoken;
 

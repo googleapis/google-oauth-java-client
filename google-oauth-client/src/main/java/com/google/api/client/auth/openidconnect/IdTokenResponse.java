@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2012 Google Inc.
-0 *
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
  *
@@ -14,19 +14,20 @@
 
 package com.google.api.client.auth.openidconnect;
 
-import com.google.api.client.auth.jsontoken.JsonWebSignature;
 import com.google.api.client.auth.oauth2.TokenRequest;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.auth.oauth2.TokenResponseException;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.webtoken.JsonWebSignature;
 import com.google.api.client.util.Key;
+import com.google.api.client.util.Preconditions;
 
 import java.io.IOException;
 
 /**
  * OAuth ID Connect JSON model for a successful access token response as specified in <a
- * href="http://openid.net/specs/openid-connect-session-1_0.html">OpenID Connect Session Management
- * 1.0</a>.
+ * href="http://openid.net/specs/openid-connect-basic-1_0-23.html">OpenID Connect Basic Client
+ * Profile 1.0 (draft 23)</a>.
  *
  * <p>
  * Implementation is not thread-safe. Sample usage:
@@ -48,9 +49,7 @@ public class IdTokenResponse extends TokenResponse {
   @Key("id_token")
   private String idToken;
 
-  /**
-   * Returns the ID token.
-   */
+  /** Returns the ID token. */
   public final String getIdToken() {
     return idToken;
   }
@@ -62,9 +61,14 @@ public class IdTokenResponse extends TokenResponse {
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
+   *
+   * <p>
+   * Upgrade warning: in prior version 1.13 {@code null} was allowed, but starting with version 1.14
+   * {@code null} is not allowed.
+   * </p>
    */
   public IdTokenResponse setIdToken(String idToken) {
-    this.idToken = idToken;
+    this.idToken = Preconditions.checkNotNull(idToken);
     return this;
   }
 
@@ -101,9 +105,16 @@ public class IdTokenResponse extends TokenResponse {
   /**
    * Parses using {@link JsonWebSignature#parse(JsonFactory, String)} based on the
    * {@link #getFactory() JSON factory} and {@link #getIdToken() ID token}.
+   *
+   * <p>
+   * Upgrade warning: in prior version 1.13 this returned
+   * {@link com.google.api.client.auth.jsontoken.JsonWebSignature}, but starting with version 1.14
+   * it now returns {@link IdToken}.
+   * </p>
    */
-  public JsonWebSignature parseIdToken() throws IOException {
-    return JsonWebSignature.parse(getFactory(), idToken);
+  @SuppressWarnings("javadoc")
+  public IdToken parseIdToken() throws IOException {
+    return IdToken.parse(getFactory(), idToken);
   }
 
   /**

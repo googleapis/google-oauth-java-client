@@ -28,6 +28,7 @@ import java.security.SecureRandom;
  *
  * @author Yaniv Inbar
  */
+@Deprecated
 public class RsaSHA256SignerTest extends TestCase {
 
   public void testSign() throws Exception {

@@ -15,6 +15,7 @@
 package com.google.api.client.auth.security;
 
 import com.google.api.client.util.Base64;
+import com.google.api.client.util.PemReader;
 import com.google.api.client.util.SecurityUtils;
 
 import java.io.DataInputStream;
@@ -135,7 +136,7 @@ public class PrivateKeys {
    *
    * @since 1.13
    * @deprecated (scheduled to be removed in the future) Use
-   *             {@link SecurityUtils#readPrivateKeyFromPem(InputStream, String)} instead.
+   *             {@link PemReader#readFirstSectionAndClose(java.io.Reader, String)} instead.
    */
   @Deprecated
   public static byte[] readFromPemFormattedFile(File file)
@@ -170,8 +171,7 @@ public class PrivateKeys {
    *
    * @since 1.13
    * @deprecated (scheduled to be removed in the future) Use
-   *             {@link SecurityUtils#loadPkcs8PrivateKeyFromPem(KeyFactory, InputStream, String)}
-   *             instead.
+   *             {@link PemReader#readFirstSectionAndClose(java.io.Reader, String)} instead.
    */
   @Deprecated
   public static PrivateKey loadFromPkcs8PemFile(File pemFile)
