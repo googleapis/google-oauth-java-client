@@ -206,7 +206,7 @@ public class Credential
    * @param requestInitializer HTTP request initializer for refresh token requests to the token
    *        server or {@code null} for none
    * @param refreshListeners listeners for refresh token results or {@code null} for none
-   * @deprecated (scheduled to be removed in the future) Use {@link #Credential(Builder)}
+   * @deprecated (scheduled to be removed in 1.15) Use {@link #Credential(Builder)}
    */
   @Deprecated
   protected Credential(AccessMethod method,
@@ -241,7 +241,7 @@ public class Credential
    * @param refreshListeners listeners for refresh token results or {@code null} for none
    * @param clock {@link Clock} used for retrieving the current time for expiration checks
    * @since 1.9
-   * @deprecated (scheduled to be removed in the future) Use {@link #Credential(Builder)}
+   * @deprecated (scheduled to be removed in 1.15) Use {@link #Credential(Builder)}
    */
   @Deprecated
   protected Credential(AccessMethod method,

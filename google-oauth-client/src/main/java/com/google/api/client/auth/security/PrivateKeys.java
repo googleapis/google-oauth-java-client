@@ -27,7 +27,6 @@ import java.security.GeneralSecurityException;
 import java.security.KeyFactory;
 import java.security.KeyStore;
 import java.security.PrivateKey;
-import java.security.spec.EncodedKeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 
 /**
@@ -35,7 +34,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
  *
  * @since 1.7
  * @author Yaniv Inbar
- * @deprecated (scheduled to be removed in the future) Use {@link SecurityUtils} instead.
+ * @deprecated (scheduled to be removed in 1.15) Use {@link SecurityUtils} instead.
  */
 @Deprecated
 public class PrivateKeys {
@@ -52,7 +51,7 @@ public class PrivateKeys {
    * @param alias alias under which the private key is stored
    * @param keyPass password protecting the private key
    * @return the private key from the specified key store
-   * @deprecated (scheduled to be removed in the future) Use
+   * @deprecated (scheduled to be removed in 1.15) Use
    *             {@link SecurityUtils#loadPrivateKeyFromKeyStore} with
    *             {@link SecurityUtils#getDefaultKeyStore()} instead
    */
@@ -74,7 +73,7 @@ public class PrivateKeys {
    * @param alias alias under which the private key is stored
    * @param keyPass password protecting the private key
    * @return the private key from the specified key store
-   * @deprecated (scheduled to be removed in the future) Use
+   * @deprecated (scheduled to be removed in 1.15) Use
    *             {@link SecurityUtils#loadPrivateKeyFromKeyStore} instead.
    */
   @Deprecated
@@ -87,31 +86,6 @@ public class PrivateKeys {
     } finally {
       keyStream.close();
     }
-  }
-
-  /**
-   * Reads a {@code PKCS#8} format private key from a given file.
-   *
-   * @deprecated (scheduled to be removed in the future) Use {@link #loadFromPkcs8PemFile} instead.
-   *             Note that the file formatting requirements for {@link #loadFromPkcs8PemFile} are
-   *             stricter than this method's requirements.
-   */
-  @Deprecated
-  public static PrivateKey loadFromPk8File(File file) throws IOException, GeneralSecurityException {
-    byte[] privKeyBytes = new byte[(int) file.length()];
-    DataInputStream inputStream = new DataInputStream(new FileInputStream(file));
-    try {
-      inputStream.readFully(privKeyBytes);
-    } finally {
-      inputStream.close();
-    }
-    String str = new String(privKeyBytes);
-    if (str.startsWith(BEGIN) && str.endsWith(END)) {
-      str = str.substring(BEGIN.length(), str.lastIndexOf(END));
-    }
-    KeyFactory fac = KeyFactory.getInstance("RSA");
-    EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(Base64.decodeBase64(str));
-    return fac.generatePrivate(privKeySpec);
   }
 
   /**
@@ -135,7 +109,7 @@ public class PrivateKeys {
    * </p>
    *
    * @since 1.13
-   * @deprecated (scheduled to be removed in the future) Use
+   * @deprecated (scheduled to be removed in 1.15) Use
    *             {@link PemReader#readFirstSectionAndClose(java.io.Reader, String)} instead.
    */
   @Deprecated
@@ -170,7 +144,7 @@ public class PrivateKeys {
    * <p>
    *
    * @since 1.13
-   * @deprecated (scheduled to be removed in the future) Use
+   * @deprecated (scheduled to be removed in 1.15) Use
    *             {@link PemReader#readFirstSectionAndClose(java.io.Reader, String)} instead.
    */
   @Deprecated
@@ -188,7 +162,7 @@ public class PrivateKeys {
    * @param alias alias under which the private key is stored
    * @param keyPass password protecting the private key
    * @return loaded private key
-   * @deprecated (scheduled to be removed in the future) Use
+   * @deprecated (scheduled to be removed in 1.15) Use
    *             {@link SecurityUtils#loadPrivateKeyFromKeyStore} with
    *             {@link SecurityUtils#getPkcs12KeyStore()} instead
    */

@@ -44,7 +44,7 @@ import java.io.IOException;
  *
  * @since 1.7
  * @author Yaniv Inbar
- * @deprecated (scheduled to be removed in the future) Use
+ * @deprecated (scheduled to be removed in 1.15) Use
  *             {@link com.google.api.client.json.webtoken.JsonWebSignature} instead
  */
 @Deprecated
@@ -74,7 +74,7 @@ public class JsonWebSignature extends JsonWebToken {
    * href="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature-00#section-4.1">Reserved
    * Header Parameter Names</a>.
    *
-   * @deprecated (scheduled to be removed in the future) Use
+   * @deprecated (scheduled to be removed in 1.15) Use
    *             {@link com.google.api.client.json.webtoken.JsonWebSignature.Header} instead
    */
   @Deprecated
@@ -265,7 +265,7 @@ public class JsonWebSignature extends JsonWebToken {
    * Implementation is not thread-safe.
    * </p>
    *
-   * @deprecated (scheduled to be removed in the future) Use
+   * @deprecated (scheduled to be removed in 1.15) Use
    *             {@link com.google.api.client.json.webtoken.JsonWebSignature.Parser} instead
    */
   @Deprecated

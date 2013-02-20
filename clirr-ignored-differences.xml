@@ -2,6 +2,12 @@
 <!-- see http://mojo.codehaus.org/clirr-maven-plugin/examples/ignored-differences.html -->
 
 <differences>
+  <!-- 7002 (method removed): className, method -->
+  <difference>
+    <differenceType>7002</differenceType>
+    <className>com/google/api/client/auth/security/PrivateKeys</className>
+    <method>java.security.PrivateKey loadFromPk8File(java.io.File)</method>
+  </difference>
   <!-- 7006 (Method Return Type changed): className, method, to (to is just the return type) -->
   <difference>
     <differenceType>7006</differenceType>

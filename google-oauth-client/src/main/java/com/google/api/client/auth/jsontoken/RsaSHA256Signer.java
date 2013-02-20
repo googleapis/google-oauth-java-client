@@ -28,7 +28,7 @@ import java.security.PrivateKey;
  *
  * @since 1.7
  * @author Yaniv Inbar
- * @deprecated (scheduled to be removed in the future) Use
+ * @deprecated (scheduled to be removed in 1.15) Use
  *             {@link com.google.api.client.json.webtoken.JsonWebSignature#signUsingRsaSha256}
  *             instead
  */
@@ -48,7 +48,7 @@ public class RsaSHA256Signer {
    * @param header JWS header
    * @param payload JWS payload
    * @return signed JWS string
-   * @deprecated (scheduled to be removed in the future) Use
+   * @deprecated (scheduled to be removed in 1.15) Use
    *             {@link com.google.api.client.json.webtoken.JsonWebSignature#signUsingRsaSha256}
    *             instead
    */

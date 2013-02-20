@@ -156,7 +156,7 @@ public class AuthorizationCodeFlow {
    * @param credentialStore credential persistence store or {@code null} for none
    * @param requestInitializer HTTP request initializer or {@code null} for none
    * @param scopes space-separated list of scopes or {@code null} for none
-   * @deprecated (scheduled to be removed in the future) Use {@link #AuthorizationCodeFlow(Builder)}
+   * @deprecated (scheduled to be removed in 1.15) Use {@link #AuthorizationCodeFlow(Builder)}
    */
   @Deprecated
   protected AuthorizationCodeFlow(AccessMethod method,
@@ -197,7 +197,7 @@ public class AuthorizationCodeFlow {
    * @param scopes space-separated list of scopes or {@code null} for none
    * @param clock Clock used for Credential expiration
    * @since 1.9
-   * @deprecated (scheduled to be removed in the future) Use {@link #AuthorizationCodeFlow(Builder)}
+   * @deprecated (scheduled to be removed in 1.15) Use {@link #AuthorizationCodeFlow(Builder)}
    */
   @Deprecated
   protected AuthorizationCodeFlow(AccessMethod method,

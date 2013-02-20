@@ -28,7 +28,7 @@ import com.google.api.client.util.Preconditions;
  *
  * @since 1.7
  * @author Yaniv Inbar
- * @deprecated (scheduled to be removed in the future) Use
+ * @deprecated (scheduled to be removed in 1.15) Use
  *             {@link com.google.api.client.json.webtoken.JsonWebToken} instead
  */
 @Deprecated
@@ -53,7 +53,7 @@ public class JsonWebToken {
    * Header as specified in <a
    * href="http://tools.ietf.org/html/draft-jones-json-web-token-07#section-5">JWT Header</a>.
    *
-   * @deprecated (scheduled to be removed in the future) Use
+   * @deprecated (scheduled to be removed in 1.15) Use
    *             {@link com.google.api.client.json.webtoken.JsonWebToken.Header} instead
    */
   @Deprecated
@@ -99,7 +99,7 @@ public class JsonWebToken {
    * href="http://tools.ietf.org/html/draft-jones-json-web-token-07#section-4.1">Reserved Claim
    * Names</a>.
    *
-   * @deprecated (scheduled to be removed in the future) Use
+   * @deprecated (scheduled to be removed in 1.15) Use
    *             {@link com.google.api.client.json.webtoken.JsonWebToken.Payload} instead
    */
   @Deprecated
