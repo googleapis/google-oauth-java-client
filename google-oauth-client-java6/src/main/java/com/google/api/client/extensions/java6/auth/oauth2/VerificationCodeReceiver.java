@@ -28,33 +28,12 @@ import java.io.IOException;
  */
 public interface VerificationCodeReceiver {
 
-  /**
-   * Returns the redirect URI.
-   *
-   * <p>
-   * Upgrade warning: this method now throws an {@link IOException}. In prior version 1.11 it threw
-   * an {@link Exception}.
-   * </p>
-   */
+  /** Returns the redirect URI. */
   String getRedirectUri() throws IOException;
 
-  /**
-   * Waits for a verification code.
-   *
-   * <p>
-   * Upgrade warning: this method now throws an {@link IOException}. In prior version 1.11 it threw
-   * an {@link Exception}.
-   * </p>
-   */
+  /** Waits for a verification code. */
   String waitForCode() throws IOException;
 
-  /**
-   * Releases any resources and stops any processes started.
-   *
-   * <p>
-   * Upgrade warning: this method now throws an {@link IOException}. In prior version 1.11 it threw
-   * an {@link Exception}.
-   * </p>
-   */
+  /** Releases any resources and stops any processes started. */
   void stop() throws IOException;
 }
