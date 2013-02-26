@@ -54,11 +54,6 @@ public class FileCredentialStore implements CredentialStore {
   private static final boolean IS_WINDOWS = File.separatorChar == '\\';
 
   /**
-   * <p>
-   * Upgrade warning: this method now throws an {@link IOException}. In prior version 1.11 it threw
-   * an {@link Exception}.
-   * </p>
-   *
    * @param file File to store user credentials
    * @param jsonFactory JSON factory to serialize user credentials
    */

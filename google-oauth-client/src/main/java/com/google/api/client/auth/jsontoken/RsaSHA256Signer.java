@@ -38,11 +38,6 @@ public class RsaSHA256Signer {
   /**
    * Signs a given JWS header and payload based on the given private key.
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link IOException}. In prior version 1.11 it did
-   * not throw {@link IOException}.
-   * </p>
-   *
    * @param privateKey private key
    * @param jsonFactory JSON factory
    * @param header JWS header

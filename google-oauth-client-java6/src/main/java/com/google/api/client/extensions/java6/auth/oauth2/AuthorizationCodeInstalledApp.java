@@ -57,11 +57,6 @@ public class AuthorizationCodeInstalledApp {
   /**
    * Authorizes the installed application to access user's protected data.
    *
-   * <p>
-   * Upgrade warning: this method now throws an {@link IOException}. In prior version 1.11 it threw
-   * an {@link Exception}.
-   * </p>
-   *
    * @param userId user ID or {@code null} if not using a persisted credential store
    * @return credential
    */
@@ -103,11 +98,6 @@ public class AuthorizationCodeInstalledApp {
     super.onAuthorization(authorizationUrl);
   }
    * </pre>
-   *
-   * <p>
-   * Upgrade warning: this method now throws an {@link IOException}. In prior version 1.11 it threw
-   * an {@link Exception}.
-   * </p>
    *
    * @param authorizationUrl authorization URL
    * @throws IOException I/O exception
