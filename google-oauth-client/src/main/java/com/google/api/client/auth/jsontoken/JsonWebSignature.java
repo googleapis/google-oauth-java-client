@@ -16,6 +16,7 @@ package com.google.api.client.auth.jsontoken;
 
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Base64;
+import com.google.api.client.util.Experimental;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
 import com.google.api.client.util.StringUtils;
@@ -48,6 +49,7 @@ import java.io.IOException;
  *             {@link com.google.api.client.json.webtoken.JsonWebSignature} instead
  */
 @Deprecated
+@Experimental
 public class JsonWebSignature extends JsonWebToken {
 
   /** Bytes of the signature. */
@@ -78,6 +80,7 @@ public class JsonWebSignature extends JsonWebToken {
    *             {@link com.google.api.client.json.webtoken.JsonWebSignature.Header} instead
    */
   @Deprecated
+  @Experimental
   public static class Header extends JsonWebToken.Header {
 
     /**
@@ -269,6 +272,7 @@ public class JsonWebSignature extends JsonWebToken {
    *             {@link com.google.api.client.json.webtoken.JsonWebSignature.Parser} instead
    */
   @Deprecated
+  @Experimental
   public static final class Parser {
 
     /** JSON factory. */

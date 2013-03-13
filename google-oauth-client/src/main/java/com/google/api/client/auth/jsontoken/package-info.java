@@ -13,20 +13,16 @@
  */
 
 /**
+ * {@link com.google.api.client.util.Experimental} <br/>
  * <a href="http://tools.ietf.org/html/draft-jones-json-web-token-07">JSON Web Token (JWT)</a> and
  * <a href="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature-00">JSON Web Signature
  * (JWS)</a>.
  *
- * <p>
- * <b>Warning: this package is experimental, and its content may be changed in incompatible ways or
- * possibly entirely removed in a future version of the library.</b>
- * </p>
- *
  * @since 1.7
  * @author Yaniv Inbar
  *
- * @deprecated (scheduled to be removed in 1.15) Use
- *             {@link com.google.api.client.json.webtoken} instead
+ * @deprecated (scheduled to be removed in 1.15) Use {@link com.google.api.client.json.webtoken}
+ *             instead
  */
 package com.google.api.client.auth.jsontoken;
 

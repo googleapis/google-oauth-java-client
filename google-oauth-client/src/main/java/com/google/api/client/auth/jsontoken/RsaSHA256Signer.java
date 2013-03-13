@@ -16,6 +16,7 @@ package com.google.api.client.auth.jsontoken;
 
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Base64;
+import com.google.api.client.util.Experimental;
 import com.google.api.client.util.SecurityUtils;
 import com.google.api.client.util.StringUtils;
 
@@ -33,6 +34,7 @@ import java.security.PrivateKey;
  *             instead
  */
 @Deprecated
+@Experimental
 public class RsaSHA256Signer {
 
   /**

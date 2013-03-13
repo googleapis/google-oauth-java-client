@@ -15,6 +15,7 @@
 package com.google.api.client.auth.oauth;
 
 import com.google.api.client.util.Base64;
+import com.google.api.client.util.Experimental;
 import com.google.api.client.util.StringUtils;
 
 import java.security.GeneralSecurityException;
@@ -24,11 +25,13 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
+ * {@link Experimental} <br/>
  * OAuth {@code "HMAC-SHA1"} signature method.
  *
  * @since 1.0
  * @author Yaniv Inbar
  */
+@Experimental
 public final class OAuthHmacSigner implements OAuthSigner {
 
   /** Client-shared secret or {@code null} for none. */

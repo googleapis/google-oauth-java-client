@@ -15,9 +15,11 @@
 package com.google.api.client.auth.oauth;
 
 import com.google.api.client.http.GenericUrl;
+import com.google.api.client.util.Experimental;
 import com.google.api.client.util.Key;
 
 /**
+ * {@link Experimental} <br/>
  * OAuth 1.0a URL builder for an authorization web page to allow the end user to authorize the
  * temporary token.
  * <p>
@@ -30,6 +32,7 @@ import com.google.api.client.util.Key;
  * @since 1.0
  * @author Yaniv Inbar
  */
+@Experimental
 public class OAuthAuthorizeTemporaryTokenUrl extends GenericUrl {
 
   /**

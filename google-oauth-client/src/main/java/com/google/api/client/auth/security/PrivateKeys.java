@@ -15,6 +15,7 @@
 package com.google.api.client.auth.security;
 
 import com.google.api.client.util.Base64;
+import com.google.api.client.util.Experimental;
 import com.google.api.client.util.PemReader;
 import com.google.api.client.util.SecurityUtils;
 
@@ -37,6 +38,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
  * @deprecated (scheduled to be removed in 1.15) Use {@link SecurityUtils} instead.
  */
 @Deprecated
+@Experimental
 public class PrivateKeys {
 
   private static final String BEGIN = "-----BEGIN PRIVATE KEY-----";

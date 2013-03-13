@@ -21,6 +21,7 @@ import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Clock;
+import com.google.api.client.util.Experimental;
 import com.google.api.client.util.Joiner;
 import com.google.api.client.util.Preconditions;
 
@@ -159,6 +160,7 @@ public class AuthorizationCodeFlow {
    * @deprecated (scheduled to be removed in 1.15) Use {@link #AuthorizationCodeFlow(Builder)}
    */
   @Deprecated
+  @Experimental
   protected AuthorizationCodeFlow(AccessMethod method,
       HttpTransport transport,
       JsonFactory jsonFactory,
@@ -200,6 +202,7 @@ public class AuthorizationCodeFlow {
    * @deprecated (scheduled to be removed in 1.15) Use {@link #AuthorizationCodeFlow(Builder)}
    */
   @Deprecated
+  @Experimental
   protected AuthorizationCodeFlow(AccessMethod method,
       HttpTransport transport,
       JsonFactory jsonFactory,

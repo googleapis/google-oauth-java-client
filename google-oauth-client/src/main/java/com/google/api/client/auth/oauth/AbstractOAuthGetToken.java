@@ -21,15 +21,18 @@ import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.UrlEncodedParser;
+import com.google.api.client.util.Experimental;
 
 import java.io.IOException;
 
 /**
+ * {@link Experimental} <br/>
  * Generic OAuth 1.0a URL to request a temporary or long-lived token from an authorization server.
  *
  * @since 1.0
  * @author Yaniv Inbar
  */
+@Experimental
 public abstract class AbstractOAuthGetToken extends GenericUrl {
 
   /**

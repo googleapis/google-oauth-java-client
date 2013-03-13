@@ -16,6 +16,7 @@ package com.google.api.client.auth.jsontoken;
 
 import com.google.api.client.json.GenericJson;
 import com.google.api.client.util.Clock;
+import com.google.api.client.util.Experimental;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
 
@@ -32,6 +33,7 @@ import com.google.api.client.util.Preconditions;
  *             {@link com.google.api.client.json.webtoken.JsonWebToken} instead
  */
 @Deprecated
+@Experimental
 public class JsonWebToken {
 
   /** Header. */
@@ -57,6 +59,7 @@ public class JsonWebToken {
    *             {@link com.google.api.client.json.webtoken.JsonWebToken.Header} instead
    */
   @Deprecated
+  @Experimental
   public static class Header extends GenericJson {
 
     /**
@@ -103,6 +106,7 @@ public class JsonWebToken {
    *             {@link com.google.api.client.json.webtoken.JsonWebToken.Payload} instead
    */
   @Deprecated
+  @Experimental
   public static class Payload extends GenericJson {
     /**
      * Clock used for expiration checks.

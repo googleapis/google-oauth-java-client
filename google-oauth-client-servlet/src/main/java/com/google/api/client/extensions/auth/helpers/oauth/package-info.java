@@ -13,17 +13,14 @@
  */
 
 /**
+ * {@link com.google.api.client.util.Experimental} <br/>
  * Implementation of auth objects to obtain and manage OAuth 1 credentials using the web server
  * flow.
- *
- * <p>
- * <b>Warning: this package is experimental, and its content may be changed in incompatible ways or
- * possibly entirely removed in a future version of the library</b>
- * </p>
  *
  * @since 1.5
  * @author moshenko@google.com (Jacob Moshenko)
  */
 
+@com.google.api.client.util.Experimental
 package com.google.api.client.extensions.auth.helpers.oauth;
 

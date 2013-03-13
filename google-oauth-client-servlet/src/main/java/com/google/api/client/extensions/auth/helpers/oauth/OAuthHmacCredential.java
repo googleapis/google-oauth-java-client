@@ -20,6 +20,7 @@ import com.google.api.client.extensions.auth.helpers.Credential;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpStatusCodes;
+import com.google.api.client.util.Experimental;
 
 import java.io.IOException;
 
@@ -30,6 +31,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 /**
+ * {@link Experimental} <br/>
  * OAuth 1 credential which uses the {@link OAuthHmacSigner} to sign requests.
  *
  * This class is both immutable and thread safe.
@@ -38,6 +40,7 @@ import javax.jdo.annotations.PrimaryKey;
  * @since 1.5
  */
 @PersistenceCapable
+@Experimental
 public final class OAuthHmacCredential implements Credential, InstanceCallbacks {
 
   /**

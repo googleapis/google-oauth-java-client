@@ -13,6 +13,7 @@
  */
 
 /**
+ * {@link com.google.api.client.util.Experimental} <br/>
  * OAuth 1.0 authorization as specified in <a href="http://tools.ietf.org/html/rfc5849">RFC 5849:
  * The OAuth 1.0 Protocol</a> (see detailed package specification).
  *
@@ -36,14 +37,14 @@
  * <li>OAuth Consumer Key: use this as the {@code consumerKey} on every OAuth request, for example
  * in {@link com.google.api.client.auth.oauth.AbstractOAuthGetToken#consumerKey}.</li>
  * <li>OAuth Consumer Secret: use this as the
- * {@link com.google.api.client.auth.oauth.OAuthHmacSigner#clientSharedSecret} when using the {@code
- * "HMAC-SHA1"} signature method.</li>
+ * {@link com.google.api.client.auth.oauth.OAuthHmacSigner#clientSharedSecret} when using the
+ * {@code "HMAC-SHA1"} signature method.</li>
  * </ul>
  * </li>
  * <li>For an installed application, an unregistered web application, or a web application running
  * on localhost, you must use the {@code "HMAC-SHA1"} signature method. The documentation for the
- * authorization server will need to provide you with the {@code consumerKey} and {@code
- * clientSharedSecret} to use.</li>
+ * authorization server will need to provide you with the {@code consumerKey} and
+ * {@code clientSharedSecret} to use.</li>
  * <li>For the {@code "HMAC-SHA1"} signature method, use
  * {@link com.google.api.client.auth.oauth.OAuthHmacSigner}.</li>
  * <li>For the {@code "RSA-SHA1"} signature method, use
@@ -77,15 +78,9 @@
  * {@link com.google.api.client.http.HttpRequestInitializer}.</li>
  * </ol>
  *
- *
- * <p>
- * <b>Warning: this package is experimental, and its content may be changed in incompatible ways or
- * possibly entirely removed in a future version of the library</b>
- * </p>
- *
  * @since 1.0
  * @author Yaniv Inbar
  */
-
+@com.google.api.client.util.Experimental
 package com.google.api.client.auth.oauth;
 

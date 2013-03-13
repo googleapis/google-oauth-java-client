@@ -24,6 +24,7 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.HttpUnsuccessfulResponseHandler;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Clock;
+import com.google.api.client.util.Experimental;
 import com.google.api.client.util.Objects;
 import com.google.api.client.util.Preconditions;
 
@@ -209,6 +210,7 @@ public class Credential
    * @deprecated (scheduled to be removed in 1.15) Use {@link #Credential(Builder)}
    */
   @Deprecated
+  @Experimental
   protected Credential(AccessMethod method,
       HttpTransport transport,
       JsonFactory jsonFactory,
@@ -244,6 +246,7 @@ public class Credential
    * @deprecated (scheduled to be removed in 1.15) Use {@link #Credential(Builder)}
    */
   @Deprecated
+  @Experimental
   protected Credential(AccessMethod method,
       HttpTransport transport,
       JsonFactory jsonFactory,
