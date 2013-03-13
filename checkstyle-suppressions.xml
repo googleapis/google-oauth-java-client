@@ -9,6 +9,7 @@
   <suppress checks="LineLength" files="com.google.api.client.auth.oauth2.draft10.package-info.java"/>
   <suppress checks="LineLength" files="com/google/api/client/auth/oauth2/package-info.java"/>
   <suppress checks="LineLength" files="com.google.api.client.extensions.appengine.auth.AbstractAppEngineCallbackServlet.java"/>
-
+  <!-- Don't check JavaDoc on package-info. -->
+  <suppress checks="JavadocStyleCheck" files="package-info.java"/>
 
 </suppressions>
