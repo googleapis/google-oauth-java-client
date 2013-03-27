@@ -24,7 +24,6 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.HttpUnsuccessfulResponseHandler;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Clock;
-import com.google.api.client.util.Experimental;
 import com.google.api.client.util.Objects;
 import com.google.api.client.util.Preconditions;
 
@@ -192,79 +191,6 @@ public class Credential
         ? Collections.<CredentialRefreshListener>emptyList()
         : Collections.unmodifiableList(builder.refreshListeners);
     clock = Preconditions.checkNotNull(builder.clock);
-  }
-
-  /**
-   * @param method method of presenting the access token to the resource server (for example
-   *        {@link BearerToken#authorizationHeaderAccessMethod})
-   * @param transport HTTP transport for executing refresh token request or {@code null} if not
-   *        refreshing tokens
-   * @param jsonFactory JSON factory to use for parsing response for refresh token request or
-   *        {@code null} if not refreshing tokens
-   * @param tokenServerEncodedUrl encoded token server URL or {@code null} if not refreshing tokens
-   * @param clientAuthentication client authentication or {@code null} for none (see
-   *        {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)})
-   * @param requestInitializer HTTP request initializer for refresh token requests to the token
-   *        server or {@code null} for none
-   * @param refreshListeners listeners for refresh token results or {@code null} for none
-   * @deprecated (scheduled to be removed in 1.15) Use {@link #Credential(Builder)}
-   */
-  @Deprecated
-  @Experimental
-  protected Credential(AccessMethod method,
-      HttpTransport transport,
-      JsonFactory jsonFactory,
-      String tokenServerEncodedUrl,
-      HttpExecuteInterceptor clientAuthentication,
-      HttpRequestInitializer requestInitializer,
-      List<CredentialRefreshListener> refreshListeners) {
-    this(method,
-        transport,
-        jsonFactory,
-        tokenServerEncodedUrl,
-        clientAuthentication,
-        requestInitializer,
-        refreshListeners,
-        Clock.SYSTEM);
-  }
-
-  /**
-   * @param method method of presenting the access token to the resource server (for example
-   *        {@link BearerToken#authorizationHeaderAccessMethod})
-   * @param transport HTTP transport for executing refresh token request or {@code null} if not
-   *        refreshing tokens
-   * @param jsonFactory JSON factory to use for parsing response for refresh token request or
-   *        {@code null} if not refreshing tokens
-   * @param tokenServerEncodedUrl encoded token server URL or {@code null} if not refreshing tokens
-   * @param clientAuthentication client authentication or {@code null} for none (see
-   *        {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)})
-   * @param requestInitializer HTTP request initializer for refresh token requests to the token
-   *        server or {@code null} for none
-   * @param refreshListeners listeners for refresh token results or {@code null} for none
-   * @param clock {@link Clock} used for retrieving the current time for expiration checks
-   * @since 1.9
-   * @deprecated (scheduled to be removed in 1.15) Use {@link #Credential(Builder)}
-   */
-  @Deprecated
-  @Experimental
-  protected Credential(AccessMethod method,
-      HttpTransport transport,
-      JsonFactory jsonFactory,
-      String tokenServerEncodedUrl,
-      HttpExecuteInterceptor clientAuthentication,
-      HttpRequestInitializer requestInitializer,
-      List<CredentialRefreshListener> refreshListeners,
-      Clock clock) {
-    this.method = Preconditions.checkNotNull(method);
-    this.transport = transport;
-    this.jsonFactory = jsonFactory;
-    this.tokenServerEncodedUrl = tokenServerEncodedUrl;
-    this.clientAuthentication = clientAuthentication;
-    this.requestInitializer = requestInitializer;
-    this.refreshListeners = refreshListeners == null
-        ? Collections.<CredentialRefreshListener>emptyList()
-        : Collections.unmodifiableList(refreshListeners);
-    this.clock = Preconditions.checkNotNull(clock);
   }
 
   /**

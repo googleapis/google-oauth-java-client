@@ -21,7 +21,6 @@ import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Clock;
-import com.google.api.client.util.Experimental;
 import com.google.api.client.util.Joiner;
 import com.google.api.client.util.Preconditions;
 
@@ -142,90 +141,6 @@ public class AuthorizationCodeFlow {
     scopes = builder.scopes;
     clock = Preconditions.checkNotNull(builder.clock);
     credentialCreatedListener = builder.credentialCreatedListener;
-  }
-
-  /**
-   * @param method method of presenting the access token to the resource server (for example
-   *        {@link BearerToken#authorizationHeaderAccessMethod})
-   * @param transport HTTP transport
-   * @param jsonFactory JSON factory
-   * @param tokenServerUrl token server URL
-   * @param clientAuthentication client authentication or {@code null} for none (see
-   *        {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)})
-   * @param clientId client identifier
-   * @param authorizationServerEncodedUrl authorization server encoded URL
-   * @param credentialStore credential persistence store or {@code null} for none
-   * @param requestInitializer HTTP request initializer or {@code null} for none
-   * @param scopes space-separated list of scopes or {@code null} for none
-   * @deprecated (scheduled to be removed in 1.15) Use {@link #AuthorizationCodeFlow(Builder)}
-   */
-  @Deprecated
-  @Experimental
-  protected AuthorizationCodeFlow(AccessMethod method,
-      HttpTransport transport,
-      JsonFactory jsonFactory,
-      GenericUrl tokenServerUrl,
-      HttpExecuteInterceptor clientAuthentication,
-      String clientId,
-      String authorizationServerEncodedUrl,
-      CredentialStore credentialStore,
-      HttpRequestInitializer requestInitializer,
-      String scopes) {
-    this(method,
-        transport,
-        jsonFactory,
-        tokenServerUrl,
-        clientAuthentication,
-        clientId,
-        authorizationServerEncodedUrl,
-        credentialStore,
-        requestInitializer,
-        scopes,
-        Clock.SYSTEM);
-  }
-
-  /**
-   * @param method method of presenting the access token to the resource server (for example
-   *        {@link BearerToken#authorizationHeaderAccessMethod})
-   * @param transport HTTP transport
-   * @param jsonFactory JSON factory
-   * @param tokenServerUrl token server URL
-   * @param clientAuthentication client authentication or {@code null} for none (see
-   *        {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)})
-   * @param clientId client identifier
-   * @param authorizationServerEncodedUrl authorization server encoded URL
-   * @param credentialStore credential persistence store or {@code null} for none
-   * @param requestInitializer HTTP request initializer or {@code null} for none
-   * @param scopes space-separated list of scopes or {@code null} for none
-   * @param clock Clock used for Credential expiration
-   * @since 1.9
-   * @deprecated (scheduled to be removed in 1.15) Use {@link #AuthorizationCodeFlow(Builder)}
-   */
-  @Deprecated
-  @Experimental
-  protected AuthorizationCodeFlow(AccessMethod method,
-      HttpTransport transport,
-      JsonFactory jsonFactory,
-      GenericUrl tokenServerUrl,
-      HttpExecuteInterceptor clientAuthentication,
-      String clientId,
-      String authorizationServerEncodedUrl,
-      CredentialStore credentialStore,
-      HttpRequestInitializer requestInitializer,
-      String scopes,
-      Clock clock) {
-    this.method = Preconditions.checkNotNull(method);
-    this.transport = Preconditions.checkNotNull(transport);
-    this.jsonFactory = Preconditions.checkNotNull(jsonFactory);
-    this.tokenServerEncodedUrl = Preconditions.checkNotNull(tokenServerUrl).build();
-    this.clientAuthentication = clientAuthentication;
-    this.clientId = Preconditions.checkNotNull(clientId);
-    this.authorizationServerEncodedUrl = Preconditions.checkNotNull(authorizationServerEncodedUrl);
-    this.requestInitializer = requestInitializer;
-    this.credentialStore = credentialStore;
-    this.scopes = scopes;
-    this.clock = Preconditions.checkNotNull(clock);
-    credentialCreatedListener = null;
   }
 
   /**

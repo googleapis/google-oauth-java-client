@@ -64,11 +64,6 @@ public class IdTokenResponse extends TokenResponse {
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
-   *
-   * <p>
-   * Upgrade warning: in prior version 1.13 {@code null} was allowed, but starting with version 1.14
-   * {@code null} is not allowed.
-   * </p>
    */
   public IdTokenResponse setIdToken(String idToken) {
     this.idToken = Preconditions.checkNotNull(idToken);
@@ -108,12 +103,6 @@ public class IdTokenResponse extends TokenResponse {
   /**
    * Parses using {@link JsonWebSignature#parse(JsonFactory, String)} based on the
    * {@link #getFactory() JSON factory} and {@link #getIdToken() ID token}.
-   *
-   * <p>
-   * Upgrade warning: in prior version 1.13 this returned
-   * {@link com.google.api.client.auth.jsontoken.JsonWebSignature}, but starting with version 1.14
-   * it now returns {@link IdToken}.
-   * </p>
    */
   @SuppressWarnings("javadoc")
   public IdToken parseIdToken() throws IOException {

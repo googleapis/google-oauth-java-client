@@ -107,15 +107,7 @@ public class ClientParametersAuthentication
     return clientId;
   }
 
-  /**
-   * Returns the client secret or {@code null} for none.
-   *
-   * <p>
-   * Upgrade warning: in prior version 1.13 this could not be {@code null}, but starting with
-   * version 1.14 it may be {@code null}.
-   * </p>
-   *
-   */
+  /** Returns the client secret or {@code null} for none. */
   public final String getClientSecret() {
     return clientSecret;
   }
