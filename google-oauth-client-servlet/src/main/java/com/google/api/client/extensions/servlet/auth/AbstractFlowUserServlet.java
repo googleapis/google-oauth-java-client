@@ -18,6 +18,7 @@ import com.google.api.client.extensions.auth.helpers.Credential;
 import com.google.api.client.extensions.auth.helpers.ThreeLeggedFlow;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.util.Experimental;
 
 import java.io.IOException;
 
@@ -29,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * {@link Experimental} <br/>
  * Servlet that can be used to invoke and manage a {@link ThreeLeggedFlow} object in the App Engine
  * container. Developers should subclass this to provide the necessary information for their
  * specific use case.
@@ -41,6 +43,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
  */
+@Experimental
 public abstract class AbstractFlowUserServlet extends HttpServlet {
 
   private static final long serialVersionUID = 1L;

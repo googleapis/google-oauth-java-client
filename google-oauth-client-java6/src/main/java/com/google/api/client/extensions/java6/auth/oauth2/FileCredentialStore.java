@@ -94,7 +94,6 @@ public class FileCredentialStore implements CredentialStore {
    * @since 1.13
    */
   protected boolean isSymbolicLink(File file) throws IOException {
-    // TODO(yanivi): in Java 7 use Files.isSymbolicLink(file.toPath())
     if (IS_WINDOWS) {
       return false;
     }

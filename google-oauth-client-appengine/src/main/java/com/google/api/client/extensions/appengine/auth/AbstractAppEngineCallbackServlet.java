@@ -19,8 +19,10 @@ import com.google.api.client.extensions.servlet.auth.AbstractCallbackServlet;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.api.client.util.Experimental;
 
 /**
+ * {@link Experimental} <br/>
  * This servlet fills in some of the required information for the {@link AbstractCallbackServlet}
  * with reasonable defaults for App Engine. It will default the servlet to creating
  * {@link UrlFetchTransport} objects whenever an {@link HttpTransport} is needed. It will also
@@ -52,6 +54,7 @@ import com.google.api.client.json.jackson.JacksonFactory;
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
  */
+@Experimental
 public abstract class AbstractAppEngineCallbackServlet extends AbstractCallbackServlet {
 
   private static final long serialVersionUID = 1L;

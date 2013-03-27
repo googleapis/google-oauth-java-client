@@ -18,10 +18,12 @@ import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.HttpUnsuccessfulResponseHandler;
+import com.google.api.client.util.Experimental;
 
 import javax.jdo.annotations.PersistenceCapable;
 
 /**
+ * {@link Experimental} <br/>
  * Implementations of this class will have all of the information necessary to create and install
  * the necessary handlers on an {@link HttpTransport} object to allow for a streamlined auth
  * experience.
@@ -37,6 +39,7 @@ import javax.jdo.annotations.PersistenceCapable;
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
  */
+@Experimental
 public interface Credential
     extends HttpRequestInitializer, HttpExecuteInterceptor, HttpUnsuccessfulResponseHandler {
 

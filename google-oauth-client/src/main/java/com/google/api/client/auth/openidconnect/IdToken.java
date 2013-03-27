@@ -143,7 +143,11 @@ public class IdToken extends JsonWebSignature {
         jws.getSignedContentBytes());
   }
 
-  /** ID token payload. */
+  /**
+   * {@link Experimental} <br/>
+   * ID token payload.
+   */
+  @Experimental
   public static class Payload extends JsonWebToken.Payload {
 
     /** Time (in seconds) of end-user authorization or {@code null} for none. */

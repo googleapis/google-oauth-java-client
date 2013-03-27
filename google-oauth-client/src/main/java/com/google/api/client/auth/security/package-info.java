@@ -18,7 +18,8 @@
  *
  * @since 1.7
  * @author Yaniv Inbar
+ * @deprecated (scheduled to be removed in 1.15) Use
+ *             {@link com.google.api.client.util.SecurityUtils} instead.
  */
-@com.google.api.client.util.Experimental
 package com.google.api.client.auth.security;
 

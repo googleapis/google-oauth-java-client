@@ -15,11 +15,6 @@
 /**
  * OAuth 2.0 utilities that help simplify the authorization flow in HTTP servlets.
  *
- * <p>
- * <b>Warning: this package is experimental, and its content may be changed in incompatible ways or
- * possibly entirely removed in a future version of the library</b>
- * </p>
- *
  * @since 1.7
  * @author Yaniv Inbar
  */
