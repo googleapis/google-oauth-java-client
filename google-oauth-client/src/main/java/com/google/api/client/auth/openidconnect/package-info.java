@@ -13,12 +13,12 @@
  */
 
 /**
- * {@link com.google.api.client.util.Experimental} <br/>
+ * {@link com.google.api.client.util.Beta} <br/>
  * <a href="http://openid.net/connect/">OpenID Connect</a>.
  *
  * @since 1.7
  * @author Yaniv Inbar
  */
-@com.google.api.client.util.Experimental
+@com.google.api.client.util.Beta
 package com.google.api.client.auth.openidconnect;
 

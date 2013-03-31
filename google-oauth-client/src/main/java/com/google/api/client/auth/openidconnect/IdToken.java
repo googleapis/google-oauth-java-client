@@ -17,14 +17,14 @@ package com.google.api.client.auth.openidconnect;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.webtoken.JsonWebSignature;
 import com.google.api.client.json.webtoken.JsonWebToken;
-import com.google.api.client.util.Experimental;
+import com.google.api.client.util.Beta;
 import com.google.api.client.util.Key;
 
 import java.io.IOException;
 import java.util.Collection;
 
 /**
- * {@link Experimental} <br/>
+ * {@link Beta} <br/>
  * ID token as described in <a
  * href="http://openid.net/specs/openid-connect-basic-1_0-23.html#id_token">ID Token</a>.
  *
@@ -40,7 +40,7 @@ import java.util.Collection;
  * @since 1.14
  * @author Yaniv Inbar
  */
-@Experimental
+@Beta
 public class IdToken extends JsonWebSignature {
 
   /**
@@ -144,10 +144,10 @@ public class IdToken extends JsonWebSignature {
   }
 
   /**
-   * {@link Experimental} <br/>
+   * {@link Beta} <br/>
    * ID token payload.
    */
-  @Experimental
+  @Beta
   public static class Payload extends JsonWebToken.Payload {
 
     /** Time (in seconds) of end-user authorization or {@code null} for none. */

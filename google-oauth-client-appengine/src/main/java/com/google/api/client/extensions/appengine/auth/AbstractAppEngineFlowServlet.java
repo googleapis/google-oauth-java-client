@@ -19,10 +19,10 @@ import com.google.api.client.extensions.servlet.auth.AbstractFlowUserServlet;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
-import com.google.api.client.util.Experimental;
+import com.google.api.client.util.Beta;
 
 /**
- * {@link Experimental} <br/>
+ * {@link Beta} <br/>
  * This class fills in some of the unknowns of the generic {@link AbstractFlowUserServlet} with
  * reasonable defaults for App Engine. This servlet requires that the App Engine user must be logged
  * in to work correctly.
@@ -35,7 +35,7 @@ import com.google.api.client.util.Experimental;
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
  */
-@Experimental
+@Beta
 public abstract class AbstractAppEngineFlowServlet extends AbstractFlowUserServlet {
 
   private static final long serialVersionUID = 1L;

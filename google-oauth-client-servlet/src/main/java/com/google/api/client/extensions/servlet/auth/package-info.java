@@ -13,7 +13,7 @@
  */
 
 /**
- * {@link com.google.api.client.util.Experimental} <br/>
+ * {@link com.google.api.client.util.Beta} <br/>
  * Servlets that can be completed by users to create and complete a web server auth flow to obtain a
  * credential.
  *
@@ -25,6 +25,6 @@
  * @since 1.4
  * @author moshenko@google.com (Jacob Moshenko)
  */
-@com.google.api.client.util.Experimental
+@com.google.api.client.util.Beta
 package com.google.api.client.extensions.servlet.auth;
 

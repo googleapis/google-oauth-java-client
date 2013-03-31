@@ -18,7 +18,7 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.util.Experimental;
+import com.google.api.client.util.Beta;
 import com.google.api.client.util.escape.PercentEscaper;
 
 import java.io.IOException;
@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * {@link Experimental} <br/>
+ * {@link Beta} <br/>
  * OAuth 1.0a parameter manager.
  * <p>
  * The only required non-computed fields are {@link #signer} and {@link #consumerKey}. Use
@@ -55,7 +55,7 @@ import java.util.TreeMap;
  * @since 1.0
  * @author Yaniv Inbar
  */
-@Experimental
+@Beta
 public final class OAuthParameters implements HttpExecuteInterceptor, HttpRequestInitializer {
 
   /** Secure random number generator to sign requests. */

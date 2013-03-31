@@ -13,7 +13,7 @@
  */
 
 /**
- * {@link com.google.api.client.util.Experimental} <br/>
+ * {@link com.google.api.client.util.Beta} <br/>
  * OAuth 1.0 authorization as specified in <a href="http://tools.ietf.org/html/rfc5849">RFC 5849:
  * The OAuth 1.0 Protocol</a> (see detailed package specification).
  *
@@ -81,6 +81,6 @@
  * @since 1.0
  * @author Yaniv Inbar
  */
-@com.google.api.client.util.Experimental
+@com.google.api.client.util.Beta
 package com.google.api.client.auth.oauth;
 

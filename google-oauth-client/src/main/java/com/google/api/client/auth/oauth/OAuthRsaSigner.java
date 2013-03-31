@@ -15,7 +15,7 @@
 package com.google.api.client.auth.oauth;
 
 import com.google.api.client.util.Base64;
-import com.google.api.client.util.Experimental;
+import com.google.api.client.util.Beta;
 import com.google.api.client.util.SecurityUtils;
 import com.google.api.client.util.StringUtils;
 
@@ -24,7 +24,7 @@ import java.security.PrivateKey;
 import java.security.Signature;
 
 /**
- * {@link Experimental} <br/>
+ * {@link Beta} <br/>
  * OAuth {@code "RSA-SHA1"} signature method.
  *
  * <p>
@@ -34,7 +34,7 @@ import java.security.Signature;
  * @since 1.0
  * @author Yaniv Inbar
  */
-@Experimental
+@Beta
 public final class OAuthRsaSigner implements OAuthSigner {
 
   /** Private key. */

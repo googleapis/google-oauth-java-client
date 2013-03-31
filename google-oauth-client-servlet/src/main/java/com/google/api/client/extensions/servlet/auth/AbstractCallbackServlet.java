@@ -18,7 +18,7 @@ import com.google.api.client.extensions.auth.helpers.Credential;
 import com.google.api.client.extensions.auth.helpers.ThreeLeggedFlow;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.util.Experimental;
+import com.google.api.client.util.Beta;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * {@link Experimental} <br/>
+ * {@link Beta} <br/>
  * Callback that will retrieve and complete a {@link ThreeLeggedFlow} when redirected to by a token
  * server or service provider. Developer should subclass to provide the necessary information
  * tailored to their specific use case.
@@ -45,7 +45,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
  */
-@Experimental
+@Beta
 public abstract class AbstractCallbackServlet extends HttpServlet {
 
   private static final long serialVersionUID = 1L;

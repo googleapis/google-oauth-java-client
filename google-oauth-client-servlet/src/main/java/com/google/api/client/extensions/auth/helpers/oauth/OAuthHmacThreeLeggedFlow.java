@@ -23,7 +23,7 @@ import com.google.api.client.extensions.auth.helpers.Credential;
 import com.google.api.client.extensions.auth.helpers.ThreeLeggedFlow;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.util.Experimental;
+import com.google.api.client.util.Beta;
 import com.google.api.client.util.Preconditions;
 
 import java.io.IOException;
@@ -36,7 +36,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 /**
- * {@link Experimental} <br/>
+ * {@link Beta} <br/>
  * {@link ThreeLeggedFlow} implementation that will execute the proper requests to obtain an OAuth1
  * Credential object that can be used to sign requests.
  *
@@ -49,7 +49,7 @@ import javax.jdo.annotations.PrimaryKey;
  * @since 1.5
  */
 @PersistenceCapable
-@Experimental
+@Beta
 public class OAuthHmacThreeLeggedFlow implements ThreeLeggedFlow {
 
   /**

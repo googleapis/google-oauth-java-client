@@ -13,7 +13,7 @@
  */
 
 /**
- * {@link com.google.api.client.util.Experimental} <br/>
+ * {@link com.google.api.client.util.Beta} <br/>
  * Auth object framework that will provide an interface to create easy to use, object-oriented
  * methods to obtain and manage auth credentials.
  *
@@ -25,6 +25,6 @@
  * @since 1.4
  * @author moshenko@google.com (Jacob Moshenko)
  */
-@com.google.api.client.util.Experimental
+@com.google.api.client.util.Beta
 package com.google.api.client.extensions.auth.helpers;
 

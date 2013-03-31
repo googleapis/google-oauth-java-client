@@ -13,7 +13,7 @@
  */
 
 /**
- * {@link com.google.api.client.util.Experimental} <br/>
+ * {@link com.google.api.client.util.Beta} <br/>
  * These servlets will allow an App Engine user to quickly get started with the auth object
  * interface from the main client. They will utilize the App Engine Datastore and Credentials to
  * manage credentials on behalf of users.
@@ -26,6 +26,6 @@
  * @since 1.4
  * @author moshenko@google.com (Jacob Moshenko)
  */
-@com.google.api.client.util.Experimental
+@com.google.api.client.util.Beta
 package com.google.api.client.extensions.appengine.auth;
 

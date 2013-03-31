@@ -14,17 +14,17 @@
 
 package com.google.api.client.auth.oauth;
 
-import com.google.api.client.util.Experimental;
+import com.google.api.client.util.Beta;
 import com.google.api.client.util.Key;
 
 /**
- * {@link Experimental} <br/>
+ * {@link Beta} <br/>
  * Data to parse a success response to a request for temporary or token credentials.
  *
  * @since 1.0
  * @author Yaniv Inbar
  */
-@Experimental
+@Beta
 public final class OAuthCredentialsResponse {
 
   /** Credentials token. */

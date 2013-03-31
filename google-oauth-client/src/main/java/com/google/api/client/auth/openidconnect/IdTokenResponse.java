@@ -19,14 +19,14 @@ import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.auth.oauth2.TokenResponseException;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.webtoken.JsonWebSignature;
-import com.google.api.client.util.Experimental;
+import com.google.api.client.util.Beta;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
 
 import java.io.IOException;
 
 /**
- * {@link Experimental} <br/>
+ * {@link Beta} <br/>
  * OAuth ID Connect JSON model for a successful access token response as specified in <a
  * href="http://openid.net/specs/openid-connect-basic-1_0-23.html">OpenID Connect Basic Client
  * Profile 1.0 (draft 23)</a>.
@@ -45,7 +45,7 @@ import java.io.IOException;
  * @since 1.7
  * @author Yaniv Inbar
  */
-@Experimental
+@Beta
 public class IdTokenResponse extends TokenResponse {
 
   /** ID token. */

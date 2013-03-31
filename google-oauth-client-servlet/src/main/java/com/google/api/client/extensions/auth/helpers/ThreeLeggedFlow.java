@@ -16,7 +16,7 @@ package com.google.api.client.extensions.auth.helpers;
 
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.util.Experimental;
+import com.google.api.client.util.Beta;
 
 import java.io.IOException;
 
@@ -24,7 +24,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.annotations.PersistenceCapable;
 
 /**
- * {@link Experimental} <br/>
+ * {@link Beta} <br/>
  * Interface for auth flows that require a user authorization step through a web browser to obtain
  * an authorization code.
  *
@@ -41,7 +41,7 @@ import javax.jdo.annotations.PersistenceCapable;
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
  */
-@Experimental
+@Beta
 public interface ThreeLeggedFlow {
 
   /**

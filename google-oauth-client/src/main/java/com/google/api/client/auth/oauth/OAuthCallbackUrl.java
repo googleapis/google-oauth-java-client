@@ -15,11 +15,11 @@
 package com.google.api.client.auth.oauth;
 
 import com.google.api.client.http.GenericUrl;
-import com.google.api.client.util.Experimental;
+import com.google.api.client.util.Beta;
 import com.google.api.client.util.Key;
 
 /**
- * {@link Experimental} <br/>
+ * {@link Beta} <br/>
  * Generic URL that parses the callback URL after a temporary token has been authorized by the end
  * user.
  * <p>
@@ -29,7 +29,7 @@ import com.google.api.client.util.Key;
  * @since 1.0
  * @author Yaniv Inbar
  */
-@Experimental
+@Beta
 public class OAuthCallbackUrl extends GenericUrl {
 
   /** The temporary credentials identifier received from the client. */

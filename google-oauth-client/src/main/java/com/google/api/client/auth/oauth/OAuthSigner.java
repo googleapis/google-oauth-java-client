@@ -14,18 +14,18 @@
 
 package com.google.api.client.auth.oauth;
 
-import com.google.api.client.util.Experimental;
+import com.google.api.client.util.Beta;
 
 import java.security.GeneralSecurityException;
 
 /**
- * {@link Experimental} <br/>
+ * {@link Beta} <br/>
  * OAuth signature method.
  *
  * @since 1.0
  * @author Yaniv Inbar
  */
-@Experimental
+@Beta
 public interface OAuthSigner {
 
   /** Returns the signature method. */

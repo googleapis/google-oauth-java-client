@@ -14,10 +14,10 @@
 
 package com.google.api.client.auth.oauth;
 
-import com.google.api.client.util.Experimental;
+import com.google.api.client.util.Beta;
 
 /**
- * {@link Experimental} <br/>
+ * {@link Beta} <br/>
  * Generic OAuth 1.0a URL to request to exchange the temporary credentials token (or "request
  * token") for a long-lived credentials token (or "access token") from an authorization server.
  * <p>
@@ -28,7 +28,7 @@ import com.google.api.client.util.Experimental;
  * @since 1.0
  * @author Yaniv Inbar
  */
-@Experimental
+@Beta
 public class OAuthGetAccessToken extends AbstractOAuthGetToken {
 
   /**
