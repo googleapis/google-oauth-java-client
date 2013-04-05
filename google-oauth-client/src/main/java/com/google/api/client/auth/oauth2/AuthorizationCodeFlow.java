@@ -25,7 +25,10 @@ import com.google.api.client.util.Joiner;
 import com.google.api.client.util.Preconditions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Thread-safe OAuth 2.0 authorization code flow that manages and persists end-user credentials.
@@ -93,6 +96,9 @@ public class AuthorizationCodeFlow {
   /** Credential created listener or {@code null} for none. */
   private final CredentialCreatedListener credentialCreatedListener;
 
+  /** Refresh listeners provided by the client. */
+  private final List<CredentialRefreshListener> refreshListeners;
+
   /**
    * @param method method of presenting the access token to the resource server (for example
    *        {@link BearerToken#authorizationHeaderAccessMethod})
@@ -141,6 +147,9 @@ public class AuthorizationCodeFlow {
     scopes = builder.scopes;
     clock = Preconditions.checkNotNull(builder.clock);
     credentialCreatedListener = builder.credentialCreatedListener;
+    refreshListeners = builder.refreshListeners == null
+        ? Collections.<CredentialRefreshListener>emptyList()
+        : Collections.unmodifiableList(builder.refreshListeners);
   }
 
   /**
@@ -246,6 +255,9 @@ public class AuthorizationCodeFlow {
     if (credentialStore != null) {
       builder.addRefreshListener(new CredentialStoreRefreshListener(userId, credentialStore));
     }
+
+    builder.getRefreshListeners().addAll(refreshListeners);
+
     return builder.build();
   }
 
@@ -311,6 +323,15 @@ public class AuthorizationCodeFlow {
    */
   public final Clock getClock() {
     return clock;
+  }
+
+  /**
+   * Returns the unmodifiable list of listeners for refresh token results.
+   *
+   * @since 1.15
+   */
+  public final List<CredentialRefreshListener> getRefreshListeners() {
+    return refreshListeners;
   }
 
   /**
@@ -385,6 +406,10 @@ public class AuthorizationCodeFlow {
 
     /** Credential created listener or {@code null} for none. */
     CredentialCreatedListener credentialCreatedListener;
+
+    /** Refresh listeners provided by the client. */
+    List<CredentialRefreshListener> refreshListeners =
+        new ArrayList<CredentialRefreshListener>();
 
     /**
      * @param method method of presenting the access token to the resource server (for example
@@ -672,6 +697,46 @@ public class AuthorizationCodeFlow {
     public Builder setCredentialCreatedListener(
         CredentialCreatedListener credentialCreatedListener) {
       this.credentialCreatedListener = credentialCreatedListener;
+      return this;
+    }
+
+    /**
+     * Adds a listener for refresh token results.
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+
+     * @param refreshListener refresh listener
+     * @since 1.15
+     */
+    public Builder addRefreshListener(CredentialRefreshListener refreshListener) {
+      refreshListeners.add(Preconditions.checkNotNull(refreshListener));
+      return this;
+    }
+
+    /**
+     * Returns the listeners for refresh token results or {@code null} for none.
+     *
+     * @since 1.15
+     */
+    public final List<CredentialRefreshListener> getRefreshListeners() {
+      return refreshListeners;
+    }
+
+    /**
+     * Sets the listeners for refresh token results or {@code null} for none.
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+     *
+     * @since 1.15
+     */
+    public Builder setRefreshListeners(List<CredentialRefreshListener> refreshListeners) {
+      this.refreshListeners = refreshListeners;
       return this;
     }
 

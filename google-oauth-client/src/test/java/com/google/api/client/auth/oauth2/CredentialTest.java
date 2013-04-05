@@ -15,25 +15,18 @@
 package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.http.BasicAuthentication;
-import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpStatusCodes;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
 import com.google.api.client.http.UrlEncodedContent;
-import com.google.api.client.json.Json;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.testing.http.HttpTesting;
 import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
-import com.google.api.client.util.GenericData;
 
-import junit.framework.TestCase;
 
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -41,17 +34,7 @@ import java.util.Map;
  *
  * @author Yaniv Inbar
  */
-public class CredentialTest extends TestCase {
-
-  static final JsonFactory JSON_FACTORY = new JacksonFactory();
-  static final String ACCESS_TOKEN = "abc";
-  static final String NEW_ACCESS_TOKEN = "def";
-  static final GenericUrl TOKEN_SERVER_URL = new GenericUrl("http://example.com/token");
-  static final String CLIENT_ID = "id";
-  static final String CLIENT_SECRET = "secret";
-  static final String REFRESH_TOKEN = "refreshToken";
-  static final String NEW_REFRESH_TOKEN = "newRefreshToken";
-  static final long EXPIRES_IN = 3600;
+public class CredentialTest extends AuthenticationTestBase {
 
   public void testConstructor_header() throws Exception {
     Credential credential =
@@ -87,6 +70,7 @@ public class CredentialTest extends TestCase {
     HttpRequest request =
         subtestConstructor_expired(BearerToken.authorizationHeaderAccessMethod(), new CheckAuth() {
 
+          @Override
           public boolean checkAuth(MockLowLevelHttpRequest req) {
             return req.getFirstHeaderValue("Authorization").equals("Bearer def");
           }
@@ -98,6 +82,7 @@ public class CredentialTest extends TestCase {
     HttpRequest request =
         subtestConstructor_expired(BearerToken.queryParameterAccessMethod(), new CheckAuth() {
 
+          @Override
           public boolean checkAuth(MockLowLevelHttpRequest req) {
             return req.getUrl().contains("access_token=def");
           }
@@ -109,6 +94,7 @@ public class CredentialTest extends TestCase {
     HttpRequest request =
         subtestConstructor_expired(BearerToken.formEncodedBodyAccessMethod(), new CheckAuth() {
 
+          @Override
           public boolean checkAuth(MockLowLevelHttpRequest req) {
             return NEW_ACCESS_TOKEN.equals(((Map<?, ?>) ((UrlEncodedContent) req
                 .getStreamingContent()).getData()).get("access_token"));
@@ -120,43 +106,6 @@ public class CredentialTest extends TestCase {
 
   interface CheckAuth {
     boolean checkAuth(MockLowLevelHttpRequest req);
-  }
-
-  static class AccessTokenTransport extends MockHttpTransport {
-
-    boolean error400 = false;
-    boolean error500 = false;
-
-    @Override
-    public LowLevelHttpRequest buildRequest(String method, String url) {
-      return new MockLowLevelHttpRequest(url) {
-        @Override
-        public LowLevelHttpResponse execute() throws IOException {
-          MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
-          response.setContentType(Json.MEDIA_TYPE);
-          GenericData responseData;
-          if (error400) {
-            TokenErrorResponse json = new TokenErrorResponse();
-            json.setError("invalid_client");
-            responseData = json;
-            response.setStatusCode(400);
-          } else if (error500) {
-            TokenErrorResponse json = new TokenErrorResponse();
-            json.setError("invalid_client");
-            responseData = json;
-            response.setStatusCode(500);
-          } else {
-            TokenResponse json = new TokenResponse();
-            json.setAccessToken(NEW_ACCESS_TOKEN);
-            json.setRefreshToken(NEW_REFRESH_TOKEN);
-            json.setExpiresInSeconds(EXPIRES_IN);
-            responseData = json;
-          }
-          response.setContent(JSON_FACTORY.toString(responseData));
-          return response;
-        }
-      };
-    }
   }
 
   private HttpRequest subtestConstructor_expired(
