@@ -24,6 +24,8 @@ import java.awt.Desktop;
 import java.awt.Desktop.Action;
 import java.io.IOException;
 import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * OAuth 2.0 authorization code flow for an installed Java application that persists end-user
@@ -43,6 +45,9 @@ public class AuthorizationCodeInstalledApp {
 
   /** Verification code receiver. */
   private final VerificationCodeReceiver receiver;
+
+  private static final Logger LOGGER =
+      Logger.getLogger(AuthorizationCodeInstalledApp.class.getName());
 
   /**
    * @param flow authorization code flow
@@ -114,17 +119,26 @@ public class AuthorizationCodeInstalledApp {
    */
   public static void browse(String url) {
     Preconditions.checkNotNull(url);
-    if (Desktop.isDesktopSupported()) {
-      Desktop desktop = Desktop.getDesktop();
-      if (desktop.isSupported(Action.BROWSE)) {
-        try {
+    try {
+      if (Desktop.isDesktopSupported()) {
+        Desktop desktop = Desktop.getDesktop();
+        if (desktop.isSupported(Action.BROWSE)) {
           desktop.browse(URI.create(url));
           return;
-        } catch (IOException e) {
-          // handled below
         }
       }
+    } catch (IOException e) {
+      // Handled below.
+      LOGGER.log(Level.WARNING, "Unable to open browser", e);
+    } catch (InternalError e) {
+      // A bug in a JRE can cause Desktop.isDesktopSupported() to throw an
+      // InternalError rather than returning false. The error reads,
+      // "Can't connect to X11 window server using ':0.0' as the value of the
+      // DISPLAY variable." The exact error message may vary slightly.
+      // Handled below.
+      LOGGER.log(Level.WARNING, "Unable to open browser", e);
     }
+
     // Finally just ask user to open in their browser using copy-paste
     System.out.println("Please open the following URL in your browser:");
     System.out.println("  " + url);
