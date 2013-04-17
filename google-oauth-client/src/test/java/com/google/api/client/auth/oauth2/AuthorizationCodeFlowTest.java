@@ -31,7 +31,6 @@ public class AuthorizationCodeFlowTest extends AuthenticationTestBase {
 
     boolean called = false;
 
-    @Override
     public void onCredentialCreated(Credential credential, TokenResponse tokenResponse)
         throws IOException {
       called = true;
@@ -43,13 +42,11 @@ public class AuthorizationCodeFlowTest extends AuthenticationTestBase {
     boolean calledOnResponse = false;
     boolean calledOnError = false;
 
-    @Override
     public void onTokenResponse(Credential credential, TokenResponse tokenResponse)
         throws IOException {
       calledOnResponse = true;
     }
 
-    @Override
     public void onTokenErrorResponse(Credential credential, TokenErrorResponse tokenErrorResponse)
         throws IOException {
       calledOnError = true;

@@ -26,7 +26,6 @@ import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 
-
 import java.util.Map;
 
 /**
@@ -70,7 +69,6 @@ public class CredentialTest extends AuthenticationTestBase {
     HttpRequest request =
         subtestConstructor_expired(BearerToken.authorizationHeaderAccessMethod(), new CheckAuth() {
 
-          @Override
           public boolean checkAuth(MockLowLevelHttpRequest req) {
             return req.getFirstHeaderValue("Authorization").equals("Bearer def");
           }
@@ -82,7 +80,6 @@ public class CredentialTest extends AuthenticationTestBase {
     HttpRequest request =
         subtestConstructor_expired(BearerToken.queryParameterAccessMethod(), new CheckAuth() {
 
-          @Override
           public boolean checkAuth(MockLowLevelHttpRequest req) {
             return req.getUrl().contains("access_token=def");
           }
@@ -94,7 +91,6 @@ public class CredentialTest extends AuthenticationTestBase {
     HttpRequest request =
         subtestConstructor_expired(BearerToken.formEncodedBodyAccessMethod(), new CheckAuth() {
 
-          @Override
           public boolean checkAuth(MockLowLevelHttpRequest req) {
             return NEW_ACCESS_TOKEN.equals(((Map<?, ?>) ((UrlEncodedContent) req
                 .getStreamingContent()).getData()).get("access_token"));
