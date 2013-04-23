@@ -16,6 +16,7 @@ package com.google.api.client.extensions.appengine.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.CredentialStore;
+import com.google.api.client.util.Beta;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -24,12 +25,14 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 /**
+ * {@link Beta} <br/>
  * Thread-safe Google App Engine implementation of a credential store that directly uses the App
  * Engine Data Store API.
  *
  * @since 1.7
  * @author Yaniv Inbar
  */
+@Beta
 public class AppEngineCredentialStore implements CredentialStore {
 
   private static final String KIND = AppEngineCredentialStore.class.getName();

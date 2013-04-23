@@ -14,10 +14,13 @@
 
 package com.google.api.client.auth.oauth2;
 
+import com.google.api.client.util.Beta;
+
 import java.io.IOException;
 
 
 /**
+ * {@link Beta} <br/>
  * OAuth 2.0 credential persistence store interface to provide a fully pluggable storage mechanism.
  *
  * <p>
@@ -33,6 +36,7 @@ import java.io.IOException;
  * @since 1.7
  * @author Yaniv Inbar
  */
+@Beta
 public interface CredentialStore {
 
   /**

@@ -16,6 +16,7 @@ package com.google.api.client.extensions.java7.auth.oauth2;
 
 import com.google.api.client.extensions.java6.auth.oauth2.FileCredentialStore;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.util.Beta;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,11 +24,13 @@ import java.nio.file.Files;
 
 
 /**
+ * {@link Beta} <br/>
  * Thread-safe file implementation of a credential store based on Java 7.
  *
  * @since 1.13
  * @author Yaniv Inbar
  */
+@Beta
 public class FileCredentialStoreJava7 extends FileCredentialStore {
 
   /**

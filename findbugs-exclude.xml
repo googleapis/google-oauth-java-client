@@ -35,4 +35,8 @@
   <And>
     <Package name="com.google.api.client.auth.oauth"/>
   </And>
+  <And>
+    <Bug pattern="BETA_CLASS_USAGE"/>
+    <Class name="com.google.api.client.auth.oauth2.AuthorizationCodeFlow" />
+  </And>
 </FindBugsFilter>

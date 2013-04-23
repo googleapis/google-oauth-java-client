@@ -18,6 +18,9 @@ import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.CredentialStore;
 import com.google.api.client.util.Preconditions;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
@@ -33,6 +36,9 @@ public class JdoCredentialStore implements CredentialStore {
   /** Persistence manager factory. */
   private final PersistenceManagerFactory persistenceManagerFactory;
 
+  /** Lock on storing, loading and deleting a credential. */
+  private final Lock lock = new ReentrantLock();
+
   /**
    * @param persistenceManagerFactory persistence manager factory
    */
@@ -42,26 +48,40 @@ public class JdoCredentialStore implements CredentialStore {
 
   public void store(String userId, Credential credential) {
     PersistenceManager persistenceManager = persistenceManagerFactory.getPersistenceManager();
+    lock.lock();
     try {
-      JdoPersistedCredential persistedCredential = new JdoPersistedCredential(userId, credential);
-      persistenceManager.makePersistent(persistedCredential);
+      try {
+        // update the current object by the given credential
+        JdoPersistedCredential persistedCredential =
+            persistenceManager.getObjectById(JdoPersistedCredential.class, userId);
+        persistedCredential.update(credential);
+      } catch (JDOObjectNotFoundException e) {
+        // object doesn't exists, so persist a new object
+        JdoPersistedCredential persistedCredential = new JdoPersistedCredential(userId, credential);
+        persistenceManager.makePersistent(persistedCredential);
+      }
     } finally {
+      lock.unlock();
       persistenceManager.close();
     }
   }
 
   public void delete(String userId, Credential credential) {
     PersistenceManager persistenceManager = persistenceManagerFactory.getPersistenceManager();
+    lock.lock();
     try {
-      JdoPersistedCredential persistedCredential = new JdoPersistedCredential(userId, credential);
+      JdoPersistedCredential persistedCredential =
+          persistenceManager.getObjectById(JdoPersistedCredential.class, userId);
       persistenceManager.deletePersistent(persistedCredential);
     } finally {
+      lock.unlock();
       persistenceManager.close();
     }
   }
 
   public boolean load(String userId, Credential credential) {
     PersistenceManager persistenceManager = persistenceManagerFactory.getPersistenceManager();
+    lock.lock();
     try {
       JdoPersistedCredential persistedCredential =
           persistenceManager.getObjectById(JdoPersistedCredential.class, userId);
@@ -70,6 +90,7 @@ public class JdoCredentialStore implements CredentialStore {
     } catch (JDOObjectNotFoundException e) {
       return false;
     } finally {
+      lock.unlock();
       persistenceManager.close();
     }
   }
