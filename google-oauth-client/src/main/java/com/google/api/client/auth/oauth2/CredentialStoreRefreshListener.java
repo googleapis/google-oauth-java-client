@@ -14,11 +14,13 @@
 
 package com.google.api.client.auth.oauth2;
 
+import com.google.api.client.util.Beta;
 import com.google.api.client.util.Preconditions;
 
 import java.io.IOException;
 
 /**
+ * {@link Beta} <br/>
  * Thread-safe OAuth 2.0 credential refresh listener that stores the refresh token response in the
  * credential store.
  *
@@ -29,6 +31,7 @@ import java.io.IOException;
  * @since 1.7
  * @author Yaniv Inbar
  */
+@Beta
 public final class CredentialStoreRefreshListener implements CredentialRefreshListener {
 
   /** Credential store. */

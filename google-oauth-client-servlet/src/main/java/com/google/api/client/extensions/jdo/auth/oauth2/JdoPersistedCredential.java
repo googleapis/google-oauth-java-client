@@ -30,7 +30,6 @@ import javax.jdo.annotations.PrimaryKey;
 class JdoPersistedCredential {
 
   /** User ID to be used as the primary key. */
-  @SuppressWarnings("unused")
   @PrimaryKey
   private String userId;
 
@@ -54,20 +53,34 @@ class JdoPersistedCredential {
    */
   JdoPersistedCredential(String userId, Credential credential) {
     this.userId = Preconditions.checkNotNull(userId);
-    accessToken = credential.getAccessToken();
-    refreshToken = credential.getRefreshToken();
-    expirationTimeMillis = credential.getExpirationTimeMilliseconds();
+    update(credential);
+
   }
 
   /**
+   * Loads details into the given credential from this instance.
+   *
    * @param credential credential whose {@link Credential#setAccessToken access token},
    *        {@link Credential#setRefreshToken refresh token}, and
-   *        {@link Credential#setExpirationTimeMilliseconds expiration time} need to be set if the
-   *        credential already exists in storage
+   *        {@link Credential#setExpirationTimeMilliseconds expiration time} will be set
    */
   void load(Credential credential) {
     credential.setAccessToken(accessToken);
     credential.setRefreshToken(refreshToken);
     credential.setExpirationTimeMilliseconds(expirationTimeMillis);
+  }
+
+  /**
+   * Updates current instance values with the given credential.
+   *
+   * @param credential credential whose {@link Credential#getAccessToken access token},
+   *        {@link Credential#getRefreshToken refresh token}, and
+   *        {@link Credential#getExpirationTimeMilliseconds expiration time} are used to set this
+   *        instance corresponding values
+   */
+  void update(Credential credential) {
+    accessToken = credential.getAccessToken();
+    refreshToken = credential.getRefreshToken();
+    expirationTimeMillis = credential.getExpirationTimeMilliseconds();
   }
 }

@@ -15,17 +15,21 @@
 package com.google.api.client.auth.oauth2;
 
 
+import com.google.api.client.util.Beta;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
+ * {@link Beta} <br/>
  * Thread-safe in-memory implementation of a credential store.
  *
  * @since 1.7
  * @author Yaniv Inbar
  */
+@Beta
 public class MemoryCredentialStore implements CredentialStore {
 
   /** Lock on access to the store. */

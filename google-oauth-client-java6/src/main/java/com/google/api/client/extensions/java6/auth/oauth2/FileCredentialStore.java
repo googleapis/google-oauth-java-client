@@ -18,6 +18,7 @@ import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.CredentialStore;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonGenerator;
+import com.google.api.client.util.Beta;
 import com.google.api.client.util.Charsets;
 import com.google.api.client.util.Preconditions;
 
@@ -30,11 +31,13 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 /**
+ * {@link Beta} <br/>
  * Thread-safe file implementation of a credential store.
  *
  * @since 1.11
  * @author Rafael Naufal
  */
+@Beta
 public class FileCredentialStore implements CredentialStore {
 
   private static final Logger LOGGER = Logger.getLogger(FileCredentialStore.class.getName());
