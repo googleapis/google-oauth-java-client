@@ -20,6 +20,7 @@ import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.util.Beta;
 import com.google.api.client.util.Clock;
 import com.google.api.client.util.Joiner;
 import com.google.api.client.util.Preconditions;
@@ -82,6 +83,7 @@ public class AuthorizationCodeFlow {
   private final String authorizationServerEncodedUrl;
 
   /** Credential persistence store or {@code null} for none. */
+  @Beta
   private final CredentialStore credentialStore;
 
   /** HTTP request initializer or {@code null} for none. */
@@ -302,7 +304,11 @@ public class AuthorizationCodeFlow {
     return authorizationServerEncodedUrl;
   }
 
-  /** Returns the credential persistence store or {@code null} for none. */
+  /**
+   * {@link Beta} <br/>
+   * Returns the credential persistence store or {@code null} for none.
+   */
+  @Beta
   public final CredentialStore getCredentialStore() {
     return credentialStore;
   }
@@ -393,6 +399,7 @@ public class AuthorizationCodeFlow {
     String authorizationServerEncodedUrl;
 
     /** Credential persistence store or {@code null} for none. */
+    @Beta
     CredentialStore credentialStore;
 
     /** HTTP request initializer or {@code null} for none. */
@@ -408,8 +415,7 @@ public class AuthorizationCodeFlow {
     CredentialCreatedListener credentialCreatedListener;
 
     /** Refresh listeners provided by the client. */
-    List<CredentialRefreshListener> refreshListeners =
-        new ArrayList<CredentialRefreshListener>();
+    List<CredentialRefreshListener> refreshListeners = new ArrayList<CredentialRefreshListener>();
 
     /**
      * @param method method of presenting the access token to the resource server (for example
@@ -585,7 +591,11 @@ public class AuthorizationCodeFlow {
       return this;
     }
 
-    /** Returns the credential persistence store or {@code null} for none. */
+    /**
+     * {@link Beta} <br/>
+     * Returns the credential persistence store or {@code null} for none.
+     */
+    @Beta
     public final CredentialStore getCredentialStore() {
       return credentialStore;
     }
@@ -618,6 +628,7 @@ public class AuthorizationCodeFlow {
     }
 
     /**
+     * {@link Beta} <br/>
      * Sets the credential persistence store or {@code null} for none.
      *
      * <p>
@@ -625,6 +636,7 @@ public class AuthorizationCodeFlow {
      * the return type, but nothing else.
      * </p>
      */
+    @Beta
     public Builder setCredentialStore(CredentialStore credentialStore) {
       this.credentialStore = credentialStore;
       return this;
@@ -707,7 +719,7 @@ public class AuthorizationCodeFlow {
      * Overriding is only supported for the purpose of calling the super implementation and changing
      * the return type, but nothing else.
      * </p>
-
+     *
      * @param refreshListener refresh listener
      * @since 1.15
      */

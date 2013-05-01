@@ -16,6 +16,7 @@ package com.google.api.client.extensions.jdo.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.CredentialStore;
+import com.google.api.client.util.Beta;
 import com.google.api.client.util.Preconditions;
 
 import java.util.concurrent.locks.Lock;
@@ -26,11 +27,13 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 
 /**
+ * {@link Beta} <br/>
  * Thread-safe JDO implementation of a credential store.
  *
  * @since 1.7
  * @author Yaniv Inbar
  */
+@Beta
 public class JdoCredentialStore implements CredentialStore {
 
   /** Persistence manager factory. */
