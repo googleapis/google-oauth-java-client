@@ -16,14 +16,17 @@ package com.google.api.client.extensions.java6.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.json.GenericJson;
+import com.google.api.client.util.Beta;
 import com.google.api.client.util.Key;
 
 /**
+ * {@link Beta} <br/>
  * Persisted credential implementation to be used exclusively with {@link FileCredentialStore}.
  *
  * @author Rafael Naufal
  * @since 1.11
  */
+@Beta
 public class FilePersistedCredential extends GenericJson {
 
   /** Access token or {@code null} for none. */
