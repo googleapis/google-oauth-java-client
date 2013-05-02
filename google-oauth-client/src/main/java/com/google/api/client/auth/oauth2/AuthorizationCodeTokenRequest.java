@@ -20,8 +20,11 @@ import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.util.Beta;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
+
+import java.util.Collection;
 
 /**
  * OAuth 2.0 request for an access token using an authorization code as specified in <a
@@ -113,12 +116,21 @@ public class AuthorizationCodeTokenRequest extends TokenRequest {
   }
 
   @Override
+  @Beta
+  @Deprecated
   public AuthorizationCodeTokenRequest setScopes(String... scopes) {
     return (AuthorizationCodeTokenRequest) super.setScopes(scopes);
   }
 
   @Override
+  @Beta
+  @Deprecated
   public AuthorizationCodeTokenRequest setScopes(Iterable<String> scopes) {
+    return (AuthorizationCodeTokenRequest) super.setScopes(scopes);
+  }
+
+  @Override
+  public AuthorizationCodeTokenRequest setScopes(Collection<String> scopes) {
     return (AuthorizationCodeTokenRequest) super.setScopes(scopes);
   }
 

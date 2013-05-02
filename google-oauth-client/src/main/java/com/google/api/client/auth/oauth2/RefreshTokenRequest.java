@@ -20,8 +20,11 @@ import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.util.Beta;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
+
+import java.util.Collection;
 
 /**
  * OAuth 2.0 request to refresh an access token using a refresh token as specified in <a
@@ -104,12 +107,21 @@ public class RefreshTokenRequest extends TokenRequest {
   }
 
   @Override
+  @Beta
+  @Deprecated
   public RefreshTokenRequest setScopes(String... scopes) {
     return (RefreshTokenRequest) super.setScopes(scopes);
   }
 
   @Override
+  @Beta
+  @Deprecated
   public RefreshTokenRequest setScopes(Iterable<String> scopes) {
+    return (RefreshTokenRequest) super.setScopes(scopes);
+  }
+
+  @Override
+  public RefreshTokenRequest setScopes(Collection<String> scopes) {
     return (RefreshTokenRequest) super.setScopes(scopes);
   }
 
