@@ -23,13 +23,13 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.Clock;
 import com.google.api.client.util.Joiner;
+import com.google.api.client.util.Lists;
 import com.google.api.client.util.Preconditions;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Thread-safe OAuth 2.0 authorization code flow that manages and persists end-user credentials.
@@ -92,14 +92,14 @@ public class AuthorizationCodeFlow {
   /** Clock passed along to Credential. */
   private final Clock clock;
 
-  /** Space-separated list of scopes or {@code null} for none. */
-  private String scopes;
+  /** Collection of scopes. */
+  private final Collection<String> scopes;
 
   /** Credential created listener or {@code null} for none. */
   private final CredentialCreatedListener credentialCreatedListener;
 
   /** Refresh listeners provided by the client. */
-  private final List<CredentialRefreshListener> refreshListeners;
+  private final Collection<CredentialRefreshListener> refreshListeners;
 
   /**
    * @param method method of presenting the access token to the resource server (for example
@@ -146,12 +146,10 @@ public class AuthorizationCodeFlow {
         Preconditions.checkNotNull(builder.authorizationServerEncodedUrl);
     requestInitializer = builder.requestInitializer;
     credentialStore = builder.credentialStore;
-    scopes = builder.scopes;
+    scopes = Collections.unmodifiableCollection(builder.scopes);
     clock = Preconditions.checkNotNull(builder.clock);
     credentialCreatedListener = builder.credentialCreatedListener;
-    refreshListeners = builder.refreshListeners == null
-        ? Collections.<CredentialRefreshListener>emptyList()
-        : Collections.unmodifiableList(builder.refreshListeners);
+    refreshListeners = Collections.unmodifiableCollection(builder.refreshListeners);
   }
 
   /**
@@ -318,8 +316,25 @@ public class AuthorizationCodeFlow {
     return requestInitializer;
   }
 
-  /** Returns the space-separated list of scopes or {@code null} for none. */
-  public final String getScopes() {
+  /**
+   * Returns the space-separated list of scopes.
+   *
+   * @since 1.15
+   */
+  public final String getScopesAsString() {
+    return Joiner.on(' ').join(scopes);
+  }
+
+  /**
+   * Returns the a collection of scopes.
+   *
+   * <p>
+   * Upgrade warning: in prior version 1.14 this method returned a {@link String}, but starting with
+   * version 1.15 it returns a {@link Collection}. Use {@link #getScopesAsString} to retrieve a
+   * {@link String} with space-separated list of scopes.
+   * </p>
+   */
+  public final Collection<String> getScopes() {
     return scopes;
   }
 
@@ -336,7 +351,7 @@ public class AuthorizationCodeFlow {
    *
    * @since 1.15
    */
-  public final List<CredentialRefreshListener> getRefreshListeners() {
+  public final Collection<CredentialRefreshListener> getRefreshListeners() {
     return refreshListeners;
   }
 
@@ -405,8 +420,8 @@ public class AuthorizationCodeFlow {
     /** HTTP request initializer or {@code null} for none. */
     HttpRequestInitializer requestInitializer;
 
-    /** Space-separated list of scopes or {@code null} for none. */
-    String scopes;
+    /** Collection of scopes. */
+    Collection<String> scopes = Lists.newArrayList();
 
     /** Clock passed along to the Credential. */
     Clock clock = Clock.SYSTEM;
@@ -415,7 +430,7 @@ public class AuthorizationCodeFlow {
     CredentialCreatedListener credentialCreatedListener;
 
     /** Refresh listeners provided by the client. */
-    List<CredentialRefreshListener> refreshListeners = new ArrayList<CredentialRefreshListener>();
+    Collection<CredentialRefreshListener> refreshListeners = Lists.newArrayList();
 
     /**
      * @param method method of presenting the access token to the resource server (for example
@@ -661,7 +676,8 @@ public class AuthorizationCodeFlow {
     }
 
     /**
-     * Sets the list of scopes or {@code null} for none.
+     * {@link Beta} <br/>
+     * Sets the list of scopes.
      *
      * <p>
      * Overriding is only supported for the purpose of calling the super implementation and changing
@@ -670,14 +686,18 @@ public class AuthorizationCodeFlow {
      *
      * @param scopes list of scopes to be joined by a space separator (or a single value containing
      *        multiple space-separated scopes)
+     * @deprecated (scheduled to be removed in 1.16) Use {@link #setScopes(Collection)} instead.
      */
+    @Beta
+    @Deprecated
     public Builder setScopes(Iterable<String> scopes) {
-      this.scopes = scopes == null ? null : Joiner.on(' ').join(scopes);
+      this.scopes = scopes == null ? Lists.<String>newArrayList() : Lists.newArrayList(scopes);
       return this;
     }
 
     /**
-     * Sets the list of scopes or {@code null} for none.
+     * {@link Beta} <br/>
+     * Sets the list of scopes.
      *
      * <p>
      * Overriding is only supported for the purpose of calling the super implementation and changing
@@ -686,13 +706,40 @@ public class AuthorizationCodeFlow {
      *
      * @param scopes list of scopes to be joined by a space separator (or a single value containing
      *        multiple space-separated scopes)
+     * @deprecated (scheduled to be removed in 1.16) Use {@link #setScopes(Collection)} instead.
      */
+    @Beta
+    @Deprecated
     public Builder setScopes(String... scopes) {
-      return setScopes(scopes == null ? null : Arrays.asList(scopes));
+      this.scopes = scopes == null ? Lists.<String>newArrayList() : Arrays.asList(scopes);
+      return this;
     }
 
-    /** Returns the space-separated list of scopes or {@code null} for none. */
-    public final String getScopes() {
+    /**
+     * Sets the collection of scopes.
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+     *
+     * @param scopes collection of scopes
+     * @since 1.15
+     */
+    public Builder setScopes(Collection<String> scopes) {
+      this.scopes = Preconditions.checkNotNull(scopes);
+      return this;
+    }
+
+    /**
+     * Returns a collection of scopes.
+     *
+     * <p>
+     * Upgrade warning: in prior version 1.14 this method returned a {@link String}, but starting
+     * with version 1.15 it returns a {@link Collection}.
+     * </p>
+     */
+    public final Collection<String> getScopes() {
       return scopes;
     }
 
@@ -729,16 +776,16 @@ public class AuthorizationCodeFlow {
     }
 
     /**
-     * Returns the listeners for refresh token results or {@code null} for none.
+     * Returns the listeners for refresh token results.
      *
      * @since 1.15
      */
-    public final List<CredentialRefreshListener> getRefreshListeners() {
+    public final Collection<CredentialRefreshListener> getRefreshListeners() {
       return refreshListeners;
     }
 
     /**
-     * Sets the listeners for refresh token results or {@code null} for none.
+     * Sets the listeners for refresh token results.
      *
      * <p>
      * Overriding is only supported for the purpose of calling the super implementation and changing
@@ -747,8 +794,8 @@ public class AuthorizationCodeFlow {
      *
      * @since 1.15
      */
-    public Builder setRefreshListeners(List<CredentialRefreshListener> refreshListeners) {
-      this.refreshListeners = refreshListeners;
+    public Builder setRefreshListeners(Collection<CredentialRefreshListener> refreshListeners) {
+      this.refreshListeners = Preconditions.checkNotNull(refreshListeners);
       return this;
     }
 

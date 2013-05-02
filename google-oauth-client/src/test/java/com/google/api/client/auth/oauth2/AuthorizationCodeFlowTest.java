@@ -17,8 +17,12 @@ package com.google.api.client.auth.oauth2;
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow.CredentialCreatedListener;
 import com.google.api.client.http.BasicAuthentication;
 import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.api.client.util.Joiner;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Tests {@link AuthorizationCodeFlow}.
@@ -62,9 +66,7 @@ public class AuthorizationCodeFlowTest extends AuthenticationTestBase {
             TOKEN_SERVER_URL,
             new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
             CLIENT_ID,
-            "authorizationServerEncodedUrl")
-      .setCredentialCreatedListener(listener)
-      .build();
+            "authorizationServerEncodedUrl").setCredentialCreatedListener(listener).build();
     assertFalse(listener.called);
     flow.createAndStoreCredential(new TokenResponse(), "userId");
     assertTrue(listener.called);
@@ -74,17 +76,15 @@ public class AuthorizationCodeFlowTest extends AuthenticationTestBase {
     MyCredentialRefreshListener listener1 = new MyCredentialRefreshListener();
     MyCredentialRefreshListener listener2 = new MyCredentialRefreshListener();
 
-    AuthorizationCodeFlow flow =
-        new AuthorizationCodeFlow.Builder(BearerToken.queryParameterAccessMethod(),
-            new AccessTokenTransport(),
-            new JacksonFactory(),
-            TOKEN_SERVER_URL,
-            new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
-            CLIENT_ID,
-            "authorizationServerEncodedUrl")
-      .addRefreshListener(listener1)
-      .addRefreshListener(listener2)
-      .build();
+    AuthorizationCodeFlow flow = new AuthorizationCodeFlow.Builder(BearerToken
+        .queryParameterAccessMethod(),
+        new AccessTokenTransport(),
+        new JacksonFactory(),
+        TOKEN_SERVER_URL,
+        new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
+        CLIENT_ID,
+        "authorizationServerEncodedUrl").addRefreshListener(listener1)
+        .addRefreshListener(listener2).build();
     TokenResponse tokenResponse = new TokenResponse();
     tokenResponse.setAccessToken(ACCESS_TOKEN);
     tokenResponse.setRefreshToken(REFRESH_TOKEN);
@@ -98,5 +98,29 @@ public class AuthorizationCodeFlowTest extends AuthenticationTestBase {
     assertTrue(listener2.calledOnResponse);
     assertFalse(listener1.calledOnError);
     assertFalse(listener2.calledOnError);
+  }
+
+  public void testNewAuthorizationUrl() {
+    subsetTestNewAuthorizationUrl(Collections.<String>emptyList());
+    subsetTestNewAuthorizationUrl(Collections.singleton("a"));
+    subsetTestNewAuthorizationUrl(Arrays.asList("a", "b", "c", "d"));
+  }
+
+  public void subsetTestNewAuthorizationUrl(Collection<String> scopes) {
+    AuthorizationCodeFlow flow =
+        new AuthorizationCodeFlow.Builder(BearerToken.queryParameterAccessMethod(),
+            new AccessTokenTransport(),
+            new JacksonFactory(),
+            TOKEN_SERVER_URL,
+            new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
+            CLIENT_ID,
+            "https://example.com").setScopes(scopes).build();
+
+    AuthorizationCodeRequestUrl url = flow.newAuthorizationUrl();
+    if (scopes.isEmpty()) {
+      assertNull(url.getScopes());
+    } else {
+      assertEquals(Joiner.on(' ').join(scopes), url.getScopes());
+    }
   }
 }

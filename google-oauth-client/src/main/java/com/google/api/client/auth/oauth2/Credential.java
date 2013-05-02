@@ -24,11 +24,12 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.HttpUnsuccessfulResponseHandler;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Clock;
+import com.google.api.client.util.Lists;
 import com.google.api.client.util.Objects;
 import com.google.api.client.util.Preconditions;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -152,8 +153,8 @@ public class Credential
   /** Encoded token server URL or {@code null} for none. */
   private final String tokenServerEncodedUrl;
 
-  /** Unmodifiable list of listeners for refresh token results. */
-  private final List<CredentialRefreshListener> refreshListeners;
+  /** Unmodifiable collection of listeners for refresh token results. */
+  private final Collection<CredentialRefreshListener> refreshListeners;
 
   /**
    * HTTP request initializer for refresh token requests to the token server or {@code null} for
@@ -187,9 +188,7 @@ public class Credential
     tokenServerEncodedUrl = builder.tokenServerUrl == null ? null : builder.tokenServerUrl.build();
     clientAuthentication = builder.clientAuthentication;
     requestInitializer = builder.requestInitializer;
-    refreshListeners = builder.refreshListeners == null
-        ? Collections.<CredentialRefreshListener>emptyList()
-        : Collections.unmodifiableList(builder.refreshListeners);
+    refreshListeners = Collections.unmodifiableCollection(builder.refreshListeners);
     clock = Preconditions.checkNotNull(builder.clock);
   }
 
@@ -538,8 +537,15 @@ public class Credential
         .setRequestInitializer(requestInitializer).execute();
   }
 
-  /** Returns the unmodifiable list of listeners for refresh token results. */
-  public final List<CredentialRefreshListener> getRefreshListeners() {
+  /**
+   * Returns the unmodifiable collection of listeners for refresh token results.
+   *
+   * <p>
+   * Upgrade warning: in prior version 1.14 this method returned a {@link List}, but starting with
+   * version 1.15 it returns a {@link Collection}.
+   * </p>
+   */
+  public final Collection<CredentialRefreshListener> getRefreshListeners() {
     return refreshListeners;
   }
 
@@ -587,8 +593,8 @@ public class Credential
      */
     HttpRequestInitializer requestInitializer;
 
-    /** Listeners for refresh token results or {@code null} for none. */
-    List<CredentialRefreshListener> refreshListeners = new ArrayList<CredentialRefreshListener>();
+    /** Listeners for refresh token results. */
+    Collection<CredentialRefreshListener> refreshListeners = Lists.newArrayList();
 
     /**
      * @param method method of presenting the access token to the resource server (for example
@@ -768,21 +774,33 @@ public class Credential
       return this;
     }
 
-    /** Returns the listeners for refresh token results or {@code null} for none. */
-    public final List<CredentialRefreshListener> getRefreshListeners() {
+    /**
+     * Returns the listeners for refresh token results.
+     *
+     * <p>
+     * Upgrade warning: in prior version 1.14 this method returned a {@link List}, but starting with
+     * version 1.15 it returns a {@link Collection}.
+     * </p>
+     */
+    public final Collection<CredentialRefreshListener> getRefreshListeners() {
       return refreshListeners;
     }
 
     /**
-     * Sets the listeners for refresh token results or {@code null} for none.
+     * Sets the listeners for refresh token results.
      *
      * <p>
      * Overriding is only supported for the purpose of calling the super implementation and changing
      * the return type, but nothing else.
      * </p>
+     *
+     * <p>
+     * Upgrade warning: in prior version 1.14 this method got a {@link List}, but starting with
+     * version 1.15 it gets a {@link Collection}.
+     * </p>
      */
-    public Builder setRefreshListeners(List<CredentialRefreshListener> refreshListeners) {
-      this.refreshListeners = refreshListeners;
+    public Builder setRefreshListeners(Collection<CredentialRefreshListener> refreshListeners) {
+      this.refreshListeners = Preconditions.checkNotNull(refreshListeners);
       return this;
     }
   }

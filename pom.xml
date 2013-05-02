@@ -422,6 +422,7 @@
           <comparisonVersion>1.14.1-beta</comparisonVersion>
           <ignoredDifferencesFile>${basedir}/../clirr-ignored-differences.xml</ignoredDifferencesFile>
         </configuration>
+<!-- TODO(peleyal): enable this, after clirr bug (http://jira.codehaus.org/browse/MCLIRR-56) is solved
         <executions>
           <execution>
             <goals>
@@ -429,6 +430,7 @@
             </goals>
           </execution>
         </executions>
+-->
       </plugin>
     </plugins>
   </build>

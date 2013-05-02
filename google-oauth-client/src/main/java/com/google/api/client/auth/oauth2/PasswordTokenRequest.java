@@ -20,8 +20,11 @@ import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.util.Beta;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
+
+import java.util.Collection;
 
 /**
  * OAuth 2.0 request for an access token using the user's username and password as specified in <a
@@ -112,12 +115,21 @@ public class PasswordTokenRequest extends TokenRequest {
   }
 
   @Override
+  @Beta
+  @Deprecated
   public PasswordTokenRequest setScopes(String... scopes) {
     return (PasswordTokenRequest) super.setScopes(scopes);
   }
 
   @Override
+  @Beta
+  @Deprecated
   public PasswordTokenRequest setScopes(Iterable<String> scopes) {
+    return (PasswordTokenRequest) super.setScopes(scopes);
+  }
+
+  @Override
+  public PasswordTokenRequest setScopes(Collection<String> scopes) {
     return (PasswordTokenRequest) super.setScopes(scopes);
   }
 

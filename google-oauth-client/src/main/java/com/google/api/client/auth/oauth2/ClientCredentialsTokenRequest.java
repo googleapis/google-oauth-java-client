@@ -20,6 +20,9 @@ import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.util.Beta;
+
+import java.util.Collection;
 
 /**
  * OAuth 2.0 request for an access token using only its client credentials as specified in <a
@@ -98,12 +101,21 @@ public class ClientCredentialsTokenRequest extends TokenRequest {
   }
 
   @Override
+  @Beta
+  @Deprecated
   public ClientCredentialsTokenRequest setScopes(String... scopes) {
     return (ClientCredentialsTokenRequest) super.setScopes(scopes);
   }
 
   @Override
+  @Beta
+  @Deprecated
   public ClientCredentialsTokenRequest setScopes(Iterable<String> scopes) {
+    return (ClientCredentialsTokenRequest) super.setScopes(scopes);
+  }
+
+  @Override
+  public ClientCredentialsTokenRequest setScopes(Collection<String> scopes) {
     return (ClientCredentialsTokenRequest) super.setScopes(scopes);
   }
 

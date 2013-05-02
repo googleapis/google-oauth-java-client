@@ -23,6 +23,40 @@
     <className>com/google/api/client/auth/oauth2/Credential</className>
     <method>Credential(com.google.api.client.auth.oauth2.Credential$AccessMethod, com.google.api.client.http.HttpTransport, com.google.api.client.json.JsonFactory, java.lang.String, com.google.api.client.http.HttpExecuteInterceptor, com.google.api.client.http.HttpRequestInitializer, java.util.List, com.google.api.client.util.Clock)</method>
   </difference>
+ <!-- 7006 (Method Return Type changed): className, method, to -->
+  <difference>
+    <differenceType>7006</differenceType>
+    <className>com/google/api/client/auth/oauth2/AuthorizationCodeFlow</className>
+    <method>java.lang.String getScopes()</method>
+    <to>java.util.Collection</to>
+  </difference>
+  <difference>
+    <differenceType>7006</differenceType>
+    <className>com/google/api/client/auth/oauth2/AuthorizationCodeFlow$Builder</className>
+    <method>java.lang.String getScopes()</method>
+    <to>java.util.Collection</to>
+  </difference>
+  <difference>
+    <differenceType>7006</differenceType>
+    <className>com/google/api/client/auth/oauth2/Credential</className>
+    <method>java.util.List getRefreshListeners()</method>
+    <to>java.util.Collection</to>
+  </difference>
+  <difference>
+    <differenceType>7006</differenceType>
+    <className>com/google/api/client/auth/oauth2/Credential$Builder</className>
+    <method>java.util.List getRefreshListeners()</method>
+    <to>java.util.Collection</to>
+  </difference>
+  <!-- 7005 (Method Argument Type changed): className, method, to (to is a full new signature) -->
+<!-- TODO(peleyal): enable this, after clirr bug (http://jira.codehaus.org/browse/MCLIRR-56 - ArrayList cast bug) is solved
+  <difference>
+    <differenceType>7005</differenceType>
+    <className>com/google/api/client/auth/oauth2/Credential$Builder</className>
+    <method>com.google.api.client.auth.oauth2.Credential$Builder setRefreshListeners(java.util.List)</method>
+    <to>com.google.api.client.auth.oauth2.Credential$Builder setRefreshListeners(java.util.Collection)</to>
+  </difference>
+-->
   <!-- 8001 (Class removed): className -->
   <difference>
     <differenceType>8001</differenceType>
