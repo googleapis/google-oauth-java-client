@@ -119,29 +119,27 @@ public class AuthorizationCodeInstalledApp {
    */
   public static void browse(String url) {
     Preconditions.checkNotNull(url);
+    // Ask user to open in their browser using copy-paste
+    System.out.println("Please open the following address in your browser:");
+    System.out.println("  " + url);
+    // Attempt to open it in the browser
     try {
       if (Desktop.isDesktopSupported()) {
         Desktop desktop = Desktop.getDesktop();
         if (desktop.isSupported(Action.BROWSE)) {
+          System.out.println("Attempting to open that address in the default browser now...");
           desktop.browse(URI.create(url));
-          return;
         }
       }
     } catch (IOException e) {
-      // Handled below.
       LOGGER.log(Level.WARNING, "Unable to open browser", e);
     } catch (InternalError e) {
       // A bug in a JRE can cause Desktop.isDesktopSupported() to throw an
       // InternalError rather than returning false. The error reads,
       // "Can't connect to X11 window server using ':0.0' as the value of the
       // DISPLAY variable." The exact error message may vary slightly.
-      // Handled below.
       LOGGER.log(Level.WARNING, "Unable to open browser", e);
     }
-
-    // Finally just ask user to open in their browser using copy-paste
-    System.out.println("Please open the following URL in your browser:");
-    System.out.println("  " + url);
   }
 
   /** Returns the authorization code flow. */
