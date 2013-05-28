@@ -218,12 +218,12 @@ public class AuthorizationCodeResponseUrl extends GenericUrl {
   }
 
   @Override
-  public AuthorizationCodeRequestUrl set(String fieldName, Object value) {
-    return (AuthorizationCodeRequestUrl) super.set(fieldName, value);
+  public AuthorizationCodeResponseUrl set(String fieldName, Object value) {
+    return (AuthorizationCodeResponseUrl) super.set(fieldName, value);
   }
 
   @Override
-  public AuthorizationCodeRequestUrl clone() {
-    return (AuthorizationCodeRequestUrl) super.clone();
+  public AuthorizationCodeResponseUrl clone() {
+    return (AuthorizationCodeResponseUrl) super.clone();
   }
 }
