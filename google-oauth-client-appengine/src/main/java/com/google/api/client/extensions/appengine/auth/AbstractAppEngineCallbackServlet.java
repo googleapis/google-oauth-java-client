@@ -17,8 +17,6 @@ package com.google.api.client.extensions.appengine.auth;
 import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
 import com.google.api.client.extensions.servlet.auth.AbstractCallbackServlet;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.util.Beta;
 
 /**
@@ -51,6 +49,12 @@ import com.google.api.client.util.Beta;
  *   com.google.api.client.extensions.appengine.auth.oauth2.AbstractAppEngineAuthorizationCodeCallbackServlet}.
  * </p>
  *
+ * <p>
+ * Upgrade warning: in version 1.15 there was an implementation of {@link #newJsonFactoryInstance()}
+ * that used {@code com.google.api.client.json.jackson.JacksonFactory}, but starting with version
+ * 1.16 there is no such implementation.
+ * </p>
+ *
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
  */
@@ -72,10 +76,5 @@ public abstract class AbstractAppEngineCallbackServlet extends AbstractCallbackS
   @Override
   protected HttpTransport newHttpTransportInstance() {
     return new UrlFetchTransport();
-  }
-
-  @Override
-  protected JsonFactory newJsonFactoryInstance() {
-    return new JacksonFactory();
   }
 }
