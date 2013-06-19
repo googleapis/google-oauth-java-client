@@ -16,11 +16,14 @@ package com.google.api.client.extensions.java6.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.CredentialStore;
+import com.google.api.client.auth.oauth2.StoredCredential;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonGenerator;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.Charsets;
 import com.google.api.client.util.Preconditions;
+import com.google.api.client.util.store.DataStore;
+import com.google.api.client.util.store.FileDataStoreFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,7 +39,12 @@ import java.util.logging.Logger;
  *
  * @since 1.11
  * @author Rafael Naufal
+ * @deprecated (scheduled to be removed in 1.17) Use {@link FileDataStoreFactory} with
+ *             {@link StoredCredential} instead, optionally using
+ *             {@link #migrateTo(FileDataStoreFactory)} or {@link #migrateTo(DataStore)} to
+ *             migrating an existing {@link FileCredentialStore}.
  */
+@Deprecated
 @Beta
 public class FileCredentialStore implements CredentialStore {
 
@@ -158,5 +166,37 @@ public class FileCredentialStore implements CredentialStore {
     } finally {
       fos.close();
     }
+  }
+
+  /**
+   * Migrates to the new {@link FileDataStoreFactory} format.
+   *
+   * <p>
+   * Sample usage:
+   * </p>
+   *
+   * <pre>
+  public static FileDataStore migrate(FileCredentialStore credentialStore, File dataDirectory)
+      throws IOException {
+    FileDataStore dataStore = new FileDataStore(dataDirectory);
+    credentialStore.migrateTo(dataStore);
+    return dataStore;
+  }
+   * </pre>
+   * @param dataStoreFactory file data store factory
+   * @since 1.16
+   */
+  public final void migrateTo(FileDataStoreFactory dataStoreFactory) throws IOException {
+    migrateTo(StoredCredential.getDefaultDataStore(dataStoreFactory));
+  }
+
+  /**
+   * Migrates to the new format using {@link DataStore} of {@link StoredCredential}.
+   *
+   * @param credentialDataStore credential data store
+   * @since 1.16
+   */
+  public final void migrateTo(DataStore<StoredCredential> credentialDataStore) throws IOException {
+    credentials.migrateTo(credentialDataStore);
   }
 }

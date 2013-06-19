@@ -16,13 +16,20 @@ package com.google.api.client.extensions.appengine.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.CredentialStore;
+import com.google.api.client.auth.oauth2.StoredCredential;
+import com.google.api.client.extensions.appengine.datastore.AppEngineDataStoreFactory;
 import com.google.api.client.util.Beta;
+import com.google.api.client.util.store.DataStore;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+
+import java.io.IOException;
 
 /**
  * {@link Beta} <br/>
@@ -31,7 +38,13 @@ import com.google.appengine.api.datastore.KeyFactory;
  *
  * @since 1.7
  * @author Yaniv Inbar
+ * @deprecated (scheduled to be removed in 1.17) Use {@link AppEngineDataStoreFactory} with
+ *             {@link StoredCredential} instead,
+ *             optionally using {@link #migrateTo(AppEngineDataStoreFactory)} or
+ *             {@link #migrateTo(DataStore)} to migrating an existing
+ *             {@link AppEngineCredentialStore}.
  */
+@Deprecated
 @Beta
 public class AppEngineCredentialStore implements CredentialStore {
 
@@ -66,6 +79,46 @@ public class AppEngineCredentialStore implements CredentialStore {
       return true;
     } catch (EntityNotFoundException exception) {
       return false;
+    }
+  }
+
+  /**
+   * Migrates to the new {@link AppEngineDataStoreFactory} format.
+   *
+   * <p>
+   * Sample usage:
+   * </p>
+   *
+   * <pre>
+  public static AppEngineDataStore migrate(AppEngineCredentialStore credentialStore)
+      throws IOException {
+    AppEngineDataStore dataStore = new AppEngineDataStore();
+    credentialStore.migrateTo(dataStore);
+    return dataStore;
+  }
+   * </pre>
+   * @param dataStoreFactory App Engine data store factory
+   * @since 1.16
+   */
+  public final void migrateTo(AppEngineDataStoreFactory dataStoreFactory) throws IOException {
+    migrateTo(StoredCredential.getDefaultDataStore(dataStoreFactory));
+  }
+
+  /**
+   * Migrates to the new format using {@link DataStore} of {@link StoredCredential}.
+   *
+   * @param credentialDataStore credential data store
+   * @since 1.16
+   */
+  public final void migrateTo(DataStore<StoredCredential> credentialDataStore) throws IOException {
+    DatastoreService service = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery queryResult = service.prepare(new Query(KIND));
+    for (Entity entity : queryResult.asIterable()) {
+      StoredCredential storedCredential = new StoredCredential().setAccessToken(
+          (String) entity.getProperty("accessToken"))
+          .setRefreshToken((String) entity.getProperty("refreshToken"))
+          .setExpirationTimeMilliseconds((Long) entity.getProperty("expirationTimeMillis"));
+      credentialDataStore.set(entity.getKey().getName(), storedCredential);
     }
   }
 }

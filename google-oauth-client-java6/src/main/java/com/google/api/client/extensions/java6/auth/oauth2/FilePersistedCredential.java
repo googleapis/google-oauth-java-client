@@ -15,9 +15,11 @@
 package com.google.api.client.extensions.java6.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.StoredCredential;
 import com.google.api.client.json.GenericJson;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.Key;
+import com.google.api.client.util.store.FileDataStoreFactory;
 
 /**
  * {@link Beta} <br/>
@@ -25,7 +27,9 @@ import com.google.api.client.util.Key;
  *
  * @author Rafael Naufal
  * @since 1.11
+ * @deprecated (scheduled to be removed in 1.17) Use {@link FileDataStoreFactory} instead.
  */
+@Deprecated
 @Beta
 public class FilePersistedCredential extends GenericJson {
 
@@ -74,5 +78,10 @@ public class FilePersistedCredential extends GenericJson {
   @Override
   public FilePersistedCredential clone() {
     return (FilePersistedCredential) super.clone();
+  }
+
+  StoredCredential toStoredCredential() {
+    return new StoredCredential().setAccessToken(accessToken)
+        .setRefreshToken(refreshToken).setExpirationTimeMilliseconds(expirationTimeMillis);
   }
 }

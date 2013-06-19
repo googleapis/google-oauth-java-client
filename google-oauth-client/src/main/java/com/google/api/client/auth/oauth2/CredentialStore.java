@@ -15,9 +15,9 @@
 package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.util.Beta;
+import com.google.api.client.util.store.DataStoreFactory;
 
 import java.io.IOException;
-
 
 /**
  * {@link Beta} <br/>
@@ -35,7 +35,10 @@ import java.io.IOException;
  *
  * @since 1.7
  * @author Yaniv Inbar
+ * @deprecated (scheduled to be removed in 1.17) Use {@link DataStoreFactory} with
+ *             {@link StoredCredential} instead.
  */
+@Deprecated
 @Beta
 public interface CredentialStore {
 

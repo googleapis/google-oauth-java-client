@@ -15,12 +15,16 @@
 package com.google.api.client.extensions.java6.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.StoredCredential;
 import com.google.api.client.json.GenericJson;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Maps;
 import com.google.api.client.util.Preconditions;
+import com.google.api.client.util.store.DataStore;
+import com.google.api.client.util.store.FileDataStoreFactory;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -29,7 +33,9 @@ import java.util.Map;
  *
  * @author Rafael Naufal
  * @since 1.11
+ * @deprecated (scheduled to be removed in 1.17) Use {@link FileDataStoreFactory} instead.
  */
+@Deprecated
 @Beta
 public class FilePersistedCredentials extends GenericJson {
 
@@ -85,5 +91,11 @@ public class FilePersistedCredentials extends GenericJson {
   @Override
   public FilePersistedCredentials clone() {
     return (FilePersistedCredentials) super.clone();
+  }
+
+  void migrateTo(DataStore<StoredCredential> typedDataStore) throws IOException {
+    for (Map.Entry<String, FilePersistedCredential> entry : credentials.entrySet()) {
+      typedDataStore.set(entry.getKey(), entry.getValue().toStoredCredential());
+    }
   }
 }

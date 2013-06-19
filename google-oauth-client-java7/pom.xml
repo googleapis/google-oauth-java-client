@@ -8,7 +8,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>google-oauth-client-java7</artifactId>
-  <name>Java 7 (and higher) Extensions to the Google OAuth Client Library for Java.</name>
+  <name>[Deprecated] Java 7 (and higher) Extensions to the Google OAuth Client Library for Java.</name>
   <build>
     <plugins>
       <plugin>

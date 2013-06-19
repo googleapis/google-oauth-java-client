@@ -19,6 +19,7 @@ package com.google.api.client.auth.oauth2;
  *
  * @author Yaniv Inbar
  */
+@Deprecated
 class MemoryPersistedCredential {
 
   /** Access token or {@code null} for none. */

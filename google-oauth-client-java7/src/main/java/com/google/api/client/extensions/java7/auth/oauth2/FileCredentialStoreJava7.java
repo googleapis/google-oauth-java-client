@@ -14,9 +14,12 @@
 
 package com.google.api.client.extensions.java7.auth.oauth2;
 
+import com.google.api.client.auth.oauth2.StoredCredential;
 import com.google.api.client.extensions.java6.auth.oauth2.FileCredentialStore;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Beta;
+import com.google.api.client.util.store.DataStore;
+import com.google.api.client.util.store.FileDataStoreFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +32,13 @@ import java.nio.file.Files;
  *
  * @since 1.13
  * @author Yaniv Inbar
+ * @deprecated (scheduled to be removed in 1.17) Use {@link FileDataStoreFactory} with
+ *             {@link StoredCredential} instead,
+ *             optionally using {@link #migrateTo(FileDataStoreFactory)} or
+ *             {@link #migrateTo(DataStore)} to migrating an existing
+ *             {@link FileCredentialStoreJava7}.
  */
+@Deprecated
 @Beta
 public class FileCredentialStoreJava7 extends FileCredentialStore {
 

@@ -29,6 +29,7 @@ import java.util.Scanner;
  */
 public abstract class AbstractPromptReceiver implements VerificationCodeReceiver {
 
+  @SuppressWarnings("resource")
   @Override
   public String waitForCode() {
     String code;

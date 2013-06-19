@@ -16,15 +16,21 @@ package com.google.api.client.extensions.jdo.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.CredentialStore;
+import com.google.api.client.auth.oauth2.StoredCredential;
+import com.google.api.client.extensions.jdo.JdoDataStoreFactory;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.Preconditions;
+import com.google.api.client.util.store.DataStore;
 
+import java.io.IOException;
+import java.util.Collection;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Query;
 
 /**
  * {@link Beta} <br/>
@@ -32,7 +38,12 @@ import javax.jdo.PersistenceManagerFactory;
  *
  * @since 1.7
  * @author Yaniv Inbar
+ * @deprecated (scheduled to be removed in 1.17) Use {@link JdoDataStoreFactory} with
+ *             {@link StoredCredential} instead, optionally
+ *             using {@link #migrateTo(JdoDataStoreFactory)} or {@link #migrateTo(DataStore)} to
+ *             migrating an existing {@link JdoCredentialStore}.
  */
+@Deprecated
 @Beta
 public class JdoCredentialStore implements CredentialStore {
 
@@ -92,6 +103,56 @@ public class JdoCredentialStore implements CredentialStore {
       return true;
     } catch (JDOObjectNotFoundException e) {
       return false;
+    } finally {
+      lock.unlock();
+      persistenceManager.close();
+    }
+  }
+
+  /**
+   * Migrates to the new {@link JdoDataStoreFactory} format.
+   *
+   * <p>
+   * Sample usage:
+   * </p>
+   *
+   * <pre>
+  public static JdoDataStore migrate(JdoCredentialStore credentialStore)
+      throws IOException {
+    JdoDataStore dataStore = new JdoDataStore();
+    credentialStore.migrateTo(dataStore);
+    return dataStore;
+  }
+   * </pre>
+   * @param dataStoreFactory JDO data store factory
+   * @since 1.16
+   */
+  public final void migrateTo(JdoDataStoreFactory dataStoreFactory) throws IOException {
+    migrateTo(StoredCredential.getDefaultDataStore(dataStoreFactory));
+  }
+
+  /**
+   * Migrates to the new format using {@link DataStore} of {@link StoredCredential}.
+   *
+   * @param credentialDataStore credential data store
+   * @since 1.16
+   */
+  public final void migrateTo(DataStore<StoredCredential> credentialDataStore) throws IOException {
+    PersistenceManager persistenceManager = persistenceManagerFactory.getPersistenceManager();
+    lock.lock();
+    try {
+      Query query = persistenceManager.newQuery(JdoPersistedCredential.class);
+      try {
+        @SuppressWarnings("unchecked")
+        Collection<JdoPersistedCredential> queryResults =
+            (Collection<JdoPersistedCredential>) query.execute();
+        for (JdoPersistedCredential persistedCredential : queryResults) {
+          credentialDataStore.set(
+              persistedCredential.getUserId(), persistedCredential.toStoredCredential());
+        }
+      } finally {
+        query.closeAll();
+      }
     } finally {
       lock.unlock();
       persistenceManager.close();

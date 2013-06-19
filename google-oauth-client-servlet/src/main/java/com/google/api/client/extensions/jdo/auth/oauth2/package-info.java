@@ -13,11 +13,18 @@
  */
 
 /**
+ * {@link com.google.api.client.util.Beta} <br/>
  * Java Data Objects (JDO) utilities for OAuth 2.0.
+ *
+ * <p>
+ * Deprecated (scheduled to be removed in 1.17): Use
+ * {@link com.google.api.client.extensions.jdo.JdoDataStoreFactory}.
+ * </p>
  *
  * @since 1.7
  * @author Yaniv Inbar
  */
-
+@Deprecated
+@com.google.api.client.util.Beta
 package com.google.api.client.extensions.jdo.auth.oauth2;
 

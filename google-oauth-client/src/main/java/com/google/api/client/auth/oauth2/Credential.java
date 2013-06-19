@@ -27,6 +27,7 @@ import com.google.api.client.util.Clock;
 import com.google.api.client.util.Lists;
 import com.google.api.client.util.Objects;
 import com.google.api.client.util.Preconditions;
+import com.google.api.client.util.store.DataStoreFactory;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -66,8 +67,9 @@ import java.util.logging.Logger;
  * </pre>
  *
  * <p>
- * If you need to persist the access token in a data store, use {@link CredentialStore} and
- * {@link Builder#addRefreshListener(CredentialRefreshListener)}.
+ * If you need to persist the access token in a data store, use {@link DataStoreFactory} and
+ * {@link Builder#addRefreshListener(CredentialRefreshListener)} with
+ * {@link DataStoreCredentialRefreshListener}.
  * </p>
  *
  * <p>

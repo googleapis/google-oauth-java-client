@@ -25,6 +25,8 @@ import com.google.api.client.util.Clock;
 import com.google.api.client.util.Joiner;
 import com.google.api.client.util.Lists;
 import com.google.api.client.util.Preconditions;
+import com.google.api.client.util.store.DataStore;
+import com.google.api.client.util.store.DataStoreFactory;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -84,7 +86,12 @@ public class AuthorizationCodeFlow {
 
   /** Credential persistence store or {@code null} for none. */
   @Beta
+  @Deprecated
   private final CredentialStore credentialStore;
+
+  /** Stored credential data store or {@code null} for none. */
+  @Beta
+  private final DataStore<StoredCredential> credentialDataStore;
 
   /** HTTP request initializer or {@code null} for none. */
   private final HttpRequestInitializer requestInitializer;
@@ -146,6 +153,7 @@ public class AuthorizationCodeFlow {
         Preconditions.checkNotNull(builder.authorizationServerEncodedUrl);
     requestInitializer = builder.requestInitializer;
     credentialStore = builder.credentialStore;
+    credentialDataStore = builder.credentialDataStore;
     scopes = Collections.unmodifiableCollection(builder.scopes);
     clock = Preconditions.checkNotNull(builder.clock);
     credentialCreatedListener = builder.credentialCreatedListener;
@@ -210,11 +218,15 @@ public class AuthorizationCodeFlow {
    * @param userId user ID or {@code null} if not using a persisted credential store
    * @return newly created credential
    */
+  @SuppressWarnings("deprecation")
   public Credential createAndStoreCredential(TokenResponse response, String userId)
       throws IOException {
     Credential credential = newCredential(userId).setFromTokenResponse(response);
     if (credentialStore != null) {
       credentialStore.store(userId, credential);
+    }
+    if (credentialDataStore != null) {
+      credentialDataStore.set(userId, new StoredCredential(credential));
     }
     if (credentialCreatedListener != null) {
       credentialCreatedListener.onCredentialCreated(credential, response);
@@ -229,12 +241,21 @@ public class AuthorizationCodeFlow {
    * @return credential found in the credential store of the given user ID or {@code null} for none
    *         found
    */
+  @SuppressWarnings("deprecation")
   public Credential loadCredential(String userId) throws IOException {
-    if (credentialStore == null) {
+    if (credentialDataStore == null && credentialStore == null) {
       return null;
     }
     Credential credential = newCredential(userId);
-    if (!credentialStore.load(userId, credential)) {
+    if (credentialDataStore != null) {
+      StoredCredential stored = credentialDataStore.get(userId);
+      if (stored == null) {
+        return null;
+      }
+      credential.setAccessToken(stored.getAccessToken());
+      credential.setRefreshToken(stored.getRefreshToken());
+      credential.setExpirationTimeMilliseconds(stored.getExpirationTimeMilliseconds());
+    } else if (!credentialStore.load(userId, credential)) {
       return null;
     }
     return credential;
@@ -245,6 +266,7 @@ public class AuthorizationCodeFlow {
    *
    * @param userId user ID or {@code null} if not using a persisted credential store
    */
+  @SuppressWarnings("deprecation")
   private Credential newCredential(String userId) {
     Credential.Builder builder = new Credential.Builder(method).setTransport(transport)
         .setJsonFactory(jsonFactory)
@@ -252,12 +274,13 @@ public class AuthorizationCodeFlow {
         .setClientAuthentication(clientAuthentication)
         .setRequestInitializer(requestInitializer)
         .setClock(clock);
-    if (credentialStore != null) {
+    if (credentialDataStore != null) {
+      builder.addRefreshListener(
+          new DataStoreCredentialRefreshListener(userId, credentialDataStore));
+    } else if (credentialStore != null) {
       builder.addRefreshListener(new CredentialStoreRefreshListener(userId, credentialStore));
     }
-
     builder.getRefreshListeners().addAll(refreshListeners);
-
     return builder.build();
   }
 
@@ -305,10 +328,23 @@ public class AuthorizationCodeFlow {
   /**
    * {@link Beta} <br/>
    * Returns the credential persistence store or {@code null} for none.
+   * @deprecated (scheduled to be removed in 1.17) Use {@link #getCredentialDataStore()} instead.
    */
   @Beta
+  @Deprecated
   public final CredentialStore getCredentialStore() {
     return credentialStore;
+  }
+
+  /**
+   * {@link Beta} <br/>
+   * Returns the stored credential data store or {@code null} for none.
+   *
+   * @since 1.16
+   */
+  @Beta
+  public final DataStore<StoredCredential> getCredentialDataStore() {
+    return credentialDataStore;
   }
 
   /** Returns the HTTP request initializer or {@code null} for none. */
@@ -414,8 +450,13 @@ public class AuthorizationCodeFlow {
     String authorizationServerEncodedUrl;
 
     /** Credential persistence store or {@code null} for none. */
+    @Deprecated
     @Beta
     CredentialStore credentialStore;
+
+    /** Stored credential data store or {@code null} for none. */
+    @Beta
+    DataStore<StoredCredential> credentialDataStore;
 
     /** HTTP request initializer or {@code null} for none. */
     HttpRequestInitializer requestInitializer;
@@ -609,10 +650,23 @@ public class AuthorizationCodeFlow {
     /**
      * {@link Beta} <br/>
      * Returns the credential persistence store or {@code null} for none.
+     * @deprecated (scheduled to be removed in 1.17) Use {@link #getCredentialDataStore()} instead.
      */
     @Beta
+    @Deprecated
     public final CredentialStore getCredentialStore() {
       return credentialStore;
+    }
+
+    /**
+     * {@link Beta} <br/>
+     * Returns the stored credential data store or {@code null} for none.
+     *
+     * @since 1.16
+     */
+    @Beta
+    public final DataStore<StoredCredential> getCredentialDataStore() {
+      return credentialDataStore;
     }
 
     /**
@@ -647,13 +701,70 @@ public class AuthorizationCodeFlow {
      * Sets the credential persistence store or {@code null} for none.
      *
      * <p>
+     * Warning: not compatible with {@link #setDataStoreFactory} or {@link #setCredentialDataStore},
+     * and if either of those is called before this method is called, this method will throw an
+     * {@link IllegalArgumentException}.
+     * </p>
+     *
+     * </p>
+     * <p>
      * Overriding is only supported for the purpose of calling the super implementation and changing
      * the return type, but nothing else.
      * </p>
+     *
+     * @deprecated (scheduled to be removed in 1.17) Use
+     *             {@link #setDataStoreFactory(DataStoreFactory)} or
+     *             {@link #setCredentialDataStore(DataStore)} instead.
      */
     @Beta
+    @Deprecated
     public Builder setCredentialStore(CredentialStore credentialStore) {
+      Preconditions.checkArgument(credentialDataStore == null);
       this.credentialStore = credentialStore;
+      return this;
+    }
+
+    /**
+     * {@link Beta} <br/>
+     * Sets the data store factory or {@code null} for none.
+     *
+     * <p>
+     * Warning: not compatible with {@link #setCredentialStore}, and if it is called before this
+     * method is called, this method will throw an {@link IllegalArgumentException}.
+     * </p>
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+     *
+     * @since 1.16
+     */
+    @Beta
+    public Builder setDataStoreFactory(DataStoreFactory dataStoreFactory) throws IOException {
+      return setCredentialDataStore(StoredCredential.getDefaultDataStore(dataStoreFactory));
+    }
+
+    /**
+     * {@link Beta} <br/>
+     * Sets the stored credential data store or {@code null} for none.
+     *
+     * <p>
+     * Warning: not compatible with {@link #setCredentialStore}, and if it is called before this
+     * method is called, this method will throw an {@link IllegalArgumentException}.
+     * </p>
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+     *
+     * @since 1.16
+     */
+    @Beta
+    public Builder setCredentialDataStore(DataStore<StoredCredential> credentialDataStore) {
+      Preconditions.checkArgument(credentialStore == null);
+      this.credentialDataStore = credentialDataStore;
       return this;
     }
 

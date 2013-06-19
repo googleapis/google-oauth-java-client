@@ -16,6 +16,7 @@ package com.google.api.client.extensions.java6.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.StoredCredential;
 import com.google.api.client.auth.oauth2.TokenErrorResponse;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.http.BasicAuthentication;
@@ -29,7 +30,11 @@ import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 import com.google.api.client.util.GenericData;
+import com.google.api.client.util.store.DataStore;
+import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.io.Files;
 
 import junit.framework.TestCase;
 
@@ -42,6 +47,7 @@ import java.io.IOException;
  *
  * @author Rafael Naufal
  */
+@Deprecated
 public class FileCredentialStoreTest extends TestCase {
 
   static final JsonFactory JSON_FACTORY = new JacksonFactory();
@@ -180,5 +186,26 @@ public class FileCredentialStoreTest extends TestCase {
     generator.serialize(new FilePersistedCredentials());
     generator.close();
     return result;
+  }
+
+  public void testMigrateTo() throws Exception {
+    // create old store
+    File file = createTempFile();
+    FileCredentialStore store = new FileCredentialStore(file, JSON_FACTORY);
+    Credential expected = createCredential();
+    store.store(USER_ID, expected);
+    // migrate to new store
+    File dataDir = Files.createTempDir();
+    dataDir.deleteOnExit();
+    FileDataStoreFactory newFactory = new FileDataStoreFactory(dataDir);
+    store.migrateTo(newFactory);
+    // check new store
+    DataStore<StoredCredential> newStore =
+        newFactory.getDataStore(StoredCredential.DEFAULT_DATA_STORE_ID);
+    assertEquals(ImmutableSet.of(USER_ID), newStore.keySet());
+    StoredCredential actual = newStore.get(USER_ID);
+    assertEquals(expected.getAccessToken(), actual.getAccessToken());
+    assertEquals(expected.getRefreshToken(), actual.getRefreshToken());
+    assertEquals(expected.getExpirationTimeMilliseconds(), actual.getExpirationTimeMilliseconds());
   }
 }

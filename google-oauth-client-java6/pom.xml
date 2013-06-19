@@ -8,7 +8,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>google-oauth-client-java6</artifactId>
-  <name>Java 6 (and higher) Extensions to the Google OAuth Client Library for Java.</name>
+  <name>Java 6 (and higher) extensions to the Google OAuth Client Library for Java.</name>
   <build>
     <plugins>
       <plugin>

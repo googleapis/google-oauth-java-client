@@ -17,6 +17,7 @@
  *
  * @since 1.13
  * @author Yaniv Inbar
+ * @deprecated (scheduled to be removed in 1.17) Use
+ *             {@link com.google.api.client.util.store.FileDataStoreFactory} instead.
  */
 package com.google.api.client.extensions.java7.auth.oauth2;
-

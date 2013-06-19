@@ -15,6 +15,8 @@
 package com.google.api.client.extensions.jdo.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.StoredCredential;
+import com.google.api.client.util.Beta;
 import com.google.api.client.util.Preconditions;
 
 import javax.jdo.annotations.PersistenceCapable;
@@ -26,6 +28,8 @@ import javax.jdo.annotations.PrimaryKey;
  *
  * @author Yaniv Inbar
  */
+@Deprecated
+@Beta
 @PersistenceCapable
 class JdoPersistedCredential {
 
@@ -82,5 +86,14 @@ class JdoPersistedCredential {
     accessToken = credential.getAccessToken();
     refreshToken = credential.getRefreshToken();
     expirationTimeMillis = credential.getExpirationTimeMilliseconds();
+  }
+
+  StoredCredential toStoredCredential() {
+    return new StoredCredential().setAccessToken(accessToken)
+        .setRefreshToken(refreshToken).setExpirationTimeMilliseconds(expirationTimeMillis);
+  }
+
+  String getUserId() {
+    return userId;
   }
 }

@@ -16,6 +16,7 @@ package com.google.api.client.auth.oauth2;
 
 
 import com.google.api.client.util.Beta;
+import com.google.api.client.util.store.MemoryDataStoreFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,10 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  * @since 1.7
  * @author Yaniv Inbar
+ * @deprecated (scheduled to be removed in 1.17) Use {@link MemoryDataStoreFactory} with
+ *             {@link StoredCredential} instead.
  */
+@Deprecated
 @Beta
 public class MemoryCredentialStore implements CredentialStore {
 

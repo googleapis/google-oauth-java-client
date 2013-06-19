@@ -45,6 +45,7 @@ import java.nio.file.Path;
  *
  * @author Yaniv Inbar
  */
+@Deprecated
 public class FileCredentialStoreJava7Test extends TestCase {
 
   static final JsonFactory JSON_FACTORY = new JacksonFactory();
