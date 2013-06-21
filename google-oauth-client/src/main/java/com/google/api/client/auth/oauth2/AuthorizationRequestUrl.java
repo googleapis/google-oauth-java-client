@@ -15,12 +15,10 @@
 package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.http.GenericUrl;
-import com.google.api.client.util.Beta;
 import com.google.api.client.util.Joiner;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -88,29 +86,6 @@ public class AuthorizationRequestUrl extends GenericUrl {
   private String state;
 
   /**
-   * {@link Beta} <br/>
-   * Constructs a new {@link AuthorizationRequestUrl} <br/>
-   *
-   * @param authorizationServerEncodedUrl authorization server encoded URL
-   * @param clientId client identifier
-   * @param responseTypes <a href="http://tools.ietf.org/html/rfc6749#section-3.1.1">response
-   *        type</a>, which must be {@code "code"} for requesting an authorization code,
-   *        {@code "token"} for requesting an access token (implicit grant), or a list of registered
-   *        extension values to join with a space
-   * @deprecated (scheduled to be removed in 1.16) Use
-   *             {@link #AuthorizationRequestUrl(String, String, Collection)} instead.
-   */
-  @Beta
-  @Deprecated
-  public AuthorizationRequestUrl(
-      String authorizationServerEncodedUrl, String clientId, Iterable<String> responseTypes) {
-    super(authorizationServerEncodedUrl);
-    Preconditions.checkArgument(getFragment() == null);
-    setClientId(clientId);
-    setResponseTypes(responseTypes);
-  }
-
-  /**
    * @param authorizationServerEncodedUrl authorization server encoded URL
    * @param clientId client identifier
    * @param responseTypes <a href="http://tools.ietf.org/html/rfc6749#section-3.1.1">response
@@ -134,47 +109,6 @@ public class AuthorizationRequestUrl extends GenericUrl {
    */
   public final String getResponseTypes() {
     return responseTypes;
-  }
-
-  /**
-   * {@link Beta} <br/>
-   * Sets the <a href="http://tools.ietf.org/html/rfc6749#section-3.1.1">response type</a>, which
-   * must be {@code "code"} for requesting an authorization code, {@code "token"} for requesting an
-   * access token (implicit grant), or an array of registered extension values to join with a space.
-   *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
-   *
-   * @deprecated (scheduled to be removed in 1.16) Use {@link #setResponseTypes(Collection)}
-   *             instead.
-   */
-  @Beta
-  @Deprecated
-  public AuthorizationRequestUrl setResponseTypes(String... responseTypes) {
-    return setResponseTypes(Arrays.asList(responseTypes));
-  }
-
-  /**
-   * {@link Beta} <br/>
-   * Sets the <a href="http://tools.ietf.org/html/rfc6749#section-3.1.1">response type</a>, which
-   * must be {@code "code"} for requesting an authorization code, {@code "token"} for requesting an
-   * access token (implicit grant), or a list of registered extension values to join with a space.
-   *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
-   *
-   * @deprecated (scheduled to be removed in 1.16) Use {@link #setResponseTypes(Collection)}
-   *             instead.
-   */
-  @Beta
-  @Deprecated
-  public AuthorizationRequestUrl setResponseTypes(Iterable<String> responseTypes) {
-    this.responseTypes = Joiner.on(' ').join(responseTypes);
-    return this;
   }
 
   /**
@@ -227,50 +161,6 @@ public class AuthorizationRequestUrl extends GenericUrl {
    */
   public final String getScopes() {
     return scopes;
-  }
-
-  /**
-   * {@link Beta} <br/>
-   * Sets the list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/rfc6749#section-3.3">Access Token Scope</a>) or {@code null}
-   * for none.
-   *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
-   *
-   * @param scopes list of scopes to be joined by a space separator (or a single value containing
-   *        multiple space-separated scopes) or {@code null} for none
-   * @deprecated (scheduled to be removed in 1.16) Use {@link #setScopes(Collection)} instead.
-   */
-  @Beta
-  @Deprecated
-  public AuthorizationRequestUrl setScopes(String... scopes) {
-    return setScopes(scopes == null || scopes.length == 0 ? null : Arrays.asList(scopes));
-  }
-
-  /**
-   * {@link Beta} <br/>
-   * Sets the list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/rfc6749#section-3.3">Access Token Scope</a>) or {@code null}
-   * for none.
-   *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
-   *
-   * @param scopes list of scopes to be joined by a space separator (or a single value containing
-   *        multiple space-separated scopes) or {@code null} for none
-   * @deprecated (scheduled to be removed in 1.16) Use {@link #setScopes(Collection)} instead.
-   */
-  @Beta
-  @Deprecated
-  public AuthorizationRequestUrl setScopes(Iterable<String> scopes) {
-    this.scopes =
-        scopes == null || !scopes.iterator().hasNext() ? null : Joiner.on(' ').join(scopes);
-    return this;
   }
 
   /**

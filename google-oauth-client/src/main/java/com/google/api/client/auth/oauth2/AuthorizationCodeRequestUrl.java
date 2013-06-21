@@ -14,8 +14,6 @@
 
 package com.google.api.client.auth.oauth2;
 
-import com.google.api.client.util.Beta;
-
 import java.util.Collection;
 import java.util.Collections;
 
@@ -63,20 +61,6 @@ public class AuthorizationCodeRequestUrl extends AuthorizationRequestUrl {
   }
 
   @Override
-  @Beta
-  @Deprecated
-  public AuthorizationCodeRequestUrl setResponseTypes(String... responseTypes) {
-    return (AuthorizationCodeRequestUrl) super.setResponseTypes(responseTypes);
-  }
-
-  @Override
-  @Beta
-  @Deprecated
-  public AuthorizationCodeRequestUrl setResponseTypes(Iterable<String> responseTypes) {
-    return (AuthorizationCodeRequestUrl) super.setResponseTypes(responseTypes);
-  }
-
-  @Override
   public AuthorizationCodeRequestUrl setResponseTypes(Collection<String> responseTypes) {
     return (AuthorizationCodeRequestUrl) super.setResponseTypes(responseTypes);
   }
@@ -84,20 +68,6 @@ public class AuthorizationCodeRequestUrl extends AuthorizationRequestUrl {
   @Override
   public AuthorizationCodeRequestUrl setRedirectUri(String redirectUri) {
     return (AuthorizationCodeRequestUrl) super.setRedirectUri(redirectUri);
-  }
-
-  @Override
-  @Beta
-  @Deprecated
-  public AuthorizationCodeRequestUrl setScopes(String... scopes) {
-    return (AuthorizationCodeRequestUrl) super.setScopes(scopes);
-  }
-
-  @Override
-  @Beta
-  @Deprecated
-  public AuthorizationCodeRequestUrl setScopes(Iterable<String> scopes) {
-    return (AuthorizationCodeRequestUrl) super.setScopes(scopes);
   }
 
   @Override

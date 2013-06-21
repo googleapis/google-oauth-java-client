@@ -29,7 +29,6 @@ import com.google.api.client.util.store.DataStore;
 import com.google.api.client.util.store.DataStoreFactory;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -361,15 +360,7 @@ public class AuthorizationCodeFlow {
     return Joiner.on(' ').join(scopes);
   }
 
-  /**
-   * Returns the a collection of scopes.
-   *
-   * <p>
-   * Upgrade warning: in prior version 1.14 this method returned a {@link String}, but starting with
-   * version 1.15 it returns a {@link Collection}. Use {@link #getScopesAsString} to retrieve a
-   * {@link String} with space-separated list of scopes.
-   * </p>
-   */
+  /** Returns the a collection of scopes. */
   public final Collection<String> getScopes() {
     return scopes;
   }
@@ -787,46 +778,6 @@ public class AuthorizationCodeFlow {
     }
 
     /**
-     * {@link Beta} <br/>
-     * Sets the list of scopes.
-     *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
-     *
-     * @param scopes list of scopes to be joined by a space separator (or a single value containing
-     *        multiple space-separated scopes)
-     * @deprecated (scheduled to be removed in 1.16) Use {@link #setScopes(Collection)} instead.
-     */
-    @Beta
-    @Deprecated
-    public Builder setScopes(Iterable<String> scopes) {
-      this.scopes = scopes == null ? Lists.<String>newArrayList() : Lists.newArrayList(scopes);
-      return this;
-    }
-
-    /**
-     * {@link Beta} <br/>
-     * Sets the list of scopes.
-     *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
-     *
-     * @param scopes list of scopes to be joined by a space separator (or a single value containing
-     *        multiple space-separated scopes)
-     * @deprecated (scheduled to be removed in 1.16) Use {@link #setScopes(Collection)} instead.
-     */
-    @Beta
-    @Deprecated
-    public Builder setScopes(String... scopes) {
-      this.scopes = scopes == null ? Lists.<String>newArrayList() : Arrays.asList(scopes);
-      return this;
-    }
-
-    /**
      * Sets the collection of scopes.
      *
      * <p>
@@ -842,14 +793,7 @@ public class AuthorizationCodeFlow {
       return this;
     }
 
-    /**
-     * Returns a collection of scopes.
-     *
-     * <p>
-     * Upgrade warning: in prior version 1.14 this method returned a {@link String}, but starting
-     * with version 1.15 it returns a {@link Collection}.
-     * </p>
-     */
+    /** Returns a collection of scopes. */
     public final Collection<String> getScopes() {
       return scopes;
     }

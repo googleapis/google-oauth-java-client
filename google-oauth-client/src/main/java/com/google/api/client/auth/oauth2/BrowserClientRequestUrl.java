@@ -14,8 +14,6 @@
 
 package com.google.api.client.auth.oauth2;
 
-import com.google.api.client.util.Beta;
-
 import java.util.Collection;
 import java.util.Collections;
 
@@ -60,20 +58,6 @@ public class BrowserClientRequestUrl extends AuthorizationRequestUrl {
   }
 
   @Override
-  @Beta
-  @Deprecated
-  public BrowserClientRequestUrl setResponseTypes(String... responseTypes) {
-    return (BrowserClientRequestUrl) super.setResponseTypes(responseTypes);
-  }
-
-  @Override
-  @Beta
-  @Deprecated
-  public BrowserClientRequestUrl setResponseTypes(Iterable<String> responseTypes) {
-    return (BrowserClientRequestUrl) super.setResponseTypes(responseTypes);
-  }
-
-  @Override
   public BrowserClientRequestUrl setResponseTypes(Collection<String> responseTypes) {
     return (BrowserClientRequestUrl) super.setResponseTypes(responseTypes);
   }
@@ -81,20 +65,6 @@ public class BrowserClientRequestUrl extends AuthorizationRequestUrl {
   @Override
   public BrowserClientRequestUrl setRedirectUri(String redirectUri) {
     return (BrowserClientRequestUrl) super.setRedirectUri(redirectUri);
-  }
-
-  @Override
-  @Beta
-  @Deprecated
-  public BrowserClientRequestUrl setScopes(String... scopes) {
-    return (BrowserClientRequestUrl) super.setScopes(scopes);
-  }
-
-  @Override
-  @Beta
-  @Deprecated
-  public BrowserClientRequestUrl setScopes(Iterable<String> scopes) {
-    return (BrowserClientRequestUrl) super.setScopes(scopes);
   }
 
   @Override
@@ -114,7 +84,7 @@ public class BrowserClientRequestUrl extends AuthorizationRequestUrl {
 
   @Override
   public BrowserClientRequestUrl set(String fieldName, Object value) {
-     return (BrowserClientRequestUrl) super.set(fieldName, value);
+    return (BrowserClientRequestUrl) super.set(fieldName, value);
   }
 
   @Override

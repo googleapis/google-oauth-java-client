@@ -20,7 +20,6 @@ import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.util.Beta;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
 
@@ -113,20 +112,6 @@ public class AuthorizationCodeTokenRequest extends TokenRequest {
   @Override
   public AuthorizationCodeTokenRequest setTokenServerUrl(GenericUrl tokenServerUrl) {
     return (AuthorizationCodeTokenRequest) super.setTokenServerUrl(tokenServerUrl);
-  }
-
-  @Override
-  @Beta
-  @Deprecated
-  public AuthorizationCodeTokenRequest setScopes(String... scopes) {
-    return (AuthorizationCodeTokenRequest) super.setScopes(scopes);
-  }
-
-  @Override
-  @Beta
-  @Deprecated
-  public AuthorizationCodeTokenRequest setScopes(Iterable<String> scopes) {
-    return (AuthorizationCodeTokenRequest) super.setScopes(scopes);
   }
 
   @Override

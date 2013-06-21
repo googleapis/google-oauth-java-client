@@ -20,7 +20,6 @@ import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.util.Beta;
 
 import java.util.Collection;
 
@@ -98,20 +97,6 @@ public class ClientCredentialsTokenRequest extends TokenRequest {
   @Override
   public ClientCredentialsTokenRequest setTokenServerUrl(GenericUrl tokenServerUrl) {
     return (ClientCredentialsTokenRequest) super.setTokenServerUrl(tokenServerUrl);
-  }
-
-  @Override
-  @Beta
-  @Deprecated
-  public ClientCredentialsTokenRequest setScopes(String... scopes) {
-    return (ClientCredentialsTokenRequest) super.setScopes(scopes);
-  }
-
-  @Override
-  @Beta
-  @Deprecated
-  public ClientCredentialsTokenRequest setScopes(Iterable<String> scopes) {
-    return (ClientCredentialsTokenRequest) super.setScopes(scopes);
   }
 
   @Override

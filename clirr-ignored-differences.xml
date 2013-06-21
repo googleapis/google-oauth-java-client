@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- see http://mojo.codehaus.org/clirr-maven-plugin/examples/ignored-differences.html -->
-
 <differences>
+  <!-- 7002 (method removed): className, method -->
   <difference>
-    <!-- 7006 (Method Return Type changed): className, method, to (to is just the return type) -->
+    <differenceType>7002</differenceType>
+    <className>com/google/api/client/auth/oauth2/**</className>
+    <method>*setScopes*</method>
+  </difference>
+  <difference>
+    <differenceType>7002</differenceType>
+    <className>com/google/api/client/auth/oauth2/**</className>
+    <method>*setResponseTypes*</method>
+  </difference>
+  <difference>
+    <differenceType>7002</differenceType>
+    <className>com/google/api/client/auth/oauth2/AuthorizationRequestUrl</className>
+    <method>AuthorizationRequestUrl(java.lang.String, java.lang.String, java.lang.Iterable)</method>
+  </difference>
+  <!-- 7006 (Method Return Type changed): className, method, to (to is just the return type) -->
+  <difference>
     <differenceType>7006</differenceType>
     <className>com/google/api/client/auth/oauth2/AuthorizationCodeResponseUrl</className>
     <method>com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl clone()</method>

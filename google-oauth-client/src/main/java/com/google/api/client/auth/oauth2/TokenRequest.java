@@ -25,14 +25,12 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
-import com.google.api.client.util.Beta;
 import com.google.api.client.util.GenericData;
 import com.google.api.client.util.Joiner;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -184,49 +182,6 @@ public class TokenRequest extends GenericData {
    */
   public final String getScopes() {
     return scopes;
-  }
-
-  /**
-   * {@link Beta} <br/>
-   * Sets the list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/rfc6749#section-3.3">Access Token Scope</a>) or {@code null}
-   * for none.
-   *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
-   *
-   * @param scopes list of scopes to be joined by a space separator (or a single value containing
-   *        multiple space-separated scopes)
-   * @deprecated (scheduled to be removed in 1.16) Use {@link #setScopes(Collection)} instead.
-   */
-  @Beta
-  @Deprecated
-  public TokenRequest setScopes(String... scopes) {
-    return setScopes(scopes == null ? null : Arrays.asList(scopes));
-  }
-
-  /**
-   * {@link Beta} <br/>
-   * Sets the list of scopes (as specified in <a
-   * href="http://tools.ietf.org/html/rfc6749#section-3.3">Access Token Scope</a>) or {@code null}
-   * for none.
-   *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
-   *
-   * @param scopes list of scopes to be joined by a space separator (or a single value containing
-   *        multiple space-separated scopes)
-   * @deprecated (scheduled to be removed in 1.16) Use {@link #setScopes(Collection)} instead.
-   */
-  @Beta
-  @Deprecated
-  public TokenRequest setScopes(Iterable<String> scopes) {
-    this.scopes = scopes == null ? null : Joiner.on(' ').join(scopes);
-    return this;
   }
 
   /**

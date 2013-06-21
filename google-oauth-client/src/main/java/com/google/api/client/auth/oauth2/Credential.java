@@ -32,7 +32,6 @@ import com.google.api.client.util.store.DataStoreFactory;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
@@ -539,14 +538,7 @@ public class Credential
         .setRequestInitializer(requestInitializer).execute();
   }
 
-  /**
-   * Returns the unmodifiable collection of listeners for refresh token results.
-   *
-   * <p>
-   * Upgrade warning: in prior version 1.14 this method returned a {@link List}, but starting with
-   * version 1.15 it returns a {@link Collection}.
-   * </p>
-   */
+  /** Returns the unmodifiable collection of listeners for refresh token results. */
   public final Collection<CredentialRefreshListener> getRefreshListeners() {
     return refreshListeners;
   }
@@ -776,14 +768,7 @@ public class Credential
       return this;
     }
 
-    /**
-     * Returns the listeners for refresh token results.
-     *
-     * <p>
-     * Upgrade warning: in prior version 1.14 this method returned a {@link List}, but starting with
-     * version 1.15 it returns a {@link Collection}.
-     * </p>
-     */
+    /** Returns the listeners for refresh token results. */
     public final Collection<CredentialRefreshListener> getRefreshListeners() {
       return refreshListeners;
     }
@@ -794,11 +779,6 @@ public class Credential
      * <p>
      * Overriding is only supported for the purpose of calling the super implementation and changing
      * the return type, but nothing else.
-     * </p>
-     *
-     * <p>
-     * Upgrade warning: in prior version 1.14 this method got a {@link List}, but starting with
-     * version 1.15 it gets a {@link Collection}.
      * </p>
      */
     public Builder setRefreshListeners(Collection<CredentialRefreshListener> refreshListeners) {

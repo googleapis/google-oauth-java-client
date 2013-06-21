@@ -20,7 +20,6 @@ import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.util.Beta;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
 
@@ -112,20 +111,6 @@ public class PasswordTokenRequest extends TokenRequest {
   @Override
   public PasswordTokenRequest setTokenServerUrl(GenericUrl tokenServerUrl) {
     return (PasswordTokenRequest) super.setTokenServerUrl(tokenServerUrl);
-  }
-
-  @Override
-  @Beta
-  @Deprecated
-  public PasswordTokenRequest setScopes(String... scopes) {
-    return (PasswordTokenRequest) super.setScopes(scopes);
-  }
-
-  @Override
-  @Beta
-  @Deprecated
-  public PasswordTokenRequest setScopes(Iterable<String> scopes) {
-    return (PasswordTokenRequest) super.setScopes(scopes);
   }
 
   @Override
