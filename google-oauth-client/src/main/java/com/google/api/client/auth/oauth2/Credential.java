@@ -32,6 +32,7 @@ import com.google.api.client.util.store.DataStoreFactory;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
@@ -228,13 +229,42 @@ public class Credential
   /**
    * {@inheritDoc}
    * <p>
-   * Default implementation checks for a 401 error code and calls {@link #refreshToken()}. If
+   * Default implementation checks if {@code WWW-Authenticate} exists and contains a "Bearer" value
+   * (see <a href="http://tools.ietf.org/html/rfc6750#section-3.1">rfc6750 section 3.1</a> for more
+   * details). If so, it calls {@link #refreshToken} in case the error code contains
+   * {@code invalid_token}. If there is no "Bearer" in {@code WWW-Authenticate} and the status code
+   * is {@link HttpStatusCodes#STATUS_CODE_UNAUTHORIZED} it calls {@link #refreshToken}. If
    * {@link #executeRefreshToken()} throws an I/O exception, this implementation will log the
    * exception and return {@code false}. Subclasses may override.
    * </p>
    */
   public boolean handleResponse(HttpRequest request, HttpResponse response, boolean supportsRetry) {
-    if (response.getStatusCode() == HttpStatusCodes.STATUS_CODE_UNAUTHORIZED) {
+    boolean refreshToken = false;
+    boolean bearer = false;
+
+    List<String> authenticateList = response.getHeaders().getAuthenticateAsList();
+
+    // TODO(peleyal): this logic should be implemented as a pluggable interface, in the same way we
+    // implement different AccessMethods
+
+    // if authenticate list is not null we will check if one of the entries contains "Bearer"
+    if (authenticateList != null) {
+      for (String authenticate : authenticateList) {
+        if (authenticate.startsWith(BearerToken.AuthorizationHeaderAccessMethod.HEADER_PREFIX)) {
+          // mark that we found a "Bearer" value, and check if there is a invalid_token error
+          bearer = true;
+          refreshToken = BearerToken.INVALID_TOKEN_ERROR.matcher(authenticate).find();
+          break;
+        }
+      }
+    }
+
+    // if "Bearer" wasn't found, we will refresh the token, if we got 401
+    if (!bearer) {
+      refreshToken = response.getStatusCode() == HttpStatusCodes.STATUS_CODE_UNAUTHORIZED;
+    }
+
+    if (refreshToken) {
       try {
         lock.lock();
         try {
@@ -444,6 +474,10 @@ public class Credential
    * {@link CredentialRefreshListener#onTokenErrorResponse} with the token error response, and
    * return {@code false}. If a 4xx error is encountered while refreshing the token,
    * {@link TokenResponseException} is thrown.
+   * </p>
+   *
+   * <p>
+   * If there is no refresh token, it will quietly return {@code false}.
    * </p>
    *
    * @return whether a new access token was successfully retrieved

@@ -51,40 +51,50 @@ public abstract class AuthenticationTestBase extends TestCase {
    */
   protected static class AccessTokenTransport extends MockHttpTransport {
 
-      boolean error400 = false;
-      boolean error500 = false;
+    int statusCode = 200;
+    String wwwAuthenticate = null;
 
-      @Override
-      public LowLevelHttpRequest buildRequest(String method, String url) {
-        return new MockLowLevelHttpRequest(url) {
-          @Override
-          public LowLevelHttpResponse execute() throws IOException {
-            MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
-            response.setContentType(Json.MEDIA_TYPE);
-            GenericData responseData;
-            if (error400) {
-              TokenErrorResponse json = new TokenErrorResponse();
-              json.setError("invalid_client");
-              responseData = json;
-              response.setStatusCode(400);
-            } else if (error500) {
-              TokenErrorResponse json = new TokenErrorResponse();
-              json.setError("invalid_client");
-              responseData = json;
-              response.setStatusCode(500);
-            } else {
-              TokenResponse json = new TokenResponse();
-              json.setAccessToken(NEW_ACCESS_TOKEN);
-              json.setRefreshToken(NEW_REFRESH_TOKEN);
-              json.setExpiresInSeconds(EXPIRES_IN);
-              responseData = json;
+    int calls = 0;
+
+    @Override
+    public LowLevelHttpRequest buildRequest(String method, String url) {
+      return new MockLowLevelHttpRequest(url) {
+        @Override
+        public LowLevelHttpResponse execute() throws IOException {
+          calls++;
+          MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
+          response.setContentType(Json.MEDIA_TYPE);
+          GenericData responseData;
+          if (statusCode == 401 || wwwAuthenticate != null) {
+            // return 401 or invalid_token error (with the given status code), and then reset
+            // wwwAuthenticate and statusCode - so next request to refresh the token will succeed
+            if (wwwAuthenticate != null) {
+              response.addHeader("WWW-Authenticate", wwwAuthenticate);
+              wwwAuthenticate = null;
             }
-            response.setContent(JSON_FACTORY.toString(responseData));
+
+            response.setStatusCode(statusCode);
+            statusCode = 200;
             return response;
           }
-        };
-      }
+          if (statusCode != 200) {
+            TokenErrorResponse json = new TokenErrorResponse();
+            json.setError("invalid_client");
+            responseData = json;
+            response.setStatusCode(statusCode);
+          } else {
+            TokenResponse json = new TokenResponse();
+            json.setAccessToken(NEW_ACCESS_TOKEN);
+            json.setRefreshToken(NEW_REFRESH_TOKEN);
+            json.setExpiresInSeconds(EXPIRES_IN);
+            responseData = json;
+          }
+          response.setContent(JSON_FACTORY.toString(responseData));
+          return response;
+        }
+      };
     }
+  }
 
   public AuthenticationTestBase() {
     super();

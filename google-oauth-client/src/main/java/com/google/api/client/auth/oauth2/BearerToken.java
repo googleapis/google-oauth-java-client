@@ -23,6 +23,7 @@ import com.google.api.client.util.Preconditions;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * OAuth 2.0 helper for accessing protected resources using the <a
@@ -35,6 +36,12 @@ public class BearerToken {
 
   /** Query and form-encoded parameter name. */
   static final String PARAM_NAME = "access_token";
+
+  /**
+   * In case an abnormal HTTP response is received with {@code WWW-Authenticate} header, and its
+   * value contains this error pattern, we will try to refresh the token.
+   */
+  static final Pattern INVALID_TOKEN_ERROR = Pattern.compile("\\s*error\\s*=\\s*invalid_token");
 
   /**
    * Immutable and thread-safe OAuth 2.0 method for accessing protected resources using the <a

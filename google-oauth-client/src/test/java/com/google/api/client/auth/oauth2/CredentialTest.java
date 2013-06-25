@@ -181,6 +181,75 @@ public class CredentialTest extends AuthenticationTestBase {
     assertNotNull(access.getExpirationTimeMilliseconds());
   }
 
+  public void testRefreshToken_request_401() throws Exception {
+    AccessTokenTransport transport = new AccessTokenTransport();
+    transport.statusCode = 401;
+    // 3 requests = 1 invalid token, 1 refresh token, and 1 retry
+    subtestRefreshToken_request(transport, 3);
+  }
+
+  public void testRefreshToken_request_www_authenticate() throws Exception {
+    AccessTokenTransport transport = new AccessTokenTransport();
+    transport.statusCode = 444;
+    transport.wwwAuthenticate =
+        "Bearer realm=\"https://www.google.com/accounts/AuthSubRequest\" error=invalid_token";
+    // WWW-Authenticate contains invalid_token error, so we expect 3 requests = 1 invalid token, 1
+    // refresh token, and 1 retry
+    subtestRefreshToken_request(transport, 3);
+
+    transport = new AccessTokenTransport();
+    transport.statusCode = 401;
+    transport.wwwAuthenticate = "Bearer error=invalid_token";
+    // WWW-Authenticate contains invalid_token error, so we expect 3 requests = 1 invalid token, 1
+    // refresh token, and 1 retry
+    subtestRefreshToken_request(transport, 3);
+
+    transport = new AccessTokenTransport();
+    transport.statusCode = 401;
+    transport.wwwAuthenticate = "doesn't contain b-e-a-r-e-r";
+    // WWW-Authenticate doesn't contain "Bearer" but the status code is 401, so we expect 3 requests
+    // = 1 invalid token, 1 refresh token, and 1 retry
+    subtestRefreshToken_request(transport, 3);
+
+    transport = new AccessTokenTransport();
+    transport.statusCode = 401;
+    transport.wwwAuthenticate = "Bearer blah blah blah";
+    // WWW-Authenticate contains "Bearer" but no invalid_token error, and although the error code is
+    // 401, we expect only 1 failed request
+    subtestRefreshToken_request(transport, 1);
+
+    transport = new AccessTokenTransport();
+    transport.statusCode = 444;
+    transport.wwwAuthenticate = "Bearer blah blah blah";
+    // WWW-Authenticate contains "Bearer" but no invalid_token error, we expect only 1 failed
+    // request
+    subtestRefreshToken_request(transport, 1);
+
+    transport = new AccessTokenTransport();
+    transport.statusCode = 444;
+    transport.wwwAuthenticate = "doesn't contain b-e-a-r-e-r";
+    // WWW-Authenticate doesn't contain "Bearer" and no 401, we expect only 1 failed request
+    subtestRefreshToken_request(transport, 1);
+  }
+
+  private void subtestRefreshToken_request(AccessTokenTransport transport, int expectedCalls)
+      throws Exception {
+    Credential credential =
+        new Credential.Builder(BearerToken.queryParameterAccessMethod()).setTransport(transport)
+            .setJsonFactory(JSON_FACTORY)
+            .setTokenServerUrl(TOKEN_SERVER_URL)
+            .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET))
+            .build()
+            .setRefreshToken(REFRESH_TOKEN)
+            .setAccessToken(ACCESS_TOKEN);
+    HttpRequestFactory requestFactory = transport.createRequestFactory(credential);
+    HttpRequest request = requestFactory.buildDeleteRequest(HttpTesting.SIMPLE_GENERIC_URL);
+    request.setThrowExceptionOnExecuteError(false);
+    request.execute();
+
+    assertEquals(expectedCalls, transport.calls);
+  }
+
   public void testRefreshToken_withoutRequiredParameters() {
     Credential access = new Credential(BearerToken.queryParameterAccessMethod());
     try {
@@ -193,7 +262,7 @@ public class CredentialTest extends AuthenticationTestBase {
 
   public void testRefreshToken_refreshTokenErrorWith400() throws Exception {
     AccessTokenTransport transport = new AccessTokenTransport();
-    transport.error400 = true;
+    transport.statusCode = 400;
     Credential access =
         new Credential.Builder(BearerToken.queryParameterAccessMethod()).setTransport(transport)
             .setJsonFactory(JSON_FACTORY)
@@ -216,7 +285,7 @@ public class CredentialTest extends AuthenticationTestBase {
 
   public void testRefreshToken_refreshTokenErrorWith500() throws Exception {
     AccessTokenTransport transport = new AccessTokenTransport();
-    transport.error500 = true;
+    transport.statusCode = 500;
     Credential access =
         new Credential.Builder(BearerToken.queryParameterAccessMethod()).setTransport(transport)
             .setJsonFactory(JSON_FACTORY)
