@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- see http://mojo.codehaus.org/clirr-maven-plugin/examples/ignored-differences.html -->
+<!-- Ignore this clirr error due to Clirr bug:
+[ERROR] com.google.api.client.auth.openidconnect.IdToken$Payload: Parameter 1 of 'public com.google.api.client.auth.openidconnect.IdToken$Payload setAuthorizedParty(java.lang.Object)' has changed its type to java.lang.String
+ -->
 <differences>
   <!-- 7002 (method removed): className, method -->
   <difference>
@@ -29,5 +32,11 @@
     <className>com/google/api/client/auth/oauth2/AuthorizationCodeResponseUrl</className>
     <method>com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl set(java.lang.String, java.lang.Object)</method>
     <to>com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl</to>
+  </difference>
+  <difference>
+    <differenceType>7006</differenceType>
+    <className>com/google/api/client/auth/openidconnect/IdToken$Payload</className>
+    <method>java.lang.Object getAuthorizedParty()</method>
+    <to>java.lang.String</to>
   </difference>
 </differences>

@@ -22,11 +22,12 @@ import com.google.api.client.util.Key;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * {@link Beta} <br/>
  * ID token as described in <a
- * href="http://openid.net/specs/openid-connect-basic-1_0-23.html#id_token">ID Token</a>.
+ * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id_token">ID Token</a>.
  *
  * <p>
  * Use {@link #parse(JsonFactory, String)} to parse an ID token from a string. Then, use the
@@ -61,7 +62,7 @@ public class IdToken extends JsonWebSignature {
   /**
    * Returns whether the issuer in the payload matches the given expected issuer as specified in
    * step 1 of <a
-   * href="http://openid.net/specs/openid-connect-basic-1_0-23.html#id.token.validation">ID Token
+   * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token
    * Validation</a>.
    *
    * @param expectedIssuer expected issuer
@@ -73,7 +74,7 @@ public class IdToken extends JsonWebSignature {
   /**
    * Returns whether the audience in the payload contains only client IDs that are trusted as
    * specified in step 2 of <a
-   * href="http://openid.net/specs/openid-connect-basic-1_0-23.html#id.token.validation">ID Token
+   * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token
    * Validation</a>.
    *
    * @param trustedClientIds list of trusted client IDs
@@ -85,8 +86,8 @@ public class IdToken extends JsonWebSignature {
   /**
    * Returns whether the {@link Payload#getExpirationTimeSeconds} and
    * {@link Payload#getIssuedAtTimeSeconds} are valid relative to the current time, allowing for a
-   * clock skew as specified in steps 3 and 4 of <a
-   * href="http://openid.net/specs/openid-connect-basic-1_0-23.html#id.token.validation">ID Token
+   * clock skew as specified in steps 5 and 6 of <a
+   * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token
    * Validation</a>.
    *
    * @param currentTimeMillis current time in milliseconds (typically
@@ -100,8 +101,8 @@ public class IdToken extends JsonWebSignature {
 
   /**
    * Returns whether the {@link Payload#getExpirationTimeSeconds} is valid relative to the current
-   * time, allowing for a clock skew as specified in step 3 of <a
-   * href="http://openid.net/specs/openid-connect-basic-1_0-23.html#id.token.validation">ID Token
+   * time, allowing for a clock skew as specified in step 5 of <a
+   * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token
    * Validation</a>.
    *
    * @param currentTimeMillis current time in milliseconds (typically
@@ -116,8 +117,8 @@ public class IdToken extends JsonWebSignature {
 
   /**
    * Returns whether the {@link Payload#getIssuedAtTimeSeconds} is valid relative to the current
-   * time, allowing for a clock skew as specified in steps 4 of <a
-   * href="http://openid.net/specs/openid-connect-basic-1_0-23.html#id.token.validation">ID Token
+   * time, allowing for a clock skew as specified in step 6 of <a
+   * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token
    * Validation</a>.
    *
    * @param currentTimeMillis current time in milliseconds (typically
@@ -156,7 +157,23 @@ public class IdToken extends JsonWebSignature {
 
     /** Authorized party or {@code null} for none. */
     @Key("azp")
-    private Object authorizedParty;
+    private String authorizedParty;
+
+    /** Value used to associate a client session with an ID token or {@code null} for none. */
+    @Key
+    private String nonce;
+
+    /** Access token hash value or {@code null} for none. */
+    @Key("at_hash")
+    private String accessTokenHash;
+
+    /** Authentication context class reference or {@code null} for none. */
+    @Key("acr")
+    private String classReference;
+
+    /** Authentication methods references or {@code null} for none. */
+    @Key("amr")
+    private List<String> methodsReferences;
 
     /** Returns the time (in seconds) of end-user authorization or {@code null} for none. */
     public final Long getAuthorizationTimeSeconds() {
@@ -176,8 +193,15 @@ public class IdToken extends JsonWebSignature {
       return this;
     }
 
-    /** Returns the authorized party or {@code null} for none. */
-    public final Object getAuthorizedParty() {
+    /**
+     * Returns the authorized party or {@code null} for none.
+     *
+     * <p>
+     * Upgrade warning: in prior version 1.15 this method returned an {@link Object}, but starting
+     * with version 1.16 it returns a {@link String}.
+     * </p>
+     */
+    public final String getAuthorizedParty() {
       return authorizedParty;
     }
 
@@ -188,10 +212,162 @@ public class IdToken extends JsonWebSignature {
      * Overriding is only supported for the purpose of calling the super implementation and changing
      * the return type, but nothing else.
      * </p>
+     *
+     * <p>
+     * Upgrade warning: in prior version 1.15 the parameter was an {@link Object}, but starting with
+     * version 1.16 the parameter is a {@link String}.
+     * </p>
      */
-    public Payload setAuthorizedParty(Object authorizedParty) {
+    public Payload setAuthorizedParty(String authorizedParty) {
       this.authorizedParty = authorizedParty;
       return this;
+    }
+
+    /**
+     * Returns the value used to associate a client session with an ID token or {@code null} for
+     * none.
+     *
+     * @since 1.16
+     */
+    public final String getNonce() {
+      return nonce;
+    }
+
+    /**
+     * Sets the value used to associate a client session with an ID token or {@code null} for none.
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+     *
+     * @since 1.16
+     */
+    public Payload setNonce(String nonce) {
+      this.nonce = nonce;
+      return this;
+    }
+
+    /**
+     * Returns the access token hash value or {@code null} for none.
+     *
+     * @since 1.16
+     */
+    public final String getAccessTokenHash() {
+      return accessTokenHash;
+    }
+
+    /**
+     * Sets the access token hash value or {@code null} for none.
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+     *
+     * @since 1.16
+     */
+    public Payload setAccessTokenHash(String accessTokenHash) {
+      this.accessTokenHash = accessTokenHash;
+      return this;
+    }
+
+    /**
+     * Returns the authentication context class reference or {@code null} for none.
+     *
+     * @since 1.16
+     */
+    public final String getClassReference() {
+      return classReference;
+    }
+
+    /**
+     * Sets the authentication context class reference or {@code null} for none.
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+     *
+     * @since 1.16
+     */
+    public Payload setClassReference(String classReference) {
+      this.classReference = classReference;
+      return this;
+    }
+
+    /**
+     * Returns the authentication methods references or {@code null} for none.
+     *
+     * @since 1.16
+     */
+    public final List<String> getMethodsReferences() {
+      return methodsReferences;
+    }
+
+    /**
+     * Sets the authentication methods references or {@code null} for none.
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+     *
+     * @since 1.16
+     */
+    public Payload setMethodsReferences(List<String> methodsReferences) {
+      this.methodsReferences = methodsReferences;
+      return this;
+    }
+
+    @Override
+    public Payload setExpirationTimeSeconds(Long expirationTimeSeconds) {
+      return (Payload) super.setExpirationTimeSeconds(expirationTimeSeconds);
+    }
+
+    @Override
+    public Payload setNotBeforeTimeSeconds(Long notBeforeTimeSeconds) {
+      return (Payload) super.setNotBeforeTimeSeconds(notBeforeTimeSeconds);
+    }
+
+    @Override
+    public Payload setIssuedAtTimeSeconds(Long issuedAtTimeSeconds) {
+      return (Payload) super.setIssuedAtTimeSeconds(issuedAtTimeSeconds);
+    }
+
+    @Override
+    public Payload setIssuer(String issuer) {
+      return (Payload) super.setIssuer(issuer);
+    }
+
+    @Override
+    public Payload setAudience(Object audience) {
+      return (Payload) super.setAudience(audience);
+    }
+
+    @Override
+    public Payload setJwtId(String jwtId) {
+      return (Payload) super.setJwtId(jwtId);
+    }
+
+    @Override
+    public Payload setType(String type) {
+      return (Payload) super.setType(type);
+    }
+
+    @Override
+    public Payload setSubject(String subject) {
+      return (Payload) super.setSubject(subject);
+    }
+
+    @Override
+    public Payload set(String fieldName, Object value) {
+      return (Payload) super.set(fieldName, value);
+    }
+
+    @Override
+    public Payload clone() {
+      return (Payload) super.clone();
     }
   }
 }

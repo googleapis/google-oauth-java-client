@@ -79,4 +79,19 @@ public class IdTokenTest extends TestCase {
     assertTrue(token.verifyTime(124000, 1));
     assertFalse(token.verifyTime(124001, 1));
   }
+
+  public void testConstructor() {
+    try {
+      new IdToken(new IdToken.Header(), new IdToken.Payload(), null, new byte[0]);
+      fail("expected " + NullPointerException.class);
+    } catch (NullPointerException e) {
+      // expected
+    }
+    try {
+      new IdToken(new IdToken.Header(), new IdToken.Payload(), new byte[0], null);
+      fail("expected " + NullPointerException.class);
+    } catch (NullPointerException e) {
+      // expected
+    }
+  }
 }
