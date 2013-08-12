@@ -405,7 +405,7 @@
                 </group>
                 <group>
                   <title>google-oauth-client-servlet</title>
-                  <packages>com.google.api.client.extensions.servlet.*:com.google.api.client.extensions.auth.*</packages>
+                  <packages>com.google.api.client.extensions.servlet.*:com.google.api.client.extensions.auth.*:com.google.api.client.extensions.jdo.*</packages>
                 </group>
                 <group>
                   <title>google-oauth-client-java6</title>
