@@ -27,7 +27,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
  *
  * @author Rafael Naufal
  * @since 1.11
- * @deprecated (scheduled to be removed in 1.17) Use {@link FileDataStoreFactory} instead.
+ * @deprecated (to be removed in the future) Use {@link FileDataStoreFactory} instead.
  */
 @Deprecated
 @Beta

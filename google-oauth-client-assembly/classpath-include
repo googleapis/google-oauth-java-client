@@ -1,7 +1,6 @@
 	<classpathentry kind="lib" path="libs/google-oauth-client-${project.version}.jar" sourcepath="libs-sources/google-oauth-client-${project.version}-sources.jar"/>
 	<classpathentry kind="lib" path="libs/google-oauth-client-appengine-${project.version}.jar" sourcepath="libs-sources/google-oauth-client-appengine-${project.version}-sources.jar"/>
 	<classpathentry kind="lib" path="libs/google-oauth-client-java6-${project.version}.jar" sourcepath="libs-sources/google-oauth-client-java6-${project.version}-sources.jar"/>
-	<classpathentry kind="lib" path="libs/google-oauth-client-java7-${project.version}.jar" sourcepath="libs-sources/google-oauth-client-java7-${project.version}-sources.jar"/>
 	<classpathentry kind="lib" path="libs/google-oauth-client-jetty-${project.version}.jar" sourcepath="libs-sources/google-oauth-client-jetty-${project.version}-sources.jar"/>
 	<classpathentry kind="lib" path="libs/google-oauth-client-servlet-${project.version}.jar" sourcepath="libs-sources/google-oauth-client-servlet-${project.version}-sources.jar"/>
 	<classpathentry kind="lib" path="libs/google-http-client-${project.http.version}.jar" sourcepath="libs-sources/google-http-client-${project.http.version}-sources.jar"/>

@@ -39,7 +39,7 @@ import java.util.logging.Logger;
  *
  * @since 1.11
  * @author Rafael Naufal
- * @deprecated (scheduled to be removed in 1.17) Use {@link FileDataStoreFactory} with
+ * @deprecated (to be removed in the future) Use {@link FileDataStoreFactory} with
  *             {@link StoredCredential} instead, optionally using
  *             {@link #migrateTo(FileDataStoreFactory)} or {@link #migrateTo(DataStore)} to
  *             migrating an existing {@link FileCredentialStore}.

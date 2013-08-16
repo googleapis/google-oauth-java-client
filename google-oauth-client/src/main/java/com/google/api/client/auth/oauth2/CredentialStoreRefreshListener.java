@@ -30,7 +30,7 @@ import java.io.IOException;
  *
  * @since 1.7
  * @author Yaniv Inbar
- * @deprecated (scheduled to be removed in 1.17) Use {@link DataStoreCredentialRefreshListener}
+ * @deprecated (to be removed in the future) Use {@link DataStoreCredentialRefreshListener}
  *             instead.
  */
 @Deprecated

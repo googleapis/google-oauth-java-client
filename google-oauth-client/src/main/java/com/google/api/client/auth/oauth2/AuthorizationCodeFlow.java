@@ -327,7 +327,7 @@ public class AuthorizationCodeFlow {
   /**
    * {@link Beta} <br/>
    * Returns the credential persistence store or {@code null} for none.
-   * @deprecated (scheduled to be removed in 1.17) Use {@link #getCredentialDataStore()} instead.
+   * @deprecated (to be removed in the future) Use {@link #getCredentialDataStore()} instead.
    */
   @Beta
   @Deprecated
@@ -641,7 +641,7 @@ public class AuthorizationCodeFlow {
     /**
      * {@link Beta} <br/>
      * Returns the credential persistence store or {@code null} for none.
-     * @deprecated (scheduled to be removed in 1.17) Use {@link #getCredentialDataStore()} instead.
+     * @deprecated (to be removed in the future) Use {@link #getCredentialDataStore()} instead.
      */
     @Beta
     @Deprecated
@@ -703,7 +703,7 @@ public class AuthorizationCodeFlow {
      * the return type, but nothing else.
      * </p>
      *
-     * @deprecated (scheduled to be removed in 1.17) Use
+     * @deprecated (to be removed in the future) Use
      *             {@link #setDataStoreFactory(DataStoreFactory)} or
      *             {@link #setCredentialDataStore(DataStore)} instead.
      */

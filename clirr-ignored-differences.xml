@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- see http://mojo.codehaus.org/clirr-maven-plugin/examples/ignored-differences.html -->
 <differences>
+  <!-- 8001 (Class removed): className -->
+  <difference>
+    <className>com/google/api/client/auth/oauth2/MemoryCredentialStore</className>
+  </difference>
+  <difference>
+    <className>com/google/api/client/extensions/jdo/auth/oauth2/JdoCredentialStore</className>
+  </difference>
 </differences>

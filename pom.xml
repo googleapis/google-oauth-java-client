@@ -77,7 +77,6 @@
     <module>google-oauth-client-appengine</module>
     <module>google-oauth-client-servlet</module>
     <module>google-oauth-client-java6</module>
-    <module>google-oauth-client-java7</module>
     <module>google-oauth-client-jetty</module>
   </modules>
 
@@ -173,11 +172,6 @@
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client-java6</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.oauth-client</groupId>
-        <artifactId>google-oauth-client-java7</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -410,10 +404,6 @@
                 <group>
                   <title>google-oauth-client-java6</title>
                   <packages>com.google.api.client.extensions.java6.*</packages>
-                </group>
-                <group>
-                  <title>google-oauth-client-java7</title>
-                  <packages>com.google.api.client.extensions.java7.*</packages>
                 </group>
                 <group>
                   <title>google-oauth-client-jetty</title>
