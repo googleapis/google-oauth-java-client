@@ -90,6 +90,10 @@
       <artifactId>google-http-client-appengine</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.google.http-client</groupId>
+      <artifactId>google-http-client-jackson2</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.google.oauth-client</groupId>
       <artifactId>google-oauth-client</artifactId>
     </dependency>

@@ -360,7 +360,7 @@ public class AuthorizationCodeFlow {
     return Joiner.on(' ').join(scopes);
   }
 
-  /** Returns the a collection of scopes. */
+  /** Returns the collection of scopes. */
   public final Collection<String> getScopes() {
     return scopes;
   }
