@@ -18,16 +18,27 @@ import com.google.api.client.auth.oauth2.OAuthApplicationContext;
 
 import java.util.Collection;
 
+import javax.servlet.ServletRequest;
+
 /**
- * @author ngmiceli@google.com (Your Name Here)
+ * @author Nick Miceli
+ * @author Eyal Peled
+ *
+ * @since 1.18
  *
  */
 public abstract class ServletOAuthApplicationContext implements OAuthApplicationContext {
 
-  protected Collection<String> scopes;
-  protected String redirectUri;
-  private String applicationName;
+  private final Collection<String> scopes;
+  private final String redirectUri;
+  private final String applicationName;
 
+  /**
+   *
+   * @param redirectUri the redirect URI in the authorization code flow
+   * @param scopes the scopes
+   * @param applicationName the application name
+   */
   public ServletOAuthApplicationContext(
       String redirectUri, Collection<String> scopes, String applicationName) {
     this.redirectUri = redirectUri;
@@ -47,4 +58,5 @@ public abstract class ServletOAuthApplicationContext implements OAuthApplication
     return redirectUri;
   }
 
+  public abstract String getUserId(ServletRequest request);
 }

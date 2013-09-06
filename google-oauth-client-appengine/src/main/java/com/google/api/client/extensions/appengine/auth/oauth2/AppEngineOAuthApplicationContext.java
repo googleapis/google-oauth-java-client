@@ -14,7 +14,6 @@
 
 package com.google.api.client.extensions.appengine.auth.oauth2;
 
-import com.google.api.client.auth.oauth2.OAuthApplicationContext;
 import com.google.api.client.extensions.appengine.datastore.AppEngineDataStoreFactory;
 import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
 import com.google.api.client.extensions.servlet.auth.oauth2.ServletOAuthApplicationContext;
@@ -22,11 +21,14 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.DataStoreFactory;
+import com.google.appengine.api.users.UserServiceFactory;
 
 import java.util.Collection;
 
+import javax.servlet.ServletRequest;
+
 /**
- * Google App Engine wrapper around {@link OAuthApplicationContext}.
+ * Google App Engine wrapper around {@link ServletOAuthApplicationContext}.
  *
  * @since 1.17
  * @author Nick Miceli
@@ -51,5 +53,10 @@ public abstract class AppEngineOAuthApplicationContext extends ServletOAuthAppli
   @Override
   public DataStoreFactory getDataStoreFactory() {
     return AppEngineDataStoreFactory.getDefaultInstance();
+  }
+
+  @Override
+  public String getUserId(ServletRequest request) {
+    return UserServiceFactory.getUserService().getCurrentUser().getUserId();
   }
 }

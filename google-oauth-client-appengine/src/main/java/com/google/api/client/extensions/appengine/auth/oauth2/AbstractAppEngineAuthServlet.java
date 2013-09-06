@@ -17,11 +17,7 @@ package com.google.api.client.extensions.appengine.auth.oauth2;
 import com.google.api.client.extensions.servlet.auth.oauth2.AbstractAuthServlet;
 import com.google.api.client.extensions.servlet.auth.oauth2.AuthorizedServlet;
 import com.google.api.client.extensions.servlet.auth.oauth2.ServletOAuthApplicationContext;
-import com.google.appengine.api.users.UserServiceFactory;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -82,13 +78,4 @@ public abstract class AbstractAppEngineAuthServlet extends AbstractAuthServlet {
   }
 
   private static final long serialVersionUID = 1L;
-
-  @Override
-  protected String getUserId(HttpServletRequest req) throws ServletException, IOException {
-    return getUserId();
-  }
-
-  public static String getUserId() {
-    return UserServiceFactory.getUserService().getCurrentUser().getUserId();
-  }
 }
