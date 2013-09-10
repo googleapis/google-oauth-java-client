@@ -35,6 +35,7 @@ public class ServletRequestContext {
   private HttpServletResponse response;
   private Credential credential;
   private ServletOAuthApplicationContext oauthContext;
+  private AuthServletCallback callback;
 
   /**
    * @return the request
@@ -93,6 +94,21 @@ public class ServletRequestContext {
    */
   public ServletRequestContext setOauthContext(ServletOAuthApplicationContext oauthContext) {
     this.oauthContext = oauthContext;
+    return this;
+  }
+
+  /**
+   * @return the callback
+   */
+  public AuthServletCallback getCallback() {
+    return callback;
+  }
+
+  /**
+   * @param callback the callback to set
+   */
+  public ServletRequestContext setCallback(AuthServletCallback callback) {
+    this.callback = callback;
     return this;
   }
 }

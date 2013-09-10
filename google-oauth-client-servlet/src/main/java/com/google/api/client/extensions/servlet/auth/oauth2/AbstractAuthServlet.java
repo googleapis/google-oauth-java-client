@@ -46,6 +46,7 @@ public abstract class AbstractAuthServlet extends HttpServlet {
   /** Persisted credential associated with the current request or {@code null} for none. */
   private Credential credential;
 
+  /** The OAuth application context instance. */
   private ServletOAuthApplicationContext oauthContext;
 
   @Override
@@ -54,7 +55,10 @@ public abstract class AbstractAuthServlet extends HttpServlet {
     lock.lock();
     try {
       ServletRequestContext requestContext = new ServletRequestContext().setCredential(credential)
-          .setOauthContext(oauthContext).setRequest(req).setResponse(resp);
+          .setOauthContext(oauthContext)
+          .setRequest(req)
+          .setResponse(resp)
+          .setCallback(getCallback());
       boolean authorized = ServletAuthUtility.service(requestContext);
       credential = requestContext.getCredential();
       if (authorized) {
@@ -72,7 +76,21 @@ public abstract class AbstractAuthServlet extends HttpServlet {
     return credential;
   }
 
+  /** Returns the OAuth2 application context. */
   protected ServletOAuthApplicationContext getOAuthApplicationContext() {
     return oauthContext;
+  }
+
+  /**
+   * Returns the auth servlet callback.
+   *
+   * <p>
+   * Override this method to provide a callback for successful or unsuccessful response to the
+   * authorization code process.
+   * </p>
+   *
+   */
+  public AuthServletCallback getCallback() {
+    return null;
   }
 }

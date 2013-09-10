@@ -81,9 +81,18 @@ public class ServletAuthUtility {
 
     // check if the query parameter contains code
     String code = req.getParameter("code");
+    String error = req.getParameter("error");
     if (code != null) {
       handleAuthorizationCode(serviceRequest, code);
+      if (serviceRequest.getCallback() != null) {
+        serviceRequest.getCallback()
+            .onSuccess(req, serviceRequest.getResponse(), serviceRequest.getCredential());
+      }
       return false;
+    } else if (error != null) {
+      if (serviceRequest.getCallback() != null) {
+        serviceRequest.getCallback().onError(req, serviceRequest.getResponse(), error);
+      }
     }
 
     // TODO(peleyal): check if it contains an error. onFailure()?
