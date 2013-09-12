@@ -406,6 +406,7 @@
                 <link>http://javadoc.google-http-java-client.googlecode.com/hg/${project.http.version}</link>
               </links>
               <doctitle>Google OAuth Client Library for Java ${project.version}</doctitle>
+              <overview>${basedir}/overview.html</overview>
               <groups>
                 <group>
                   <title>google-oauth-client</title>
