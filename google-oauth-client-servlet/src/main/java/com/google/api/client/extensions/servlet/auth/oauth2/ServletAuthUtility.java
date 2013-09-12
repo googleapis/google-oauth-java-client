@@ -21,8 +21,10 @@ import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.util.Preconditions;
+import com.google.api.client.util.store.DataStore;
 
 import java.io.IOException;
+import java.util.Random;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServlet;
@@ -43,6 +45,9 @@ import javax.servlet.http.HttpServletRequest;
  * @since 1.18
  */
 public class ServletAuthUtility {
+
+  // TODO(peleyal): expose it as a property and find a better name
+  private static boolean addRandomNumber = true;
 
   /**
    * This method is designed to simplify the authorization code flow.
@@ -95,14 +100,25 @@ public class ServletAuthUtility {
       }
     }
 
-    // TODO(peleyal): check if it contains an error. onFailure()?
-
     // redirect to the authorization flow and set the state parameter so we will back to the
-    // original request
+    // original request.
     AuthorizationCodeRequestUrl authorizationUrl = authorizationCodeFlow.newAuthorizationUrl();
     StringBuffer requestBuf = req.getRequestURL();
     if (req.getQueryString() != null) {
       requestBuf.append('?').append(req.getQueryString());
+    }
+
+    if (addRandomNumber) {
+      DataStore<String> store =
+          serviceRequest.getOauthContext().getDataStoreFactory().getDataStore("authState");
+      // store a random string in the session for verifying the responses in our OAuth2 flow.
+      Random rnd = new Random();
+      StringBuffer authState = new StringBuffer(10);
+      for (int i = 0; i < 10; ++i) {
+        authState.append(new Integer(rnd.nextInt(10)).toString());
+      }
+      store.set(userId, authState.toString());
+      requestBuf.append(authState);
     }
 
     authorizationUrl.setState(requestBuf.toString());
@@ -118,20 +134,41 @@ public class ServletAuthUtility {
     return false;
   }
 
-  private static void handleAuthorizationCode(ServletRequestContext flowContext, String code)
+  private static void handleAuthorizationCode(ServletRequestContext serviceRequest, String code)
       throws IOException {
-    HttpServletRequest req = flowContext.getRequest();
-    AuthorizationCodeFlow flow = flowContext.getOauthContext().getFlow();
-    String redirectUri = getRedirectUri(flowContext);
+    HttpServletRequest req = serviceRequest.getRequest();
+    AuthorizationCodeFlow flow = serviceRequest.getOauthContext().getFlow();
+    String redirectUri = getRedirectUri(serviceRequest);
 
     // get the token
     AuthorizationCodeTokenRequest tokenReq = flow.newTokenRequest(code);
     TokenResponse token = tokenReq.setRedirectUri(redirectUri).execute();
-    String userId = flowContext.getOauthContext().getUserId(req);
+    String userId = serviceRequest.getOauthContext().getUserId(req);
     flow.createAndStoreCredential(token, userId);
     String state = req.getParameter("state");
-    GenericUrl url = new GenericUrl(state);
-    flowContext.getResponse().sendRedirect(url.toString());
+
+    if (addRandomNumber) {
+      // check state against the session state
+      if (state.length() > 10) {
+        String redirect = state.substring(0, state.length() - 10);
+        String currentAuthState = state.substring(state.length() - 10);
+        DataStore<String> store =
+            serviceRequest.getOauthContext().getDataStoreFactory().getDataStore("authState");
+        String storedAuthState = store.get(userId);
+        if (storedAuthState != null && storedAuthState.equals(currentAuthState)) {
+          GenericUrl url = new GenericUrl(redirect);
+          serviceRequest.getResponse().sendRedirect(url.toString());
+          return;
+        }
+      }
+    } else {
+      GenericUrl url = new GenericUrl(state);
+      serviceRequest.getResponse().sendRedirect(url.toString());
+      return;
+    }
+
+    // TODO(peleyal): throw illegal. check if we prefer to throw a different exception for each case
+    // here
   }
 
   private static String getRedirectUri(ServletRequestContext flowContext) {

@@ -52,6 +52,7 @@ public abstract class AbstractAuthServlet extends HttpServlet {
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse resp)
       throws IOException, ServletException {
+    // TODO(peleyal): I think that we should remove the lock from here.
     lock.lock();
     try {
       ServletRequestContext requestContext = new ServletRequestContext().setCredential(credential)
