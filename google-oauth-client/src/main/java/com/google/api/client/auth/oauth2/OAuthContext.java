@@ -21,8 +21,8 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * A collection of data about the authorizing application. It extends the {@link HttpJsonContext}
- * and add useful OAuth properties like scopes, authorization code flow and data store factory.
+ * A collection of data about the authorizing application. It extends the {@link HttpJsonContext} and
+ * add useful oauth properties like scopes, authorization code flow and data store factory.
  *
  * @author Nick Miceli
  * @author Eyal Peled
