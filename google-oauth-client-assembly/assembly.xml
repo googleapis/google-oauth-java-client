@@ -9,38 +9,43 @@
   <files>
     <file>
       <source>LICENSE.txt</source>
+      <outputDirectory>google-oauth-java-client</outputDirectory>
     </file>
     <file>
       <source>classpath-include</source>
       <filtered>true</filtered>
+      <outputDirectory>google-oauth-java-client</outputDirectory>
     </file>
     <file>
       <source>proguard-google-oauth-client.txt</source>
+      <outputDirectory>google-oauth-java-client</outputDirectory>
     </file>
     <file>
       <source>readme.html</source>
       <filtered>true</filtered>
+      <outputDirectory>google-oauth-java-client</outputDirectory>
     </file>
   </files>
   <fileSets>
     <fileSet>
       <directory>dependencies</directory>
+      <outputDirectory>google-oauth-java-client/dependencies</outputDirectory>
     </fileSet>
     <fileSet>
       <directory>target/libs</directory>
       <excludes>
         <exclude>*.pom</exclude>
       </excludes>
-      <outputDirectory>libs</outputDirectory>
+      <outputDirectory>google-oauth-java-client/libs</outputDirectory>
     </fileSet>
     <fileSet>
       <directory>android-properties</directory>
-      <outputDirectory>libs</outputDirectory>
+      <outputDirectory>google-oauth-java-client/libs</outputDirectory>
       <filtered>true</filtered>
     </fileSet>
     <fileSet>
       <directory>target/libs-sources</directory>
-      <outputDirectory>libs-sources</outputDirectory>
+      <outputDirectory>google-oauth-java-client/libs-sources</outputDirectory>
     </fileSet>
   </fileSets>
 </assembly>
