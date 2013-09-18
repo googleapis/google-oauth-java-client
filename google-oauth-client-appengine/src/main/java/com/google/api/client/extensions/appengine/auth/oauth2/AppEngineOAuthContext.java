@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Google Inc.
+ * Copyright (c) 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -26,14 +26,14 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 import java.util.Collection;
 
-import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * {@link Beta} <br/>
  * Google App Engine OAuth context which extends {@link ServletOAuthContext} and defines
  * {@link AppEngineDataStoreFactory#getDefaultInstance()} as the default data store factory,
  * {@link UrlFetchTransport#getDefaultInstance} as the transport layer and
- * {@link JacksonFactory#getDefaultInstance} as the Json factory.
+ * {@link JacksonFactory#getDefaultInstance} as the JSON factory.
  *
  * @author Nick Miceli
  * @author Eyal Peled
@@ -43,7 +43,7 @@ import javax.servlet.ServletRequest;
 public abstract class AppEngineOAuthContext extends ServletOAuthContext {
 
   /**
-   * Constructs a new app engine OAuth context
+   * Constructs a new App Engine OAuth context
    *
    * @param redirectUri Redirect URI
    * @param scopes Scopes
@@ -54,13 +54,13 @@ public abstract class AppEngineOAuthContext extends ServletOAuthContext {
     super(redirectUri, scopes, applicationName);
   }
 
-  /** Returns the transport layer. The default is {@link UrlFetchTransport#getDefaultInstance}. */
+  /** Returns the HTTP transport. The default is {@link UrlFetchTransport#getDefaultInstance}. */
   @Override
   public HttpTransport getTransport() {
     return UrlFetchTransport.getDefaultInstance();
   }
 
-  /** Returns the Json factory. The default is {@link JacksonFactory#getDefaultInstance}. */
+  /** Returns the JSON factory. The default is {@link JacksonFactory#getDefaultInstance}. */
   @Override
   public JsonFactory getJsonFactory() {
     return JacksonFactory.getDefaultInstance();
@@ -75,8 +75,16 @@ public abstract class AppEngineOAuthContext extends ServletOAuthContext {
     return AppEngineDataStoreFactory.getDefaultInstance();
   }
 
+  /**
+   * Returns the user ID for the given HTTP servlet request.
+   *
+   * <p>
+   * It uses {@link com.google.appengine.api.users.UserService#getCurrentUser()} to get the current
+   * user, and then {@link com.google.appengine.api.users.User#getUserId} to get the ID.
+   * </p>
+   */
   @Override
-  public String getUserId(ServletRequest request) {
+  public String getUserId(HttpServletRequest request) {
     return UserServiceFactory.getUserService().getCurrentUser().getUserId();
   }
 }

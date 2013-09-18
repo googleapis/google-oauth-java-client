@@ -27,15 +27,14 @@ import com.google.api.client.util.store.DataStore;
 import java.io.IOException;
 import java.util.Random;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  * {@link Beta} <br/>
- * A servlet request context which contains the servlet request and response, the user's credential
- * and the OAuth context.
+ * A servlet request context which contains the servlet request and response, the user's credential,
+ * etc. It important {@link #execute} method is responsible for the user authorization.
  *
  * <p>
  * This request context is designed to simplify the flow in which an end-user authorizes your web
@@ -69,7 +68,6 @@ public class ServletRequestContext {
   private AuthServletCallback callback;
 
   /** Indicates whether nonce will be added to the state parameter to make it unpredictable. */
-
   private boolean addStateNonce = true;
 
   /** Returns the servlet request. */
@@ -77,7 +75,7 @@ public class ServletRequestContext {
     return request;
   }
 
-  /** Sets the servlet response. */
+  /** Sets the servlet request. */
   public ServletRequestContext setRequest(HttpServletRequest request) {
     this.request = request;
     return this;
@@ -162,10 +160,11 @@ public class ServletRequestContext {
    * {@link ServletRequestContext#getCredential()}. It is assumed that the end-user is authenticated
    * by some external means by which a user ID is obtained. This user ID is used as the primary key
    * for persisting the end-user credentials, and passed in via
-   * {@link ServletOAuthContext#getUserId(ServletRequest)}. The first time an end-user arrives at
-   * your servlet, they will be redirected in the browser to an authorization page. Next, they will
-   * be redirected back to your site at the redirect URI selected in {@link #getRedirectUri}. Then
-   * the final step is to return the user back to the point he started, using the state parameter.
+   * {@link ServletOAuthContext#getUserId(HttpServletRequest)}. The first time an end-user arrives
+   * at your servlet, they will be redirected in the browser to an authorization page. Next, they
+   * will be redirected back to your site at the redirect URI selected in {@link #getRedirectUri}.
+   * Then the final step is to return the user back to the point he started, using the state
+   * parameter.
    * </p>
    *
    * @return {@code true} if the user was already authenticated and has a valid access token
@@ -260,6 +259,7 @@ public class ServletRequestContext {
         if (storedAuthState != null && storedAuthState.equals(currentAuthState)) {
           GenericUrl url = new GenericUrl(redirect);
           getResponse().sendRedirect(url.toString());
+          store.delete(userId);
           return;
         }
       }

@@ -19,7 +19,7 @@ import com.google.api.client.util.Beta;
 
 import java.util.Collection;
 
-import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * {@link Beta} <br/>
@@ -33,7 +33,7 @@ import javax.servlet.ServletRequest;
 @Beta
 public abstract class ServletOAuthContext implements OAuthContext {
 
-  /** Scopes which are used by the OAuth2 flow. */
+  /** Scopes which are used in the OAuth2 flow. */
   private final Collection<String> scopes;
 
   /** Redirect URI for retrieving the authorization code. */
@@ -70,9 +70,9 @@ public abstract class ServletOAuthContext implements OAuthContext {
   }
 
   /**
-   * Returns the user identity.
+   * Returns the user ID for the given HTTP servlet request.
    *
    * @param request the HTTP servlet request
    */
-  public abstract String getUserId(ServletRequest request);
+  public abstract String getUserId(HttpServletRequest request);
 }

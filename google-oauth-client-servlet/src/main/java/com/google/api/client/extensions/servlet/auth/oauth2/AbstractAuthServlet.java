@@ -47,13 +47,13 @@ public abstract class AbstractAuthServlet extends HttpServlet {
   /**
    * Constructs a new Auth servlet with the given OAuth context.
    *
-   * @param context Servelt OAuth context
+   * @param context Servlet OAuth context
    */
   protected AbstractAuthServlet(ServletOAuthContext context) {
     this.oauthContext = Preconditions.checkNotNull(context);
   }
 
-  /** Lock on the flow and credential. */
+  /** Lock on credential. */
   private final Lock lock = new ReentrantLock();
 
   /** Persisted credential associated with the current request or {@code null} for none. */
@@ -101,7 +101,6 @@ public abstract class AbstractAuthServlet extends HttpServlet {
    * Override this method to provide a callback for successful or unsuccessful response to the
    * authorization code process.
    * </p>
-   *
    */
   public AuthServletCallback getCallback() {
     return null;

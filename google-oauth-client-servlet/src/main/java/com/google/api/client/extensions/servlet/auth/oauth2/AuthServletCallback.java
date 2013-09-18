@@ -15,16 +15,21 @@
 package com.google.api.client.extensions.servlet.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.util.Beta;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * {@link Beta} <br/>
+ * A callback which will be invoked when the servlet succeeded in retrieving the authorization code
+ * or in case it got a server error.
+ *
  * @author Nick Miceli
  * @author Eyal Peled
  * @since 1.18
- *
  */
+@Beta
 public interface AuthServletCallback {
 
   /**
@@ -43,6 +48,5 @@ public interface AuthServletCallback {
    * @param resp HTTP servlet response
    * @param error the error response
    */
-  void onError(
-      HttpServletRequest req, HttpServletResponse resp, String error);
+  void onError(HttpServletRequest req, HttpServletResponse resp, String error);
 }
