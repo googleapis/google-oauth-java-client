@@ -16,10 +16,11 @@ package com.google.api.client.extensions.appengine.auth.oauth2;
 
 import com.google.api.client.extensions.appengine.datastore.AppEngineDataStoreFactory;
 import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
-import com.google.api.client.extensions.servlet.auth.oauth2.ServletOAuthApplicationContext;
+import com.google.api.client.extensions.servlet.auth.oauth2.ServletOAuthContext;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.Beta;
 import com.google.api.client.util.store.DataStoreFactory;
 import com.google.appengine.api.users.UserServiceFactory;
 
@@ -28,28 +29,47 @@ import java.util.Collection;
 import javax.servlet.ServletRequest;
 
 /**
- * Google App Engine wrapper around {@link ServletOAuthApplicationContext}.
+ * {@link Beta} <br/>
+ * Google App Engine OAuth context which extends {@link ServletOAuthContext} and defines
+ * {@link AppEngineDataStoreFactory#getDefaultInstance()} as the default data store factory,
+ * {@link UrlFetchTransport#getDefaultInstance} as the transport layer and
+ * {@link JacksonFactory#getDefaultInstance} as the Json factory.
  *
- * @since 1.17
  * @author Nick Miceli
+ * @author Eyal Peled
+ * @since 1.18
  */
-public abstract class AppEngineOAuthApplicationContext extends ServletOAuthApplicationContext {
+@Beta
+public abstract class AppEngineOAuthContext extends ServletOAuthContext {
 
-  public AppEngineOAuthApplicationContext(
+  /**
+   * Constructs a new app engine OAuth context
+   *
+   * @param redirectUri Redirect URI
+   * @param scopes Scopes
+   * @param applicationName application name
+   */
+  public AppEngineOAuthContext(
       String redirectUri, Collection<String> scopes, String applicationName) {
     super(redirectUri, scopes, applicationName);
   }
 
+  /** Returns the transport layer. The default is {@link UrlFetchTransport#getDefaultInstance}. */
   @Override
   public HttpTransport getTransport() {
     return UrlFetchTransport.getDefaultInstance();
   }
 
+  /** Returns the Json factory. The default is {@link JacksonFactory#getDefaultInstance}. */
   @Override
   public JsonFactory getJsonFactory() {
     return JacksonFactory.getDefaultInstance();
   }
 
+  /**
+   * Returns the data store factory. Default value is
+   * {@link AppEngineDataStoreFactory#getDefaultInstance()}.
+   */
   @Override
   public DataStoreFactory getDataStoreFactory() {
     return AppEngineDataStoreFactory.getDefaultInstance();

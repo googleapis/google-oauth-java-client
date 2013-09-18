@@ -14,32 +14,42 @@
 
 package com.google.api.client.extensions.servlet.auth.oauth2;
 
-import com.google.api.client.auth.oauth2.OAuthApplicationContext;
+import com.google.api.client.auth.oauth2.OAuthContext;
+import com.google.api.client.util.Beta;
 
 import java.util.Collection;
 
 import javax.servlet.ServletRequest;
 
 /**
+ * {@link Beta} <br/>
+ * An abstract servlet OAuth context which implements {@link OAuthContext} and add support in
+ * {@link #getRedirectUri redirect URI} for retrieving the authorization code.
+ *
  * @author Nick Miceli
  * @author Eyal Peled
- *
  * @since 1.18
- *
  */
-public abstract class ServletOAuthApplicationContext implements OAuthApplicationContext {
+@Beta
+public abstract class ServletOAuthContext implements OAuthContext {
 
+  /** Scopes which are used by the OAuth2 flow. */
   private final Collection<String> scopes;
+
+  /** Redirect URI for retrieving the authorization code. */
   private final String redirectUri;
+
+  /** Application name which is used as part of the user-agent header. */
   private final String applicationName;
 
   /**
+   * Constructs a new servlet OAuth context.
    *
    * @param redirectUri the redirect URI in the authorization code flow
    * @param scopes the scopes
    * @param applicationName the application name
    */
-  public ServletOAuthApplicationContext(
+  public ServletOAuthContext(
       String redirectUri, Collection<String> scopes, String applicationName) {
     this.redirectUri = redirectUri;
     this.scopes = scopes;
@@ -50,13 +60,19 @@ public abstract class ServletOAuthApplicationContext implements OAuthApplication
     return scopes;
   }
 
-  public String getApplicationName() {
+  public String getUserAgent() {
     return applicationName;
   }
 
+  /** Returns the redirect URI for retrieving the authorization code. */
   public String getRedirectUri() {
     return redirectUri;
   }
 
+  /**
+   * Returns the user identity.
+   *
+   * @param request the HTTP servlet request
+   */
   public abstract String getUserId(ServletRequest request);
 }

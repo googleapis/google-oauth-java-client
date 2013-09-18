@@ -14,22 +14,27 @@
 
 package com.google.api.client.auth.oauth2;
 
-import com.google.api.client.http.ApplicationContext;
+import com.google.api.client.http.json.HttpJsonContext;
 import com.google.api.client.util.store.DataStoreFactory;
 
 import java.io.IOException;
 import java.util.Collection;
 
 /**
- * A collection of data about the authorizing application, useful for OAuth flow helper classes
+ * A collection of data about the authorizing application. It extends the {@link HttpJsonContext}
+ * and add useful OAuth properties like scopes, authorization code flow and data store factory.
  *
  * @author Nick Miceli
  * @author Eyal Peled
  */
-public interface OAuthApplicationContext extends ApplicationContext {
+public interface OAuthContext extends HttpJsonContext {
+
+  /** Returns the scopes used by the OAuth2 flow. */
   Collection<String> getScopes();
 
+  /** Returns the authorization code flow. */
   AuthorizationCodeFlow getFlow() throws IOException;
 
+  /** Returns the data store factory. */
   DataStoreFactory getDataStoreFactory();
 }
