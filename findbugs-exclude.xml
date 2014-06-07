@@ -39,4 +39,16 @@
     <Bug pattern="BETA_CLASS_USAGE,BETA_FIELD_USAGE"/>
     <Class name="com.google.api.client.auth.oauth2.AuthorizationCodeFlow" />
   </And>
+  <And>
+    <Bug pattern="DM_STRING_CTOR"/>
+    <Class name="com.google.api.client.auth.oauth2.BearerToken$AuthorizationHeaderAccessMethod" />
+  </And>
+  <And>
+    <Bug pattern="DM_STRING_CTOR"/>
+    <Class name="com.google.api.client.extensions.servlet.auth.AbstractCallbackServlet" />
+  </And>
+  <And>
+    <Bug pattern="DM_STRING_CTOR"/>
+    <Class name="com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp" />
+  </And>
 </FindBugsFilter>
