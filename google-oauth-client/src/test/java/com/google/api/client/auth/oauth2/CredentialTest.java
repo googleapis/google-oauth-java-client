@@ -301,4 +301,11 @@ public class CredentialTest extends AuthenticationTestBase {
     assertEquals("refreshToken", access.getRefreshToken());
     assertNotNull(access.getExpirationTimeMilliseconds());
   }
+
+  public void testInvalidTokenErrorMatcher() {
+    String withQuote = "error = \"invalid_token\"";
+    String withoutQuote = "error = invalid_token";
+    assertTrue(BearerToken.INVALID_TOKEN_ERROR.matcher(withQuote).find());
+    assertTrue(BearerToken.INVALID_TOKEN_ERROR.matcher(withoutQuote).find());
+  }
 }

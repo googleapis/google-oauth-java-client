@@ -41,7 +41,8 @@ public class BearerToken {
    * In case an abnormal HTTP response is received with {@code WWW-Authenticate} header, and its
    * value contains this error pattern, we will try to refresh the token.
    */
-  static final Pattern INVALID_TOKEN_ERROR = Pattern.compile("\\s*error\\s*=\\s*invalid_token");
+  static final Pattern INVALID_TOKEN_ERROR =
+      Pattern.compile("\\s*error\\s*=\\s*\"?invalid_token\"?");
 
   /**
    * Immutable and thread-safe OAuth 2.0 method for accessing protected resources using the <a
