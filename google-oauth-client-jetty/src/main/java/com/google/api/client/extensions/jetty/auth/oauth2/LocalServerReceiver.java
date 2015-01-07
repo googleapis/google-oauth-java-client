@@ -237,14 +237,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
       doc.println("<html>");
       doc.println("<head><title>OAuth 2.0 Authentication Token Recieved</title></head>");
       doc.println("<body>");
-      doc.println("Received verification code. Closing...");
-      doc.println("<script type='text/javascript'>");
-      // We open "" in the same window to trigger JS ownership of it, which lets
-      // us then close it via JS, at least in Chrome.
-      doc.println("window.setTimeout(function() {");
-      doc.println("    window.open('', '_self', ''); window.close(); }, 1000);");
-      doc.println("if (window.opener) { window.opener.checkToken(); }");
-      doc.println("</script>");
+      doc.println("Received verification code. You may now close this window...");
       doc.println("</body>");
       doc.println("</HTML>");
       doc.flush();
