@@ -83,7 +83,7 @@ public class TokenResponseException extends HttpResponseException {
     String detailString = null;
     String contentType = response.getContentType();
     try {
-      if (!response.isSuccessStatusCode() && contentType != null
+      if (!response.isSuccessStatusCode() && contentType != null && response.getContent() != null
           && HttpMediaType.equalsIgnoreParameters(Json.MEDIA_TYPE, contentType)) {
         details = new JsonObjectParser(jsonFactory).parseAndClose(
             response.getContent(), response.getContentCharset(), TokenErrorResponse.class);
