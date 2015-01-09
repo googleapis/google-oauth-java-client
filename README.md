@@ -2,14 +2,14 @@
 
 ## Description
 
-Written by Google, the Google OAuth Client Library for Java is a powerful and easy-to-use Java library for the OAuth 1.0a and OAuth 2.0 authorization standards. The Google OAuth Client Library for Java is designed to work with any OAuth service on the web, not just with Google APIs. It is built on the [Google HTTP Client Library for Java](http://code.google.com/p/google-http-java-client/).
+Written by Google, the Google OAuth Client Library for Java is a powerful and easy-to-use Java library for the OAuth 1.0a and OAuth 2.0 authorization standards. The Google OAuth Client Library for Java is designed to work with any OAuth service on the web, not just with Google APIs. It is built on the [Google HTTP Client Library for Java](https://github.com/google/google-http-java-client).
 
 The library supports the following Java environments:
  - Java 5 (or higher), standard (SE) and enterprise (EE)
  - Android 2.1 (or higher)
  - Google App Engine
 
-For access to Google APIs, see the [Google APIs Client Library for Java](http://code.google.com/p/google-api-java-client/).
+For access to Google APIs, see the [Google APIs Client Library for Java](https://github.com/google/google-api-java-client).
 
 This is an open-source library, and [contributions](https://code.google.com/p/google-oauth-java-client/wiki/BecomingAContributor) are welcome.
 
