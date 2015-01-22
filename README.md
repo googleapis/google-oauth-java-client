@@ -14,12 +14,12 @@ For access to Google APIs, see the [Google APIs Client Library for Java](https:/
 This is an open-source library, and [contributions](https://code.google.com/p/google-oauth-java-client/wiki/BecomingAContributor) are welcome.
 
 ## Documentation
-- [Developer's Guide](https://code.google.com/p/google-oauth-java-client/wiki/DeveloperGuide)
-- [Setup Instructions](https://code.google.com/p/google-oauth-java-client/wiki/Setup)
+- [Developer's Guide](https://developers.google.com/api-client-library/java/google-oauth-java-client/)
+- [Setup Instructions](https://developers.google.com/api-client-library/java/google-oauth-java-client/setup)
 - [Samples](https://code.google.com/p/google-oauth-java-client/wiki/Samples)
 - [JavaDoc](http://javadoc.google-oauth-java-client.googlecode.com/hg/index.html)
-- [Release Notes](https://code.google.com/p/google-oauth-java-client/wiki/ReleaseNotes)
-- [Support (Questions, Bugs)](https://code.google.com/p/google-oauth-java-client/wiki/Support)
+- [Release Notes](https://developers.google.com/api-client-library/java/google-oauth-java-client/release-notes)
+- [Support (Questions, Bugs)](https://developers.google.com/api-client-library/java/google-oauth-java-client/support)
 
 ## Links
 - Blogs
