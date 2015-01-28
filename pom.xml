@@ -78,6 +78,7 @@
     <module>google-oauth-client-servlet</module>
     <module>google-oauth-client-java6</module>
     <module>google-oauth-client-jetty</module>
+    <module>samples/dailymotion-cmdline-sample</module>
   </modules>
 
   <dependencyManagement>
@@ -147,6 +148,11 @@
       <dependency>
         <groupId>com.google.http-client</groupId>
         <artifactId>google-http-client-jackson</artifactId>
+        <version>${project.http.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.http-client</groupId>
+        <artifactId>google-http-client-jackson2</artifactId>
         <version>${project.http.version}</version>
       </dependency>
       <dependency>

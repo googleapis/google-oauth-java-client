@@ -1,0 +1,82 @@
+<html>
+<title>dailymotion-cmdline-sample</title>
+<body>
+<h2>Instructions for the Daily Motion OAuth2 Command-Line Sample</h2>
+
+<h3>Browse Online</h3>
+
+<ul>
+  <li><a
+    href="http://code.google.com/p/google-oauth-java-client/source/browse?repo=samples#hg/dailymotion-cmdline-sample">Browse
+  Source</a>, or main file <a
+    href="http://code.google.com/p/google-oauth-java-client/source/browse/dailymotion-cmdline-sample/src/main/java/com/google/api/services/samples/dailymotion/cmdline/DailyMotionSample.java?repo=samples">DailyMotionSample.java</a></li>
+</ul>
+
+<h3>Checkout Instructions</h3>
+
+<p><b>Prerequisites:</b> install <a href="http://java.com">Java 6</a>, <a
+  href="http://mercurial.selenic.com/">Mercurial</a> and <a
+  href="http://maven.apache.org/download.html">Maven</a>. You may need to set
+your <code>JAVA_HOME</code>.</p>
+
+<p><b>Important:</b> after checking out the project, and before compiling
+ and running it, you should edit <code>OAuth2ClientCredentials.java</code> to enter the
+ required credentials information. Otherwise, you will get a <code>400 INVALID_CLIENT</code>
+ error in your browser. To begin, go to the
+ <a href="http://www.dailymotion.com/profile/developer">Dailymotion Developer Profile</a>,
+  click "Create New API Key" and specify "http://127.0.0.1:8080/Callback" as the "Callback URL".</p>
+
+<pre><code>cd <i>[someDirectory]</i>
+hg clone https://code.google.com/p/google-oauth-java-client.samples/ google-oauth-java-client-samples
+cd google-oauth-java-client-samples/dailymotion-cmdline-sample
+<i>[editor]</i> src/main/java/com/google/api/services/samples/dailymotion/cmdline/OAuth2ClientCredentials.java
+mvn compile
+mvn -q exec:java</code></pre>
+
+<h3>Setup Project in Eclipse 3.5/3.6</h3>
+
+<p><b>Prerequisites:</b> install <a href="http://www.eclipse.org/downloads/">Eclipse</a>,
+the <a href="http://javaforge.com/project/HGE">Mercurial plugin</a>, and the <a href="http://www.eclipse.org/m2e/download/">Maven
+plugin</a>.</p>
+
+<ul>
+  <li>Setup Eclipse Preferences
+  <ul>
+    <li>Window &gt; Preferences... (or on Mac, Eclipse &gt; Preferences...)</li>
+    <li>Select Maven
+    <ul>
+      <li>check on "Download Artifact Sources"</li>
+      <li>check on "Download Artifact JavaDoc"</li>
+    </ul>
+    </li>
+  </ul>
+  </li>
+  <li>Import <code>dailymotion-cmdline-sample</code> project
+  <ul>
+    <li>File &gt; Import...</li>
+    <li>Select "General &gt; Existing Project into Workspace" and click
+    "Next"</li>
+    <li>Click "Browse" next to "Select root directory", find <code><i>[someDirectory]</i>/google-oauth-java-client-samples/dailymotion-cmdline-sample</code>
+    and click "Next"</li>
+    <li>Click "Finish"</li>
+  </ul>
+  </li>
+  <li>Run
+  <ul>
+    <li>Right-click on project dailymotion-cmdline-sample</li>
+    <li>Run As &gt; Java Application</li>
+    <li>If asked, type "DailyMotionSample" and click OK</li>
+    <li>To enabled logging:
+    <ul>
+      <li>Run &gt; Run Configurations...</li>
+      <li>Click on "Java Application &gt; DailyMotionSample"</li>
+      <li>VM arguments: <code>-Djava.util.logging.config.file=${project_loc}/logging.properties</code></li>
+      <li>Click "Run"</li>
+    </ul>
+    </li>
+  </ul>
+  </li>
+</ul>
+
+</body>
+</html>
