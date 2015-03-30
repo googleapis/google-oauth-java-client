@@ -11,13 +11,13 @@ The library supports the following Java environments:
 
 For access to Google APIs, see the [Google APIs Client Library for Java](https://github.com/google/google-api-java-client).
 
-This is an open-source library, and [contributions](https://code.google.com/p/google-oauth-java-client/wiki/BecomingAContributor) are welcome.
+This is an open-source library, and [contributions](https://developers.google.com/api-client-library/java/google-oauth-java-client/contribute) are welcome.
 
 ## Documentation
 - [Developer's Guide](https://developers.google.com/api-client-library/java/google-oauth-java-client/)
 - [Setup Instructions](https://developers.google.com/api-client-library/java/google-oauth-java-client/setup)
-- [Samples](https://code.google.com/p/google-oauth-java-client/wiki/Samples)
-- [JavaDoc](http://javadoc.google-oauth-java-client.googlecode.com/hg/index.html)
+- [Samples](https://developers.google.com/api-client-library/java/google-oauth-java-client/samples)
+- [JavaDoc](https://developers.google.com/api-client-library/java/google-oauth-java-client/reference/index)
 - [Release Notes](https://developers.google.com/api-client-library/java/google-oauth-java-client/release-notes)
 - [Support (Questions, Bugs)](https://developers.google.com/api-client-library/java/google-oauth-java-client/support)
 
