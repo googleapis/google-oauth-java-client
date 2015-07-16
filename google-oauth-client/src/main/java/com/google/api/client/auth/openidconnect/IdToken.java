@@ -22,6 +22,7 @@ import com.google.api.client.util.Key;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -68,7 +69,18 @@ public class IdToken extends JsonWebSignature {
    * @param expectedIssuer expected issuer
    */
   public final boolean verifyIssuer(String expectedIssuer) {
-    return expectedIssuer.equals(getPayload().getIssuer());
+    return verifyIssuer(Collections.singleton(expectedIssuer));
+  }
+
+  /**
+   * Returns whether the issuer in the payload matches the given expected issuer as specified in
+   * step 1 of <a
+   * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token
+   * Validation</a>. When an issuer is migrating to a new issuer string the expected issuer has
+   * multiple aliases, so multiple are permitted here.
+   */
+  public final boolean verifyIssuer(Collection<String> expectedIssuer) {
+    return expectedIssuer.contains(getPayload().getIssuer());
   }
 
   /**

@@ -22,6 +22,7 @@ import com.google.api.client.util.Lists;
 import junit.framework.TestCase;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,6 +39,7 @@ public class IdTokenVerifierTest extends TestCase {
 
   private static final String ISSUER = "issuer.example.com";
   private static final String ISSUER2 = ISSUER + "2";
+  private static final String ISSUER3 = ISSUER + "3";
 
   private static IdToken newIdToken(String issuer, String audience) {
     Payload payload = new Payload();
@@ -53,6 +55,7 @@ public class IdTokenVerifierTest extends TestCase {
         new IdTokenVerifier.Builder().setIssuer(ISSUER).setAudience(TRUSTED_CLIENT_IDS);
     assertEquals(Clock.SYSTEM, builder.getClock());
     assertEquals(ISSUER, builder.getIssuer());
+    assertEquals(Collections.singleton(ISSUER), builder.getIssuers());
     assertTrue(TRUSTED_CLIENT_IDS.equals(builder.getAudience()));
     Clock clock = new MyClock();
     builder.setClock(clock);
@@ -60,6 +63,7 @@ public class IdTokenVerifierTest extends TestCase {
     IdTokenVerifier verifier = builder.build();
     assertEquals(clock, verifier.getClock());
     assertEquals(ISSUER, verifier.getIssuer());
+    assertEquals(Collections.singleton(ISSUER), builder.getIssuers());
     assertEquals(TRUSTED_CLIENT_IDS, Lists.newArrayList(verifier.getAudience()));
   }
 
@@ -74,7 +78,8 @@ public class IdTokenVerifierTest extends TestCase {
 
   public void testVerify() throws Exception {
     MyClock clock = new MyClock();
-    IdTokenVerifier verifier = new IdTokenVerifier.Builder().setIssuer(ISSUER)
+    IdTokenVerifier verifier = new IdTokenVerifier.Builder()
+        .setIssuers(Arrays.asList(ISSUER, ISSUER3))
         .setAudience(Arrays.asList(CLIENT_ID)).setClock(clock).build();
     // verifier flexible doesn't check issuer and audience
     IdTokenVerifier verifierFlexible = new IdTokenVerifier.Builder().setClock(clock).build();
@@ -84,6 +89,7 @@ public class IdTokenVerifierTest extends TestCase {
     assertTrue(verifier.verify(idToken));
     assertTrue(verifierFlexible.verify(newIdToken(ISSUER2, CLIENT_ID)));
     assertFalse(verifier.verify(newIdToken(ISSUER2, CLIENT_ID)));
+    assertTrue(verifier.verify(newIdToken(ISSUER3, CLIENT_ID)));
     // audience
     assertTrue(verifierFlexible.verify(newIdToken(ISSUER, CLIENT_ID2)));
     assertFalse(verifier.verify(newIdToken(ISSUER, CLIENT_ID2)));
@@ -96,5 +102,38 @@ public class IdTokenVerifierTest extends TestCase {
     assertFalse(verifier.verify(idToken));
     clock.timeMillis = 2300001L;
     assertFalse(verifier.verify(idToken));
+  }
+
+  public void testEmptyIssuersFails() throws Exception {
+    IdTokenVerifier.Builder builder = new IdTokenVerifier.Builder();
+    try {
+      builder.setIssuers(Collections.<String>emptyList());
+      fail("Exception expected");
+    } catch (IllegalArgumentException ex) {
+      // Expected
+    }
+  }
+
+  public void testBuilderSetNullIssuers() throws Exception {
+    IdTokenVerifier.Builder builder = new IdTokenVerifier.Builder();
+    IdTokenVerifier verifier = builder.build();
+    assertNull(builder.getIssuers());
+    assertNull(builder.getIssuer());
+    assertNull(verifier.getIssuers());
+    assertNull(verifier.getIssuer());
+
+    builder.setIssuers(null);
+    verifier = builder.build();
+    assertNull(builder.getIssuers());
+    assertNull(builder.getIssuer());
+    assertNull(verifier.getIssuers());
+    assertNull(verifier.getIssuer());
+
+    builder.setIssuer(null);
+    verifier = builder.build();
+    assertNull(builder.getIssuers());
+    assertNull(builder.getIssuer());
+    assertNull(verifier.getIssuers());
+    assertNull(verifier.getIssuer());
   }
 }

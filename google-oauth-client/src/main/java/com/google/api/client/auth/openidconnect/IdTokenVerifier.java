@@ -62,8 +62,11 @@ public class IdTokenVerifier {
   /** Seconds of time skew to accept when verifying time. */
   private final long acceptableTimeSkewSeconds;
 
-  /** Expected issuer or {@code null} to suppress the issuer check. */
-  private final String issuer;
+  /**
+   * Unmodifiable collection of equivalent expected issuers or {@code null} to suppress the issuer
+   * check.
+   */
+  private final Collection<String> issuers;
 
   /**
    * Unmodifiable list of trusted audience client IDs or {@code null} to suppress the audience
@@ -81,7 +84,7 @@ public class IdTokenVerifier {
   protected IdTokenVerifier(Builder builder) {
     clock = builder.clock;
     acceptableTimeSkewSeconds = builder.acceptableTimeSkewSeconds;
-    issuer = builder.issuer;
+    issuers = builder.issuers == null ? null : Collections.unmodifiableCollection(builder.issuers);
     audience =
         builder.audience == null ? null : Collections.unmodifiableCollection(builder.audience);
   }
@@ -96,9 +99,20 @@ public class IdTokenVerifier {
     return acceptableTimeSkewSeconds;
   }
 
-  /** Returns the expected issuer or {@code null} to suppress the issuer check. */
+  /**
+   * Returns the first of equivalent expected issuers or {@code null} if issuer check suppressed.
+   */
   public final String getIssuer() {
-    return issuer;
+    if (issuers == null) {
+      return null;
+    } else {
+      return issuers.iterator().next();
+    }
+  }
+
+  /** Returns the equivalent expected issuers or {@code null} if issuer check suppressed. */
+  public final Collection<String> getIssuers() {
+    return issuers;
   }
 
   /**
@@ -115,7 +129,8 @@ public class IdTokenVerifier {
    * It verifies:
    *
    * <ul>
-   * <li>The issuer is {@link #getIssuer()} by calling {@link IdToken#verifyIssuer(String)}.</li>
+   * <li>The issuer is one of {@link #getIssuers()} by calling {@link
+   * IdToken#verifyIssuer(String)}.</li>
    * <li>The audience is one of {@link #getAudience()} by calling
    * {@link IdToken#verifyAudience(Collection)}.</li>
    * <li>The current time against the issued at and expiration time, using the {@link #getClock()}
@@ -131,7 +146,7 @@ public class IdTokenVerifier {
    * @return {@code true} if verified successfully or {@code false} if failed
    */
   public boolean verify(IdToken idToken) {
-    return (issuer == null || idToken.verifyIssuer(issuer))
+    return (issuers == null || idToken.verifyIssuer(issuers))
         && (audience == null || idToken.verifyAudience(audience))
         && idToken.verifyTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
   }
@@ -155,8 +170,8 @@ public class IdTokenVerifier {
     /** Seconds of time skew to accept when verifying time. */
     long acceptableTimeSkewSeconds = DEFAULT_TIME_SKEW_SECONDS;
 
-    /** Expected issuer or {@code null} to suppress the issuer check. */
-    String issuer;
+    /** Collection of equivalent expected issuers or {@code null} to suppress the issuer check. */
+    Collection<String> issuers;
 
     /** List of trusted audience client IDs or {@code null} to suppress the audience check. */
     Collection<String> audience;
@@ -184,9 +199,15 @@ public class IdTokenVerifier {
       return this;
     }
 
-    /** Returns the expected issuer or {@code null} to suppress the issuer check. */
+    /**
+     * Returns the first of equivalent expected issuers or {@code null} if issuer check suppressed.
+     */
     public final String getIssuer() {
-      return issuer;
+      if (issuers == null) {
+        return null;
+      } else {
+        return issuers.iterator().next();
+      }
     }
 
     /**
@@ -198,7 +219,32 @@ public class IdTokenVerifier {
      * </p>
      */
     public Builder setIssuer(String issuer) {
-      this.issuer = issuer;
+      if (issuer == null) {
+        return setIssuers(null);
+      } else {
+        return setIssuers(Collections.singleton(issuer));
+      }
+    }
+
+    /** Returns the equivalent expected issuers or {@code null} if issuer check suppressed. */
+    public final Collection<String> getIssuers() {
+      return issuers;
+    }
+
+    /**
+     * Sets the list of equivalent expected issuers or {@code null} to suppress the issuer check.
+     * Typically only a single issuer should be used, but multiple may be specified to support
+     * an issuer transitioning to a new string. The collection must not be empty.
+     *
+     * <p>
+     * Overriding is only supported for the purpose of calling the super implementation and changing
+     * the return type, but nothing else.
+     * </p>
+     */
+    public Builder setIssuers(Collection<String> issuers) {
+      Preconditions.checkArgument(issuers == null || !issuers.isEmpty(),
+          "Issuers must not be empty");
+      this.issuers = issuers;
       return this;
     }
 
