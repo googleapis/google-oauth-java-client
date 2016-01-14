@@ -235,7 +235,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
 
       PrintWriter doc = response.getWriter();
       doc.println("<html>");
-      doc.println("<head><title>OAuth 2.0 Authentication Token Recieved</title></head>");
+      doc.println("<head><title>OAuth 2.0 Authentication Token Received</title></head>");
       doc.println("<body>");
       doc.println("Received verification code. You may now close this window...");
       doc.println("</body>");
