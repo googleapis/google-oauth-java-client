@@ -110,7 +110,11 @@ public class IdTokenVerifier {
     }
   }
 
-  /** Returns the equivalent expected issuers or {@code null} if issuer check suppressed. */
+  /**
+   * Returns the equivalent expected issuers or {@code null} if issuer check suppressed.
+   *
+   * @since 1.21.0
+   */
   public final Collection<String> getIssuers() {
     return issuers;
   }
@@ -226,7 +230,11 @@ public class IdTokenVerifier {
       }
     }
 
-    /** Returns the equivalent expected issuers or {@code null} if issuer check suppressed. */
+    /**
+     * Returns the equivalent expected issuers or {@code null} if issuer check suppressed.
+     *
+     * @since 1.21.0
+     */
     public final Collection<String> getIssuers() {
       return issuers;
     }
@@ -240,6 +248,8 @@ public class IdTokenVerifier {
      * Overriding is only supported for the purpose of calling the super implementation and changing
      * the return type, but nothing else.
      * </p>
+     *
+     * @since 1.21.0
      */
     public Builder setIssuers(Collection<String> issuers) {
       Preconditions.checkArgument(issuers == null || !issuers.isEmpty(),

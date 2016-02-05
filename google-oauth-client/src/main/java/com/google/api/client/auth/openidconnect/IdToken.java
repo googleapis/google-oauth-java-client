@@ -78,6 +78,8 @@ public class IdToken extends JsonWebSignature {
    * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token
    * Validation</a>. When an issuer is migrating to a new issuer string the expected issuer has
    * multiple aliases, so multiple are permitted here.
+   *
+   * @since 1.21.0
    */
   public final boolean verifyIssuer(Collection<String> expectedIssuer) {
     return expectedIssuer.contains(getPayload().getIssuer());
