@@ -32,6 +32,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 
+import static com.google.api.client.util.Strings.isNullOrEmpty;
+
 /**
  * Thread-safe OAuth 2.0 authorization code flow that manages and persists end-user credentials.
  *
@@ -242,6 +244,12 @@ public class AuthorizationCodeFlow {
    */
   @SuppressWarnings("deprecation")
   public Credential loadCredential(String userId) throws IOException {
+
+    // No requests need to be performed when userId is not specified.
+    if (isNullOrEmpty(userId)) {
+      return null;
+    }
+
     if (credentialDataStore == null && credentialStore == null) {
       return null;
     }
