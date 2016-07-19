@@ -18,12 +18,10 @@ import com.google.api.client.auth.openidconnect.IdToken.Payload;
 import com.google.api.client.json.webtoken.JsonWebSignature.Header;
 import com.google.api.client.util.Clock;
 import com.google.api.client.util.Lists;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import junit.framework.TestCase;
 
 /**
  * Tests {@link IdTokenVerifier}.

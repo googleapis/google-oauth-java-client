@@ -15,9 +15,8 @@
 package com.google.api.client.auth.oauth2;
 
 
-import junit.framework.TestCase;
-
 import java.util.Arrays;
+import junit.framework.TestCase;
 
 /**
  * Tests {@link BrowserClientRequestUrl}.

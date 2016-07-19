@@ -18,10 +18,8 @@ import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.testing.http.HttpTesting;
 import com.google.api.client.testing.http.MockHttpTransport;
-
-import junit.framework.TestCase;
-
 import java.util.Map;
+import junit.framework.TestCase;
 
 /**
  * Tests {@link ClientParametersAuthentication}.
