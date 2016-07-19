@@ -17,11 +17,9 @@ package com.google.api.client.auth.oauth;
 import com.google.api.client.util.Base64;
 import com.google.api.client.util.SecurityUtils;
 import com.google.api.client.util.StringUtils;
-
-import junit.framework.TestCase;
-
 import java.security.GeneralSecurityException;
 import java.security.KeyPairGenerator;
+import junit.framework.TestCase;
 
 /**
  * Tests {@link OAuthRsaSigner}.

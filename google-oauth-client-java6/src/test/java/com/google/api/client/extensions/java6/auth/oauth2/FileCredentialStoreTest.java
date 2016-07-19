@@ -35,12 +35,10 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.io.Files;
-
-import junit.framework.TestCase;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import junit.framework.TestCase;
 
 /**
  * Tests {@link FileCredentialStore}.

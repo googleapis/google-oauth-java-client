@@ -14,10 +14,8 @@
 
 package com.google.api.client.auth.openidconnect;
 
-import junit.framework.TestCase;
-
 import java.util.Arrays;
-
+import junit.framework.TestCase;
 
 /**
  * Tests {@link IdToken}.

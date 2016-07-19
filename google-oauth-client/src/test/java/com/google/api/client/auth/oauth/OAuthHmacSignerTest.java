@@ -14,9 +14,8 @@
 
 package com.google.api.client.auth.oauth;
 
-import junit.framework.TestCase;
-
 import java.security.GeneralSecurityException;
+import junit.framework.TestCase;
 
 /**
  * Tests {@link OAuthHmacSigner}.
