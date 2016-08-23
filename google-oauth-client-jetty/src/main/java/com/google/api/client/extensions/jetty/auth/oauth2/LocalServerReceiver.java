@@ -69,6 +69,18 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
   private final String host;
 
   /**
+   * URL to an HTML page to be shown (via redirect) after successful login. If null, a canned
+   * default landing page will be shown (via direct response).
+   */
+  private String successLandingPageUrl;
+
+  /**
+   * URL to an HTML page to be shown (via redirect) after failed login. If null, a canned
+   * default landing page will be shown (via direct response).
+   */
+  private String failureLandingPageUrl;
+
+  /**
    * Constructor that starts the server on {@code "localhost"} selects an unused port.
    *
    * <p>
@@ -77,6 +89,12 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
    */
   public LocalServerReceiver() {
     this("localhost", -1);
+  }
+
+  public LocalServerReceiver(String successLandingPageUrl, String failureLandingPageUrl) {
+    this("localhost", -1);
+    this.successLandingPageUrl = successLandingPageUrl;
+    this.failureLandingPageUrl = failureLandingPageUrl;
   }
 
   /**
@@ -216,14 +234,22 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
       if (!CALLBACK_PATH.equals(target)) {
         return;
       }
-      writeLandingHtml(response);
-      response.flushBuffer();
+
       ((Request) request).setHandled(true);
       lock.lock();
       try {
         error = request.getParameter("error");
         code = request.getParameter("code");
         gotAuthorizationResponse.signal();
+
+        if (error == null && successLandingPageUrl != null) {
+          response.sendRedirect(successLandingPageUrl);
+        } else if (error != null && failureLandingPageUrl != null) {
+          response.sendRedirect(failureLandingPageUrl);
+        } else {
+          writeLandingHtml(response);
+        }
+        response.flushBuffer();
       } finally {
         lock.unlock();
       }
@@ -237,9 +263,9 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
       doc.println("<html>");
       doc.println("<head><title>OAuth 2.0 Authentication Token Received</title></head>");
       doc.println("<body>");
-      doc.println("Received verification code. You may now close this window...");
+      doc.println("Received verification code. You may now close this window.");
       doc.println("</body>");
-      doc.println("</HTML>");
+      doc.println("</html>");
       doc.flush();
     }
   }
