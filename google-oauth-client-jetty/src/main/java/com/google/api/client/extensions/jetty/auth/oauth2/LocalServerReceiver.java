@@ -81,7 +81,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
   private String failureLandingPageUrl;
 
   /**
-   * Constructor that starts the server on {@code "127.0.0.1"} selects an unused port.
+   * Constructor that starts the server on {@code "127.0.0.1"} and an unused port.
    *
    * <p>
    * Use {@link Builder} if you need to specify any of the optional parameters.
