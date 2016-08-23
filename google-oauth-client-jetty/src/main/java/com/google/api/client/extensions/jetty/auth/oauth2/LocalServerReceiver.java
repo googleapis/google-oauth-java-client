@@ -88,11 +88,11 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
    * </p>
    */
   public LocalServerReceiver() {
-    this("localhost", -1);
+    this("127.0.0.1", -1);
   }
 
   public LocalServerReceiver(String successLandingPageUrl, String failureLandingPageUrl) {
-    this("localhost", -1);
+    this();
     this.successLandingPageUrl = successLandingPageUrl;
     this.failureLandingPageUrl = failureLandingPageUrl;
   }
