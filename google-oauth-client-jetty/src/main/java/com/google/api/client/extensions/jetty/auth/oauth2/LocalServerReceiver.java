@@ -45,6 +45,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public final class LocalServerReceiver implements VerificationCodeReceiver {
 
+  private static final String LOCALHOST = "127.0.0.1";
+
   private static final String CALLBACK_PATH = "/Callback";
 
   /** Server or {@code null} before {@link #getRedirectUri()}. */
@@ -88,7 +90,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
    * </p>
    */
   public LocalServerReceiver() {
-    this("127.0.0.1", -1);
+    this(LOCALHOST, -1);
   }
 
   public LocalServerReceiver(String successLandingPageUrl, String failureLandingPageUrl) {
