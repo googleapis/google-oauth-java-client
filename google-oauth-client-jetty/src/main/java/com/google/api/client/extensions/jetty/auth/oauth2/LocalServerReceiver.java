@@ -45,7 +45,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public final class LocalServerReceiver implements VerificationCodeReceiver {
 
-  private static final String LOCALHOST = "127.0.0.1";
+  private static final String LOCALHOST = "localhost";
 
   private static final String CALLBACK_PATH = "/Callback";
 
