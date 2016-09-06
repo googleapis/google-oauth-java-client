@@ -31,7 +31,8 @@ public class LocalServerReceiverTest {
   @Test
   public void testSuccessLandingPage() throws IOException, InterruptedException {
     String successLandingPageUrl = "https://www.example.com/my-success-landing-page";
-    LocalServerReceiver receiver = new LocalServerReceiver(successLandingPageUrl, null);
+    LocalServerReceiver receiver =
+        new LocalServerReceiver.Builder().setLandingPages(successLandingPageUrl, null).build();
 
     try {
       sendSuccessLoginResult(receiver.getRedirectUri());
@@ -44,7 +45,8 @@ public class LocalServerReceiverTest {
   @Test
   public void testFailureLandingPage() throws IOException {
     String failureLandingPageUrl = "https://www.example.com/my-failure-landing-page";
-    LocalServerReceiver receiver = new LocalServerReceiver(null, failureLandingPageUrl);
+    LocalServerReceiver receiver =
+        new LocalServerReceiver.Builder().setLandingPages(null, failureLandingPageUrl).build();
 
     try {
       sendFailureLoginResult(receiver.getRedirectUri());
@@ -56,7 +58,8 @@ public class LocalServerReceiverTest {
 
   @Test
   public void testDefaultSuccessLandingPage() throws IOException {
-    LocalServerReceiver receiver = new LocalServerReceiver(null, null);
+    LocalServerReceiver receiver =
+        new LocalServerReceiver.Builder().setLandingPages(null, null).build();
 
     try {
       sendSuccessLoginResult(receiver.getRedirectUri());
@@ -68,7 +71,8 @@ public class LocalServerReceiverTest {
 
   @Test
   public void testDefaultFailureLandingPage() throws IOException {
-    LocalServerReceiver receiver = new LocalServerReceiver(null, null);
+    LocalServerReceiver receiver =
+        new LocalServerReceiver.Builder().setLandingPages(null, null).build();
 
     try {
       sendFailureLoginResult(receiver.getRedirectUri());

@@ -90,13 +90,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
    * </p>
    */
   public LocalServerReceiver() {
-    this(LOCALHOST, -1);
-  }
-
-  public LocalServerReceiver(String successLandingPageUrl, String failureLandingPageUrl) {
-    this();
-    this.successLandingPageUrl = successLandingPageUrl;
-    this.failureLandingPageUrl = failureLandingPageUrl;
+    this(LOCALHOST, -1, null, null);
   }
 
   /**
@@ -105,9 +99,12 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
    * @param host Host name to use
    * @param port Port to use or {@code -1} to select an unused port
    */
-  LocalServerReceiver(String host, int port) {
+  LocalServerReceiver(String host, int port,
+                      String successLandingPageUrl, String failureLandingPageUrl) {
     this.host = host;
     this.port = port;
+    this.successLandingPageUrl = successLandingPageUrl;
+    this.failureLandingPageUrl = failureLandingPageUrl;
   }
 
   @Override
@@ -195,9 +192,12 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
     /** Port to use or {@code -1} to select an unused port. */
     private int port = -1;
 
+    private String successLandingPageUrl;
+    private String failureLandingPageUrl;
+
     /** Builds the {@link LocalServerReceiver}. */
     public LocalServerReceiver build() {
-      return new LocalServerReceiver(host, port);
+      return new LocalServerReceiver(host, port, successLandingPageUrl, failureLandingPageUrl);
     }
 
     /** Returns the host name to use. */
@@ -219,6 +219,12 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
     /** Sets the port to use or {@code -1} to select an unused port. */
     public Builder setPort(int port) {
       this.port = port;
+      return this;
+    }
+
+    public Builder setLandingPages(String successLandingPageUrl, String failureLandingPageUrl) {
+      this.successLandingPageUrl = successLandingPageUrl;
+      this.failureLandingPageUrl = failureLandingPageUrl;
       return this;
     }
   }
