@@ -14,7 +14,11 @@
 
 package com.google.api.client.extensions.jetty.auth.oauth2;
 
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 import java.io.IOException;
@@ -23,6 +27,224 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class LocalServerReceiverTest {
+
+  @Test
+  public void testActualPort() throws IOException {
+    LocalServerReceiver receiver = new LocalServerReceiver();
+
+    try {
+      receiver.getRedirectUri();
+      assertTrue(receiver.getPort() != 0);
+      assertTrue(receiver.getPort() != -1);
+    } finally {
+      receiver.stop();
+    }
+  }
+
+  @Test
+    public void testRedirectUri() throws IOException {
+    LocalServerReceiver receiver = new LocalServerReceiver("localhost", -1, null, null);
+
+    try {
+      String localEndpoint = receiver.getRedirectUri();
+      assertEquals("http://localhost:" + receiver.getPort() + "/Callback", localEndpoint);
+    } finally {
+      receiver.stop();
+    }
+  }
+
+  boolean forkTermianted;
+  String authCode;
+  String error;
+
+  @Test
+  public void testPrematureStopCancelsWaitForCode() throws IOException, InterruptedException {
+    final LocalServerReceiver receiver = new LocalServerReceiver();
+
+    try {
+      receiver.getRedirectUri();
+
+      receiver.stop();
+      Thread fork = runWaitForCodeThread(receiver);
+
+      verifyForkTermination(fork);
+    } finally {
+      receiver.stop();
+    }
+  }
+
+  @Test
+  public void testStopCancelsWaitForCode() throws IOException, InterruptedException {
+    final LocalServerReceiver receiver = new LocalServerReceiver();
+
+    try {
+      receiver.getRedirectUri();
+
+      Thread fork = runWaitForCodeThread(receiver);
+      Thread.sleep(100 /* ms */);  // Sleep for a while to make fork run into waitForCode().
+      receiver.stop();
+
+      verifyForkTermination(fork);
+    } finally {
+      receiver.stop();
+    }
+  }
+
+  @Test
+  public void testPrematureLoginCancelsWaitForCode() throws IOException, InterruptedException {
+    final LocalServerReceiver receiver = new LocalServerReceiver();
+
+    try {
+      String localEndpoint = receiver.getRedirectUri();
+
+      sendSuccessLoginResult(localEndpoint);
+      Thread fork = runWaitForCodeThread(receiver);
+
+      verifyForkTermination(fork);
+      verifyLoginSuccess();
+    } finally {
+      receiver.stop();
+    }
+  }
+
+  @Test
+  public void testLoginCancelsWaitForCode() throws IOException, InterruptedException {
+    final LocalServerReceiver receiver = new LocalServerReceiver();
+
+    try {
+      String localEndpoint = receiver.getRedirectUri();  // Start the server.
+
+      Thread fork = runWaitForCodeThread(receiver);
+      Thread.sleep(100 /* ms */);  // Sleep for a while to make fork run into waitForCode().
+      sendSuccessLoginResult(localEndpoint);
+
+      verifyForkTermination(fork);
+      verifyLoginSuccess();
+    } finally {
+      receiver.stop();
+    }
+  }
+
+  @Test
+  public void testPrematureLoginErrorCancelsWaitForCode() throws IOException, InterruptedException {
+    final LocalServerReceiver receiver = new LocalServerReceiver();
+
+    try {
+      String localEndpoint = receiver.getRedirectUri();
+
+      sendFailureLoginResult(localEndpoint);
+      Thread fork = runWaitForCodeThread(receiver);
+
+      verifyForkTermination(fork);
+      verifyLoginFailure();
+    } finally {
+      receiver.stop();
+    }
+  }
+
+  @Test
+  public void testLoginErrorCancelsWaitForCode() throws IOException, InterruptedException {
+    final LocalServerReceiver receiver = new LocalServerReceiver();
+
+    try {
+      String localEndpoint = receiver.getRedirectUri();  // Start the server.
+
+      Thread fork = runWaitForCodeThread(receiver);
+      Thread.sleep(100 /* ms */);  // Sleep for a while to make fork run into waitForCode().
+      sendFailureLoginResult(localEndpoint);
+
+      verifyForkTermination(fork);
+      verifyLoginFailure();
+    } finally {
+      receiver.stop();
+    }
+  }
+
+  @Test
+  public void testWaitForCodeIsBlocked() throws IOException, InterruptedException {
+    final LocalServerReceiver receiver = new LocalServerReceiver();
+
+    try {
+      receiver.getRedirectUri();
+
+      runWaitForCodeThread(receiver);
+      Thread.sleep(200);
+      assertFalse(forkTermianted);
+    } finally {
+      receiver.stop();
+    }
+  }
+
+  @Test
+  public void testStopDoesNotChangeAuthCode() throws IOException, InterruptedException {
+    final LocalServerReceiver receiver = new LocalServerReceiver();
+
+    try {
+      String localEndpoint = receiver.getRedirectUri();  // Start the server.
+
+      Thread fork = runWaitForCodeThread(receiver);
+      Thread.sleep(100 /* ms */);  // Sleep for a while to make fork run into waitForCode().
+      sendSuccessLoginResult(localEndpoint);
+      receiver.stop();
+
+      verifyForkTermination(fork);
+      verifyLoginSuccess();
+    } finally {
+      receiver.stop();
+    }
+  }
+
+  @Test
+  public void testStopDoesNotChangeErrorCode() throws IOException, InterruptedException {
+    final LocalServerReceiver receiver = new LocalServerReceiver();
+
+    try {
+      String localEndpoint = receiver.getRedirectUri();
+
+      Thread fork = runWaitForCodeThread(receiver);
+      Thread.sleep(100 /* ms */);  // Sleep for a while to make fork run into waitForCode().
+      sendFailureLoginResult(localEndpoint);
+      receiver.stop();
+
+      verifyForkTermination(fork);
+      verifyLoginFailure();
+    } finally {
+      receiver.stop();
+    }
+  }
+
+  private Thread runWaitForCodeThread(final LocalServerReceiver receiver) {
+    Thread fork = new Thread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          authCode = receiver.waitForCode();
+        } catch (IOException ioe) {
+          error = ioe.getMessage();
+        }
+        finally {
+          forkTermianted = true;
+        }
+      }
+    });
+    fork.start();
+    return fork;
+  }
+
+  private void verifyForkTermination(Thread fork) throws InterruptedException {
+    fork.join(3000 /* ms */);  // Test should pass right away. Don't wait too long.
+    assertTrue(forkTermianted);
+  }
+
+  private void verifyLoginSuccess() {
+    assertEquals(authCode, "some-authorization-code");
+    assertNull(error);
+  }
+
+  private void verifyLoginFailure() {
+    assertEquals(authCode, null);
+    assertTrue(error.contains("some-error"));
+  }
 
   private int responseCode;
   private StringBuilder responseOutput = new StringBuilder();
@@ -83,16 +305,16 @@ public class LocalServerReceiverTest {
   }
 
   private void verifyRedirectedLandingPageUrl(String landingPageUrlMatch) {
-    Assert.assertEquals(302, responseCode);
-    Assert.assertEquals(landingPageUrlMatch, redirectedLandingPageUrl);
-    Assert.assertTrue(responseOutput.toString().isEmpty());
+    assertEquals(302, responseCode);
+    assertEquals(landingPageUrlMatch, redirectedLandingPageUrl);
+    assertTrue(responseOutput.toString().isEmpty());
   }
 
   private void verifyDefaultLandingPage() {
-    Assert.assertEquals(200, responseCode);
-    Assert.assertNull(redirectedLandingPageUrl);
-    Assert.assertTrue(responseOutput.toString().contains("<html>"));
-    Assert.assertTrue(responseOutput.toString().contains("</html>"));
+    assertEquals(200, responseCode);
+    assertNull(redirectedLandingPageUrl);
+    assertTrue(responseOutput.toString().contains("<html>"));
+    assertTrue(responseOutput.toString().contains("</html>"));
   }
 
   private void sendSuccessLoginResult(String serverEndpoint) throws IOException {
