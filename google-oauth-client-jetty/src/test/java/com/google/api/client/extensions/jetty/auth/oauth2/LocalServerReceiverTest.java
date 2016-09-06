@@ -29,11 +29,6 @@ public class LocalServerReceiverTest {
   private String redirectedLandingPageUrl;
 
   @Test
-  public void testNumericLocalhost() {
-    Assert.assertEquals("127.0.0.1", new LocalServerReceiver().getHost());
-  }
-
-  @Test
   public void testSuccessLandingPage() throws IOException, InterruptedException {
     String successLandingPageUrl = "https://www.example.com/my-success-landing-page";
     LocalServerReceiver receiver = new LocalServerReceiver(successLandingPageUrl, null);
