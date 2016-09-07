@@ -56,7 +56,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
   String error;
 
   /** To block until receiving an authorization response or stop() is called. */
-  final Semaphore waitUntilSignaled = new Semaphore(0 /* initially zero permit */);
+  final Semaphore waitUnlessSignaled = new Semaphore(0 /* initially zero permit */);
 
   /** Port to use or {@code -1} to select an unused port in {@link #getRedirectUri()}. */
   private int port;
@@ -119,7 +119,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
 
   @Override
   public String waitForCode() throws IOException {
-    waitUntilSignaled.acquireUninterruptibly();
+    waitUnlessSignaled.acquireUninterruptibly();
     if (error != null) {
       throw new IOException("User authorization failed (" + error + ")");
     }
@@ -128,7 +128,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
 
   @Override
   public void stop() throws IOException {
-    waitUntilSignaled.release();
+    waitUnlessSignaled.release();
     if (server != null) {
       try {
         server.stop();
@@ -233,7 +233,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
         response.flushBuffer();
       }
       finally {
-        waitUntilSignaled.release();
+        waitUnlessSignaled.release();
       }
     }
 
