@@ -117,6 +117,15 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
     return "http://" + host + ":" + port + CALLBACK_PATH;
   }
 
+  /**
+   * Blocks until the server receives a login result, or the server is stopped
+   * by {@link #stop()}, to return an authorization code.
+   *
+   * @return authorization code if login succeeds; may return {@code null} if the server
+   *    is stopped by {@link #stop()}
+   * @throws IOException if the server receives an error code (through an HTTP request
+   *    parameter {@code error})
+   */
   @Override
   public String waitForCode() throws IOException {
     waitUnlessSignaled.acquireUninterruptibly();
