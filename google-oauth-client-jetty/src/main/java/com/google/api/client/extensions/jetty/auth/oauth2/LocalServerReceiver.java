@@ -24,10 +24,7 @@ import org.mortbay.jetty.handler.AbstractHandler;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.Semaphore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,11 +55,8 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
   /** Error code or {@code null} for none. */
   String error;
 
-  /** Lock on the code and error. */
-  final Lock lock = new ReentrantLock();
-
-  /** Condition for receiving an authorization response. */
-  final Condition gotAuthorizationResponse = lock.newCondition();
+  /** To block until receiving an authorization response or stop() is called. */
+  final Semaphore waitUnlessSignaled = new Semaphore(0 /* initially zero permit */);
 
   /** Port to use or {@code -1} to select an unused port in {@link #getRedirectUri()}. */
   private int port;
@@ -109,16 +103,13 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
 
   @Override
   public String getRedirectUri() throws IOException {
-    if (port == -1) {
-      port = getUnusedPort();
-    }
-    server = new Server(port);
-    for (Connector c : server.getConnectors()) {
-      c.setHost(host);
-    }
+    server = new Server(port != -1 ? port : 0);
+    Connector connector = server.getConnectors()[0];
+    connector.setHost(host);
     server.addHandler(new CallbackHandler());
     try {
       server.start();
+      port = connector.getLocalPort();
     } catch (Exception e) {
       Throwables.propagateIfPossible(e);
       throw new IOException(e);
@@ -126,24 +117,27 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
     return "http://" + host + ":" + port + CALLBACK_PATH;
   }
 
+  /**
+   * Blocks until the server receives a login result, or the server is stopped
+   * by {@link #stop()}, to return an authorization code.
+   *
+   * @return authorization code if login succeeds; may return {@code null} if the server
+   *    is stopped by {@link #stop()}
+   * @throws IOException if the server receives an error code (through an HTTP request
+   *    parameter {@code error})
+   */
   @Override
   public String waitForCode() throws IOException {
-    lock.lock();
-    try {
-      while (code == null && error == null) {
-        gotAuthorizationResponse.awaitUninterruptibly();
-      }
-      if (error != null) {
-        throw new IOException("User authorization failed (" + error + ")");
-      }
-      return code;
-    } finally {
-      lock.unlock();
+    waitUnlessSignaled.acquireUninterruptibly();
+    if (error != null) {
+      throw new IOException("User authorization failed (" + error + ")");
     }
+    return code;
   }
 
   @Override
   public void stop() throws IOException {
+    waitUnlessSignaled.release();
     if (server != null) {
       try {
         server.stop();
@@ -165,16 +159,6 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
    */
   public int getPort() {
     return port;
-  }
-
-  private static int getUnusedPort() throws IOException {
-    Socket s = new Socket();
-    s.bind(null);
-    try {
-      return s.getLocalPort();
-    } finally {
-      s.close();
-    }
   }
 
   /**
@@ -243,12 +227,10 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
         return;
       }
 
-      ((Request) request).setHandled(true);
-      lock.lock();
       try {
+        ((Request) request).setHandled(true);
         error = request.getParameter("error");
         code = request.getParameter("code");
-        gotAuthorizationResponse.signal();
 
         if (error == null && successLandingPageUrl != null) {
           response.sendRedirect(successLandingPageUrl);
@@ -258,8 +240,9 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
           writeLandingHtml(response);
         }
         response.flushBuffer();
-      } finally {
-        lock.unlock();
+      }
+      finally {
+        waitUnlessSignaled.release();
       }
     }
 
