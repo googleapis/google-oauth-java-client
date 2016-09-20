@@ -446,8 +446,8 @@ public class Credential
    * the return type, but nothing else.
    * </p>
    *
-   * @param expiresIn lifetime in seconds of the access token (for example 3600 for an hour from now)
-   *        or {@code null} for none
+   * @param expiresIn lifetime in seconds of the access token (for example 3600 for an hour from
+   *        now) or {@code null} for none
    */
   public Credential setExpiresInSeconds(Long expiresIn) {
     return setExpirationTimeMilliseconds(
