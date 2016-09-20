@@ -389,7 +389,10 @@ public class Credential
     return this;
   }
 
-  /** Expected expiration time in milliseconds or {@code null} for none. */
+  /**
+   * Expected expiration time in milliseconds relative to the
+   * {@link System#currentTimeMillis() Java epoch}, or {@code null} for none.
+   */
   public final Long getExpirationTimeMilliseconds() {
     lock.lock();
     try {
@@ -400,7 +403,8 @@ public class Credential
   }
 
   /**
-   * Sets the expected expiration time in milliseconds or {@code null} for none.
+   * Sets the expected expiration time in milliseconds relative to the
+   * {@link System#currentTimeMillis() Java epoch}, or {@code null} for none.
    *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
@@ -418,8 +422,8 @@ public class Credential
   }
 
   /**
-   * Returns the remaining lifetime in seconds of the access token (for example 3600 for an hour, or
-   * -3600 if expired an hour ago) or {@code null} if unknown.
+   * Returns the remaining lifetime in seconds of the access token (for example 3600 for an hour
+   * from now, or -3600 if expired an hour ago) or {@code null} if unknown.
    */
   public final Long getExpiresInSeconds() {
     lock.lock();
@@ -434,16 +438,16 @@ public class Credential
   }
 
   /**
-   * Sets the lifetime in seconds of the access token (for example 3600 for an hour) or {@code null}
-   * for none.
+   * Sets the lifetime in seconds of the access token (for example 3600 for an hour from now)
+   * or {@code null} for none.
    *
    * <p>
    * Overriding is only supported for the purpose of calling the super implementation and changing
    * the return type, but nothing else.
    * </p>
    *
-   * @param expiresIn lifetime in seconds of the access token (for example 3600 for an hour) or
-   *        {@code null} for none
+   * @param expiresIn lifetime in seconds of the access token (for example 3600 for an hour from now)
+   *        or {@code null} for none
    */
   public Credential setExpiresInSeconds(Long expiresIn) {
     return setExpirationTimeMilliseconds(
