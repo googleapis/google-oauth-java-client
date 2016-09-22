@@ -28,26 +28,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <version>3.2.0</version>
-        <configuration>
-          <instructions>
-            <Bundle-SymbolicName>com.google.oauth-client</Bundle-SymbolicName>
-            <Bundle-RequiredExecutionEnvironment>JavaSE-1.6</Bundle-RequiredExecutionEnvironment>
-          </instructions>
-        </configuration>
-        <executions>
-          <execution>
-            <id>bundle-manifest</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>manifest</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
           <archive>
@@ -60,7 +40,6 @@
         <executions>
           <execution>
             <id>jar</id>
-            <phase>compile</phase>
             <goals>
               <goal>jar</goal>
             </goals>
@@ -72,9 +51,28 @@
         <executions>
           <execution>
             <id>source-jar</id>
-            <phase>compile</phase>
             <goals>
               <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <instructions>
+            <Bundle-SymbolicName>com.google.oauth-client</Bundle-SymbolicName>
+            <Bundle-RequiredExecutionEnvironment>JavaSE-1.6</Bundle-RequiredExecutionEnvironment>
+          </instructions>
+        </configuration>
+        <executions>
+          <execution>
+            <id>bundle-manifest</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>manifest</goal>
             </goals>
           </execution>
         </executions>
