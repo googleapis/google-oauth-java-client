@@ -40,7 +40,6 @@
         <executions>
           <execution>
             <id>jar</id>
-            <phase>compile</phase>
             <goals>
               <goal>jar</goal>
             </goals>
@@ -52,7 +51,6 @@
         <executions>
           <execution>
             <id>source-jar</id>
-            <phase>compile</phase>
             <goals>
               <goal>jar</goal>
             </goals>
