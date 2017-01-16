@@ -117,7 +117,7 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
    * the {@link #nonce} field.
    */
   public void computeNonce() {
-      nonce = Long.toHexString(Math.abs(RANDOM.nextLong() >>> 1));
+      nonce = Long.toHexString(RANDOM.nextLong() >>> 1);
   }
 
   /**
