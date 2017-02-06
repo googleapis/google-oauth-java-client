@@ -69,7 +69,9 @@ public class AuthorizationCodeInstalledApp {
     try {
       Credential credential = flow.loadCredential(userId);
       if (credential != null
-          && (credential.getRefreshToken() != null || credential.getExpiresInSeconds() > 60)) {
+          && (credential.getRefreshToken() != null || 
+              credential.getExpiresInSeconds() == null || 
+              credential.getExpiresInSeconds() > 60)) {
         return credential;
       }
       // open in browser
