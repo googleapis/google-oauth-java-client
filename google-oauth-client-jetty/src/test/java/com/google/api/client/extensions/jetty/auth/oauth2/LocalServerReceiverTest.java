@@ -53,6 +53,19 @@ public class LocalServerReceiverTest {
     }
   }
 
+  @Test
+  public void testCallbackPath() throws IOException {
+    final String CALLBACK_PATH = "/Some/other/path";
+    LocalServerReceiver receiver = new LocalServerReceiver("localhost", -1, CALLBACK_PATH, null, null);
+
+    try {
+      String localEndpoint = receiver.getRedirectUri();
+      assertEquals("http://localhost:" + receiver.getPort() + CALLBACK_PATH, localEndpoint);
+    } finally {
+      receiver.stop();
+    }
+  }
+
   boolean forkTermianted;
   String authCode;
   String error;

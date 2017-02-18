@@ -64,6 +64,9 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
   /** Host name to use. */
   private final String host;
 
+  /** Callback path of redirect_uri */
+  private final String callbackPath;
+
   /**
    * URL to an HTML page to be shown (via redirect) after successful login. If null, a canned
    * default landing page will be shown (via direct response).
@@ -84,7 +87,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
    * </p>
    */
   public LocalServerReceiver() {
-    this(LOCALHOST, -1, null, null);
+    this(LOCALHOST, -1, CALLBACK_PATH, null, null);
   }
 
   /**
@@ -95,8 +98,20 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
    */
   LocalServerReceiver(String host, int port,
                       String successLandingPageUrl, String failureLandingPageUrl) {
+    this(host, port, CALLBACK_PATH, successLandingPageUrl, failureLandingPageUrl);
+  }
+
+  /**
+   * Constructor.
+   *
+   * @param host Host name to use
+   * @param port Port to use or {@code -1} to select an unused port
+   */
+  LocalServerReceiver(String host, int port, String callbackPath,
+                      String successLandingPageUrl, String failureLandingPageUrl) {
     this.host = host;
     this.port = port;
+    this.callbackPath = callbackPath;
     this.successLandingPageUrl = successLandingPageUrl;
     this.failureLandingPageUrl = failureLandingPageUrl;
   }
@@ -114,7 +129,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
       Throwables.propagateIfPossible(e);
       throw new IOException(e);
     }
-    return "http://" + host + ":" + port + CALLBACK_PATH;
+    return "http://" + host + ":" + port + callbackPath;
   }
 
   /**
@@ -162,6 +177,13 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
   }
 
   /**
+   * Returns callback path used in redirect_uri.
+   */
+  public String getCallbackPath() {
+    return callbackPath;
+  }
+
+  /**
    * Builder.
    *
    * <p>
@@ -179,9 +201,11 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
     private String successLandingPageUrl;
     private String failureLandingPageUrl;
 
+    private String callbackPath = CALLBACK_PATH;
+
     /** Builds the {@link LocalServerReceiver}. */
     public LocalServerReceiver build() {
-      return new LocalServerReceiver(host, port, successLandingPageUrl, failureLandingPageUrl);
+      return new LocalServerReceiver(host, port, callbackPath, successLandingPageUrl, failureLandingPageUrl);
     }
 
     /** Returns the host name to use. */
@@ -203,6 +227,17 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
     /** Sets the port to use or {@code -1} to select an unused port. */
     public Builder setPort(int port) {
       this.port = port;
+      return this;
+    }
+
+    /** Returns the callback path of redirect_uri */
+    public String getCallbackPath() {
+      return callbackPath;
+    }
+
+    /** Set the callback path of redirect_uri */
+    public Builder setCallbackPath(String callbackPath) {
+      this.callbackPath = callbackPath;
       return this;
     }
 
