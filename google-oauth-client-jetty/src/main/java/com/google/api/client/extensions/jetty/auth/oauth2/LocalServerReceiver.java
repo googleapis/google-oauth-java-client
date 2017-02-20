@@ -205,7 +205,8 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
 
     /** Builds the {@link LocalServerReceiver}. */
     public LocalServerReceiver build() {
-      return new LocalServerReceiver(host, port, callbackPath, successLandingPageUrl, failureLandingPageUrl);
+      return new LocalServerReceiver(host, port, callbackPath,
+              successLandingPageUrl, failureLandingPageUrl);
     }
 
     /** Returns the host name to use. */
