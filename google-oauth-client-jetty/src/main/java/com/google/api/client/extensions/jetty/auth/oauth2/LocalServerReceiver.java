@@ -17,13 +17,14 @@ package com.google.api.client.extensions.jetty.auth.oauth2;
 import com.google.api.client.extensions.java6.auth.oauth2.VerificationCodeReceiver;
 import com.google.api.client.util.Throwables;
 
-import org.mortbay.jetty.Connector;
-import org.mortbay.jetty.Request;
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.handler.AbstractHandler;
+import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.Request;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.AbstractHandler;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.util.concurrent.Semaphore;
 
 import javax.servlet.http.HttpServletRequest;
@@ -64,7 +65,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
   /** Host name to use. */
   private final String host;
 
-  /** Callback path of redirect_uri */
+  /** Callback path of redirect_uri. */
   private final String callbackPath;
 
   /**
@@ -118,10 +119,9 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
 
   @Override
   public String getRedirectUri() throws IOException {
-    server = new Server(port != -1 ? port : 0);
+    server = new Server(new InetSocketAddress(host, port != -1 ? port : 0));
     Connector connector = server.getConnectors()[0];
-    connector.setHost(host);
-    server.addHandler(new CallbackHandler());
+    server.setHandler(new CallbackHandler());
     try {
       server.start();
       port = connector.getLocalPort();
@@ -231,12 +231,12 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
       return this;
     }
 
-    /** Returns the callback path of redirect_uri */
+    /** Returns the callback path of redirect_uri. */
     public String getCallbackPath() {
       return callbackPath;
     }
 
-    /** Set the callback path of redirect_uri */
+    /** Set the callback path of redirect_uri. */
     public Builder setCallbackPath(String callbackPath) {
       this.callbackPath = callbackPath;
       return this;
@@ -257,7 +257,8 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
 
     @Override
     public void handle(
-        String target, HttpServletRequest request, HttpServletResponse response, int dispatch)
+        String target, Request baseRequest,
+        HttpServletRequest request, HttpServletResponse response)
         throws IOException {
       if (!CALLBACK_PATH.equals(target)) {
         return;
@@ -276,8 +277,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
           writeLandingHtml(response);
         }
         response.flushBuffer();
-      }
-      finally {
+      } finally {
         waitUnlessSignaled.release();
       }
     }
