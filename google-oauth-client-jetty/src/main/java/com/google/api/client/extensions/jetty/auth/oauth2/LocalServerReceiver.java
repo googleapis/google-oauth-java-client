@@ -17,13 +17,14 @@ package com.google.api.client.extensions.jetty.auth.oauth2;
 import com.google.api.client.extensions.java6.auth.oauth2.VerificationCodeReceiver;
 import com.google.api.client.util.Throwables;
 
-import org.mortbay.jetty.Connector;
-import org.mortbay.jetty.Request;
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.handler.AbstractHandler;
+import org.eclipse.jetty.server.NetworkConnector;
+import org.eclipse.jetty.server.Request;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.AbstractHandler;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.util.concurrent.Semaphore;
 
 import javax.servlet.http.HttpServletRequest;
@@ -118,10 +119,9 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
 
   @Override
   public String getRedirectUri() throws IOException {
-    server = new Server(port != -1 ? port : 0);
-    Connector connector = server.getConnectors()[0];
-    connector.setHost(host);
-    server.addHandler(new CallbackHandler());
+    server = new Server(new InetSocketAddress(host,port != -1 ? port : 0));
+    NetworkConnector connector = (NetworkConnector) server.getConnectors()[0];
+    server.setHandler(new CallbackHandler());
     try {
       server.start();
       port = connector.getLocalPort();
@@ -257,7 +257,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
 
     @Override
     public void handle(
-        String target, HttpServletRequest request, HttpServletResponse response, int dispatch)
+        String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
         throws IOException {
       if (!CALLBACK_PATH.equals(target)) {
         return;
