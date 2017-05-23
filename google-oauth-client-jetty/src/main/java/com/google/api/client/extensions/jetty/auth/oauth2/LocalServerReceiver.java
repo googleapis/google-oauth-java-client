@@ -17,7 +17,7 @@ package com.google.api.client.extensions.jetty.auth.oauth2;
 import com.google.api.client.extensions.java6.auth.oauth2.VerificationCodeReceiver;
 import com.google.api.client.util.Throwables;
 
-import org.eclipse.jetty.server.NetworkConnector;
+import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
@@ -120,7 +120,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
   @Override
   public String getRedirectUri() throws IOException {
     server = new Server(new InetSocketAddress(host,port != -1 ? port : 0));
-    NetworkConnector connector = (NetworkConnector) server.getConnectors()[0];
+    Connector connector = server.getConnectors()[0];
     server.setHandler(new CallbackHandler());
     try {
       server.start();
