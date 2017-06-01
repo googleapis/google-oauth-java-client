@@ -14,102 +14,96 @@
 
 package com.google.api.client.auth.openidconnect;
 
-import static junit.framework.Assert.assertNotNull;
-import static org.junit.Assert.*;
-
 import com.google.api.client.json.jackson.JacksonFactory;
 import org.junit.Test;
+
+import static junit.framework.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Unit tests for class {@link IdTokenResponse}.
  *
  * @author Michael Hausegger, hausegger.michael@googlemail.com
- **/
+ */
 public class IdTokenResponseTest {
 
+  @Test(expected = NullPointerException.class)
+  public void testSetTokenTypeThrowsNullPointerException() throws Exception {
 
-	@Test(expected = NullPointerException.class)
-	public void testSetTokenTypeThrowsNullPointerException() throws Exception {
+    IdTokenResponse idTokenResponse = new IdTokenResponse();
 
-		IdTokenResponse idTokenResponse = new IdTokenResponse();
+    idTokenResponse.setTokenType(null);
+  }
 
-		idTokenResponse.setTokenType(null);
-	}
+  @Test(expected = NullPointerException.class)
+  public void testSetIdTokenThrowsNullPointerException() throws Exception {
 
+    IdTokenResponse idTokenResponse = new IdTokenResponse();
 
-	@Test(expected = NullPointerException.class)
-	public void testSetIdTokenThrowsNullPointerException() throws Exception {
+    idTokenResponse.setIdToken(null);
+  }
 
-		IdTokenResponse idTokenResponse = new IdTokenResponse();
+  @Test(expected = NullPointerException.class)
+  public void testSetAccessTokenThrowsNullPointerException() throws Exception {
 
-		idTokenResponse.setIdToken(null);
-	}
+    IdTokenResponse idTokenResponse = new IdTokenResponse();
 
+    idTokenResponse.setAccessToken(null);
+  }
 
-	@Test(expected = NullPointerException.class)
-	public void testSetAccessTokenThrowsNullPointerException() throws Exception {
+  @Test(expected = IllegalArgumentException.class)
+  public void testParseIdTokenThrowsIllegalArgumentException() throws Exception {
 
-		IdTokenResponse idTokenResponse = new IdTokenResponse();
+    IdTokenResponse idTokenResponse = new IdTokenResponse();
+    JacksonFactory jacksonFactory = new JacksonFactory();
+    idTokenResponse.setFactory(jacksonFactory);
+    IdTokenResponse idTokenResponseTwo = idTokenResponse.setIdToken("");
 
-		idTokenResponse.setAccessToken(null);
-	}
+    idTokenResponseTwo.parseIdToken();
+  }
 
+  @Test(expected = NullPointerException.class)
+  public void testExecuteThrowsNullPointerExceptionAndExecuteWithNull() throws Exception {
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testParseIdTokenThrowsIllegalArgumentException() throws Exception {
+    IdTokenResponse.execute(null);
+  }
 
-		IdTokenResponse idTokenResponse = new IdTokenResponse();
-		JacksonFactory jacksonFactory = new JacksonFactory();
-		idTokenResponse.setFactory(jacksonFactory);
-		IdTokenResponse idTokenResponseTwo = idTokenResponse.setIdToken("");
+  @Test
+  public void testSetGetIdToken() throws Exception {
 
-		idTokenResponseTwo.parseIdToken();
-	}
+    IdTokenResponse idTokenResponseOne = new IdTokenResponse();
+    IdTokenResponse idTokenResponseTwo = idTokenResponseOne.setIdToken("a");
 
+    assertNull(idTokenResponseOne.getScope());
+    assertEquals("a", idTokenResponseOne.getIdToken());
 
-	@Test(expected = NullPointerException.class)
-	public void testExecuteThrowsNullPointerExceptionAndExecuteWithNull() throws Exception {
+    assertNull(idTokenResponseOne.getTokenType());
+    assertNull(idTokenResponseOne.getAccessToken());
 
-		IdTokenResponse.execute(null);
-	}
+    assertNull(idTokenResponseOne.getRefreshToken());
+    assertEquals("a", idTokenResponseTwo.getIdToken());
 
+    assertNull(idTokenResponseTwo.getAccessToken());
+    assertNull(idTokenResponseTwo.getRefreshToken());
 
-	@Test
-	public void testSetGetIdToken() throws Exception {
+    assertNull(idTokenResponseTwo.getScope());
+    assertNull(idTokenResponseTwo.getTokenType());
 
-		IdTokenResponse idTokenResponseOne = new IdTokenResponse();
-		IdTokenResponse idTokenResponseTwo = idTokenResponseOne.setIdToken("a");
+    assertSame(idTokenResponseOne, idTokenResponseTwo);
+    assertSame(idTokenResponseTwo, idTokenResponseOne);
 
-		assertNull(idTokenResponseOne.getScope());
-		assertEquals("a", idTokenResponseOne.getIdToken());
+    String idTokenString = idTokenResponseOne.getIdToken();
 
-		assertNull(idTokenResponseOne.getTokenType());
-		assertNull(idTokenResponseOne.getAccessToken());
+    assertEquals("a", idTokenString);
+    assertNull(idTokenResponseOne.getScope());
 
-		assertNull(idTokenResponseOne.getRefreshToken());
-		assertEquals("a", idTokenResponseTwo.getIdToken());
+    assertEquals("a", idTokenResponseOne.getIdToken());
+    assertNull(idTokenResponseOne.getTokenType());
 
-		assertNull(idTokenResponseTwo.getAccessToken());
-		assertNull(idTokenResponseTwo.getRefreshToken());
+    assertNull(idTokenResponseOne.getAccessToken());
+    assertNull(idTokenResponseOne.getRefreshToken());
 
-		assertNull(idTokenResponseTwo.getScope());
-		assertNull(idTokenResponseTwo.getTokenType());
-
-		assertSame(idTokenResponseOne, idTokenResponseTwo);
-		assertSame(idTokenResponseTwo, idTokenResponseOne);
-
-		String idTokenString = idTokenResponseOne.getIdToken();
-
-		assertEquals("a", idTokenString);
-		assertNull(idTokenResponseOne.getScope());
-
-		assertEquals("a", idTokenResponseOne.getIdToken());
-		assertNull(idTokenResponseOne.getTokenType());
-
-		assertNull(idTokenResponseOne.getAccessToken());
-		assertNull(idTokenResponseOne.getRefreshToken());
-
-		assertNotNull(idTokenString);
-		assertSame(idTokenResponseOne, idTokenResponseTwo);
-	}
+    assertNotNull(idTokenString);
+    assertSame(idTokenResponseOne, idTokenResponseTwo);
+  }
 }
