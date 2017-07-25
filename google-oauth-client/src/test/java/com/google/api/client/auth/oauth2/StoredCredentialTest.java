@@ -15,8 +15,10 @@
 package com.google.api.client.auth.oauth2;
 
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import static org.junit.Assert.*;
 
 /**
  * Unit tests for class {@link StoredCredential}.
@@ -27,82 +29,65 @@ public class StoredCredentialTest {
 
   @Test
   public void testGetRefreshTokenReturningNonEmptyString() throws Exception {
-
     StoredCredential storedCredential = new StoredCredential();
     StoredCredential storedCredentialTwo = storedCredential.setRefreshToken("HEAD");
-
     assertEquals("HEAD", storedCredentialTwo.getRefreshToken());
   }
 
   @Test
   public void testSetGetExpirationTimeMillisecondsAndSetExpirationTimeMilliseconds()
-      throws Exception {
-
+          throws Exception {
     StoredCredential storedCredential = new StoredCredential();
     Long longValue = new Long(1000000L);
     StoredCredential storedCredentialTwo =
-        storedCredential.setExpirationTimeMilliseconds(longValue);
-
+            storedCredential.setExpirationTimeMilliseconds(longValue);
     assertEquals(1000000L, (long) storedCredential.getExpirationTimeMilliseconds());
   }
 
   @Test
   public void testGetAccessTokenReturningNonEmptyString() throws Exception {
-
     StoredCredential storedCredential = new StoredCredential();
     StoredCredential storedCredentialTwo = storedCredential.setAccessToken("a");
-
     assertEquals("a", storedCredentialTwo.getAccessToken());
   }
 
   @Test(expected = NullPointerException.class)
   public void testGetDefaultDataStoreThrowsNullPointerException() throws Exception {
-
     StoredCredential.getDefaultDataStore(null);
   }
 
   @Test(expected = NullPointerException.class)
   public void testFailsToCreateStoredCredentialTakingCredentialThrowsNullPointerException()
-      throws Exception {
-
+          throws Exception {
     new StoredCredential(null);
   }
 
   @Test
   public void testEqualsReturningTrue() throws Exception {
-
     StoredCredential storedCredential = new StoredCredential();
     StoredCredential storedCredentialTwo = new StoredCredential();
-
     assertTrue(storedCredential.equals(storedCredentialTwo));
     assertTrue(storedCredentialTwo.equals(storedCredential));
-
     assertTrue(storedCredential.equals(storedCredential));
     assertTrue(storedCredentialTwo.equals(storedCredentialTwo));
   }
 
   @Test
   public void testEqualsReturningFalse() throws Exception {
-
     StoredCredential storedCredential = new StoredCredential();
     StoredCredential storedCredentialTwo = new StoredCredential();
-
     storedCredentialTwo.setAccessToken("a");
-
     assertFalse(storedCredential.equals(storedCredentialTwo));
     assertFalse(storedCredentialTwo.equals(storedCredential));
-
     assertFalse(storedCredential.equals(null));
     assertFalse(storedCredentialTwo.equals(null));
   }
 
   @Test
   public void testToString() throws Exception {
-
     StoredCredential storedCredential = new StoredCredential();
-
     assertEquals(
-        "Class{accessToken=null, refreshToken=null, expirationTimeMilliseconds=null}",
-        storedCredential.toString());
+            "Class{accessToken=null, refreshToken=null, expirationTimeMilliseconds=null}",
+            storedCredential.toString());
   }
 }
