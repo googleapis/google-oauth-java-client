@@ -20,6 +20,7 @@ import junit.framework.TestCase;
  * Tests {@link OAuthParameters}.
  *
  * @author Yaniv Inbar
+ * @author Michael Hausegger, hausegger.michael@googlemail.com
  */
 public class OAuthParametersTest extends TestCase {
 
@@ -54,5 +55,21 @@ public class OAuthParametersTest extends TestCase {
         + "oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"1274732403\", "
         + "oauth_token=\"4%2F1mZ3ZPynTry3szE49h3XyXk24p_I\", "
         + "oauth_verifier=\"gZ1BFee1qSijpqbxfnX%2Bo8rQ\"", parameters.getAuthorizationHeader());
+  }
+
+  public void testComputeNonceActuallyChangesNonce() {
+    OAuthParameters oAuthParameters = new OAuthParameters();
+    assertNull(oAuthParameters.nonce);
+    oAuthParameters.computeNonce();
+    assertNotNull(oAuthParameters.nonce);
+    String oldNonceOne = oAuthParameters.nonce;
+    oAuthParameters.computeNonce();
+    assertNotNull(oAuthParameters.nonce);
+    assertFalse(oldNonceOne.equals(oAuthParameters.nonce));
+    String oldNonceTwo = oAuthParameters.nonce;
+    oAuthParameters.computeNonce();
+    assertNotNull(oAuthParameters.nonce);
+    assertFalse(oldNonceOne.equals(oAuthParameters.nonce));
+    assertFalse(oldNonceTwo.equals(oAuthParameters.nonce));
   }
 }
