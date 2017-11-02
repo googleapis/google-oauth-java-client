@@ -22,10 +22,6 @@
 
   <inceptionYear>2011</inceptionYear>
 
-  <prerequisites>
-    <maven>2.0.9</maven>
-  </prerequisites>
-
   <scm>
     <connection>scm:git:https://github.com/google/google-oauth-java-client.git</connection>
     <developerConnection>scm:git:git@github.com:google/google-oauth-java-client.git</developerConnection>
