@@ -212,7 +212,7 @@ public class AuthorizationCodeFlow {
   }
 
   /**
-   * Creates a new credential for the given user ID based on the given token response and store in
+   * Creates a new credential for the given user ID based on the given token response and stores it in
    * the credential store.
    *
    * @param response token response
