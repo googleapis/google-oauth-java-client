@@ -34,6 +34,10 @@ public class TokenResponse extends GenericJson {
   /** Access token issued by the authorization server. */
   @Key("access_token")
   private String accessToken;
+  
+  /** ID token issued by the authorization server. */
+  @Key("id_token")
+  private String idToken;
 
   /**
    * Token type (as specified in <a href="http://tools.ietf.org/html/rfc6749#section-7.1">Access
@@ -68,7 +72,7 @@ public class TokenResponse extends GenericJson {
   public final String getAccessToken() {
     return accessToken;
   }
-
+  
   /**
    * Sets the access token issued by the authorization server.
    *
@@ -79,6 +83,24 @@ public class TokenResponse extends GenericJson {
    */
   public TokenResponse setAccessToken(String accessToken) {
     this.accessToken = Preconditions.checkNotNull(accessToken);
+    return this;
+  }
+
+  /** Returns the id token issued by the authorization server. */
+  public String getIdToken() {
+    return idToken;
+  }
+
+  /**
+   * Sets the id token issued by the authorization server.
+   *
+   * <p>
+   * Overriding is only supported for the purpose of calling the super implementation and changing
+   * the return type, but nothing else.
+   * </p>
+   */
+  public TokenResponse setIdToken( String idToken ) {
+    this.idToken = Preconditions.checkNotNull(idToken);
     return this;
   }
 
