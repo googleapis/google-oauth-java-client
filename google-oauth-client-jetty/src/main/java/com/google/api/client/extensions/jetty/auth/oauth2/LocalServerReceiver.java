@@ -256,7 +256,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
     public void handle(
         String target, HttpServletRequest request, HttpServletResponse response, int dispatch)
         throws IOException {
-      if (!CALLBACK_PATH.equals(target)) {
+      if (!callbackPath.equals(target)) {
         return;
       }
 
