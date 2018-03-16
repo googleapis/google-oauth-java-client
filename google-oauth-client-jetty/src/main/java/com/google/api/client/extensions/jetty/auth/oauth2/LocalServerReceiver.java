@@ -126,7 +126,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
       Throwables.propagateIfPossible(e);
       throw new IOException(e);
     }
-    return "http://" + host + ":" + port + callbackPath;
+    return "http://" + connector.getHost() + ":" + port + callbackPath;
   }
 
   /**
