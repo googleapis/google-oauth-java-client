@@ -40,6 +40,30 @@ import java.util.logging.Logger;
  */
 public class AuthorizationCodeInstalledApp {
 
+
+  /**
+   *
+   * Helper interface to allow caller to browse.
+   *
+   */
+  public static interface Browser {
+    public void browse(String url) throws Exception;
+  }
+
+  /**
+   *
+   * Default browser that just throws an exception.
+   *
+   */
+  public static class FailingBrowser implements Browser {
+
+    /** Browse. */
+    public void browse(String url) throws Exception {
+      throw new Exception("Fail");
+    }
+
+  }
+
   /** Authorization code flow. */
   private final AuthorizationCodeFlow flow;
 
@@ -49,14 +73,26 @@ public class AuthorizationCodeInstalledApp {
   private static final Logger LOGGER =
       Logger.getLogger(AuthorizationCodeInstalledApp.class.getName());
 
+  private final Browser browser;
+
   /**
    * @param flow authorization code flow
    * @param receiver verification code receiver
    */
   public AuthorizationCodeInstalledApp(
       AuthorizationCodeFlow flow, VerificationCodeReceiver receiver) {
+    this(flow, receiver,  new FailingBrowser());
+  }
+
+  /**
+   * @param flow authorization code flow
+   * @param receiver verification code receiver
+   */
+  public AuthorizationCodeInstalledApp(
+      AuthorizationCodeFlow flow, VerificationCodeReceiver receiver, Browser browser) {
     this.flow = Preconditions.checkNotNull(flow);
     this.receiver = Preconditions.checkNotNull(receiver);
+    this.browser = browser;
   }
 
   /**
@@ -69,8 +105,8 @@ public class AuthorizationCodeInstalledApp {
     try {
       Credential credential = flow.loadCredential(userId);
       if (credential != null
-          && (credential.getRefreshToken() != null || 
-              credential.getExpiresInSeconds() == null || 
+          && (credential.getRefreshToken() != null ||
+              credential.getExpiresInSeconds() == null ||
               credential.getExpiresInSeconds() > 60)) {
         return credential;
       }
@@ -110,7 +146,15 @@ public class AuthorizationCodeInstalledApp {
    * @throws IOException I/O exception
    */
   protected void onAuthorization(AuthorizationCodeRequestUrl authorizationUrl) throws IOException {
-    browse(authorizationUrl.build());
+    String url = authorizationUrl.build();
+    Preconditions.checkNotNull(url);
+    System.out.println("Please open the following address in your browser:");
+    System.out.println("  " + url);
+    try {
+      browser.browse(url);
+    } catch (Exception e) {
+      LOGGER.log(Level.WARNING, "Unable to open browser", e);
+    }
   }
 
   /**
