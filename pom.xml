@@ -512,7 +512,7 @@
     <project.gson.version>2.1</project.gson.version>
     <project.jackson-core-asl.version>1.9.11</project.jackson-core-asl.version>
     <project.jackson-core2.version>2.9.2</project.jackson-core2.version>
-    <project.jetty.version>9.2.24.v20180105</project.jetty.version>
+    <project.jetty.version>9.2.10.v20150310</project.jetty.version>
     <project.protobuf-java.version>2.4.1</project.protobuf-java.version>
     <project.guava.version>19.0</project.guava.version>
     <project.xpp3.version>1.1.4c</project.xpp3.version>
