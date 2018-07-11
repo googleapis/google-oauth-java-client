@@ -129,6 +129,9 @@ public class Credential
   /** Access token issued by the authorization server. */
   private String accessToken;
 
+  /** Id token issued by the authorization server. */
+  private String idToken;
+  
   /**
    * Expected expiration time in milliseconds based on {@link #setExpiresInSeconds} or {@code null}
    * for none.
@@ -310,6 +313,36 @@ public class Credential
     lock.lock();
     try {
       this.accessToken = accessToken;
+    } finally {
+      lock.unlock();
+    }
+    return this;
+  }
+
+  /** Returns the id token or {@code null} for none. */
+  public final String getIdToken() {
+    lock.lock();
+    try {
+      return idToken;
+    } finally {
+      lock.unlock();
+    }
+  }
+
+  /**
+   * Sets the access token.
+   *
+   * <p>
+   * Overriding is only supported for the purpose of calling the super implementation and changing
+   * the return type, but nothing else.
+   * </p>
+   *
+   * @param idToken id token or {@code null} for none
+   */
+  public Credential setIdToken(String idToken) {
+    lock.lock();
+    try {
+      this.idToken = idToken;
     } finally {
       lock.unlock();
     }
@@ -534,6 +567,7 @@ public class Credential
    */
   public Credential setFromTokenResponse(TokenResponse tokenResponse) {
     setAccessToken(tokenResponse.getAccessToken());
+    setIdToken(tokenResponse.getIdToken());
     // handle case of having a refresh token previous, but no refresh token in current
     // response
     if (tokenResponse.getRefreshToken() != null) {
