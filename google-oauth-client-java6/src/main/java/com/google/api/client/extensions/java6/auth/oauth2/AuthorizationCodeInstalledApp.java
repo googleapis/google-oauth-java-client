@@ -37,6 +37,7 @@ import java.util.logging.Logger;
  *
  * @since 1.11
  * @author Yaniv Inbar
+ * @author Philipp Hanslovsky
  */
 public class AuthorizationCodeInstalledApp {
 
@@ -47,19 +48,24 @@ public class AuthorizationCodeInstalledApp {
    *
    */
   public static interface Browser {
+    /**
+     *
+     * @param url url to browse
+     * @throws Exception
+     */
     public void browse(String url) throws Exception;
   }
 
   /**
    *
-   * Default browser that just throws an exception.
+   * Default browser that just delegates to
+   * {@link AuthorizationCodeInstalledApp#browse(String)}.
    *
    */
-  public static class FailingBrowser implements Browser {
+  public static class DefaultBrowser implements Browser{
 
-    /** Browse. */
     public void browse(String url) throws Exception {
-      throw new Exception("Fail");
+      AuthorizationCodeInstalledApp.browse(url);
     }
 
   }
@@ -81,7 +87,7 @@ public class AuthorizationCodeInstalledApp {
    */
   public AuthorizationCodeInstalledApp(
       AuthorizationCodeFlow flow, VerificationCodeReceiver receiver) {
-    this(flow, receiver,  new FailingBrowser());
+    this(flow, receiver,  new DefaultBrowser());
   }
 
   /**
