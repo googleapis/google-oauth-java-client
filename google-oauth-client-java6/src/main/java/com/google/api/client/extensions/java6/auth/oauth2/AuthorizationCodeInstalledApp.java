@@ -51,9 +51,9 @@ public class AuthorizationCodeInstalledApp {
     /**
      *
      * @param url url to browse
-     * @throws Exception
+     * @throws IOException
      */
-    public void browse(String url) throws Exception;
+    public void browse(String url) throws IOException;
   }
 
   /**
@@ -64,7 +64,7 @@ public class AuthorizationCodeInstalledApp {
    */
   public static class DefaultBrowser implements Browser{
 
-    public void browse(String url) throws Exception {
+    public void browse(String url) throws IOException {
       AuthorizationCodeInstalledApp.browse(url);
     }
 
@@ -154,13 +154,7 @@ public class AuthorizationCodeInstalledApp {
   protected void onAuthorization(AuthorizationCodeRequestUrl authorizationUrl) throws IOException {
     String url = authorizationUrl.build();
     Preconditions.checkNotNull(url);
-    System.out.println("Please open the following address in your browser:");
-    System.out.println("  " + url);
-    try {
-      browser.browse(url);
-    } catch (Exception e) {
-      LOGGER.log(Level.WARNING, "Unable to open browser", e);
-    }
+    browser.browse(url);
   }
 
   /**
