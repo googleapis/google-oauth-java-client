@@ -95,6 +95,7 @@ public abstract class AbstractAppEngineAuthorizationCodeCallbackServlet
 
   @Override
   protected String getUserId(HttpServletRequest req) throws ServletException, IOException {
+    // Use GAE Standard's users service to fetch the current user of the application.
     return UserServiceFactory.getUserService().getCurrentUser().getUserId();
   }
 }

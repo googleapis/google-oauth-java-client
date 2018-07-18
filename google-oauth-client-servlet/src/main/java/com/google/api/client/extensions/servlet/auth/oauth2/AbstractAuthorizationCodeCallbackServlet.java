@@ -146,7 +146,11 @@ public abstract class AbstractAuthorizationCodeCallbackServlet extends HttpServl
   protected abstract String getRedirectUri(HttpServletRequest req)
       throws ServletException, IOException;
 
-  /** Returns the user ID for the given HTTP servlet request. */
+  /**
+   * Returns the user ID for the given HTTP servlet request. This identifies your application's
+   * user and is used to assign and persist credentials to that user. Most commonly, this will be a
+   * user id stored in the session or even the session id itself.
+   */
   protected abstract String getUserId(HttpServletRequest req) throws ServletException, IOException;
 
   /**
