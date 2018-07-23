@@ -32,8 +32,10 @@ public class TokenRequestTest extends TestCase {
   static final GenericUrl AUTHORIZATION_SERVER_URL = new GenericUrl(
       "https://server.example.com/authorize");
 
-  public void testTokenRequest() {
-    check(new TokenRequest(TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo"){}, "foo");
+  public void testConstructor() {
+    TokenRequest request = new TokenRequest(TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo");
+    check(request, "foo");
+    assertEquals(TokenResponse.class, request.getResponseClass());
   }
 
   static void check(TokenRequest request, String grantType) {

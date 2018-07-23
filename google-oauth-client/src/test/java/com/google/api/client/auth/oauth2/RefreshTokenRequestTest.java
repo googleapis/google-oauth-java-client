@@ -14,6 +14,7 @@
 
 package com.google.api.client.auth.oauth2;
 
+import com.google.api.client.auth.openidconnect.IdTokenResponse;
 import junit.framework.TestCase;
 
 /**
@@ -33,5 +34,12 @@ public class RefreshTokenRequestTest extends TestCase {
   private void check(RefreshTokenRequest request) {
     TokenRequestTest.check(request, "refresh_token");
     assertEquals(REFRESH_TOKEN, request.getRefreshToken());
+  }
+
+  public void testSetResponseClass() {
+    RefreshTokenRequest request = new RefreshTokenRequest(TokenRequestTest.TRANSPORT, TokenRequestTest.JSON_FACTORY,
+        TokenRequestTest.AUTHORIZATION_SERVER_URL, REFRESH_TOKEN)
+        .setResponseClass(IdTokenResponse.class);
+    assertEquals(IdTokenResponse.class, request.getResponseClass());
   }
 }
