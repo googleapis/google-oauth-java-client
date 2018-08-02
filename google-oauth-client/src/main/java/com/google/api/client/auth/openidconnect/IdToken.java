@@ -94,7 +94,11 @@ public class IdToken extends JsonWebSignature {
    * @param trustedClientIds list of trusted client IDs
    */
   public final boolean verifyAudience(Collection<String> trustedClientIds) {
-    return trustedClientIds.containsAll(getPayload().getAudienceAsList());
+    Collection<String> audience = getPayload().getAudienceAsList();
+    if (audience.isEmpty()) {
+      return false;
+    }
+    return trustedClientIds.containsAll(audience);
   }
 
   /**

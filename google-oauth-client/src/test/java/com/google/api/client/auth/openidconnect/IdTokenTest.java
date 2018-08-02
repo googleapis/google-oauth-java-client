@@ -66,6 +66,12 @@ public class IdTokenTest extends TestCase {
     assertFalse(token.verifyAudience(Arrays.asList("cid", "cid3")));
   }
 
+  public void testValidateNoAudienceSet() {
+    IdToken token =
+        new IdToken(new IdToken.Header(), new IdToken.Payload(), new byte[0], new byte[0]);
+    assertFalse(token.verifyAudience(Arrays.asList("cid")));
+  }
+
   public void testValidateTime() {
     IdToken token =
         new IdToken(new IdToken.Header(), new IdToken.Payload(), new byte[0], new byte[0]);
