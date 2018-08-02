@@ -16,7 +16,7 @@ built on the [Google HTTP Client Library for Java](https://github.com/google/goo
 
 The library supports the following Java environments:
 
-- Java 5 (or higher), standard (SE) and enterprise (EE)
+- Java 6 (or higher)
 - Android 2.1 (or higher)
 - Google App Engine
 
@@ -40,12 +40,3 @@ are welcome.
 
 - [Announcements](http://google-oauth-java-client.blogspot.com/)
 - [Discuss](http://groups.google.com/group/google-oauth-java-client)
-
-## Notice: Ending Java 5 Support
-
-Please note: since Java 5 is no longer supported by Oracle or in Android, we will begin ending
-Java 5 support in release 1.24.0. Users may stay still use these libraries in Java 5 projects for
-some time, but going forward we will not ensure that these libraries work in such an environment.
-After 1.24.0, our supported versions will include Java 6 and onward.
-
-For questions or concerns, please file an issue.
