@@ -17,7 +17,7 @@ built on the [Google HTTP Client Library for Java](https://github.com/google/goo
 The library supports the following Java environments:
 
 - Java 6 (or higher)
-- Android 2.1 (or higher)
+- Android 4.0 (Ice Cream Sandwich) (or higher)
 - Google App Engine
 
 For access to Google APIs, see the
