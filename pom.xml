@@ -174,17 +174,17 @@
       <dependency>
         <groupId>org.datanucleus</groupId>
         <artifactId>datanucleus-core</artifactId>
-        <version>3.2.2</version>
+        <version>${project.datanucleus-core.version}</version>
       </dependency>
       <dependency>
         <groupId>org.datanucleus</groupId>
         <artifactId>datanucleus-api-jdo</artifactId>
-        <version>3.2.1</version>
+        <version>${project.datanucleus-api-jdo.version}</version>
       </dependency>
       <dependency>
         <groupId>org.datanucleus</groupId>
         <artifactId>datanucleus-rdbms</artifactId>
-        <version>3.2.1</version>
+        <version>${project.datanucleus-rdbms.version}</version>
       </dependency>
       <dependency>
         <groupId>mysql</groupId>
@@ -452,5 +452,9 @@
     <project.httpcore.version>4.0.1</project.httpcore.version>
     <project.jdo2-api.version>2.3-eb</project.jdo2-api.version>
     <project.transaction-api.version>1.1</project.transaction-api.version>
+    <project.datanucleus-core.version>3.2.2</project.datanucleus-core.version>
+    <project.datanucleus-api-jdo.version>3.2.1</project.datanucleus-api-jdo.version>
+    <project.datanucleus-rdbms.version>3.2.1</project.datanucleus-rdbms.version>
+    <project.datanucleus-maven-plugin.version>4.0.3</project.datanucleus-maven-plugin.version>
   </properties>
 </project>
