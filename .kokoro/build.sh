@@ -17,12 +17,9 @@ set -eo pipefail
 
 cd github/google-oauth-java-client/
 
-# Print out Java
+# Print out Java version
 java -version
 echo $JOB_TYPE
-
-# Setup service account credentials.
-export GOOGLE_APPLICATION_CREDENTIALS=${KOKORO_GFILE_DIR}/service-account.json
 
 mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 mvn test -B
