@@ -64,6 +64,7 @@ public class AuthorizationCodeInstalledApp {
    */
   public static class DefaultBrowser implements Browser{
 
+    @Override
     public void browse(String url) throws IOException {
       AuthorizationCodeInstalledApp.browse(url);
     }
