@@ -32,6 +32,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.DataStoreFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -45,8 +46,8 @@ import java.util.Arrays;
 public class DailyMotionSample {
 
   /** Directory to store user credentials. */
-  private static final java.io.File DATA_STORE_DIR =
-      new java.io.File(System.getProperty("user.home"), ".store/dailymotion_sample");
+  private static final File DATA_STORE_DIR =
+      new File(System.getProperty("user.home"), ".store/dailymotion_sample");
 
   /**
    * Global instance of the {@link DataStoreFactory}. The best practice is to make it a single

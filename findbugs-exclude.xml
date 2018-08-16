@@ -9,7 +9,7 @@
   
   <!-- The following are known to NOT be bugs and should not be fixed -->
   <And>
-    <But pattern="DM_DEFAULT_ENCODING"/>
+    <Bug pattern="DM_DEFAULT_ENCODING"/>
     <!-- Reliance on default encoding -->
     <Class name="com.google.api.client.extensions.java6.auth.oauth2.AbstractPromptReceiver"/>
   </And>
