@@ -286,7 +286,8 @@ public class Credential
     request.setUnsuccessfulResponseHandler(this);
   }
 
-  /** Returns the access token or {@code null} for none. */
+  /** Returns the access token or {@code null} for none. If {@code null} the token needs to be
+   * refreshed using refreshToken(). */
   public final String getAccessToken() {
     lock.lock();
     try {
