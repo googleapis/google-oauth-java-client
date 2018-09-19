@@ -21,7 +21,7 @@
       <outputDirectory>google-oauth-java-client</outputDirectory>
     </file>
     <file>
-      <source>readme.html</source>
+      <source>README.md</source>
       <filtered>true</filtered>
       <outputDirectory>google-oauth-java-client</outputDirectory>
     </file>
