@@ -134,4 +134,16 @@ public class IdTokenVerifierTest extends TestCase {
     assertNull(verifier.getIssuers());
     assertNull(verifier.getIssuer());
   }
+
+  public void testMissingAudience() {
+    IdToken idToken = newIdToken(ISSUER, null);
+
+    MyClock clock = new MyClock();
+    clock.timeMillis = 1500000L;
+    IdTokenVerifier verifier = new IdTokenVerifier.Builder()
+        .setIssuers(Arrays.asList(ISSUER, ISSUER3))
+        .setAudience(Collections.<String>emptyList())
+        .setClock(clock).build();
+    assertFalse(verifier.verify(idToken));
+  }
 }

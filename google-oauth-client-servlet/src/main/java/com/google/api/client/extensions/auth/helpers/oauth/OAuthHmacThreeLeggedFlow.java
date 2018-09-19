@@ -92,7 +92,7 @@ public class OAuthHmacThreeLeggedFlow implements ThreeLeggedFlow {
    * Url which is generated to authorize this specific user for this service.
    */
   @Persistent
-  private final String authorizationUrl;
+  private String authorizationUrl;
 
   /**
    * Http transport to use to communicate with the auth server.

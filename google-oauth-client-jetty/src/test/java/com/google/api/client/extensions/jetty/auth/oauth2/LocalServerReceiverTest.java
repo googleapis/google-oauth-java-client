@@ -58,10 +58,22 @@ public class LocalServerReceiverTest {
     final String CALLBACK_PATH = "/Some/other/path";
     LocalServerReceiver receiver = new LocalServerReceiver("localhost", -1, CALLBACK_PATH, null, null);
 
+    HttpURLConnection connection = null;
     try {
       String localEndpoint = receiver.getRedirectUri();
       assertEquals("http://localhost:" + receiver.getPort() + CALLBACK_PATH, localEndpoint);
+
+      // Check that callback handler is accessible
+      URL url = new URL(localEndpoint);
+      connection = (HttpURLConnection) url.openConnection();
+      connection.setConnectTimeout(2000 /* ms */);
+      connection.setReadTimeout(2000 /* ms */);
+      int responseCode = connection.getResponseCode();
+      assertEquals(200, responseCode);
     } finally {
+      if (connection != null) {
+        connection.disconnect();
+      }
       receiver.stop();
     }
   }
