@@ -85,6 +85,8 @@ public class TokenRequest extends GenericData {
   protected Class<? extends TokenResponse> responseClass;
 
   /**
+   * Creates a new TokenRequest.
+   *
    * @param transport HTTP transport
    * @param jsonFactory JSON factory
    * @param tokenServerUrl token server URL
@@ -98,6 +100,8 @@ public class TokenRequest extends GenericData {
   }
 
   /**
+   * Creates a new TokenRequest.
+   *
    * @param transport HTTP transport
    * @param jsonFactory JSON factory
    * @param tokenServerUrl token server URL
@@ -105,6 +109,7 @@ public class TokenRequest extends GenericData {
    *        {@code "client_credentials"}, {@code "refresh_token"} or absolute URI of the extension
    *        grant type)
    * @param responseClass class used for deserializing the response.
+   * @since 1.26
    */
   public TokenRequest(HttpTransport transport, JsonFactory jsonFactory, GenericUrl tokenServerUrl,
       String grantType, Class<? extends TokenResponse> responseClass) {
@@ -253,8 +258,8 @@ public class TokenRequest extends GenericData {
   /**
    * Sets the TokenResponse class to allow specifying object parsing.
    *
-   * @param responseClass
-   * @return
+   * @param responseClass The response class returned by {@link #execute()}.
+   * @since 1.26
    */
   public TokenRequest setResponseClass(Class<? extends TokenResponse> responseClass) {
     this.responseClass = responseClass;

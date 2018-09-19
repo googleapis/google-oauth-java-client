@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Google Inc.
+ * Copyright 2018 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -35,11 +35,11 @@ import junit.framework.TestCase;
  */
 public class CustomTokenRequestTest extends TestCase {
 
-  static final MockHttpTransport TRANSPORT = new MockHttpTransport();
-  static final JacksonFactory JSON_FACTORY = new JacksonFactory();
-  static final GenericUrl AUTHORIZATION_SERVER_URL = new GenericUrl(
+  private static final MockHttpTransport TRANSPORT = new MockHttpTransport();
+  private static final JacksonFactory JSON_FACTORY = new JacksonFactory();
+  private static final GenericUrl AUTHORIZATION_SERVER_URL = new GenericUrl(
       "https://server.example.com/authorize");
-  static final String JWT_ENCODED_CONTENT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+  private static final String JWT_ENCODED_CONTENT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
   public void testConstructorResponseClass() {
     TokenRequest request = new TokenRequest(TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo",
