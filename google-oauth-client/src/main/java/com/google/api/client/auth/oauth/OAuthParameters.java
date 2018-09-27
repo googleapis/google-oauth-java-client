@@ -135,17 +135,21 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
    * by key, then by value.
    */
   private static class Parameter implements Comparable<Parameter> {
-    private String key;
-    private String value;
+    final private String key;
+    final private String value;
 
     public Parameter(String key, String value) {
       this.key = key;
       this.value = value;
     }
 
-    public String getKey() { return key; }
+    public String getKey() {
+      return key;
+    }
 
-    public String getValue() { return value; }
+    public String getValue() {
+      return value;
+    }
 
     @Override
     public int compareTo(Parameter p) {
