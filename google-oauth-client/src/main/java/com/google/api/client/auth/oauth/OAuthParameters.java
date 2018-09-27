@@ -134,7 +134,7 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
    * This class is used as the Entry for the SortedMultiset. Parameters are sorted lexically first
    * by key, then by value.
    */
-  private class Parameter implements Comparable<Parameter> {
+  private static class Parameter implements Comparable<Parameter> {
     private String key;
     private String value;
 
@@ -147,6 +147,7 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
 
     public String getValue() { return value; }
 
+    @Override
     public int compareTo(Parameter p) {
       // Compare lexically by key, then value on ties
       int result = key.compareTo(p.key);
