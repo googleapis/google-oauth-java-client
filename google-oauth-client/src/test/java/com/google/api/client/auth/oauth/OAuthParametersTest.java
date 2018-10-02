@@ -14,6 +14,8 @@
 
 package com.google.api.client.auth.oauth;
 
+import com.google.api.client.http.GenericUrl;
+import java.security.GeneralSecurityException;
 import junit.framework.TestCase;
 
 /**
@@ -23,11 +25,16 @@ import junit.framework.TestCase;
  */
 public class OAuthParametersTest extends TestCase {
 
-  public OAuthParametersTest() {
-  }
+  static class MockSigner implements OAuthSigner {
 
-  public OAuthParametersTest(String name) {
-    super(name);
+    public String getSignatureMethod() {
+      return "mock";
+    }
+
+    public String computeSignature(String signatureBaseString) {
+      return signatureBaseString;
+    }
+
   }
 
   public void testEscape() {
@@ -54,5 +61,23 @@ public class OAuthParametersTest extends TestCase {
         + "oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"1274732403\", "
         + "oauth_token=\"4%2F1mZ3ZPynTry3szE49h3XyXk24p_I\", "
         + "oauth_verifier=\"gZ1BFee1qSijpqbxfnX%2Bo8rQ\"", parameters.getAuthorizationHeader());
+  }
+
+  public void testSignature() throws GeneralSecurityException {
+    OAuthParameters parameters = new OAuthParameters();
+    parameters.signer = new MockSigner();
+
+    GenericUrl url = new GenericUrl("https://example.local?foo=bar");
+    parameters.computeSignature("GET", url);
+    assertEquals("GET&https%3A%2F%2Fexample.local&foo%3Dbar%26oauth_signature_method%3Dmock", parameters.signature);
+  }
+
+  public void testSignatureWithRepeatedParameter() throws GeneralSecurityException {
+    OAuthParameters parameters = new OAuthParameters();
+    parameters.signer = new MockSigner();
+
+    GenericUrl url = new GenericUrl("https://example.local?foo=baz&foo=bar");
+    parameters.computeSignature("GET", url);
+    assertEquals("GET&https%3A%2F%2Fexample.local&foo%3Dbar%26foo%3Dbaz%26oauth_signature_method%3Dmock", parameters.signature);
   }
 }

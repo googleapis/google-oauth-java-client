@@ -21,12 +21,14 @@ import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.escape.PercentEscaper;
 
+import com.google.common.collect.Multiset;
+import com.google.common.collect.SortedMultiset;
+import com.google.common.collect.TreeMultiset;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * {@link Beta} <br/>
@@ -129,6 +131,35 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
   }
 
   /**
+   * This class is used as the Entry for the SortedMultiset. Parameters are sorted lexically first
+   * by key, then by value.
+   */
+  private static class Parameter implements Comparable<Parameter> {
+    private final String key;
+    private final String value;
+
+    public Parameter(String key, String value) {
+      this.key = key;
+      this.value = value;
+    }
+
+    public String getKey() {
+      return key;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public int compareTo(Parameter p) {
+      // Compare lexically by key, then value on ties
+      int result = key.compareTo(p.key);
+      return result == 0 ? value.compareTo(p.value) : result;
+    }
+  }
+
+  /**
    * Computes a new signature based on the fields and the given request method and URL, setting the
    * values of the {@link #signature} and {@link #signatureMethod} fields.
    *
@@ -139,7 +170,7 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
     OAuthSigner signer = this.signer;
     String signatureMethod = this.signatureMethod = signer.getSignatureMethod();
     // oauth_* parameters (except oauth_signature)
-    TreeMap<String, String> parameters = new TreeMap<String, String>();
+    SortedMultiset<Parameter> parameters = TreeMultiset.create();
     putParameterIfValueNotNull(parameters, "oauth_callback", callback);
     putParameterIfValueNotNull(parameters, "oauth_consumer_key", consumerKey);
     putParameterIfValueNotNull(parameters, "oauth_nonce", nonce);
@@ -165,14 +196,14 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
     // normalize parameters
     StringBuilder parametersBuf = new StringBuilder();
     boolean first = true;
-    for (Map.Entry<String, String> entry : parameters.entrySet()) {
+    for (Parameter parameter : parameters.elementSet()) {
       if (first) {
         first = false;
       } else {
         parametersBuf.append('&');
       }
-      parametersBuf.append(entry.getKey());
-      String value = entry.getValue();
+      parametersBuf.append(parameter.getKey());
+      String value = parameter.getValue();
       if (value != null) {
         parametersBuf.append('=').append(value);
       }
@@ -226,14 +257,14 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
   }
 
   private void putParameterIfValueNotNull(
-      TreeMap<String, String> parameters, String key, String value) {
+      Multiset<Parameter> parameters, String key, String value) {
     if (value != null) {
       putParameter(parameters, key, value);
     }
   }
 
-  private void putParameter(TreeMap<String, String> parameters, String key, Object value) {
-    parameters.put(escape(key), value == null ? null : escape(value.toString()));
+  private void putParameter(Multiset<Parameter> parameters, String key, Object value) {
+    parameters.add(new Parameter(escape(key), value == null ? null : escape(value.toString())));
   }
 
   /** Returns the escaped form of the given value using OAuth escaping rules. */
