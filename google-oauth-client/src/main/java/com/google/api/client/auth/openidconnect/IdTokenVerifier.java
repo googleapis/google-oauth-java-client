@@ -138,7 +138,7 @@ public class IdTokenVerifier {
    * <li>The audience is one of {@link #getAudience()} by calling
    * {@link IdToken#verifyAudience(Collection)}.</li>
    * <li>The current time against the issued at and expiration time, using the {@link #getClock()}
-   * and allowing for a time skew specified in {#link {@link #getAcceptableTimeSkewSeconds()} , by
+   * and allowing for a time skew specified in {@link #getAcceptableTimeSkewSeconds()} , by
    * calling {@link IdToken#verifyTime(long, long)}.</li>
    * </ul>
    *
