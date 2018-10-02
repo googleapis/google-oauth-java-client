@@ -120,6 +120,11 @@ public class RefreshTokenRequest extends TokenRequest {
     return (RefreshTokenRequest) super.setClientAuthentication(clientAuthentication);
   }
 
+  @Override
+  public RefreshTokenRequest setResponseClass(Class<? extends TokenResponse> responseClass) {
+    return (RefreshTokenRequest) super.setResponseClass(responseClass);
+  }
+
   /** Returns the refresh token issued to the client. */
   public final String getRefreshToken() {
     return refreshToken;

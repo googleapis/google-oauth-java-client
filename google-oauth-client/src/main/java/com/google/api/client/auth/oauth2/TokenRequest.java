@@ -81,7 +81,12 @@ public class TokenRequest extends GenericData {
   @Key("grant_type")
   private String grantType;
 
+  /** Response container class for deserialization. */
+  protected Class<? extends TokenResponse> responseClass;
+
   /**
+   * Creates a new TokenRequest.
+   *
    * @param transport HTTP transport
    * @param jsonFactory JSON factory
    * @param tokenServerUrl token server URL
@@ -91,10 +96,28 @@ public class TokenRequest extends GenericData {
    */
   public TokenRequest(HttpTransport transport, JsonFactory jsonFactory, GenericUrl tokenServerUrl,
       String grantType) {
+    this(transport, jsonFactory, tokenServerUrl, grantType, TokenResponse.class);
+  }
+
+  /**
+   * Creates a new TokenRequest.
+   *
+   * @param transport HTTP transport
+   * @param jsonFactory JSON factory
+   * @param tokenServerUrl token server URL
+   * @param grantType grant type ({@code "authorization_code"}, {@code "password"},
+   *        {@code "client_credentials"}, {@code "refresh_token"} or absolute URI of the extension
+   *        grant type)
+   * @param responseClass class used for deserializing the response.
+   * @since 1.26
+   */
+  public TokenRequest(HttpTransport transport, JsonFactory jsonFactory, GenericUrl tokenServerUrl,
+      String grantType, Class<? extends TokenResponse> responseClass) {
     this.transport = Preconditions.checkNotNull(transport);
     this.jsonFactory = Preconditions.checkNotNull(jsonFactory);
     setTokenServerUrl(tokenServerUrl);
     setGrantType(grantType);
+    setResponseClass(responseClass);
   }
 
   /** Returns the HTTP transport. */
@@ -228,6 +251,22 @@ public class TokenRequest extends GenericData {
   }
 
   /**
+   * Returns the response class. Must be a subclass of {@link TokenResponse}.
+   */
+  public final Class<? extends TokenResponse> getResponseClass() { return responseClass; }
+
+  /**
+   * Sets the TokenResponse class to allow specifying object parsing.
+   *
+   * @param responseClass The response class returned by {@link #execute()}.
+   * @since 1.26
+   */
+  public TokenRequest setResponseClass(Class<? extends TokenResponse> responseClass) {
+    this.responseClass = responseClass;
+    return this;
+  }
+
+  /**
    * Executes request for an access token, and returns the HTTP response.
    *
    * <p>
@@ -304,7 +343,7 @@ public class TokenRequest extends GenericData {
    * @throws TokenResponseException for an error response
    */
   public TokenResponse execute() throws IOException {
-    return executeUnparsed().parseAs(TokenResponse.class);
+    return executeUnparsed().parseAs(responseClass);
   }
 
   @Override

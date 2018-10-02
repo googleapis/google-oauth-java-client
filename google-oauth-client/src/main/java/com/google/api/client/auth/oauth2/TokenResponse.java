@@ -65,7 +65,7 @@ public class TokenResponse extends GenericJson {
   private String scope;
 
   /** Returns the access token issued by the authorization server. */
-  public final String getAccessToken() {
+  public String getAccessToken() {
     return accessToken;
   }
 
@@ -86,7 +86,7 @@ public class TokenResponse extends GenericJson {
    * Returns the token type (as specified in <a
    * href="http://tools.ietf.org/html/rfc6749#section-7.1">Access Token Types</a>).
    */
-  public final String getTokenType() {
+  public String getTokenType() {
     return tokenType;
   }
 
@@ -108,7 +108,7 @@ public class TokenResponse extends GenericJson {
    * Returns the lifetime in seconds of the access token (for example 3600 for an hour) or
    * {@code null} for none.
    */
-  public final Long getExpiresInSeconds() {
+  public Long getExpiresInSeconds() {
     return expiresInSeconds;
   }
 
@@ -130,7 +130,7 @@ public class TokenResponse extends GenericJson {
    * Returns the refresh token which can be used to obtain new access tokens using the same
    * authorization grant or {@code null} for none.
    */
-  public final String getRefreshToken() {
+  public String getRefreshToken() {
     return refreshToken;
   }
 
@@ -151,7 +151,7 @@ public class TokenResponse extends GenericJson {
   /**
    * Returns the scope of the access token or {@code null} for none.
    */
-  public final String getScope() {
+  public String getScope() {
     return scope;
   }
 

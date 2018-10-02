@@ -14,6 +14,7 @@
 
 package com.google.api.client.auth.oauth2;
 
+import com.google.api.client.auth.openidconnect.IdTokenResponse;
 import junit.framework.TestCase;
 
 /**
@@ -36,5 +37,12 @@ public class AuthorizationCodeTokenRequestTest extends TestCase {
     TokenRequestTest.check(request, "authorization_code");
     assertEquals(CODE, request.getCode());
     assertEquals(REDIRECT_URI, request.getRedirectUri());
+  }
+
+  public void testSetResponseClass() {
+    AuthorizationCodeTokenRequest request = new AuthorizationCodeTokenRequest(TokenRequestTest.TRANSPORT,
+        TokenRequestTest.JSON_FACTORY, TokenRequestTest.AUTHORIZATION_SERVER_URL, CODE)
+        .setResponseClass(IdTokenResponse.class);
+    assertEquals(IdTokenResponse.class, request.getResponseClass());
   }
 }

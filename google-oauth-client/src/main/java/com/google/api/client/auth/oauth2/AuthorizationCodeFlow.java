@@ -705,7 +705,6 @@ public class AuthorizationCodeFlow {
      * {@link IllegalArgumentException}.
      * </p>
      *
-     * </p>
      * <p>
      * Overriding is only supported for the purpose of calling the super implementation and changing
      * the return type, but nothing else.

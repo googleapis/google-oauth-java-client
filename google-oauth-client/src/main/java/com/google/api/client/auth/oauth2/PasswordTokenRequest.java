@@ -128,6 +128,11 @@ public class PasswordTokenRequest extends TokenRequest {
     return (PasswordTokenRequest) super.setClientAuthentication(clientAuthentication);
   }
 
+  @Override
+  public PasswordTokenRequest setResponseClass(Class<? extends TokenResponse> responseClass) {
+    return (PasswordTokenRequest) super.setResponseClass(responseClass);
+  }
+
   /** Returns the resource owner username. */
   public final String getUsername() {
     return username;
