@@ -13,19 +13,19 @@
   <packaging>pom</packaging>
   <name>Parent for the Google OAuth Client Library for Java</name>
 
-  <url>https://github.com/google/google-oauth-java-client</url>
+  <url>https://github.com/googleapis/google-oauth-java-client</url>
 
   <issueManagement>
     <system>GitHub</system>
-    <url>https://github.com/google/google-oauth-java-client/issues</url>
+    <url>https://github.com/googleapis/google-oauth-java-client/issues</url>
   </issueManagement>
 
   <inceptionYear>2011</inceptionYear>
 
   <scm>
-    <connection>scm:git:https://github.com/google/google-oauth-java-client.git</connection>
-    <developerConnection>scm:git:git@github.com:google/google-oauth-java-client.git</developerConnection>
-    <url>https://github.com/google/google-oauth-java-client</url>
+    <connection>scm:git:https://github.com/googleapis/google-oauth-java-client.git</connection>
+    <developerConnection>scm:git:git@github.com:googleapis/google-oauth-java-client.git</developerConnection>
+    <url>https://github.com/googleapis/google-oauth-java-client</url>
   </scm>
 
   <organization>
@@ -102,7 +102,7 @@
       <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>servlet-api</artifactId>
-        <version>2.5</version>
+        <version>${project.servlet-api.version}</version>
       </dependency>
       <dependency>
         <groupId>commons-codec</groupId>
@@ -199,16 +199,19 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <artifactId>maven-antrun-plugin</artifactId>
-          <version>1.6</version>
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>1.6.6</version>
+          <extensions>true</extensions>
+          <configuration>
+            <serverId>ossrh</serverId>
+            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
           <version>2.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>2.4.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
@@ -219,72 +222,50 @@
           </configuration>
         </plugin>
         <plugin>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.5</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-ear-plugin</artifactId>
-          <version>2.4.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-ejb-plugin</artifactId>
-          <version>2.3</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>2.3.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>2.3.1</version>
-          <configuration>
-            <archive>
-              <addMavenDescriptor>false</addMavenDescriptor>
-            </archive>
-          </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.7</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-plugin-plugin</artifactId>
-          <version>2.6</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-rar-plugin</artifactId>
-          <version>2.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-release-plugin</artifactId>
-          <version>2.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>2.4.3</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>2.1.1</version>
-        </plugin>
-        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>2.1.2</version>
+          <version>2.2.1</version>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <goals>
+                <goal>jar-no-fork</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.9.1</version>
+          <executions>
+            <execution>
+              <id>attach-javadocs</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.0.2</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>test-jar</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.12.4</version>
+          <version>2.19.1</version>
           <configuration>
             <argLine>-Xmx1024m</argLine>
+            <reportNameSuffix>sponge_log</reportNameSuffix>
           </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-war-plugin</artifactId>
-          <version>2.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-checkstyle-plugin</artifactId>
@@ -298,7 +279,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>clirr-maven-plugin</artifactId>
-          <version>2.6</version>
+          <version>2.8</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -327,9 +308,9 @@
             <phase>site</phase>
             <configuration>
               <links>
-                <link>http://docs.oracle.com/javase/7/docs/api/</link>
+                <link>http://docs.oracle.com/javase/6/docs/api/</link>
                 <link>http://cloud.google.com/appengine/docs/java/javadoc</link>
-                <link>https://developers.google.com/api-client-library/java/google-http-java-client/reference/${project.http.version}</link>
+                <link>https://googleapis.github.io/google-http-java-client/releases/${project.http.version}/javadoc/</link>
               </links>
               <doctitle>Google OAuth Client Library for Java ${project.version}</doctitle>
               <excludePackageNames>com.google.api.services</excludePackageNames>
@@ -436,7 +417,7 @@
       - google-api-java-client/google-api-client-assembly/android-properties (make the filenames match the version here)
       - Internally, update the default features.json file
     -->
-    <project.appengine.version>1.7.7</project.appengine.version>
+    <project.appengine.version>1.9.64</project.appengine.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.http.version>1.26.0-SNAPSHOT</project.http.version>
     <project.jsr305.version>3.0.2</project.jsr305.version>
@@ -456,5 +437,42 @@
     <project.datanucleus-api-jdo.version>3.2.1</project.datanucleus-api-jdo.version>
     <project.datanucleus-rdbms.version>3.2.1</project.datanucleus-rdbms.version>
     <project.datanucleus-maven-plugin.version>4.0.3</project.datanucleus-maven-plugin.version>
+    <project.servlet-api.version>2.5</project.servlet-api.version>
   </properties>
+
+  <profiles>
+    <profile>
+      <id>release-sign-artifacts</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+                <configuration>
+                  <gpgArguments>
+                    <arg>--pinentry-mode</arg>
+                    <arg>loopback</arg>
+                  </gpgArguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
