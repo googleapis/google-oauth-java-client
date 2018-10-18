@@ -78,6 +78,7 @@
     <fileSet>
       <directory>dependencies</directory>
       <outputDirectory>google-oauth-java-client/dependencies</outputDirectory>
+      <filtered>true</filtered>
     </fileSet>
     <fileSet>
       <directory>target/libs</directory>
