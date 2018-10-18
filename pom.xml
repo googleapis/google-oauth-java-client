@@ -58,8 +58,10 @@
     <module>google-oauth-client-appengine</module>
     <module>google-oauth-client-servlet</module>
     <module>google-oauth-client-java6</module>
-    <module>google-oauth-client-jetty</module>
     <module>samples/dailymotion-cmdline-sample</module>
+
+    <!-- For deployment reasons, a deployable artifact must be the last one. -->
+    <module>google-oauth-client-jetty</module>
   </modules>
 
   <dependencyManagement>
@@ -404,6 +406,10 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
