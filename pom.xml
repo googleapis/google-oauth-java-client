@@ -54,14 +54,14 @@
   -->
   <modules>
     <module>google-oauth-client</module>
-    <module>google-oauth-client-assembly</module>
     <module>google-oauth-client-appengine</module>
     <module>google-oauth-client-servlet</module>
     <module>google-oauth-client-java6</module>
+    <module>google-oauth-client-jetty</module>
     <module>samples/dailymotion-cmdline-sample</module>
 
     <!-- For deployment reasons, a deployable artifact must be the last one. -->
-    <module>google-oauth-client-jetty</module>
+    <module>google-oauth-client-assembly</module>
   </modules>
 
   <dependencyManagement>
