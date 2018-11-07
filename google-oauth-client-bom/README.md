@@ -1,7 +1,7 @@
 # Google OAuth Client Library Bill of Materials
 
-The `google-oauth-client-bom` modules is a pom that can be used to import consistent 
-versions of `google-oauth-client` components plus its dependencies.
+The `google-oauth-client-bom` module is a pom that can be used to import consistent 
+versions of `google-oauth-client` components.
 
 To use it in Maven, add the following to your `pom.xml`:
 
@@ -11,7 +11,7 @@ To use it in Maven, add the following to your `pom.xml`:
   <dependencies>
     <dependency>
       <groupId>com.google.oauth-client</groupId>
-      <artifactId>google-http-oauth-bom</artifactId>
+      <artifactId>google-oauth-client-bom</artifactId>
       <version>1.26.0</version>
       <type>pom</type>
       <scope>import</scope>
