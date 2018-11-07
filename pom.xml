@@ -55,6 +55,7 @@
   <modules>
     <module>google-oauth-client</module>
     <module>google-oauth-client-appengine</module>
+    <module>google-oauth-client-bom</module>
     <module>google-oauth-client-servlet</module>
     <module>google-oauth-client-java6</module>
     <module>google-oauth-client-jetty</module>
