@@ -5,14 +5,14 @@ versions of `google-oauth-client` components.
 
 To use it in Maven, add the following to your `pom.xml`:
 
-[//]: # ({x-version-update-start:google-oauth-client-bom:released})
+[//]: # ({x-version-update-start:google-oauth-client:released})
 ```xml
 <dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>com.google.oauth-client</groupId>
       <artifactId>google-oauth-client-bom</artifactId>
-      <version>1.26.0</version>
+      <version>1.27.0</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
