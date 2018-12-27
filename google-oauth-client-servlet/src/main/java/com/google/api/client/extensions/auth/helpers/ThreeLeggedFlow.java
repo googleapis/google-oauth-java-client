@@ -40,8 +40,10 @@ import javax.jdo.annotations.PersistenceCapable;
  *
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
+ * @deprecated Use {@link com.google.api.client.auth.oauth2.AuthorizationCodeFlow}.
  */
 @Beta
+@Deprecated
 public interface ThreeLeggedFlow {
 
   /**
