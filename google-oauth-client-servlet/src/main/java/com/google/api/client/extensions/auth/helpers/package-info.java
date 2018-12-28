@@ -24,7 +24,6 @@
  *
  * @since 1.4
  * @author moshenko@google.com (Jacob Moshenko)
- * @deprecated Use {@code com.google.api.client.auth.oauth2}
  */
 @com.google.api.client.util.Beta
 package com.google.api.client.extensions.auth.helpers;
