@@ -63,7 +63,7 @@
         <configuration>
           <instructions>
             <Bundle-SymbolicName>com.google.oauth-client-jetty</Bundle-SymbolicName>
-            <Bundle-RequiredExecutionEnvironment>JavaSE-1.6</Bundle-RequiredExecutionEnvironment>
+            <Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
           </instructions>
         </configuration>
         <executions>
