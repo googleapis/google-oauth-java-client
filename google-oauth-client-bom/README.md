@@ -12,7 +12,7 @@ To use it in Maven, add the following to your `pom.xml`:
     <dependency>
       <groupId>com.google.oauth-client</groupId>
       <artifactId>google-oauth-client-bom</artifactId>
-      <version>1.28.0</version>
+      <version>1.29.0</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
