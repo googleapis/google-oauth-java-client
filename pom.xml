@@ -481,7 +481,7 @@
     <project.datanucleus-core.version>3.2.2</project.datanucleus-core.version>
     <project.datanucleus-api-jdo.version>3.2.1</project.datanucleus-api-jdo.version>
     <project.datanucleus-rdbms.version>3.2.1</project.datanucleus-rdbms.version>
-    <project.datanucleus-maven-plugin.version>4.0.3</project.datanucleus-maven-plugin.version>
+    <project.datanucleus-maven-plugin.version>4.0.5</project.datanucleus-maven-plugin.version>
     <project.servlet-api.version>2.5</project.servlet-api.version>
   </properties>
 
