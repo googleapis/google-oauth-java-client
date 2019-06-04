@@ -73,7 +73,7 @@
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client-assembly</artifactId>
-        <version>1.29.1-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
+        <version>1.29.2</version><!-- {x-version-update:google-oauth-client:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.oauth-client</groupId>
