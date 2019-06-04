@@ -16,7 +16,7 @@ package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow.CredentialCreatedListener;
 import com.google.api.client.http.BasicAuthentication;
-import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.Joiner;
 
 import java.io.IOException;
