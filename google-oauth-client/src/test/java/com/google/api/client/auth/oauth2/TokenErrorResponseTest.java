@@ -15,7 +15,7 @@
 package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 import junit.framework.TestCase;
 
