@@ -185,7 +185,7 @@
           <configuration>
             <serverId>ossrh</serverId>
             <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+            <autoReleaseAfterClose>${deploy.autorelease}</autoReleaseAfterClose>
           </configuration>
         </plugin>
         <plugin>
@@ -459,6 +459,7 @@
     <project.datanucleus-rdbms.version>3.2.13</project.datanucleus-rdbms.version>
     <project.datanucleus-maven-plugin.version>4.0.5</project.datanucleus-maven-plugin.version>
     <project.servlet-api.version>2.5</project.servlet-api.version>
+    <deploy.autorelease>false</deploy.autorelease>
   </properties>
 
   <profiles>
