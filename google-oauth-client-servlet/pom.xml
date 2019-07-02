@@ -110,11 +110,6 @@
       <artifactId>google-oauth-client</artifactId>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <scope>provided</scope>
@@ -122,31 +117,6 @@
     <dependency>
       <groupId>javax.jdo</groupId>
       <artifactId>jdo2-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.datanucleus</groupId>
-      <artifactId>datanucleus-core</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.datanucleus</groupId>
-      <artifactId>datanucleus-api-jdo</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.datanucleus</groupId>
-      <artifactId>datanucleus-rdbms</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
