@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.google.oauth-client</groupId>
     <artifactId>google-oauth-client-parent</artifactId>
-    <version>1.26.0-SNAPSHOT</version>
+    <version>1.30.1</version><!-- {x-version-update:google-oauth-client:current} -->
     <relativePath>../pom.xml</relativePath>
   </parent>
   <groupId>com.google.oauth-client</groupId>
@@ -13,11 +13,6 @@
   <name>Assembly for the Google OAuth Client Library for Java</name>
 
   <dependencies>
-    <dependency>
-      <groupId>com.google.http-client</groupId>
-      <artifactId>google-http-client-assembly</artifactId>
-      <type>pom</type>
-    </dependency>
     <dependency>
       <groupId>com.google.oauth-client</groupId>
       <artifactId>google-oauth-client</artifactId>
@@ -41,6 +36,19 @@
   </dependencies>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <configuration>
+            <descriptors>
+              <descriptor>assembly.xml</descriptor>
+            </descriptors>
+            <finalName>google-oauth-java-client</finalName>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -81,12 +89,6 @@
             <goals>
               <goal>single</goal>
             </goals>
-            <configuration>
-              <descriptors>
-                <descriptor>assembly.xml</descriptor>
-              </descriptors>
-              <finalName>google-oauth-java-client</finalName>
-            </configuration>
           </execution>
         </executions>
       </plugin>

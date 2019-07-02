@@ -44,8 +44,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
+ * @deprecated Use {@link
+ *   com.google.api.client.extensions.servlet.auth.oauth2.AbstractAuthorizationCodeCallbackServlet}.
  */
 @Beta
+@Deprecated
 public abstract class AbstractCallbackServlet extends HttpServlet {
 
   private static final long serialVersionUID = 1L;

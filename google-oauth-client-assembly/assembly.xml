@@ -25,23 +25,110 @@
       <filtered>true</filtered>
       <outputDirectory>google-oauth-java-client</outputDirectory>
     </file>
+    <!-- properties files -->
+    <file>
+      <source>properties/google-oauth-client.jar.properties</source>
+      <destName>google-oauth-client-${project.version}.jar.properties</destName>
+      <outputDirectory>google-oauth-java-client/libs</outputDirectory>
+      <filtered>true</filtered>
+    </file>
+    <file>
+      <source>properties/google-http-client.jar.properties</source>
+      <destName>google-http-client-${project.http.version}.jar.properties</destName>
+      <outputDirectory>google-oauth-java-client/libs</outputDirectory>
+      <filtered>true</filtered>
+    </file>
+    <file>
+      <source>properties/google-http-client-android.jar.properties</source>
+      <destName>google-http-client-android-${project.http.version}.jar.properties</destName>
+      <outputDirectory>google-oauth-java-client/libs</outputDirectory>
+      <filtered>true</filtered>
+    </file>
+    <file>
+      <source>properties/google-http-client-gson.jar.properties</source>
+      <destName>google-http-client-gson-${project.http.version}.jar.properties</destName>
+      <outputDirectory>google-oauth-java-client/libs</outputDirectory>
+      <filtered>true</filtered>
+    </file>
+    <file>
+      <source>properties/google-http-client-jackson2.jar.properties</source>
+      <destName>google-http-client-jackson2-${project.http.version}.jar.properties</destName>
+      <outputDirectory>google-oauth-java-client/libs</outputDirectory>
+      <filtered>true</filtered>
+    </file>
+    <file>
+      <source>properties/google-http-client-protobuf.jar.properties</source>
+      <destName>google-http-client-protobuf-${project.http.version}.jar.properties</destName>
+      <outputDirectory>google-oauth-java-client/libs</outputDirectory>
+      <filtered>true</filtered>
+    </file>
+    <file>
+      <source>properties/google-http-client-xml.jar.properties</source>
+      <destName>google-http-client-xml-${project.http.version}.jar.properties</destName>
+      <outputDirectory>google-oauth-java-client/libs</outputDirectory>
+      <filtered>true</filtered>
+    </file>
+    <file>
+      <source>properties/gson.jar.properties</source>
+      <destName>gson-${project.gson.version}.jar.properties</destName>
+      <outputDirectory>google-oauth-java-client/libs</outputDirectory>
+      <filtered>true</filtered>
+    </file>
+    <file>
+      <source>properties/jackson-core.jar.properties</source>
+      <destName>jackson-core-${project.jackson-core2.version}.jar.properties</destName>
+      <outputDirectory>google-oauth-java-client/libs</outputDirectory>
+      <filtered>true</filtered>
+    </file>
+    <file>
+      <source>properties/protobuf-java.jar.properties</source>
+      <destName>protobuf-java-${project.protobuf-java.version}.jar.properties</destName>
+      <outputDirectory>google-oauth-java-client/libs</outputDirectory>
+      <filtered>true</filtered>
+    </file>
+    <!-- dependencies.html files -->
+    <file>
+      <source>../google-oauth-client/target/site/dependencies.html</source>
+      <destName>google-oauth-client-dependencies.html</destName>
+      <outputDirectory>google-oauth-java-client/dependencies</outputDirectory>
+    </file>
+    <file>
+      <source>../google-oauth-client-appengine/target/site/dependencies.html</source>
+      <destName>google-oauth-client-appengine-dependencies.html</destName>
+      <outputDirectory>google-oauth-java-client/dependencies</outputDirectory>
+    </file>
+    <file>
+      <source>../google-oauth-client-java6/target/site/dependencies.html</source>
+      <destName>google-oauth-client-java6-dependencies.html</destName>
+      <outputDirectory>google-oauth-java-client/dependencies</outputDirectory>
+    </file>
+    <file>
+      <source>../google-oauth-client-jetty/target/site/dependencies.html</source>
+      <destName>google-oauth-client-jetty-dependencies.html</destName>
+      <outputDirectory>google-oauth-java-client/dependencies</outputDirectory>
+    </file>
+    <file>
+      <source>../google-oauth-client-servlet/target/site/dependencies.html</source>
+      <destName>google-oauth-client-servlet-dependencies.html</destName>
+      <outputDirectory>google-oauth-java-client/dependencies</outputDirectory>
+    </file>
   </files>
   <fileSets>
     <fileSet>
-      <directory>dependencies</directory>
+      <directory>target/site/css</directory>
+      <outputDirectory>google-oauth-java-client/dependencies/css</outputDirectory>
+    </fileSet>
+    <fileSet>
+      <directory>target/site/images</directory>
+      <outputDirectory>google-oauth-java-client/dependencies/images</outputDirectory>
+    </fileSet>
+    <fileSet>
+      <directory>licenses</directory>
       <outputDirectory>google-oauth-java-client/dependencies</outputDirectory>
     </fileSet>
     <fileSet>
       <directory>target/libs</directory>
-      <excludes>
-        <exclude>*.pom</exclude>
-      </excludes>
       <outputDirectory>google-oauth-java-client/libs</outputDirectory>
-    </fileSet>
-    <fileSet>
-      <directory>android-properties</directory>
-      <outputDirectory>google-oauth-java-client/libs</outputDirectory>
-      <filtered>true</filtered>
     </fileSet>
     <fileSet>
       <directory>target/libs-sources</directory>

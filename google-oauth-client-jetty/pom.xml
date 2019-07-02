@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.google.oauth-client</groupId>
     <artifactId>google-oauth-client-parent</artifactId>
-    <version>1.26.0-SNAPSHOT</version>
+    <version>1.30.1</version><!-- {x-version-update:google-oauth-client:current} -->
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>google-oauth-client-jetty</artifactId>
@@ -15,8 +15,8 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <links>
-            <link>http://download.oracle.com/javase/6/docs/api/</link>
-            <link>http://javadoc.google-http-java-client.googlecode.com/hg/${project.http.version}</link>
+            <link>http://download.oracle.com/javase/7/docs/api/</link>
+            <link>https://googleapis.dev/java/google-http-client/${project.http.version}/</link>
           </links>
           <doctitle>${project.name} ${project.version}</doctitle>
           <windowtitle>${project.artifactId} ${project.version}</windowtitle>
@@ -44,14 +44,14 @@
           </execution>
         </executions>
       </plugin>
-      <!--Minimum version is Java 6 due to dependency on java6 package-->
+      <!--Minimum version is Java 7 -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>animal-sniffer-maven-plugin</artifactId>
         <configuration>
           <signature>
             <groupId>org.codehaus.mojo.signature</groupId>
-            <artifactId>java16</artifactId>
+            <artifactId>java17</artifactId>
             <version>1.0</version>
           </signature>
         </configuration>
@@ -63,7 +63,7 @@
         <configuration>
           <instructions>
             <Bundle-SymbolicName>com.google.oauth-client-jetty</Bundle-SymbolicName>
-            <Bundle-RequiredExecutionEnvironment>JavaSE-1.6</Bundle-RequiredExecutionEnvironment>
+            <Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
           </instructions>
         </configuration>
         <executions>
@@ -90,7 +90,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.8.2</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

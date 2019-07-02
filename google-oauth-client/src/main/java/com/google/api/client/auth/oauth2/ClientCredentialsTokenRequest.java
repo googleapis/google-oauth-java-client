@@ -119,4 +119,10 @@ public class ClientCredentialsTokenRequest extends TokenRequest {
   public ClientCredentialsTokenRequest set(String fieldName, Object value) {
     return (ClientCredentialsTokenRequest) super.set(fieldName, value);
   }
+
+  @Override
+  public ClientCredentialsTokenRequest setResponseClass(
+      Class<? extends TokenResponse> responseClass) {
+    return (ClientCredentialsTokenRequest) super.setResponseClass(responseClass);
+  }
 }

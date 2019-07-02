@@ -9,23 +9,23 @@
   </parent>
   <groupId>com.google.oauth-client</groupId>
   <artifactId>google-oauth-client-parent</artifactId>
-  <version>1.26.0-SNAPSHOT</version>
+  <version>1.30.1</version><!-- {x-version-update:google-oauth-client:current} -->
   <packaging>pom</packaging>
   <name>Parent for the Google OAuth Client Library for Java</name>
 
-  <url>https://github.com/google/google-oauth-java-client</url>
+  <url>https://github.com/googleapis/google-oauth-java-client</url>
 
   <issueManagement>
     <system>GitHub</system>
-    <url>https://github.com/google/google-oauth-java-client/issues</url>
+    <url>https://github.com/googleapis/google-oauth-java-client/issues</url>
   </issueManagement>
 
   <inceptionYear>2011</inceptionYear>
 
   <scm>
-    <connection>scm:git:https://github.com/google/google-oauth-java-client.git</connection>
-    <developerConnection>scm:git:git@github.com:google/google-oauth-java-client.git</developerConnection>
-    <url>https://github.com/google/google-oauth-java-client</url>
+    <connection>scm:git:https://github.com/googleapis/google-oauth-java-client.git</connection>
+    <developerConnection>scm:git:git@github.com:googleapis/google-oauth-java-client.git</developerConnection>
+    <url>https://github.com/googleapis/google-oauth-java-client</url>
   </scm>
 
   <organization>
@@ -54,12 +54,15 @@
   -->
   <modules>
     <module>google-oauth-client</module>
-    <module>google-oauth-client-assembly</module>
     <module>google-oauth-client-appengine</module>
+    <module>google-oauth-client-bom</module>
     <module>google-oauth-client-servlet</module>
     <module>google-oauth-client-java6</module>
     <module>google-oauth-client-jetty</module>
     <module>samples/dailymotion-cmdline-sample</module>
+
+    <!-- For deployment reasons, a deployable artifact must be the last one. -->
+    <module>google-oauth-client-assembly</module>
   </modules>
 
   <dependencyManagement>
@@ -102,44 +105,20 @@
       <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>servlet-api</artifactId>
-        <version>2.5</version>
+        <version>${project.servlet-api.version}</version>
       </dependency>
       <dependency>
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
         <scope>provided</scope>
-        <version>1.6</version>
+        <version>1.12</version>
       </dependency>
       <dependency>
         <groupId>com.google.http-client</groupId>
-        <artifactId>google-http-client</artifactId>
-        <version>${project.http.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.http-client</groupId>
-        <artifactId>google-http-client-assembly</artifactId>
+        <artifactId>google-http-client-bom</artifactId>
         <version>${project.http.version}</version>
         <type>pom</type>
-      </dependency>
-      <dependency>
-        <groupId>com.google.http-client</groupId>
-        <artifactId>google-http-client-appengine</artifactId>
-        <version>${project.http.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.http-client</groupId>
-        <artifactId>google-http-client-jackson</artifactId>
-        <version>${project.http.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.http-client</groupId>
-        <artifactId>google-http-client-jackson2</artifactId>
-        <version>${project.http.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.http-client</groupId>
-        <artifactId>google-http-client-jdo</artifactId>
-        <version>${project.http.version}</version>
+        <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>com.google.oauth-client</groupId>
@@ -189,7 +168,7 @@
       <dependency>
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
-        <version>5.1.18</version>
+        <version>8.0.16</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -199,92 +178,73 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <artifactId>maven-antrun-plugin</artifactId>
-          <version>1.6</version>
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>1.6.8</version>
+          <extensions>true</extensions>
+          <configuration>
+            <serverId>ossrh</serverId>
+            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+            <autoReleaseAfterClose>${deploy.autorelease}</autoReleaseAfterClose>
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>2.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>2.4.1</version>
+          <version>3.1.0</version>
         </plugin>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>2.3.2</version>
           <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
+            <source>1.7</source>
+            <target>1.7</target>
           </configuration>
         </plugin>
         <plugin>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.5</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-ear-plugin</artifactId>
-          <version>2.4.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-ejb-plugin</artifactId>
-          <version>2.3</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>2.3.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>2.3.1</version>
-          <configuration>
-            <archive>
-              <addMavenDescriptor>false</addMavenDescriptor>
-            </archive>
-          </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.7</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-plugin-plugin</artifactId>
-          <version>2.6</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-rar-plugin</artifactId>
-          <version>2.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-release-plugin</artifactId>
-          <version>2.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>2.4.3</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>2.1.1</version>
-        </plugin>
-        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>2.1.2</version>
+          <version>3.1.0</version>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <goals>
+                <goal>jar-no-fork</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.1.0</version>
+          <executions>
+            <execution>
+              <id>attach-javadocs</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.1.2</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>test-jar</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.12.4</version>
+          <version>3.0.0-M3</version>
           <configuration>
             <argLine>-Xmx1024m</argLine>
+            <reportNameSuffix>sponge_log</reportNameSuffix>
           </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-war-plugin</artifactId>
-          <version>2.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-checkstyle-plugin</artifactId>
@@ -293,12 +253,12 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>findbugs-maven-plugin</artifactId>
-          <version>2.5.2</version>
+          <version>3.0.5</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>clirr-maven-plugin</artifactId>
-          <version>2.6</version>
+          <version>2.8</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -308,15 +268,40 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>2.7</version>
+          <version>3.0.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.7.1</version>
         </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.0.0-M2</version><executions>
+        <execution>
+          <id>enforce-maven</id>
+          <goals>
+            <goal>enforce</goal>
+          </goals>
+          <configuration>
+            <rules>
+              <requireMavenVersion>
+                <version>[3.5.4,4.0.0)</version>
+              </requireMavenVersion>
+            </rules>
+          </configuration>
+        </execution>
+      </executions>
+      </plugin>
+      <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <additionalparam>-Xdoclint:none</additionalparam>
+          <doclint>none</doclint>
+          <source>7</source>
         </configuration>
         <executions>
           <execution>
@@ -329,7 +314,7 @@
               <links>
                 <link>http://docs.oracle.com/javase/7/docs/api/</link>
                 <link>http://cloud.google.com/appengine/docs/java/javadoc</link>
-                <link>https://developers.google.com/api-client-library/java/google-http-java-client/reference/${project.http.version}</link>
+                <link>https://googleapis.dev/java/google-http-client/${project.http.version}/</link>
               </links>
               <doctitle>Google OAuth Client Library for Java ${project.version}</doctitle>
               <excludePackageNames>com.google.api.services</excludePackageNames>
@@ -412,7 +397,7 @@
         <configuration>
           <signature>
             <groupId>org.codehaus.mojo.signature</groupId>
-            <artifactId>java15</artifactId>
+            <artifactId>java17</artifactId>
             <version>1.0</version>
           </signature>
         </configuration>
@@ -423,6 +408,23 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <!-- Build the dependencies report at package time (needed for the assembly artifact). -->
+      <plugin>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>dependencies</goal>
+            </goals>
+            <phase>package</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
@@ -436,16 +438,16 @@
       - google-api-java-client/google-api-client-assembly/android-properties (make the filenames match the version here)
       - Internally, update the default features.json file
     -->
-    <project.appengine.version>1.7.7</project.appengine.version>
+    <project.appengine.version>1.9.64</project.appengine.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.http.version>1.26.0-SNAPSHOT</project.http.version>
+    <project.http.version>1.30.1</project.http.version>
     <project.jsr305.version>3.0.2</project.jsr305.version>
     <project.gson.version>2.1</project.gson.version>
     <project.jackson-core-asl.version>1.9.13</project.jackson-core-asl.version>
     <project.jackson-core2.version>2.9.6</project.jackson-core2.version>
     <project.jetty.version>6.1.26</project.jetty.version>
     <project.protobuf-java.version>2.6.1</project.protobuf-java.version>
-    <project.guava.version>20.0</project.guava.version>
+    <project.guava.version>26.0-android</project.guava.version>
     <project.xpp3.version>1.1.4c</project.xpp3.version>
     <project.commons-logging.version>1.1.1</project.commons-logging.version>
     <project.httpclient.version>4.5.5</project.httpclient.version>
@@ -454,7 +456,45 @@
     <project.transaction-api.version>1.1</project.transaction-api.version>
     <project.datanucleus-core.version>3.2.2</project.datanucleus-core.version>
     <project.datanucleus-api-jdo.version>3.2.1</project.datanucleus-api-jdo.version>
-    <project.datanucleus-rdbms.version>3.2.1</project.datanucleus-rdbms.version>
-    <project.datanucleus-maven-plugin.version>4.0.3</project.datanucleus-maven-plugin.version>
+    <project.datanucleus-rdbms.version>3.2.13</project.datanucleus-rdbms.version>
+    <project.datanucleus-maven-plugin.version>4.0.5</project.datanucleus-maven-plugin.version>
+    <project.servlet-api.version>2.5</project.servlet-api.version>
+    <deploy.autorelease>false</deploy.autorelease>
   </properties>
+
+  <profiles>
+    <profile>
+      <id>release-sign-artifacts</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+                <configuration>
+                  <gpgArguments>
+                    <arg>--pinentry-mode</arg>
+                    <arg>loopback</arg>
+                  </gpgArguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
