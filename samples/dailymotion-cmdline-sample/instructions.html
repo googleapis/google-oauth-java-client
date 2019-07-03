@@ -7,15 +7,14 @@
 
 <ul>
   <li><a
-    href="http://code.google.com/p/google-oauth-java-client/source/browse?repo=samples#hg/dailymotion-cmdline-sample">Browse
+    href="https://github.com/googleapis/google-oauth-java-client/tree/master/samples/dailymotion-cmdline-sample">Browse
   Source</a>, or main file <a
-    href="http://code.google.com/p/google-oauth-java-client/source/browse/dailymotion-cmdline-sample/src/main/java/com/google/api/services/samples/dailymotion/cmdline/DailyMotionSample.java?repo=samples">DailyMotionSample.java</a></li>
+    href="https://github.com/googleapis/google-oauth-java-client/blob/master/samples/dailymotion-cmdline-sample/src/main/java/com/google/api/services/samples/dailymotion/cmdline/DailyMotionSample.java">DailyMotionSample.java</a></li>
 </ul>
 
 <h3>Checkout Instructions</h3>
 
-<p><b>Prerequisites:</b> install <a href="http://java.com">Java 6</a>, <a
-  href="http://mercurial.selenic.com/">Mercurial</a> and <a
+<p><b>Prerequisites:</b> install <a href="https://java.com">Java 6</a>, git, and <a
   href="http://maven.apache.org/download.html">Maven</a>. You may need to set
 your <code>JAVA_HOME</code>.</p>
 
@@ -23,17 +22,17 @@ your <code>JAVA_HOME</code>.</p>
  and running it, you should edit <code>OAuth2ClientCredentials.java</code> to enter the
  required credentials information. Otherwise, you will get a <code>400 INVALID_CLIENT</code>
  error in your browser. To begin, go to the
- <a href="http://www.dailymotion.com/profile/developer">Dailymotion Developer Profile</a>,
+ <a href="https://www.dailymotion.com/profile/developer">Dailymotion Developer Profile</a>,
   click "Create New API Key" and specify "http://127.0.0.1:8080/Callback" as the "Callback URL".</p>
 
 <pre><code>cd <i>[someDirectory]</i>
-hg clone https://code.google.com/p/google-oauth-java-client.samples/ google-oauth-java-client-samples
-cd google-oauth-java-client-samples/dailymotion-cmdline-sample
+git clone https://github.com/googleapis/google-oauth-java-client.git google-oauth-java-client
+cd google-oauth-java-client/samples/dailymotion-cmdline-sample
 <i>[editor]</i> src/main/java/com/google/api/services/samples/dailymotion/cmdline/OAuth2ClientCredentials.java
 mvn compile
 mvn -q exec:java</code></pre>
 
-<h3>Setup Project in Eclipse 3.5/3.6</h3>
+<h3>Setup Project in Eclipse</h3>
 
 <p><b>Prerequisites:</b> install <a href="http://www.eclipse.org/downloads/">Eclipse</a>,
 the <a href="http://javaforge.com/project/HGE">Mercurial plugin</a>, and the <a href="http://www.eclipse.org/m2e/download/">Maven

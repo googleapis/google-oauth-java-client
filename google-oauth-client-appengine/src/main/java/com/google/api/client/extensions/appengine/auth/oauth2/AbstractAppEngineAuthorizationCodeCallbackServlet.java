@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Simple extension of {@link AbstractAuthorizationCodeCallbackServlet} that uses the currently
  * logged-in Google Account user, as directed in <a
- * href="http://code.google.com/appengine/docs/java/config/webxml.html#Security_and_Authentication">
+ * href="https://cloud.google.com/appengine/docs/standard/java/config/webxml#security-auth">
  * Security and Authentication</a>.
  *
  * <p>
