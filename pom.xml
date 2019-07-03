@@ -30,13 +30,13 @@
 
   <organization>
     <name>Google</name>
-    <url>http://www.google.com/</url>
+    <url>https://www.google.com/</url>
   </organization>
 
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
@@ -312,8 +312,8 @@
             <phase>site</phase>
             <configuration>
               <links>
-                <link>http://docs.oracle.com/javase/7/docs/api/</link>
-                <link>http://cloud.google.com/appengine/docs/java/javadoc</link>
+                <link>https://docs.oracle.com/javase/7/docs/api/</link>
+                <link>https://cloud.google.com/appengine/docs/java/javadoc</link>
                 <link>https://googleapis.dev/java/google-http-client/${project.http.version}/</link>
               </links>
               <doctitle>Google OAuth Client Library for Java ${project.version}</doctitle>
