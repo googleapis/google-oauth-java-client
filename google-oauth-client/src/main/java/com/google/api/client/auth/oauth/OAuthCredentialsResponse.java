@@ -25,7 +25,7 @@ import com.google.api.client.util.Key;
  * @author Yaniv Inbar
  */
 @Beta
-public final class OAuthCredentialsResponse {
+public final class OAuthCredentialsResponse extends HashMap<String, Object> {
 
   /** Credentials token. */
   @Key("oauth_token")
