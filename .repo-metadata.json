@@ -1,0 +1,10 @@
+{
+  "name": "google-oauth-client",
+  "name_pretty": "Google OAuth Java Client",
+  "client_documentation": "oauths://googleapis.dev/java/google-oauth-client/latest/",
+  "release_level": "ga",
+  "language": "java",
+  "repo": "googleapis/google-oauth-java-client",
+  "repo_short": "google-oauth-java-client",
+  "distribution_name": "google-oauth-java-client"
+}
