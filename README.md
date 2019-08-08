@@ -27,9 +27,9 @@ This is an open-source library, and [contributions](CONTRIBUTING.md) are welcome
 
 ## Documentation
 
-- [Developer's Guide](https://developers.google.com/api-client-library/java/google-oauth-java-client/)
-- [Setup Instructions](https://developers.google.com/api-client-library/java/google-oauth-java-client/setup)
-- [Samples](https://developers.google.com/api-client-library/java/google-oauth-java-client/samples)
+- [Developer's Guide](https://github.com/googleapis/google-oauth-java-client/wiki)
+- [Setup Instructions](https://github.com/googleapis/google-oauth-java-client/wiki/Setup-Instructions)
+- [Samples](https://github.com/googleapis/google-oauth-java-client/tree/master/samples)
 - [JavaDoc](https://googleapis.dev/java/google-oauth-client/latest/)
 - [Release Notes](https://github.com/googleapis/google-oauth-java-client/releases)
 - [Support (Questions, Bugs)](https://github.com/googleapis/google-oauth-java-client/issues)
@@ -41,7 +41,3 @@ Java Version | Status
 Java 7 | [![Kokoro CI](http://storage.googleapis.com/cloud-devrel-public/java/badges/google-oauth-java-client/java7.svg)](https://storage.googleapis.com/cloud-devrel-public/java/badges/google-oauth-java-client/java7.html)
 Java 8 | [![Kokoro CI](http://storage.googleapis.com/cloud-devrel-public/java/badges/google-oauth-java-client/java8.svg)](https://storage.googleapis.com/cloud-devrel-public/java/badges/google-oauth-java-client/java8.html)
 Java 11 | [![Kokoro CI](http://storage.googleapis.com/cloud-devrel-public/java/badges/google-oauth-java-client/java11.svg)](https://storage.googleapis.com/cloud-devrel-public/java/badges/google-oauth-java-client/java11.html)
-
-## Links
-
-- [Discuss](http://groups.google.com/group/google-oauth-java-client)
