@@ -29,6 +29,7 @@
           <archive>
             <manifest>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <Automatic-Module-Name>com.google.api.client.extensions.servlet.auth</Automatic-Module-Name>
             </manifest>
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
           </archive>
