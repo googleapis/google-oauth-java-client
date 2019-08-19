@@ -29,8 +29,10 @@
           <archive>
             <manifest>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-              <Automatic-Module-Name>com.google.api.client.extensions.appengine.auth</Automatic-Module-Name>
             </manifest>
+            <manifestEntries>
+              <Automatic-Module-Name>com.google.api.client.extensions.appengine.auth</Automatic-Module-Name>
+            </manifestEntries>
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
           </archive>
         </configuration>
