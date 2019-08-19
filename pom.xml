@@ -314,7 +314,6 @@
               </links>
               <doctitle>Google OAuth Client Library for Java ${project.version}</doctitle>
               <excludePackageNames>com.google.api.services</excludePackageNames>
-              <overview>${basedir}/overview.html</overview>
               <groups>
                 <group>
                   <title>google-oauth-client</title>
