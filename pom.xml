@@ -8,6 +8,7 @@
   <version>1.30.2</version><!-- {x-version-update:google-oauth-client:current} -->
   <packaging>pom</packaging>
   <name>Parent for the Google OAuth Client Library for Java</name>
+  <description>Google OAuth Client Library for Java</description>
 
   <url>https://github.com/googleapis/google-oauth-java-client</url>
 
@@ -23,6 +24,14 @@
     <developerConnection>scm:git:git@github.com:googleapis/google-oauth-java-client.git</developerConnection>
     <url>https://github.com/googleapis/google-oauth-java-client</url>
   </scm>
+
+  <developers>
+    <developer>
+      <id>chingor</id>
+      <name>Jeff Ching</name>
+      <email>chingor@google.com</email>
+    </developer>
+  </developers>
 
   <organization>
     <name>Google</name>
