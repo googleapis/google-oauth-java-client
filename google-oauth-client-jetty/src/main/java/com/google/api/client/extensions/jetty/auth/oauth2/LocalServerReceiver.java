@@ -21,10 +21,10 @@ import java.io.PrintWriter;
 import java.util.concurrent.Semaphore;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.mortbay.jetty.Connector;
-import org.mortbay.jetty.Request;
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.handler.AbstractHandler;
+import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.Request;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.AbstractHandler;
 
 /**
  * OAuth 2.0 verification code receiver that runs a Jetty server on a free port, waiting for a
@@ -118,7 +118,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
     server = new Server(port != -1 ? port : 0);
     Connector connector = server.getConnectors()[0];
     connector.setHost(host);
-    server.addHandler(new CallbackHandler());
+    server.setHandler(new CallbackHandler());
     try {
       server.start();
       port = connector.getLocalPort();
@@ -254,7 +254,8 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
 
     @Override
     public void handle(
-        String target, HttpServletRequest request, HttpServletResponse response, int dispatch)
+        String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response
+      )
         throws IOException {
       if (!callbackPath.equals(target)) {
         return;
