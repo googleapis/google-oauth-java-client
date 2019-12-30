@@ -74,12 +74,6 @@
       <outputDirectory>google-oauth-java-client/libs</outputDirectory>
       <filtered>true</filtered>
     </file>
-    <file>
-      <source>properties/protobuf-java.jar.properties</source>
-      <destName>protobuf-java-${project.protobuf-java.version}.jar.properties</destName>
-      <outputDirectory>google-oauth-java-client/libs</outputDirectory>
-      <filtered>true</filtered>
-    </file>
     <!-- dependencies.html files -->
     <file>
       <source>../google-oauth-client/target/site/dependencies.html</source>
