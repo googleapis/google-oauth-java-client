@@ -27,7 +27,6 @@ The dependency structure and licenses for the different libraries can be found h
 * [google-http-client](dependencies/google-http-client-dependencies.html)
 * [google-http-client-android](dependencies/google-http-client-android-dependencies.html)
 * [google-http-client-appengine](dependencies/google-http-client-appengine-dependencies.html)
-* [google-http-client-protobuf](dependencies/google-http-client-protobuf-dependencies.html)
 * [google-http-client-gson](dependencies/google-http-client-gson-dependencies.html)
 * [google-http-client-jackson](dependencies/google-http-client-jackson-dependencies.html)
 * [google-http-client-jackson2](dependencies/google-http-client-jackson2-dependencies.html)
@@ -59,8 +58,6 @@ The following are the jars from the [libs](libs) folder needed for applications 
 * google-oauth-client-${project.version}.jar
 * google-http-client-${project.http.version}.jar
 * jsr305-${project.jsr305.version}.jar
-* google-http-client-protobuf-${project.http.version}.jar (when using protobuf-java)
-  * protobuf-java-${project.protobuf-java.version}.jar
 * google-http-client-gson-${project.http.version}.jar (when using GSON)
   * gson-${project.gson.version}.jar
 * google-http-client-jackson-${project.http.version}.jar (when using Jackson)
