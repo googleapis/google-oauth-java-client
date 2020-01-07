@@ -1,5 +1,5 @@
 {
-  "updateTime": "2019-11-19T19:37:38.006959Z",
+  "updateTime": "2020-01-07T08:32:40.975486Z",
   "sources": [
     {
       "template": {
@@ -7,6 +7,737 @@
         "origin": "synthtool.gcp",
         "version": "2019.10.17"
       }
+    }
+  ],
+  "newFiles": [
+    {
+      "path": ".repo-metadata.json"
+    },
+    {
+      "path": "checkstyle.xml"
+    },
+    {
+      "path": "renovate.json"
+    },
+    {
+      "path": "findbugs-exclude.xml"
+    },
+    {
+      "path": "synth.py"
+    },
+    {
+      "path": "CHANGELOG.md"
+    },
+    {
+      "path": "codecov.yaml"
+    },
+    {
+      "path": "LICENSE"
+    },
+    {
+      "path": "checkstyle-suppressions.xml"
+    },
+    {
+      "path": ".gitignore"
+    },
+    {
+      "path": "pom.xml"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md"
+    },
+    {
+      "path": ".travis.yml"
+    },
+    {
+      "path": "synth.metadata"
+    },
+    {
+      "path": "README.md"
+    },
+    {
+      "path": "versions.txt"
+    },
+    {
+      "path": "CONTRIBUTING.md"
+    },
+    {
+      "path": "clirr-ignored-differences.xml"
+    },
+    {
+      "path": "google-oauth-client-servlet/pom.xml"
+    },
+    {
+      "path": "google-oauth-client-servlet/src/main/java/com/google/api/client/extensions/auth/helpers/ThreeLeggedFlow.java"
+    },
+    {
+      "path": "google-oauth-client-servlet/src/main/java/com/google/api/client/extensions/auth/helpers/Credential.java"
+    },
+    {
+      "path": "google-oauth-client-servlet/src/main/java/com/google/api/client/extensions/auth/helpers/package-info.java"
+    },
+    {
+      "path": "google-oauth-client-servlet/src/main/java/com/google/api/client/extensions/auth/helpers/oauth/OAuthHmacCredential.java"
+    },
+    {
+      "path": "google-oauth-client-servlet/src/main/java/com/google/api/client/extensions/auth/helpers/oauth/package-info.java"
+    },
+    {
+      "path": "google-oauth-client-servlet/src/main/java/com/google/api/client/extensions/auth/helpers/oauth/OAuthHmacThreeLeggedFlow.java"
+    },
+    {
+      "path": "google-oauth-client-servlet/src/main/java/com/google/api/client/extensions/servlet/auth/package-info.java"
+    },
+    {
+      "path": "google-oauth-client-servlet/src/main/java/com/google/api/client/extensions/servlet/auth/AbstractCallbackServlet.java"
+    },
+    {
+      "path": "google-oauth-client-servlet/src/main/java/com/google/api/client/extensions/servlet/auth/AbstractFlowUserServlet.java"
+    },
+    {
+      "path": "google-oauth-client-servlet/src/main/java/com/google/api/client/extensions/servlet/auth/oauth2/package-info.java"
+    },
+    {
+      "path": "google-oauth-client-servlet/src/main/java/com/google/api/client/extensions/servlet/auth/oauth2/AbstractAuthorizationCodeServlet.java"
+    },
+    {
+      "path": "google-oauth-client-servlet/src/main/java/com/google/api/client/extensions/servlet/auth/oauth2/AbstractAuthorizationCodeCallbackServlet.java"
+    },
+    {
+      "path": "samples/checkstyle.xml"
+    },
+    {
+      "path": "samples/dailymotion-cmdline-sample/.project"
+    },
+    {
+      "path": "samples/dailymotion-cmdline-sample/.classpath"
+    },
+    {
+      "path": "samples/dailymotion-cmdline-sample/logging.properties"
+    },
+    {
+      "path": "samples/dailymotion-cmdline-sample/instructions.html"
+    },
+    {
+      "path": "samples/dailymotion-cmdline-sample/pom.xml"
+    },
+    {
+      "path": "samples/dailymotion-cmdline-sample/DailyMotionSample.launch"
+    },
+    {
+      "path": "samples/dailymotion-cmdline-sample/README.md"
+    },
+    {
+      "path": "samples/dailymotion-cmdline-sample/.settings/org.eclipse.jdt.core.prefs"
+    },
+    {
+      "path": "samples/dailymotion-cmdline-sample/.settings/org.eclipse.jdt.ui.prefs"
+    },
+    {
+      "path": "samples/dailymotion-cmdline-sample/src/main/java/com/google/api/services/samples/dailymotion/cmdline/DailyMotionUrl.java"
+    },
+    {
+      "path": "samples/dailymotion-cmdline-sample/src/main/java/com/google/api/services/samples/dailymotion/cmdline/VideoFeed.java"
+    },
+    {
+      "path": "samples/dailymotion-cmdline-sample/src/main/java/com/google/api/services/samples/dailymotion/cmdline/DailyMotionSample.java"
+    },
+    {
+      "path": "samples/dailymotion-cmdline-sample/src/main/java/com/google/api/services/samples/dailymotion/cmdline/OAuth2ClientCredentials.java"
+    },
+    {
+      "path": "samples/dailymotion-cmdline-sample/src/main/java/com/google/api/services/samples/dailymotion/cmdline/Video.java"
+    },
+    {
+      "path": "google-oauth-client-java6/pom.xml"
+    },
+    {
+      "path": "google-oauth-client-java6/resources/credentials.json"
+    },
+    {
+      "path": "google-oauth-client-java6/src/test/java/com/google/api/client/extensions/java6/auth/oauth2/FileCredentialStoreTest.java"
+    },
+    {
+      "path": "google-oauth-client-java6/src/main/java/com/google/api/client/extensions/java6/auth/oauth2/FilePersistedCredentials.java"
+    },
+    {
+      "path": "google-oauth-client-java6/src/main/java/com/google/api/client/extensions/java6/auth/oauth2/VerificationCodeReceiver.java"
+    },
+    {
+      "path": "google-oauth-client-java6/src/main/java/com/google/api/client/extensions/java6/auth/oauth2/FileCredentialStore.java"
+    },
+    {
+      "path": "google-oauth-client-java6/src/main/java/com/google/api/client/extensions/java6/auth/oauth2/AbstractPromptReceiver.java"
+    },
+    {
+      "path": "google-oauth-client-java6/src/main/java/com/google/api/client/extensions/java6/auth/oauth2/package-info.java"
+    },
+    {
+      "path": "google-oauth-client-java6/src/main/java/com/google/api/client/extensions/java6/auth/oauth2/FilePersistedCredential.java"
+    },
+    {
+      "path": "google-oauth-client-java6/src/main/java/com/google/api/client/extensions/java6/auth/oauth2/AuthorizationCodeInstalledApp.java"
+    },
+    {
+      "path": ".kokoro/build.bat"
+    },
+    {
+      "path": ".kokoro/build.sh"
+    },
+    {
+      "path": ".kokoro/dependencies.sh"
+    },
+    {
+      "path": ".kokoro/common.cfg"
+    },
+    {
+      "path": ".kokoro/trampoline.sh"
+    },
+    {
+      "path": ".kokoro/coerce_logs.sh"
+    },
+    {
+      "path": ".kokoro/linkage-monitor.sh"
+    },
+    {
+      "path": ".kokoro/continuous/dependencies.cfg"
+    },
+    {
+      "path": ".kokoro/continuous/samples.cfg"
+    },
+    {
+      "path": ".kokoro/continuous/java7.cfg"
+    },
+    {
+      "path": ".kokoro/continuous/java8-osx.cfg"
+    },
+    {
+      "path": ".kokoro/continuous/java9.cfg"
+    },
+    {
+      "path": ".kokoro/continuous/java10.cfg"
+    },
+    {
+      "path": ".kokoro/continuous/java8-win.cfg"
+    },
+    {
+      "path": ".kokoro/continuous/propose_release.sh"
+    },
+    {
+      "path": ".kokoro/continuous/lint.cfg"
+    },
+    {
+      "path": ".kokoro/continuous/java11.cfg"
+    },
+    {
+      "path": ".kokoro/continuous/common.cfg"
+    },
+    {
+      "path": ".kokoro/continuous/propose_release.cfg"
+    },
+    {
+      "path": ".kokoro/continuous/java8.cfg"
+    },
+    {
+      "path": ".kokoro/continuous/integration.cfg"
+    },
+    {
+      "path": ".kokoro/release/drop.sh"
+    },
+    {
+      "path": ".kokoro/release/stage.cfg"
+    },
+    {
+      "path": ".kokoro/release/promote.cfg"
+    },
+    {
+      "path": ".kokoro/release/publish_javadoc.cfg"
+    },
+    {
+      "path": ".kokoro/release/bump_snapshot.cfg"
+    },
+    {
+      "path": ".kokoro/release/promote.sh"
+    },
+    {
+      "path": ".kokoro/release/stage.sh"
+    },
+    {
+      "path": ".kokoro/release/snapshot.sh"
+    },
+    {
+      "path": ".kokoro/release/snapshot.cfg"
+    },
+    {
+      "path": ".kokoro/release/common.cfg"
+    },
+    {
+      "path": ".kokoro/release/bump_snapshot.sh"
+    },
+    {
+      "path": ".kokoro/release/common.sh"
+    },
+    {
+      "path": ".kokoro/release/drop.cfg"
+    },
+    {
+      "path": ".kokoro/release/publish_javadoc.sh"
+    },
+    {
+      "path": ".kokoro/presubmit/dependencies.cfg"
+    },
+    {
+      "path": ".kokoro/presubmit/samples.cfg"
+    },
+    {
+      "path": ".kokoro/presubmit/java7.cfg"
+    },
+    {
+      "path": ".kokoro/presubmit/java8-osx.cfg"
+    },
+    {
+      "path": ".kokoro/presubmit/linkage-monitor.cfg"
+    },
+    {
+      "path": ".kokoro/presubmit/java9.cfg"
+    },
+    {
+      "path": ".kokoro/presubmit/java10.cfg"
+    },
+    {
+      "path": ".kokoro/presubmit/java8-win.cfg"
+    },
+    {
+      "path": ".kokoro/presubmit/lint.cfg"
+    },
+    {
+      "path": ".kokoro/presubmit/java11.cfg"
+    },
+    {
+      "path": ".kokoro/presubmit/common.cfg"
+    },
+    {
+      "path": ".kokoro/presubmit/clirr.cfg"
+    },
+    {
+      "path": ".kokoro/presubmit/java8.cfg"
+    },
+    {
+      "path": ".kokoro/presubmit/integration.cfg"
+    },
+    {
+      "path": ".kokoro/nightly/dependencies.cfg"
+    },
+    {
+      "path": ".kokoro/nightly/samples.cfg"
+    },
+    {
+      "path": ".kokoro/nightly/java7.cfg"
+    },
+    {
+      "path": ".kokoro/nightly/java8-osx.cfg"
+    },
+    {
+      "path": ".kokoro/nightly/java8-win.cfg"
+    },
+    {
+      "path": ".kokoro/nightly/lint.cfg"
+    },
+    {
+      "path": ".kokoro/nightly/java11.cfg"
+    },
+    {
+      "path": ".kokoro/nightly/common.cfg"
+    },
+    {
+      "path": ".kokoro/nightly/java8.cfg"
+    },
+    {
+      "path": ".kokoro/nightly/integration.cfg"
+    },
+    {
+      "path": ".github/CODEOWNERS"
+    },
+    {
+      "path": ".github/.release-please.yml"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE.md"
+    },
+    {
+      "path": ".github/release-please.yml"
+    },
+    {
+      "path": ".github/PULL_REQUEST_TEMPLATE.md"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/bug_report.md"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/support_request.md"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/feature_request.md"
+    },
+    {
+      "path": "google-oauth-client-assembly/LICENSE.txt"
+    },
+    {
+      "path": "google-oauth-client-assembly/proguard-google-oauth-client.txt"
+    },
+    {
+      "path": "google-oauth-client-assembly/pom.xml"
+    },
+    {
+      "path": "google-oauth-client-assembly/classpath-include"
+    },
+    {
+      "path": "google-oauth-client-assembly/README.md"
+    },
+    {
+      "path": "google-oauth-client-assembly/assembly.xml"
+    },
+    {
+      "path": "google-oauth-client-assembly/licenses/CDDL-LICENSE.txt"
+    },
+    {
+      "path": "google-oauth-client-assembly/licenses/xpp3_LICENSE.txt"
+    },
+    {
+      "path": "google-oauth-client-assembly/licenses/APACHE-LICENSE.txt"
+    },
+    {
+      "path": "google-oauth-client-assembly/licenses/BSD-LICENSE.txt"
+    },
+    {
+      "path": "google-oauth-client-assembly/properties/google-http-client.jar.properties"
+    },
+    {
+      "path": "google-oauth-client-assembly/properties/google-http-client-android.jar.properties"
+    },
+    {
+      "path": "google-oauth-client-assembly/properties/google-http-client-gson.jar.properties"
+    },
+    {
+      "path": "google-oauth-client-assembly/properties/google-http-client-jackson2.jar.properties"
+    },
+    {
+      "path": "google-oauth-client-assembly/properties/google-oauth-client.jar.properties"
+    },
+    {
+      "path": "google-oauth-client-assembly/properties/jackson-core.jar.properties"
+    },
+    {
+      "path": "google-oauth-client-assembly/properties/google-http-client-xml.jar.properties"
+    },
+    {
+      "path": "google-oauth-client-assembly/properties/gson.jar.properties"
+    },
+    {
+      "path": "__pycache__/synth.cpython-36.pyc"
+    },
+    {
+      "path": "google-oauth-client-appengine/pom.xml"
+    },
+    {
+      "path": "google-oauth-client-appengine/src/test/java/com/google/api/client/extensions/appengine/auth/oauth2/AppEngineCredentialStoreTest.java"
+    },
+    {
+      "path": "google-oauth-client-appengine/src/main/java/com/google/api/client/extensions/appengine/auth/AbstractAppEngineCallbackServlet.java"
+    },
+    {
+      "path": "google-oauth-client-appengine/src/main/java/com/google/api/client/extensions/appengine/auth/package-info.java"
+    },
+    {
+      "path": "google-oauth-client-appengine/src/main/java/com/google/api/client/extensions/appengine/auth/AppEngineServletUtils.java"
+    },
+    {
+      "path": "google-oauth-client-appengine/src/main/java/com/google/api/client/extensions/appengine/auth/AbstractAppEngineFlowServlet.java"
+    },
+    {
+      "path": "google-oauth-client-appengine/src/main/java/com/google/api/client/extensions/appengine/auth/oauth2/AppEngineCredentialStore.java"
+    },
+    {
+      "path": "google-oauth-client-appengine/src/main/java/com/google/api/client/extensions/appengine/auth/oauth2/AbstractAppEngineAuthorizationCodeCallbackServlet.java"
+    },
+    {
+      "path": "google-oauth-client-appengine/src/main/java/com/google/api/client/extensions/appengine/auth/oauth2/package-info.java"
+    },
+    {
+      "path": "google-oauth-client-appengine/src/main/java/com/google/api/client/extensions/appengine/auth/oauth2/AbstractAppEngineAuthorizationCodeServlet.java"
+    },
+    {
+      "path": ".git/index"
+    },
+    {
+      "path": ".git/packed-refs"
+    },
+    {
+      "path": ".git/HEAD"
+    },
+    {
+      "path": ".git/config"
+    },
+    {
+      "path": ".git/shallow"
+    },
+    {
+      "path": ".git/objects/pack/pack-4421c6c62476b32cb85cb19cd4414ceda4156ea6.pack"
+    },
+    {
+      "path": ".git/objects/pack/pack-4421c6c62476b32cb85cb19cd4414ceda4156ea6.idx"
+    },
+    {
+      "path": ".git/refs/remotes/origin/HEAD"
+    },
+    {
+      "path": ".git/refs/heads/autosynth"
+    },
+    {
+      "path": ".git/refs/heads/master"
+    },
+    {
+      "path": ".git/logs/HEAD"
+    },
+    {
+      "path": ".git/logs/refs/remotes/origin/HEAD"
+    },
+    {
+      "path": ".git/logs/refs/heads/autosynth"
+    },
+    {
+      "path": ".git/logs/refs/heads/master"
+    },
+    {
+      "path": "docs/index.md"
+    },
+    {
+      "path": "docs/oauth-2.0.md"
+    },
+    {
+      "path": "docs/oauth-1.0.md"
+    },
+    {
+      "path": "docs/_config.yml"
+    },
+    {
+      "path": "docs/component-modules.md"
+    },
+    {
+      "path": "docs/setup.md"
+    },
+    {
+      "path": "docs/_layouts/default.html"
+    },
+    {
+      "path": "docs/_data/navigation.yml"
+    },
+    {
+      "path": "google-oauth-client-jetty/pom.xml"
+    },
+    {
+      "path": "google-oauth-client-jetty/resources/credentials.json"
+    },
+    {
+      "path": "google-oauth-client-jetty/src/test/java/com/google/api/client/extensions/jetty/auth/oauth2/LocalServerReceiverTest.java"
+    },
+    {
+      "path": "google-oauth-client-jetty/src/main/java/com/google/api/client/extensions/jetty/auth/oauth2/package-info.java"
+    },
+    {
+      "path": "google-oauth-client-jetty/src/main/java/com/google/api/client/extensions/jetty/auth/oauth2/LocalServerReceiver.java"
+    },
+    {
+      "path": "google-oauth-client/pom.xml"
+    },
+    {
+      "path": "google-oauth-client/src/test/resources/com/google/api/client/auth/security/secret.pem"
+    },
+    {
+      "path": "google-oauth-client/src/test/resources/com/google/api/client/auth/security/secret.p12"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth2/AuthorizationRequestUrlTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth2/TokenResponseTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth2/ClientParametersAuthenticationTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth2/CustomTokenRequestTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth2/CredentialTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth2/RefreshTokenRequestTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth2/TokenRequestTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth2/AuthenticationTestBase.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth2/ClientCredentialsTokenRequestTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth2/AuthorizationCodeFlowTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth2/AuthorizationCodeRequestUrlTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth2/PasswordTokenRequestTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth2/CustomTokenResponseTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth2/TokenErrorResponseTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth2/BrowserClientRequestUrlTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth2/AuthorizationCodeTokenRequestTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth2/AuthorizationCodeResponseUrlTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/openidconnect/IdTokenTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/openidconnect/IdTokenVerifierTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth/OAuthHmacSignerTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth/OAuthParametersTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/test/java/com/google/api/client/auth/oauth/OAuthRsaSignerTest.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/BrowserClientRequestUrl.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/ClientParametersAuthentication.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/AuthorizationCodeResponseUrl.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/AuthorizationCodeTokenRequest.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/RefreshTokenRequest.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/TokenResponse.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/ClientCredentialsTokenRequest.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/Credential.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/AuthorizationCodeRequestUrl.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/TokenResponseException.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/TokenErrorResponse.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/AuthorizationCodeFlow.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/package-info.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/CredentialStoreRefreshListener.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/PasswordTokenRequest.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/AuthorizationRequestUrl.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/TokenRequest.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/DataStoreCredentialRefreshListener.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/CredentialStore.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/BearerToken.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/StoredCredential.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth2/CredentialRefreshListener.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/openidconnect/IdTokenVerifier.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/openidconnect/IdTokenResponse.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/openidconnect/IdToken.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/openidconnect/package-info.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth/AbstractOAuthGetToken.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth/OAuthHmacSigner.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth/OAuthGetAccessToken.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth/OAuthParameters.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth/OAuthRsaSigner.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth/OAuthCredentialsResponse.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth/OAuthAuthorizeTemporaryTokenUrl.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth/OAuthGetTemporaryToken.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth/package-info.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth/OAuthCallbackUrl.java"
+    },
+    {
+      "path": "google-oauth-client/src/main/java/com/google/api/client/auth/oauth/OAuthSigner.java"
+    },
+    {
+      "path": "google-oauth-client-bom/pom.xml"
+    },
+    {
+      "path": "google-oauth-client-bom/README.md"
     }
   ]
 }
