@@ -450,7 +450,7 @@
     <project.jackson-core-asl.version>1.9.13</project.jackson-core-asl.version>
     <project.jackson-core2.version>2.9.6</project.jackson-core2.version>
     <project.jetty.version>8.2.0.v20160908</project.jetty.version>
-    <project.guava.version>28.1-android</project.guava.version>
+    <project.guava.version>28.2-android</project.guava.version>
     <project.xpp3.version>1.1.4c</project.xpp3.version>
     <project.commons-logging.version>1.1.1</project.commons-logging.version>
     <project.httpclient.version>4.5.5</project.httpclient.version>
