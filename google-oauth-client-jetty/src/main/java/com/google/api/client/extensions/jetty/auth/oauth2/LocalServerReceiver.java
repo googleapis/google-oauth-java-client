@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 
 /**
@@ -116,8 +117,9 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
   @Override
   public String getRedirectUri() throws IOException {
     server = new Server(port != -1 ? port : 0);
-    Connector connector = server.getConnectors()[0];
+    ServerConnector connector = new ServerConnector(server);
     connector.setHost(host);
+    server.setConnectors(new Connector[] { connector } );
     server.setHandler(new CallbackHandler());
     try {
       server.start();
