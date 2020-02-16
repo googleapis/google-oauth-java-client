@@ -442,7 +442,7 @@
     <project.http.version>1.34.2</project.http.version>
     <project.jsr305.version>3.0.2</project.jsr305.version>
     <project.jackson-core2.version>2.9.6</project.jackson-core2.version>
-    <project.jetty.version>8.2.0.v20160908</project.jetty.version>
+    <project.jetty.version>9.4.26.v20200117</project.jetty.version>
     <project.guava.version>28.2-android</project.guava.version>
     <project.xpp3.version>1.1.4c</project.xpp3.version>
     <project.commons-logging.version>1.1.1</project.commons-logging.version>
