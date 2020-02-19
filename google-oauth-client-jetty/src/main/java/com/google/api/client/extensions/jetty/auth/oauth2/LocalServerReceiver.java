@@ -137,13 +137,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
     server = HttpServer.create(new InetSocketAddress(port != -1 ? port : findOpenPort()), 0);
     HttpContext context = server.createContext(callbackPath, new CallbackHandler());
     server.setExecutor(null);
-/*
-    server = new Server(port != -1 ? port : 0);
-    ServerConnector connector = new ServerConnector(server);
-    connector.setHost(host);
-    server.setConnectors(new Connector[] { connector } );
-    server.setHandler(new CallbackHandler());
-*/
+
     try {
       server.start();
       port = server.getAddress().getPort();
