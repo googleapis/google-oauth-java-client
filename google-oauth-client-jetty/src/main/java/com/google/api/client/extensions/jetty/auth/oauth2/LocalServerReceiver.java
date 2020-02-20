@@ -14,10 +14,16 @@
 
 package com.google.api.client.extensions.jetty.auth.oauth2;
 
+import static java.net.HttpURLConnection.HTTP_MOVED_TEMP;
+import static java.net.HttpURLConnection.HTTP_OK;
+
 import com.google.api.client.extensions.java6.auth.oauth2.VerificationCodeReceiver;
 import com.google.api.client.util.Throwables;
-import com.sun.net.httpserver.*;
-
+import com.sun.net.httpserver.Headers;
+import com.sun.net.httpserver.HttpContext;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -26,9 +32,6 @@ import java.net.ServerSocket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
-
-import static java.net.HttpURLConnection.HTTP_MOVED_TEMP;
-import static java.net.HttpURLConnection.HTTP_OK;
 
 /**
  * OAuth 2.0 verification code receiver that runs a Jetty server on a free port, waiting for a
@@ -89,8 +92,8 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
   private String successLandingPageUrl;
 
   /**
-   * URL to an HTML page to be shown (via redirect) after failed login. If null, a canned
-   * default landing page will be shown (via direct response).
+   * URL to an HTML page to be shown (via redirect) after failed login. If null, a canned default
+   * landing page will be shown (via direct response).
    */
   private String failureLandingPageUrl;
 
@@ -112,7 +115,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
    * @param port Port to use or {@code -1} to select an unused port
    */
   LocalServerReceiver(String host, int port,
-                      String successLandingPageUrl, String failureLandingPageUrl) {
+      String successLandingPageUrl, String failureLandingPageUrl) {
     this(host, port, CALLBACK_PATH, successLandingPageUrl, failureLandingPageUrl);
   }
 
@@ -123,7 +126,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
    * @param port Port to use or {@code -1} to select an unused port
    */
   LocalServerReceiver(String host, int port, String callbackPath,
-                      String successLandingPageUrl, String failureLandingPageUrl) {
+      String successLandingPageUrl, String failureLandingPageUrl) {
     this.host = host;
     this.port = port;
     this.callbackPath = callbackPath;
@@ -156,19 +159,19 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
     try (ServerSocket socket = new ServerSocket(0)) {
       socket.setReuseAddress(true);
       return socket.getLocalPort();
-    } catch(IOException e) {
+    } catch (IOException e) {
       throw new IllegalStateException("No free TCP/IP port to start embedded HTTP Server on");
     }
   }
 
   /**
-   * Blocks until the server receives a login result, or the server is stopped
-   * by {@link #stop()}, to return an authorization code.
+   * Blocks until the server receives a login result, or the server is stopped by {@link #stop()},
+   * to return an authorization code.
    *
-   * @return authorization code if login succeeds; may return {@code null} if the server
-   * is stopped by {@link #stop()}
-   * @throws IOException if the server receives an error code (through an HTTP request
-   *                     parameter {@code error})
+   * @return authorization code if login succeeds; may return {@code null} if the server is stopped
+   * by {@link #stop()}
+   * @throws IOException if the server receives an error code (through an HTTP request parameter
+   *                     {@code error})
    */
   @Override
   public String waitForCode() throws IOException {
@@ -243,7 +246,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
      */
     public LocalServerReceiver build() {
       return new LocalServerReceiver(host, port, callbackPath,
-              successLandingPageUrl, failureLandingPageUrl);
+          successLandingPageUrl, failureLandingPageUrl);
     }
 
     /**
@@ -299,9 +302,8 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
   }
 
   /**
-   * HttpServer handler that takes the verifier token passed over
-   * from the OAuth provider and stashes it
-   * where {@link #waitForCode} will find it.
+   * HttpServer handler that takes the verifier token passed over from the OAuth provider and
+   * stashes it where {@link #waitForCode} will find it.
    */
   class CallbackHandler implements HttpHandler {
 
@@ -316,7 +318,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
 
       try {
         Map<String, String> parms =
-                this.queryToMap(httpExchange.getRequestURI().getQuery());
+            this.queryToMap(httpExchange.getRequestURI().getQuery());
         error = parms.get("error");
         code = parms.get("code");
 
