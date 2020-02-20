@@ -151,11 +151,6 @@
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-server</artifactId>
-        <version>${project.jetty.version}</version>
-      </dependency>
-      <dependency>
         <groupId>org.datanucleus</groupId>
         <artifactId>datanucleus-core</artifactId>
         <version>${project.datanucleus-core.version}</version>
@@ -399,6 +394,9 @@
             <artifactId>java17</artifactId>
             <version>1.0</version>
           </signature>
+          <ignores>
+            <ignore>com.sun.net.httpserver.*</ignore>
+          </ignores>
         </configuration>
         <executions>
           <execution>
