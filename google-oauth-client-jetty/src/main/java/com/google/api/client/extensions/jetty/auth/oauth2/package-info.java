@@ -13,7 +13,7 @@
  */
 
 /**
- * OAuth 2.0 utilities that help simplify the authorization flow using a Jetty server.
+ * OAuth 2.0 utilities that simplify the authorization flow using an HTTP server.
  *
  * @since 1.11
  * @author Rafael Naufal

@@ -8,7 +8,9 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>google-oauth-client-jetty</artifactId>
-  <name>Jetty extensions to the Google OAuth Client Library for Java.</name>
+  <name>OAuth 2.0 verification code receiver for Google OAuth Client Library for Java.</name>
+  <description>Runs an HTTP server on a free port, waiting for a 
+               redirect with the verification code.</description>
   <build>
     <plugins>
       <plugin>

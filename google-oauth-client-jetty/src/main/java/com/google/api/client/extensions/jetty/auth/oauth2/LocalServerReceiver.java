@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.concurrent.Semaphore;
 
 /**
- * OAuth 2.0 verification code receiver that runs a Jetty server on a free port, waiting for a
+ * OAuth 2.0 verification code receiver that runs an HTTP server on a free port, waiting for a
  * redirect with the verification code.
  *
  * <p>
