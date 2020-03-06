@@ -1,5 +1,18 @@
 # Changelog
 
+### [1.30.6](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.30.5...v1.30.6) (2020-02-24)
+
+
+### Bug Fixes
+
+* remove vestigial, outdated protobuf dependencies from assembly docs ([#409](https://www.github.com/googleapis/google-oauth-java-client/issues/409)) ([bc8a5aa](https://www.github.com/googleapis/google-oauth-java-client/commit/bc8a5aa3745b414bea035d9dad66882be7ad6311))
+
+
+### Dependencies
+
+* replace Jetty with HttpServer ([#433](https://www.github.com/googleapis/google-oauth-java-client/issues/433)) ([bcabce2](https://www.github.com/googleapis/google-oauth-java-client/commit/bcabce25df8b7dc9d3d0edfca009d47a465d1af3)), closes [#397](https://www.github.com/googleapis/google-oauth-java-client/issues/397)
+* update dependency commons-codec:commons-codec to v1.14 ([#412](https://www.github.com/googleapis/google-oauth-java-client/issues/412)) ([f5abf5e](https://www.github.com/googleapis/google-oauth-java-client/commit/f5abf5e00b9785f48fdea55a9d993565c66af61a))
+
 ### [1.30.5](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.30.4...v1.30.5) (2019-12-17)
 
 
