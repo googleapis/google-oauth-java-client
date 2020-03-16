@@ -1,20 +1,6 @@
 {
-  "updateTime": "2020-02-21T22:34:12.927328Z",
+  "updateTime": "2020-03-16T21:33:50.666509Z",
   "sources": [
-    {
-      "git": {
-        "name": ".",
-        "remote": "https://github.com/googleapis/google-oauth-java-client.git",
-        "sha": "bcabce25df8b7dc9d3d0edfca009d47a465d1af3"
-      }
-    },
-    {
-      "git": {
-        "name": "synthtool",
-        "remote": "rpc://devrel/cloud/libraries/tools/autosynth",
-        "sha": "706a38c26db42299845396cdae55db635c38794a"
-      }
-    },
     {
       "template": {
         "name": "java_library",
