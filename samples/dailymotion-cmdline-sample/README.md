@@ -13,7 +13,7 @@
 
     ```bash
     git clone https://github.com/google/google-oauth-java-client.git
-    cd google-oauth-java-client/samples/dailymotion/cmdline-sample
+    cd google-oauth-java-client/samples/dailymotion-cmdline-sample/src/main/java/com/google/api/services/samples/dailymotion/cmdline
     ```
 
 2. Edit the `OAuth2ClientCredentials.java` file with your credentials.  To acquire credentials, go
