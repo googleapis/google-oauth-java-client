@@ -50,7 +50,7 @@
   * Right-click on project dailymotion-cmdline-sample
   * Run As > Java Application
   * If asked, type "DailyMotionSample" and click OK
-  * To enabled logging:
+  * To enable logging:
     * Run > Run Configurations...
     * Click on "Java Application > DailyMotionSample"
     * VM arguments: `-Djava.util.logging.config.file=${project_loc}/logging.properties`
