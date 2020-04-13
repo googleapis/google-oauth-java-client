@@ -1,11 +1,17 @@
 {
-  "updateTime": "2020-03-16T21:33:50.666509Z",
   "sources": [
     {
-      "template": {
-        "name": "java_library",
-        "origin": "synthtool.gcp",
-        "version": "2020.2.4"
+      "git": {
+        "name": ".",
+        "remote": "https://github.com/googleapis/google-oauth-java-client.git",
+        "sha": "c538e8fa02391f172ccd3cb007466432ae78db51"
+      }
+    },
+    {
+      "git": {
+        "name": "synthtool",
+        "remote": "https://github.com/googleapis/synthtool.git",
+        "sha": "682c0c37d1054966ca662a44259e96cc7aea4413"
       }
     }
   ]
