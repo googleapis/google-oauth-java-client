@@ -1,8 +1,22 @@
 {
   "extends": [
-    "config:base"
+    ":separateMajorReleases",
+    ":combinePatchMinorReleases",
+    ":ignoreUnstable",
+    ":prImmediately",
+    ":updateNotScheduled",
+    ":automergeDisabled",
+    ":ignoreModulesAndTests",
+    ":maintainLockFilesDisabled",
+    ":autodetectPinVersions"
   ],
   "packageRules": [
+    {
+      "packagePatterns": [
+        "^com.google.guava:"
+      ],
+      "versionScheme": "docker"
+    },
     {
       "packagePatterns": ["^com.google.appengine:appengine-"],
       "groupName": "AppEngine packages"
