@@ -4,6 +4,12 @@
   ],
   "packageRules": [
     {
+      "packagePatterns": [
+        "^com.google.guava:"
+      ],
+      "versionScheme": "docker"
+    },
+    {
       "packagePatterns": ["^com.google.appengine:appengine-"],
       "groupName": "AppEngine packages"
     }
