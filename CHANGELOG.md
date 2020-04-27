@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.30.7](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.30.6...v1.30.7) (2020-04-27)
+
+
+### Dependencies
+
+* update google-http-client to v1.35.0 ([#466](https://www.github.com/googleapis/google-oauth-java-client/issues/466)) ([6447917](https://www.github.com/googleapis/google-oauth-java-client/commit/6447917c657a5ae4267afbab74dfdb890bbfbf28))
+* update to guava 29.0-android ([#456](https://www.github.com/googleapis/google-oauth-java-client/issues/456)) ([fc75233](https://www.github.com/googleapis/google-oauth-java-client/commit/fc752336af9cbdb9b2ed816a63d7bd3d8d1e2778))
+
 ### [1.30.6](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.30.5...v1.30.6) (2020-02-24)
 
 
