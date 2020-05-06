@@ -107,12 +107,14 @@
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.2.0</version>
         <configuration>
           <skip>true</skip>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-site-plugin</artifactId>
+        <version>3.9.0</version>
         <configuration>
           <skip>true</skip>
         </configuration>
