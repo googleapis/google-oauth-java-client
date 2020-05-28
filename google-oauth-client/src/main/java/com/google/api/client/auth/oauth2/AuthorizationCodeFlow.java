@@ -180,6 +180,7 @@ public class AuthorizationCodeFlow {
    */
   public AuthorizationCodeRequestUrl newAuthorizationUrl() {
     AuthorizationCodeRequestUrl acru = new  AuthorizationCodeRequestUrl(authorizationServerEncodedUrl, clientId);
+    acru.setScopes(scopes);
     if (pkce != null) {
       acru.setCodeChallenge(pkce.getChallenge());
       acru.setCodeChallengeMethod(pkce.getChallengeMethod());
