@@ -45,7 +45,7 @@ public class PKCESample {
                 HTTP_TRANSPORT,
                 JSON_FACTORY,
                 new GenericUrl(TOKEN_SERVER_URL),
-                new ClientParametersAuthentication(clientId, null),
+                new PKCEAuthentication(clientId, new PKCE()),
                 clientId,
                 AUTHORIZATION_SERVER_URL).setScopes(Arrays.asList(SCOPE))
                 .setDataStoreFactory(DATA_STORE_FACTORY).build();
