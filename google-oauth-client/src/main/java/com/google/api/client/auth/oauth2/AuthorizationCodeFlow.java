@@ -22,6 +22,9 @@ import com.google.api.client.util.store.DataStore;
 import com.google.api.client.util.store.DataStoreFactory;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -79,6 +82,7 @@ public class AuthorizationCodeFlow {
   /** Authorization server encoded URL. */
   private final String authorizationServerEncodedUrl;
 
+  /** The Proof Key for Code Exchange (PKCE) or {@code null} if this flow should not use PKCE. */
   private final PKCE pkce;
 
   /** Credential persistence store or {@code null} for none. */
@@ -423,6 +427,71 @@ public class AuthorizationCodeFlow {
      * @param tokenResponse successful token response
      */
     void onCredentialCreated(Credential credential, TokenResponse tokenResponse) throws IOException;
+  }
+
+  /**
+   * An implementation of <a href="https://tools.ietf.org/html/rfc7636">Proof Key for Code Exchange</a>
+   * which, according to the <a href="https://tools.ietf.org/html/rfc8252#section-6">OAuth 2.0 for Native Apps RFC</a>,
+   * is mandatory for public native apps.
+   */
+  private static class PKCE {
+    private final String verifier;
+    private final String challenge;
+    private String challengeMethod;
+
+    public PKCE() {
+      verifier = generateVerifier();
+      Challenge c = new Challenge(verifier);
+      challenge = c.challenge;
+      challengeMethod = c.method;
+    }
+
+    private String generateVerifier() {
+      SecureRandom sr = new SecureRandom();
+      byte[] code = new byte[32];
+      sr.nextBytes(code);
+      return Base64.encodeBase64URLSafeString(code);
+    }
+
+    public String getVerifier() {
+      return verifier;
+    }
+
+    public String getChallenge() {
+      return challenge;
+    }
+
+    public String getChallengeMethod() {
+      return challengeMethod;
+    }
+
+    /**
+     * An abstraction to create the PKCE code verifier. It will use the S256 method but
+     * will fall back to using the 'plain' method in the unlikely case that the SHA-256
+     * MessageDigest algorithm implementation can't be loaded.
+     */
+    private static class Challenge {
+      private String challenge;
+      private String method;
+
+      private Challenge(String verifier) {
+        try {
+          challenge = generateChallenge(verifier);
+          method = "S256";
+        } catch (NoSuchAlgorithmException e) {
+          challenge = verifier;
+          method = "plain";
+        }
+      }
+
+      private String generateChallenge(String verifier) throws NoSuchAlgorithmException {
+        byte[] bytes = verifier.getBytes();
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(bytes, 0, bytes.length);
+        byte[] digest = md.digest();
+        return Base64.encodeBase64URLSafeString(digest);
+      }
+    }
   }
 
   /**
@@ -800,7 +869,7 @@ public class AuthorizationCodeFlow {
     }
 
     /**
-     * TODO
+     * Enables Proof Key for Code Exchange (PKCE) for this Athorization Code Flow.
      * @since 1.30.7
      */
     public Builder enablePKCE() {
