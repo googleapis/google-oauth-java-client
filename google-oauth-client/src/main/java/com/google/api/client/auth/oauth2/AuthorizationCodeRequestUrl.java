@@ -77,6 +77,24 @@ public class AuthorizationCodeRequestUrl extends AuthorizationRequestUrl {
   }
 
   /**
+   * Get the code challenge (<a href="https://tools.ietf.org/html/rfc7636#section-4.3">details</a>).
+   *
+   * @since 1.30.7
+   */
+  public String getCodeChallenge() {
+    return codeChallenge;
+  }
+
+  /**
+   * Get the code challenge method (<a href="https://tools.ietf.org/html/rfc7636#section-4.3">details</a>).
+   *
+   * @since 1.30.7
+   */
+  public String getCodeChallengeMethod() {
+    return codeChallengeMethod;
+  }
+
+  /**
    * Set the code challenge (<a href="https://tools.ietf.org/html/rfc7636#section-4.3">details</a>).
    * @param codeChallenge the code challenge.
    *
