@@ -56,12 +56,14 @@ public class AuthorizationCodeRequestUrl extends AuthorizationRequestUrl {
 
   /**
    * The PKCE <a href="https://tools.ietf.org/html/rfc7636#section-4.3">Code Challenge</a>.
+   * @since 1.30.7
    */
   @Key("code_challenge")
   String codeChallenge;
 
   /**
    * The PKCE <a href="https://tools.ietf.org/html/rfc7636#section-4.3">Code Challenge Method</a>.
+   * @since 1.30.7
    */
   @Key("code_challenge_method")
   String codeChallengeMethod;
