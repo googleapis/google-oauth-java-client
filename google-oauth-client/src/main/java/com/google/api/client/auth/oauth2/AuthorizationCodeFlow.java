@@ -15,9 +15,20 @@
 package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.Credential.AccessMethod;
-import com.google.api.client.http.*;
+import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpExecuteInterceptor;
+import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.util.*;
+import com.google.api.client.util.Base64;
+import com.google.api.client.util.Beta;
+import com.google.api.client.util.Data;
+import com.google.api.client.util.Clock;
+import com.google.api.client.util.Joiner;
+import com.google.api.client.util.Lists;
+import com.google.api.client.util.Preconditions;
 import com.google.api.client.util.store.DataStore;
 import com.google.api.client.util.store.DataStoreFactory;
 
