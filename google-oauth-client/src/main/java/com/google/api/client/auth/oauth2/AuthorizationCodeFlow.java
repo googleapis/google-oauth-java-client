@@ -883,6 +883,7 @@ public class AuthorizationCodeFlow {
      * Enables Proof Key for Code Exchange (PKCE) for this Athorization Code Flow.
      * @since 1.30.7
      */
+    @Beta
     public Builder enablePKCE() {
       this.pkce = new PKCE();
       return this;
