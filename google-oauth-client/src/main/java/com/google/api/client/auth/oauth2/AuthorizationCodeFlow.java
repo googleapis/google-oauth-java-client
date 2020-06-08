@@ -194,13 +194,13 @@ public class AuthorizationCodeFlow {
    * </pre>
    */
   public AuthorizationCodeRequestUrl newAuthorizationUrl() {
-    AuthorizationCodeRequestUrl acru = new  AuthorizationCodeRequestUrl(authorizationServerEncodedUrl, clientId);
-    acru.setScopes(scopes);
+    AuthorizationCodeRequestUrl url = new  AuthorizationCodeRequestUrl(authorizationServerEncodedUrl, clientId);
+    url.setScopes(scopes);
     if (pkce != null) {
-      acru.setCodeChallenge(pkce.getChallenge());
-      acru.setCodeChallengeMethod(pkce.getChallengeMethod());
+      url.setCodeChallenge(pkce.getChallenge());
+      url.setCodeChallengeMethod(pkce.getChallengeMethod());
     }
-    return acru;
+    return url;
   }
 
   /**
@@ -447,21 +447,39 @@ public class AuthorizationCodeFlow {
    */
   private static class PKCE {
     private final String verifier;
-    private final String challenge;
+    private String challenge;
     private String challengeMethod;
 
     public PKCE() {
       verifier = generateVerifier();
-      Challenge c = new Challenge(verifier);
-      challenge = c.challenge;
-      challengeMethod = c.method;
+      generateChallenge(verifier);
     }
 
-    private String generateVerifier() {
+    private static String generateVerifier() {
       SecureRandom sr = new SecureRandom();
       byte[] code = new byte[32];
       sr.nextBytes(code);
       return Base64.encodeBase64URLSafeString(code);
+    }
+
+    /**
+     * Create the PKCE code verifier. It will use the S256 method but
+     * will fall back to using the 'plain' method in the unlikely case
+     * that the SHA-256 MessageDigest algorithm implementation can't be
+     * loaded.
+     */
+    private void generateChallenge(String verifier) {
+      try {
+        byte[] bytes = verifier.getBytes();
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(bytes, 0, bytes.length);
+        byte[] digest = md.digest();
+        challenge = Base64.encodeBase64URLSafeString(digest);
+        challengeMethod = "S256";
+      } catch (NoSuchAlgorithmException e) {
+        challenge = verifier;
+        challengeMethod = "plain";
+      }
     }
 
     public String getVerifier() {
@@ -474,34 +492,6 @@ public class AuthorizationCodeFlow {
 
     public String getChallengeMethod() {
       return challengeMethod;
-    }
-
-    /**
-     * An abstraction to create the PKCE code verifier. It will use the S256 method but
-     * will fall back to using the 'plain' method in the unlikely case that the SHA-256
-     * MessageDigest algorithm implementation can't be loaded.
-     */
-    private static class Challenge {
-      private String challenge;
-      private String method;
-
-      private Challenge(String verifier) {
-        try {
-          challenge = generateChallenge(verifier);
-          method = "S256";
-        } catch (NoSuchAlgorithmException e) {
-          challenge = verifier;
-          method = "plain";
-        }
-      }
-
-      private String generateChallenge(String verifier) throws NoSuchAlgorithmException {
-        byte[] bytes = verifier.getBytes();
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(bytes, 0, bytes.length);
-        byte[] digest = md.digest();
-        return Base64.encodeBase64URLSafeString(digest);
-      }
     }
   }
 
@@ -881,7 +871,7 @@ public class AuthorizationCodeFlow {
 
     /**
      * Enables Proof Key for Code Exchange (PKCE) for this Athorization Code Flow.
-     * @since 1.30.7
+     * @since 1.31
      */
     @Beta
     public Builder enablePKCE() {
