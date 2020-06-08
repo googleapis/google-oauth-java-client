@@ -29,6 +29,10 @@ You'll also need [Docker][install-docker].
     mvn install
     mvn exec:java -pl samples/keycloak-pkce-cmdline-sample
     ```
+   
+   This will open up the Keycloak login page where you can log in with the username/password specified
+   when running the Keycloak docker container above (`admin / admin`). Once you log in, the application
+   will print out a message that it successfully obtained an access token.
 
 [browse-source]: https://github.com/google/google-oauth-java-client/tree/dev/samples/keycloak-pkce-cmdline-sample
 [main-source]: https://github.com/google/google-oauth-java-client/blob/dev/samples/keycloak-pkce-cmdline-sample/src/main/java/com/google/api/services/samples/keycloak/cmdline/PKCESample.java
