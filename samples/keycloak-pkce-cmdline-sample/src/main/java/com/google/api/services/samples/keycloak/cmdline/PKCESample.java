@@ -60,7 +60,9 @@ public class PKCESample {
         try {
             DATA_STORE_FACTORY = new MemoryDataStoreFactory();
             final Credential credential = authorize();
-            System.out.println(credential.getAccessToken());
+            System.out.println("Successfully obtained credential from Keycloak running on localhost.");
+            final String accessToken = credential.getAccessToken();
+            System.out.println("Retrieved an access token of length " + accessToken.length());
             return;
         } catch (IOException e) {
             System.err.println(e.getMessage());

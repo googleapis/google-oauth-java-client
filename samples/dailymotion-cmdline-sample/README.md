@@ -6,7 +6,7 @@
 
 ## Command-Line Instructions
 
-**Prerequisites:** install [Java 6 or higher][install-java], [git][install-git], and
+**Prerequisites:** install [Java 7 or higher][install-java], [git][install-git], and
 [Maven][install-maven]. You may need to set your `JAVA_HOME`.
 
 1. Check out the sample code:

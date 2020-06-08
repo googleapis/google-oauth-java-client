@@ -2,12 +2,13 @@
 
 ## Browse Online
 
-[Browse Source][browse-source], or main file [DailyMotionSample.java][main-source].
+[Browse Source][browse-source], or main file [PKCESample.java][main-source].
 
 ## Command-Line Instructions
 
-**Prerequisites:** install [Java 6 or higher][install-java], [git][install-git], and
-[Maven][install-maven]. You may need to set your `JAVA_HOME`.
+**Prerequisites:** install [Java 7 or higher][install-java], [git][install-git], and
+[Maven][install-maven]. You may need to set your `JAVA_HOME`. 
+You'll also need [Docker][install-docker].
 
 1. Check out the sample code:
 
@@ -34,3 +35,4 @@
 [install-java]: https://java.com/
 [install-git]: https://git-scm.com
 [install-maven]: https://maven.apache.org
+[install-docker]: https://docs.docker.com/get-docker/

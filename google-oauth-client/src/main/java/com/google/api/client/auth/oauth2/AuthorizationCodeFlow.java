@@ -463,8 +463,8 @@ public class AuthorizationCodeFlow {
     }
 
     /**
-     * Create the PKCE code verifier. It will use the S256 method but
-     * will fall back to using the 'plain' method in the unlikely case
+     * Create the PKCE code verifier. It uses the S256 method but
+     * falls back to using the 'plain' method in the unlikely case
      * that the SHA-256 MessageDigest algorithm implementation can't be
      * loaded.
      */
