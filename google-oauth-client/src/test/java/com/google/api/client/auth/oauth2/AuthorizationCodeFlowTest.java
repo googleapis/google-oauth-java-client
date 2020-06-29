@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Tests {@link AuthorizationCodeFlow}.
@@ -122,5 +124,25 @@ public class AuthorizationCodeFlowTest extends AuthenticationTestBase {
     } else {
       assertEquals(Joiner.on(' ').join(scopes), url.getScopes());
     }
+  }
+
+  public void testPKCE() {
+    AuthorizationCodeFlow flow =
+        new AuthorizationCodeFlow.Builder(BearerToken.queryParameterAccessMethod(),
+            new AccessTokenTransport(),
+            new JacksonFactory(),
+            TOKEN_SERVER_URL,
+            new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
+            CLIENT_ID,
+            "https://example.com")
+        .enablePKCE()
+        .build();
+
+    AuthorizationCodeRequestUrl url = flow.newAuthorizationUrl();
+    assertNotNull(url.getCodeChallenge());
+    assertNotNull(url.getCodeChallengeMethod());
+    Set<String> methods = new HashSet<>(Arrays.asList("plain", "s256"));
+    assertTrue(methods.contains(url.getCodeChallengeMethod().toLowerCase()));
+    assertTrue(url.getCodeChallenge().length() > 0);
   }
 }

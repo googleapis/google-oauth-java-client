@@ -14,6 +14,8 @@
 
 package com.google.api.client.auth.oauth2;
 
+import com.google.api.client.util.Key;
+
 import java.util.Collection;
 import java.util.Collections;
 
@@ -53,11 +55,63 @@ import java.util.Collections;
 public class AuthorizationCodeRequestUrl extends AuthorizationRequestUrl {
 
   /**
+   * The PKCE <a href="https://tools.ietf.org/html/rfc7636#section-4.3">Code Challenge</a>.
+   * @since 1.31
+   */
+  @Key("code_challenge")
+  String codeChallenge;
+
+  /**
+   * The PKCE <a href="https://tools.ietf.org/html/rfc7636#section-4.3">Code Challenge Method</a>.
+   * @since 1.31
+   */
+  @Key("code_challenge_method")
+  String codeChallengeMethod;
+
+  /**
    * @param authorizationServerEncodedUrl authorization server encoded URL
    * @param clientId client identifier
    */
   public AuthorizationCodeRequestUrl(String authorizationServerEncodedUrl, String clientId) {
     super(authorizationServerEncodedUrl, clientId, Collections.singleton("code"));
+  }
+
+  /**
+   * Get the code challenge (<a href="https://tools.ietf.org/html/rfc7636#section-4.3">details</a>).
+   *
+   * @since 1.31
+   */
+  public String getCodeChallenge() {
+    return codeChallenge;
+  }
+
+  /**
+   * Get the code challenge method (<a href="https://tools.ietf.org/html/rfc7636#section-4.3">details</a>).
+   *
+   * @since 1.31
+   */
+  public String getCodeChallengeMethod() {
+    return codeChallengeMethod;
+  }
+
+  /**
+   * Set the code challenge (<a href="https://tools.ietf.org/html/rfc7636#section-4.3">details</a>).
+   * @param codeChallenge the code challenge.
+   *
+   * @since 1.31
+   */
+  public void setCodeChallenge(String codeChallenge) {
+    this.codeChallenge = codeChallenge;
+  }
+
+  /**
+   * Set the code challenge method (<a href="https://tools.ietf.org/html/rfc7636#section-4.3">details</a>).
+   * @param codeChallengeMethod the code challenge method.
+   *
+   * @since 1.31
+   */
+  public void setCodeChallengeMethod(String codeChallengeMethod) {
+    this.codeChallengeMethod = codeChallengeMethod;
   }
 
   @Override
