@@ -13,7 +13,7 @@
 
     ```bash
     git clone https://github.com/google/google-oauth-java-client.git
-    cd google-oauth-java-client/samples/dailymotion/cmdline-sample
+    cd google-oauth-java-client/samples/dailymotion-cmdline-sample
     ```
 
 2. Edit the `OAuth2ClientCredentials.java` file with your credentials.  To acquire credentials, go
@@ -24,7 +24,7 @@
 
     ```bash
     mvn compile
-    mvn -q exec: java
+    mvn -q exec:java
     ```
 
 ## Setup Project in Eclipse 3.5/3.6
