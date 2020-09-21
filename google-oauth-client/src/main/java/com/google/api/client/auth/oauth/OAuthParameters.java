@@ -112,7 +112,7 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
    */
   public String version;
 
-  private static final PercentEscaper ESCAPER = new PercentEscaper("-_.~", false);
+  private static final PercentEscaper ESCAPER = new PercentEscaper("-_.~");
 
   /**
    * Computes a nonce based on the hex string of a random non-negative long, setting the value of
