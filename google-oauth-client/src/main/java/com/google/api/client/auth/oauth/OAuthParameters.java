@@ -280,7 +280,16 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
     computeNonce();
     computeTimestamp();
     try {
-      computeSignature(request.getRequestMethod(), request.getUrl());
+      GenericUrl url = request.getUrl();
+      HttpContent content = request.getContent();
+      Map<String, Object> urlEncodedParams = null;
+      if (content instanceof UrlEncodedContent) {
+          urlEncodedParams = Data.mapOf(((UrlEncodedContent) content).getData());
+          url.putAll(urlEncodedParams);
+      }
+      computeSignature(request.getRequestMethod(), url);
+      ofNullable(urlEncodedParams)
+              .ifPresent(contentParams -> contentParams.forEach((key, value) -> url.remove(key)));
     } catch (GeneralSecurityException e) {
       IOException io = new IOException();
       io.initCause(e);
