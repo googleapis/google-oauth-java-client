@@ -14,7 +14,12 @@
 
 package com.google.api.client.auth.oauth;
 
-import com.google.api.client.http.*;
+import com.google.api.client.http.HttpContent;
+import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpExecuteInterceptor;
+import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.Data;
 import com.google.api.client.util.escape.PercentEscaper;
@@ -56,7 +61,8 @@ import java.util.Map;
  * @author Yaniv Inbar
  */
 @Beta
-public final class OAuthParameters implements HttpExecuteInterceptor, HttpRequestInitializer {
+public final class OAuthParameters implements HttpExecuteInterceptor, HttpRequestInitializer
+{
 
   /** Secure random number generator to sign requests. */
   private static final SecureRandom RANDOM = new SecureRandom();
