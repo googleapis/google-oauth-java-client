@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.31.1](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.31.0...v1.31.1) (2020-10-13)
+
+
+### Dependencies
+
+* update appengine packages to v1.9.82 ([#465](https://www.github.com/googleapis/google-oauth-java-client/issues/465)) ([651256c](https://www.github.com/googleapis/google-oauth-java-client/commit/651256caaaa0f760c6e098d6dae10b0c939564d4))
+* update google-http-client to v1.37.0 ([#544](https://www.github.com/googleapis/google-oauth-java-client/issues/544)) ([26a1e6d](https://www.github.com/googleapis/google-oauth-java-client/commit/26a1e6d17f984cc6c3d5a9d7dbfe984eda2c27bd))
+
 ## [1.31.0](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.30.6...v1.31.0) (2020-06-29)
 
 
