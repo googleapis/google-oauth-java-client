@@ -438,7 +438,7 @@
     -->
     <project.appengine.version>1.9.82</project.appengine.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.http.version>1.37.0</project.http.version>
+    <project.http.version>1.38.0</project.http.version>
     <project.jsr305.version>3.0.2</project.jsr305.version>
     <project.jackson-core2.version>2.9.6</project.jackson-core2.version>
     <project.guava.version>30.0-android</project.guava.version>
