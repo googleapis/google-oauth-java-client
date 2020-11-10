@@ -19,25 +19,20 @@ import com.google.api.client.json.webtoken.JsonWebSignature;
 import com.google.api.client.json.webtoken.JsonWebToken;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.Key;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * ID token as described in <a
  * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id_token">ID Token</a>.
  *
- * <p>
- * Use {@link #parse(JsonFactory, String)} to parse an ID token from a string. Then, use the
+ * <p>Use {@link #parse(JsonFactory, String)} to parse an ID token from a string. Then, use the
  * {@code verify} methods to verify the ID token as required by the specification.
- * </p>
  *
- * <p>
- * Implementation is not thread-safe.
- * </p>
+ * <p>Implementation is not thread-safe.
  *
  * @since 1.14
  * @author Yaniv Inbar
@@ -102,14 +97,14 @@ public class IdToken extends JsonWebSignature {
   }
 
   /**
-   * Returns whether the {@link Payload#getExpirationTimeSeconds} and
-   * {@link Payload#getIssuedAtTimeSeconds} are valid relative to the current time, allowing for a
-   * clock skew as specified in steps 5 and 6 of <a
+   * Returns whether the {@link Payload#getExpirationTimeSeconds} and {@link
+   * Payload#getIssuedAtTimeSeconds} are valid relative to the current time, allowing for a clock
+   * skew as specified in steps 5 and 6 of <a
    * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token
    * Validation</a>.
    *
-   * @param currentTimeMillis current time in milliseconds (typically
-   *        {@link System#currentTimeMillis()})
+   * @param currentTimeMillis current time in milliseconds (typically {@link
+   *     System#currentTimeMillis()})
    * @param acceptableTimeSkewSeconds seconds of acceptable clock skew
    */
   public final boolean verifyTime(long currentTimeMillis, long acceptableTimeSkewSeconds) {
@@ -123,8 +118,8 @@ public class IdToken extends JsonWebSignature {
    * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token
    * Validation</a>.
    *
-   * @param currentTimeMillis current time in milliseconds (typically
-   *        {@link System#currentTimeMillis()})
+   * @param currentTimeMillis current time in milliseconds (typically {@link
+   *     System#currentTimeMillis()})
    * @param acceptableTimeSkewSeconds seconds of acceptable clock skew
    */
   public final boolean verifyExpirationTime(
@@ -139,8 +134,8 @@ public class IdToken extends JsonWebSignature {
    * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token
    * Validation</a>.
    *
-   * @param currentTimeMillis current time in milliseconds (typically
-   *        {@link System#currentTimeMillis()})
+   * @param currentTimeMillis current time in milliseconds (typically {@link
+   *     System#currentTimeMillis()})
    * @param acceptableTimeSkewSeconds seconds of acceptable clock skew
    */
   public final boolean verifyIssuedAtTime(long currentTimeMillis, long acceptableTimeSkewSeconds) {
@@ -158,12 +153,15 @@ public class IdToken extends JsonWebSignature {
   public static IdToken parse(JsonFactory jsonFactory, String idTokenString) throws IOException {
     JsonWebSignature jws =
         JsonWebSignature.parser(jsonFactory).setPayloadClass(Payload.class).parse(idTokenString);
-    return new IdToken(jws.getHeader(), (Payload) jws.getPayload(), jws.getSignatureBytes(),
+    return new IdToken(
+        jws.getHeader(),
+        (Payload) jws.getPayload(),
+        jws.getSignatureBytes(),
         jws.getSignedContentBytes());
   }
 
   /**
-   * {@link Beta} <br/>
+   * {@link Beta} <br>
    * ID token payload.
    */
   @Beta
@@ -178,8 +176,7 @@ public class IdToken extends JsonWebSignature {
     private String authorizedParty;
 
     /** Value used to associate a client session with an ID token or {@code null} for none. */
-    @Key
-    private String nonce;
+    @Key private String nonce;
 
     /** Access token hash value or {@code null} for none. */
     @Key("at_hash")
@@ -201,10 +198,8 @@ public class IdToken extends JsonWebSignature {
     /**
      * Sets the time (in seconds) of end-user authorization or {@code null} for none.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      */
     public Payload setAuthorizationTimeSeconds(Long authorizationTimeSeconds) {
       this.authorizationTimeSeconds = authorizationTimeSeconds;
@@ -214,10 +209,8 @@ public class IdToken extends JsonWebSignature {
     /**
      * Returns the authorized party or {@code null} for none.
      *
-     * <p>
-     * Upgrade warning: in prior version 1.15 this method returned an {@link Object}, but starting
-     * with version 1.16 it returns a {@link String}.
-     * </p>
+     * <p>Upgrade warning: in prior version 1.15 this method returned an {@link Object}, but
+     * starting with version 1.16 it returns a {@link String}.
      */
     public final String getAuthorizedParty() {
       return authorizedParty;
@@ -226,15 +219,11 @@ public class IdToken extends JsonWebSignature {
     /**
      * Sets the authorized party or {@code null} for none.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      *
-     * <p>
-     * Upgrade warning: in prior version 1.15 the parameter was an {@link Object}, but starting with
-     * version 1.16 the parameter is a {@link String}.
-     * </p>
+     * <p>Upgrade warning: in prior version 1.15 the parameter was an {@link Object}, but starting
+     * with version 1.16 the parameter is a {@link String}.
      */
     public Payload setAuthorizedParty(String authorizedParty) {
       this.authorizedParty = authorizedParty;
@@ -254,10 +243,8 @@ public class IdToken extends JsonWebSignature {
     /**
      * Sets the value used to associate a client session with an ID token or {@code null} for none.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      *
      * @since 1.16
      */
@@ -278,10 +265,8 @@ public class IdToken extends JsonWebSignature {
     /**
      * Sets the access token hash value or {@code null} for none.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      *
      * @since 1.16
      */
@@ -302,10 +287,8 @@ public class IdToken extends JsonWebSignature {
     /**
      * Sets the authentication context class reference or {@code null} for none.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      *
      * @since 1.16
      */
@@ -326,10 +309,8 @@ public class IdToken extends JsonWebSignature {
     /**
      * Sets the authentication methods references or {@code null} for none.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      *
      * @since 1.16
      */

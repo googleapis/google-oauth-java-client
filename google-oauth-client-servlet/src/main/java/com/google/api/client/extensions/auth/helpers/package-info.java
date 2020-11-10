@@ -13,18 +13,15 @@
  */
 
 /**
- * {@link com.google.api.client.util.Beta} <br/>
+ * {@link com.google.api.client.util.Beta} <br>
  * Auth object framework that will provide an interface to create easy to use, object-oriented
  * methods to obtain and manage auth credentials.
  *
- * <p>
- * Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use
+ * <p>Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use
  * {@code com.google.api.client.auth.oauth2}.
- * </p>
  *
  * @since 1.4
  * @author moshenko@google.com (Jacob Moshenko)
  */
 @com.google.api.client.util.Beta
 package com.google.api.client.extensions.auth.helpers;
-

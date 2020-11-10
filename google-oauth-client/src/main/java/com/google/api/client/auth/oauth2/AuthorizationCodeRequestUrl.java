@@ -15,7 +15,6 @@
 package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.util.Key;
-
 import java.util.Collection;
 import java.util.Collections;
 
@@ -25,29 +24,23 @@ import java.util.Collections;
  * specified in <a href="http://tools.ietf.org/html/rfc6749#section-4.1">Authorization Code
  * Grant</a>.
  *
- * <p>
- * The default for {@link #getResponseTypes()} is {@code "code"}. Use
- * {@link AuthorizationCodeResponseUrl} to parse the redirect response after the end user
- * grants/denies the request. Using the authorization code in this response, use
- * {@link AuthorizationCodeTokenRequest} to request the access token.
- * </p>
+ * <p>The default for {@link #getResponseTypes()} is {@code "code"}. Use {@link
+ * AuthorizationCodeResponseUrl} to parse the redirect response after the end user grants/denies the
+ * request. Using the authorization code in this response, use {@link AuthorizationCodeTokenRequest}
+ * to request the access token.
  *
- * <p>
- * Sample usage for a web application:
- * </p>
+ * <p>Sample usage for a web application:
  *
  * <pre>
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String url =
-        new AuthorizationCodeRequestUrl("https://server.example.com/authorize", "s6BhdRkqt3")
-            .setState("xyz").setRedirectUri("https://client.example.com/rd").build();
-    response.sendRedirect(url);
-  }
+ * public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+ * String url =
+ * new AuthorizationCodeRequestUrl("https://server.example.com/authorize", "s6BhdRkqt3")
+ * .setState("xyz").setRedirectUri("https://client.example.com/rd").build();
+ * response.sendRedirect(url);
+ * }
  * </pre>
  *
- * <p>
- * Implementation is not thread-safe.
- * </p>
+ * <p>Implementation is not thread-safe.
  *
  * @since 1.7
  * @author Yaniv Inbar
@@ -56,6 +49,7 @@ public class AuthorizationCodeRequestUrl extends AuthorizationRequestUrl {
 
   /**
    * The PKCE <a href="https://tools.ietf.org/html/rfc7636#section-4.3">Code Challenge</a>.
+   *
    * @since 1.31
    */
   @Key("code_challenge")
@@ -63,6 +57,7 @@ public class AuthorizationCodeRequestUrl extends AuthorizationRequestUrl {
 
   /**
    * The PKCE <a href="https://tools.ietf.org/html/rfc7636#section-4.3">Code Challenge Method</a>.
+   *
    * @since 1.31
    */
   @Key("code_challenge_method")
@@ -86,7 +81,8 @@ public class AuthorizationCodeRequestUrl extends AuthorizationRequestUrl {
   }
 
   /**
-   * Get the code challenge method (<a href="https://tools.ietf.org/html/rfc7636#section-4.3">details</a>).
+   * Get the code challenge method (<a
+   * href="https://tools.ietf.org/html/rfc7636#section-4.3">details</a>).
    *
    * @since 1.31
    */
@@ -96,8 +92,8 @@ public class AuthorizationCodeRequestUrl extends AuthorizationRequestUrl {
 
   /**
    * Set the code challenge (<a href="https://tools.ietf.org/html/rfc7636#section-4.3">details</a>).
-   * @param codeChallenge the code challenge.
    *
+   * @param codeChallenge the code challenge.
    * @since 1.31
    */
   public void setCodeChallenge(String codeChallenge) {
@@ -105,9 +101,10 @@ public class AuthorizationCodeRequestUrl extends AuthorizationRequestUrl {
   }
 
   /**
-   * Set the code challenge method (<a href="https://tools.ietf.org/html/rfc7636#section-4.3">details</a>).
-   * @param codeChallengeMethod the code challenge method.
+   * Set the code challenge method (<a
+   * href="https://tools.ietf.org/html/rfc7636#section-4.3">details</a>).
    *
+   * @param codeChallengeMethod the code challenge method.
    * @since 1.31
    */
   public void setCodeChallengeMethod(String codeChallengeMethod) {

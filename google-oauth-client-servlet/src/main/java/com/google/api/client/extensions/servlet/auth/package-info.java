@@ -13,18 +13,15 @@
  */
 
 /**
- * {@link com.google.api.client.util.Beta} <br/>
+ * {@link com.google.api.client.util.Beta} <br>
  * Servlets that can be completed by users to create and complete a web server auth flow to obtain a
  * credential.
  *
- * <p>
- * Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use
+ * <p>Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use
  * {@link com.google.api.client.extensions.servlet.auth.oauth2}.
- * </p>
  *
  * @since 1.4
  * @author moshenko@google.com (Jacob Moshenko)
  */
 @com.google.api.client.util.Beta
 package com.google.api.client.extensions.servlet.auth;
-

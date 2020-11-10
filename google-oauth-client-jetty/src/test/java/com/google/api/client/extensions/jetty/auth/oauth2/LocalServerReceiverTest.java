@@ -19,12 +19,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import org.junit.Test;
 
 public class LocalServerReceiverTest {
 
@@ -42,7 +41,7 @@ public class LocalServerReceiverTest {
   }
 
   @Test
-    public void testRedirectUri() throws IOException {
+  public void testRedirectUri() throws IOException {
     LocalServerReceiver receiver = new LocalServerReceiver("localhost", -1, null, null);
 
     try {
@@ -56,7 +55,8 @@ public class LocalServerReceiverTest {
   @Test
   public void testCallbackPath() throws IOException {
     final String CALLBACK_PATH = "/Some/other/path";
-    LocalServerReceiver receiver = new LocalServerReceiver("localhost", -1, CALLBACK_PATH, null, null);
+    LocalServerReceiver receiver =
+        new LocalServerReceiver("localhost", -1, CALLBACK_PATH, null, null);
 
     HttpURLConnection connection = null;
     try {
@@ -106,7 +106,7 @@ public class LocalServerReceiverTest {
       receiver.getRedirectUri();
 
       Thread fork = runWaitForCodeThread(receiver);
-      Thread.sleep(100 /* ms */);  // Sleep for a while to make fork run into waitForCode().
+      Thread.sleep(100 /* ms */); // Sleep for a while to make fork run into waitForCode().
       receiver.stop();
 
       verifyForkTermination(fork);
@@ -137,10 +137,10 @@ public class LocalServerReceiverTest {
     final LocalServerReceiver receiver = new LocalServerReceiver();
 
     try {
-      String localEndpoint = receiver.getRedirectUri();  // Start the server.
+      String localEndpoint = receiver.getRedirectUri(); // Start the server.
 
       Thread fork = runWaitForCodeThread(receiver);
-      Thread.sleep(100 /* ms */);  // Sleep for a while to make fork run into waitForCode().
+      Thread.sleep(100 /* ms */); // Sleep for a while to make fork run into waitForCode().
       sendSuccessLoginResult(localEndpoint);
 
       verifyForkTermination(fork);
@@ -172,10 +172,10 @@ public class LocalServerReceiverTest {
     final LocalServerReceiver receiver = new LocalServerReceiver();
 
     try {
-      String localEndpoint = receiver.getRedirectUri();  // Start the server.
+      String localEndpoint = receiver.getRedirectUri(); // Start the server.
 
       Thread fork = runWaitForCodeThread(receiver);
-      Thread.sleep(100 /* ms */);  // Sleep for a while to make fork run into waitForCode().
+      Thread.sleep(100 /* ms */); // Sleep for a while to make fork run into waitForCode().
       sendFailureLoginResult(localEndpoint);
 
       verifyForkTermination(fork);
@@ -205,10 +205,10 @@ public class LocalServerReceiverTest {
     final LocalServerReceiver receiver = new LocalServerReceiver();
 
     try {
-      String localEndpoint = receiver.getRedirectUri();  // Start the server.
+      String localEndpoint = receiver.getRedirectUri(); // Start the server.
 
       Thread fork = runWaitForCodeThread(receiver);
-      Thread.sleep(100 /* ms */);  // Sleep for a while to make fork run into waitForCode().
+      Thread.sleep(100 /* ms */); // Sleep for a while to make fork run into waitForCode().
       sendSuccessLoginResult(localEndpoint);
       receiver.stop();
 
@@ -227,7 +227,7 @@ public class LocalServerReceiverTest {
       String localEndpoint = receiver.getRedirectUri();
 
       Thread fork = runWaitForCodeThread(receiver);
-      Thread.sleep(100 /* ms */);  // Sleep for a while to make fork run into waitForCode().
+      Thread.sleep(100 /* ms */); // Sleep for a while to make fork run into waitForCode().
       sendFailureLoginResult(localEndpoint);
       receiver.stop();
 
@@ -239,25 +239,26 @@ public class LocalServerReceiverTest {
   }
 
   private Thread runWaitForCodeThread(final LocalServerReceiver receiver) {
-    Thread fork = new Thread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          authCode = receiver.waitForCode();
-        } catch (IOException ioe) {
-          error = ioe.getMessage();
-        }
-        finally {
-          forkTermianted = true;
-        }
-      }
-    });
+    Thread fork =
+        new Thread(
+            new Runnable() {
+              @Override
+              public void run() {
+                try {
+                  authCode = receiver.waitForCode();
+                } catch (IOException ioe) {
+                  error = ioe.getMessage();
+                } finally {
+                  forkTermianted = true;
+                }
+              }
+            });
     fork.start();
     return fork;
   }
 
   private void verifyForkTermination(Thread fork) throws InterruptedException {
-    fork.join(3000 /* ms */);  // Test should pass right away. Don't wait too long.
+    fork.join(3000 /* ms */); // Test should pass right away. Don't wait too long.
     assertTrue(forkTermianted);
   }
 

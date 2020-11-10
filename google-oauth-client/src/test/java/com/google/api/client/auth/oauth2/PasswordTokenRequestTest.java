@@ -28,8 +28,13 @@ public class PasswordTokenRequestTest extends TestCase {
   private static final String PASSWORD = "A3ddj3w";
 
   public void testConstructor() {
-    check(new PasswordTokenRequest(TokenRequestTest.TRANSPORT, TokenRequestTest.JSON_FACTORY,
-        TokenRequestTest.AUTHORIZATION_SERVER_URL, USERNAME, PASSWORD));
+    check(
+        new PasswordTokenRequest(
+            TokenRequestTest.TRANSPORT,
+            TokenRequestTest.JSON_FACTORY,
+            TokenRequestTest.AUTHORIZATION_SERVER_URL,
+            USERNAME,
+            PASSWORD));
   }
 
   private void check(PasswordTokenRequest request) {
@@ -39,9 +44,14 @@ public class PasswordTokenRequestTest extends TestCase {
   }
 
   public void testSetResponseClass() {
-    PasswordTokenRequest request = new PasswordTokenRequest(TokenRequestTest.TRANSPORT, TokenRequestTest.JSON_FACTORY,
-        TokenRequestTest.AUTHORIZATION_SERVER_URL, USERNAME, PASSWORD)
-        .setResponseClass(IdTokenResponse.class);
+    PasswordTokenRequest request =
+        new PasswordTokenRequest(
+                TokenRequestTest.TRANSPORT,
+                TokenRequestTest.JSON_FACTORY,
+                TokenRequestTest.AUTHORIZATION_SERVER_URL,
+                USERNAME,
+                PASSWORD)
+            .setResponseClass(IdTokenResponse.class);
     assertEquals(IdTokenResponse.class, request.getResponseClass());
   }
 }

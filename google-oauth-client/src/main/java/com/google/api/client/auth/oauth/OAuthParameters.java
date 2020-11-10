@@ -20,7 +20,6 @@ import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.escape.PercentEscaper;
-
 import com.google.common.collect.Multiset;
 import com.google.common.collect.SortedMultiset;
 import com.google.common.collect.TreeMultiset;
@@ -31,28 +30,24 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * OAuth 1.0a parameter manager.
- * <p>
- * The only required non-computed fields are {@link #signer} and {@link #consumerKey}. Use
- * {@link #token} to specify token or temporary credentials.
  *
- * <p>
- * Sample usage, taking advantage that this class implements {@link HttpRequestInitializer}:
- * </p>
+ * <p>The only required non-computed fields are {@link #signer} and {@link #consumerKey}. Use {@link
+ * #token} to specify token or temporary credentials.
+ *
+ * <p>Sample usage, taking advantage that this class implements {@link HttpRequestInitializer}:
  *
  * <pre>
-  public static HttpRequestFactory createRequestFactory(HttpTransport transport) {
-    OAuthParameters parameters = new OAuthParameters();
-    // ...
-    return transport.createRequestFactory(parameters);
-  }
+ * public static HttpRequestFactory createRequestFactory(HttpTransport transport) {
+ * OAuthParameters parameters = new OAuthParameters();
+ * // ...
+ * return transport.createRequestFactory(parameters);
+ * }
  * </pre>
  *
- * <p>
- * If you have a custom request initializer, take a look at the sample usage for
- * {@link HttpExecuteInterceptor}, which this class also implements.
- * </p>
+ * <p>If you have a custom request initializer, take a look at the sample usage for {@link
+ * HttpExecuteInterceptor}, which this class also implements.
  *
  * @since 1.0
  * @author Yaniv Inbar
@@ -72,9 +67,7 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
    */
   public String callback;
 
-  /**
-   * Required identifier portion of the client credentials (equivalent to a username).
-   */
+  /** Required identifier portion of the client credentials (equivalent to a username). */
   public String consumerKey;
 
   /** Required nonce value. Should be computed using {@link #computeNonce()}. */
@@ -92,9 +85,7 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
    */
   public String signatureMethod;
 
-  /**
-   * Required timestamp value. Should be computed using {@link #computeTimestamp()}.
-   */
+  /** Required timestamp value. Should be computed using {@link #computeTimestamp()}. */
   public String timestamp;
 
   /**
@@ -123,8 +114,8 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
   }
 
   /**
-   * Computes a timestamp based on the current system time, setting the value of the
-   * {@link #timestamp} field.
+   * Computes a timestamp based on the current system time, setting the value of the {@link
+   * #timestamp} field.
    */
   public void computeTimestamp() {
     timestamp = Long.toString(System.currentTimeMillis() / 1000);

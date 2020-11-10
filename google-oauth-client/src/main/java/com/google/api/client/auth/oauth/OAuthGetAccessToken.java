@@ -17,11 +17,11 @@ package com.google.api.client.auth.oauth;
 import com.google.api.client.util.Beta;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * Generic OAuth 1.0a URL to request to exchange the temporary credentials token (or "request
  * token") for a long-lived credentials token (or "access token") from an authorization server.
- * <p>
- * Use {@link #execute()} to execute the request. The long-lived access token acquired with this
+ *
+ * <p>Use {@link #execute()} to execute the request. The long-lived access token acquired with this
  * request is found in {@link OAuthCredentialsResponse#token} . This token must be stored. It may
  * then be used to authorize HTTP requests to protected resources by using {@link OAuthParameters}.
  *
@@ -43,9 +43,7 @@ public class OAuthGetAccessToken extends AbstractOAuthGetToken {
    */
   public String verifier;
 
-  /**
-   * @param authorizationServerUrl encoded authorization server URL
-   */
+  /** @param authorizationServerUrl encoded authorization server URL */
   public OAuthGetAccessToken(String authorizationServerUrl) {
     super(authorizationServerUrl);
   }

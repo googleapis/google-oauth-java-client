@@ -20,40 +20,37 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.util.Beta;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * This servlet fills in some of the required information for the {@link AbstractCallbackServlet}
- * with reasonable defaults for App Engine. It will default the servlet to creating
- * {@link UrlFetchTransport} objects whenever an {@link HttpTransport} is needed. It will also
- * default the user identifier to the logged in App Engine user. This servlet requires that the App
- * Engine user must be logged in to work correctly. This can be accomplished by adding a security
- * constraint in your web.xml for the path at which this servlet will live.
- * <p>
- * Example that requires login for all pages:
+ * with reasonable defaults for App Engine. It will default the servlet to creating {@link
+ * UrlFetchTransport} objects whenever an {@link HttpTransport} is needed. It will also default the
+ * user identifier to the logged in App Engine user. This servlet requires that the App Engine user
+ * must be logged in to work correctly. This can be accomplished by adding a security constraint in
+ * your web.xml for the path at which this servlet will live.
+ *
+ * <p>Example that requires login for all pages:
  *
  * <pre>
  * <code>
-  &lt;security-constraint&gt;
-    &lt;web-resource-collection&gt;
-      &lt;web-resource-name&gt;any&lt;/web-resource-name&gt;
-      &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
-    &lt;/web-resource-collection&gt;
-    &lt;auth-constraint&gt;
-      &lt;role-name&gt;*&lt;/role-name&gt;
-    &lt;/auth-constraint&gt;
-  &lt;/security-constraint&gt;
+ * &lt;security-constraint&gt;
+ * &lt;web-resource-collection&gt;
+ * &lt;web-resource-name&gt;any&lt;/web-resource-name&gt;
+ * &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+ * &lt;/web-resource-collection&gt;
+ * &lt;auth-constraint&gt;
+ * &lt;role-name&gt;*&lt;/role-name&gt;
+ * &lt;/auth-constraint&gt;
+ * &lt;/security-constraint&gt;
  * </code>
  * </pre>
  *
- * <p>
- * Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use {@link
- *   com.google.api.client.extensions.appengine.auth.oauth2.AbstractAppEngineAuthorizationCodeCallbackServlet}.
- * </p>
+ * <p>Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use
+ * {@link
+ * com.google.api.client.extensions.appengine.auth.oauth2.AbstractAppEngineAuthorizationCodeCallbackServlet}.
  *
- * <p>
- * Upgrade warning: in version 1.15 there was an implementation of {@link #newJsonFactoryInstance()}
- * that used {@code com.google.api.client.json.jackson.JacksonFactory}, but starting with version
- * 1.16 there is no such implementation.
- * </p>
+ * <p>Upgrade warning: in version 1.15 there was an implementation of {@link
+ * #newJsonFactoryInstance()} that used {@code com.google.api.client.json.jackson.JacksonFactory},
+ * but starting with version 1.16 there is no such implementation.
  *
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4

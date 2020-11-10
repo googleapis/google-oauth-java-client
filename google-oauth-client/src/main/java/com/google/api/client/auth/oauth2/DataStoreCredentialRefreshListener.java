@@ -18,26 +18,23 @@ import com.google.api.client.util.Beta;
 import com.google.api.client.util.Preconditions;
 import com.google.api.client.util.store.DataStore;
 import com.google.api.client.util.store.DataStoreFactory;
-
 import java.io.IOException;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * Thread-safe OAuth 2.0 credential refresh listener that stores the refresh token response in the
  * credential data store.
  *
- * <p>
- * It needs to be added as a refresh listener using {@link Credential.Builder#addRefreshListener}.
- * Sample usage:
- * </p>
+ * <p>It needs to be added as a refresh listener using {@link
+ * Credential.Builder#addRefreshListener}. Sample usage:
  *
  * <pre>
-  static void addDataStoreCredentialRefreshListener(
-      Credential.Builder credentialBuilder, String userId, DataStoreFactory dataStoreFactory)
-      throws IOException {
-    credentialBuilder.addRefreshListener(
-        new DataStoreCredentialRefreshListener(userId, dataStoreFactory));
-  }
+ * static void addDataStoreCredentialRefreshListener(
+ * Credential.Builder credentialBuilder, String userId, DataStoreFactory dataStoreFactory)
+ * throws IOException {
+ * credentialBuilder.addRefreshListener(
+ * new DataStoreCredentialRefreshListener(userId, dataStoreFactory));
+ * }
  * </pre>
  *
  * @since 1.6

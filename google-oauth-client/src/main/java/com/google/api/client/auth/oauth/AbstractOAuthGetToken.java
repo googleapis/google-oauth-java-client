@@ -22,11 +22,10 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.UrlEncodedParser;
 import com.google.api.client.util.Beta;
-
 import java.io.IOException;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * Generic OAuth 1.0a URL to request a temporary or long-lived token from an authorization server.
  *
  * @since 1.0
@@ -42,9 +41,7 @@ public abstract class AbstractOAuthGetToken extends GenericUrl {
    */
   public HttpTransport transport;
 
-  /**
-   * Required identifier portion of the client credentials (equivalent to a username).
-   */
+  /** Required identifier portion of the client credentials (equivalent to a username). */
   public String consumerKey;
 
   /** Required OAuth signature algorithm. */
@@ -53,9 +50,7 @@ public abstract class AbstractOAuthGetToken extends GenericUrl {
   /** {@code true} for POST request or the default {@code false} for GET request. */
   protected boolean usePost;
 
-  /**
-   * @param authorizationServerUrl encoded authorization server URL
-   */
+  /** @param authorizationServerUrl encoded authorization server URL */
   protected AbstractOAuthGetToken(String authorizationServerUrl) {
     super(authorizationServerUrl);
   }

@@ -19,7 +19,6 @@ import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.util.Data;
 import com.google.api.client.util.Preconditions;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -48,17 +47,14 @@ public class BearerToken {
    * Immutable and thread-safe OAuth 2.0 method for accessing protected resources using the <a
    * href="http://tools.ietf.org/html/rfc6750#section-2.1">Authorization Request Header Field</a>.
    *
-   * <p>
-   * According to the specification, this method MUST be supported by resource servers.
-   * </p>
+   * <p>According to the specification, this method MUST be supported by resource servers.
    */
   static final class AuthorizationHeaderAccessMethod implements Credential.AccessMethod {
 
     /** Authorization header prefix. */
     static final String HEADER_PREFIX = "Bearer ";
 
-    AuthorizationHeaderAccessMethod() {
-    }
+    AuthorizationHeaderAccessMethod() {}
 
     public void intercept(HttpRequest request, String accessToken) throws IOException {
       request.getHeaders().setAuthorization(HEADER_PREFIX + accessToken);
@@ -83,8 +79,7 @@ public class BearerToken {
    */
   static final class FormEncodedBodyAccessMethod implements Credential.AccessMethod {
 
-    FormEncodedBodyAccessMethod() {
-    }
+    FormEncodedBodyAccessMethod() {}
 
     public void intercept(HttpRequest request, String accessToken) throws IOException {
       Preconditions.checkArgument(
@@ -108,8 +103,7 @@ public class BearerToken {
    */
   static final class QueryParameterAccessMethod implements Credential.AccessMethod {
 
-    QueryParameterAccessMethod() {
-    }
+    QueryParameterAccessMethod() {}
 
     public void intercept(HttpRequest request, String accessToken) throws IOException {
       request.getUrl().set(PARAM_NAME, accessToken);
@@ -126,9 +120,7 @@ public class BearerToken {
    * resources using the <a href="http://tools.ietf.org/html/rfc6750#section-2.1">Authorization
    * Request Header Field</a>.
    *
-   * <p>
-   * According to the specification, this method MUST be supported by resource servers.
-   * </p>
+   * <p>According to the specification, this method MUST be supported by resource servers.
    */
   public static Credential.AccessMethod authorizationHeaderAccessMethod() {
     return new AuthorizationHeaderAccessMethod();

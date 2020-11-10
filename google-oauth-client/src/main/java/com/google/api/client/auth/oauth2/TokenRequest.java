@@ -29,7 +29,6 @@ import com.google.api.client.util.GenericData;
 import com.google.api.client.util.Joiner;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
-
 import java.io.IOException;
 import java.util.Collection;
 
@@ -37,14 +36,10 @@ import java.util.Collection;
  * OAuth 2.0 request for an access token as specified in <a
  * href="http://tools.ietf.org/html/rfc6749#section-4">Obtaining Authorization</a>.
  *
- * <p>
- * Call {@link #execute()} to execute the request and use the returned {@link TokenResponse}. On
+ * <p>Call {@link #execute()} to execute the request and use the returned {@link TokenResponse}. On
  * error, it will instead throw {@link TokenResponseException}.
- * </p>
  *
- * <p>
- * Implementation is not thread-safe.
- * </p>
+ * <p>Implementation is not thread-safe.
  *
  * @since 1.7
  * @author Yaniv Inbar
@@ -90,11 +85,13 @@ public class TokenRequest extends GenericData {
    * @param transport HTTP transport
    * @param jsonFactory JSON factory
    * @param tokenServerUrl token server URL
-   * @param grantType grant type ({@code "authorization_code"}, {@code "password"},
-   *        {@code "client_credentials"}, {@code "refresh_token"} or absolute URI of the extension
-   *        grant type)
+   * @param grantType grant type ({@code "authorization_code"}, {@code "password"}, {@code
+   *     "client_credentials"}, {@code "refresh_token"} or absolute URI of the extension grant type)
    */
-  public TokenRequest(HttpTransport transport, JsonFactory jsonFactory, GenericUrl tokenServerUrl,
+  public TokenRequest(
+      HttpTransport transport,
+      JsonFactory jsonFactory,
+      GenericUrl tokenServerUrl,
       String grantType) {
     this(transport, jsonFactory, tokenServerUrl, grantType, TokenResponse.class);
   }
@@ -105,14 +102,17 @@ public class TokenRequest extends GenericData {
    * @param transport HTTP transport
    * @param jsonFactory JSON factory
    * @param tokenServerUrl token server URL
-   * @param grantType grant type ({@code "authorization_code"}, {@code "password"},
-   *        {@code "client_credentials"}, {@code "refresh_token"} or absolute URI of the extension
-   *        grant type)
+   * @param grantType grant type ({@code "authorization_code"}, {@code "password"}, {@code
+   *     "client_credentials"}, {@code "refresh_token"} or absolute URI of the extension grant type)
    * @param responseClass class used for deserializing the response.
    * @since 1.26
    */
-  public TokenRequest(HttpTransport transport, JsonFactory jsonFactory, GenericUrl tokenServerUrl,
-      String grantType, Class<? extends TokenResponse> responseClass) {
+  public TokenRequest(
+      HttpTransport transport,
+      JsonFactory jsonFactory,
+      GenericUrl tokenServerUrl,
+      String grantType,
+      Class<? extends TokenResponse> responseClass) {
     this.transport = Preconditions.checkNotNull(transport);
     this.jsonFactory = Preconditions.checkNotNull(jsonFactory);
     setTokenServerUrl(tokenServerUrl);
@@ -138,10 +138,8 @@ public class TokenRequest extends GenericData {
   /**
    * Sets the HTTP request initializer or {@code null} for none.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public TokenRequest setRequestInitializer(HttpRequestInitializer requestInitializer) {
     this.requestInitializer = requestInitializer;
@@ -156,23 +154,17 @@ public class TokenRequest extends GenericData {
   /**
    * Sets the client authentication or {@code null} for none.
    *
-   * <p>
-   * The recommended initializer by the specification is {@link BasicAuthentication}. All
-   * authorization servers must support that. A common alternative is
-   * {@link ClientParametersAuthentication}. An alternative client authentication method may be
-   * provided that implements {@link HttpRequestInitializer}.
-   * </p>
+   * <p>The recommended initializer by the specification is {@link BasicAuthentication}. All
+   * authorization servers must support that. A common alternative is {@link
+   * ClientParametersAuthentication}. An alternative client authentication method may be provided
+   * that implements {@link HttpRequestInitializer}.
    *
-   * <p>
-   * This HTTP request execute interceptor is guaranteed to be the last execute interceptor before
-   * the request is executed, and after any execute interceptor set by the
-   * {@link #getRequestInitializer()}.
-   * </p>
+   * <p>This HTTP request execute interceptor is guaranteed to be the last execute interceptor
+   * before the request is executed, and after any execute interceptor set by the {@link
+   * #getRequestInitializer()}.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public TokenRequest setClientAuthentication(HttpExecuteInterceptor clientAuthentication) {
     this.clientAuthentication = clientAuthentication;
@@ -187,10 +179,8 @@ public class TokenRequest extends GenericData {
   /**
    * Sets the token server URL.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public TokenRequest setTokenServerUrl(GenericUrl tokenServerUrl) {
     this.tokenServerUrl = tokenServerUrl;
@@ -212,13 +202,11 @@ public class TokenRequest extends GenericData {
    * href="http://tools.ietf.org/html/rfc6749#section-3.3">Access Token Scope</a>) or {@code null}
    * for none.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    *
    * @param scopes collection of scopes to be joined by a space separator (or a single value
-   *        containing multiple space-separated scopes)
+   *     containing multiple space-separated scopes)
    * @since 1.15
    */
   public TokenRequest setScopes(Collection<String> scopes) {
@@ -227,33 +215,29 @@ public class TokenRequest extends GenericData {
   }
 
   /**
-   * Returns the grant type ({@code "authorization_code"}, {@code "password"},
-   * {@code "client_credentials"}, {@code "refresh_token"} or absolute URI of the extension grant
-   * type).
+   * Returns the grant type ({@code "authorization_code"}, {@code "password"}, {@code
+   * "client_credentials"}, {@code "refresh_token"} or absolute URI of the extension grant type).
    */
   public final String getGrantType() {
     return grantType;
   }
 
   /**
-   * Sets the grant type ({@code "authorization_code"}, {@code "password"},
-   * {@code "client_credentials"}, {@code "refresh_token"} or absolute URI of the extension grant
-   * type).
+   * Sets the grant type ({@code "authorization_code"}, {@code "password"}, {@code
+   * "client_credentials"}, {@code "refresh_token"} or absolute URI of the extension grant type).
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public TokenRequest setGrantType(String grantType) {
     this.grantType = Preconditions.checkNotNull(grantType);
     return this;
   }
 
-  /**
-   * Returns the response class. Must be a subclass of {@link TokenResponse}.
-   */
-  public final Class<? extends TokenResponse> getResponseClass() { return responseClass; }
+  /** Returns the response class. Must be a subclass of {@link TokenResponse}. */
+  public final Class<? extends TokenResponse> getResponseClass() {
+    return responseClass;
+  }
 
   /**
    * Sets the TokenResponse class to allow specifying object parsing.
@@ -269,51 +253,49 @@ public class TokenRequest extends GenericData {
   /**
    * Executes request for an access token, and returns the HTTP response.
    *
-   * <p>
-   * To execute and parse the response to {@link TokenResponse}, instead use {@link #execute()}.
-   * </p>
+   * <p>To execute and parse the response to {@link TokenResponse}, instead use {@link #execute()}.
    *
-   * <p>
-   * Callers should call {@link HttpResponse#disconnect} when the returned HTTP response object is
-   * no longer needed. However, {@link HttpResponse#disconnect} does not have to be called if the
+   * <p>Callers should call {@link HttpResponse#disconnect} when the returned HTTP response object
+   * is no longer needed. However, {@link HttpResponse#disconnect} does not have to be called if the
    * response stream is properly closed. Example usage:
-   * </p>
    *
    * <pre>
-     HttpResponse response = tokenRequest.executeUnparsed();
-     try {
-       // process the HTTP response object
-     } finally {
-       response.disconnect();
-     }
+   * HttpResponse response = tokenRequest.executeUnparsed();
+   * try {
+   * // process the HTTP response object
+   * } finally {
+   * response.disconnect();
+   * }
    * </pre>
    *
-   * @return successful access token response, which can then be parsed directly using
-   *         {@link HttpResponse#parseAs(Class)} or some other parsing method
+   * @return successful access token response, which can then be parsed directly using {@link
+   *     HttpResponse#parseAs(Class)} or some other parsing method
    * @throws TokenResponseException for an error response
    */
   public final HttpResponse executeUnparsed() throws IOException {
     // must set clientAuthentication as last execute interceptor in case it needs to sign request
     HttpRequestFactory requestFactory =
-        transport.createRequestFactory(new HttpRequestInitializer() {
+        transport.createRequestFactory(
+            new HttpRequestInitializer() {
 
-          public void initialize(HttpRequest request) throws IOException {
-            if (requestInitializer != null) {
-              requestInitializer.initialize(request);
-            }
-            final HttpExecuteInterceptor interceptor = request.getInterceptor();
-            request.setInterceptor(new HttpExecuteInterceptor() {
-              public void intercept(HttpRequest request) throws IOException {
-                if (interceptor != null) {
-                  interceptor.intercept(request);
+              public void initialize(HttpRequest request) throws IOException {
+                if (requestInitializer != null) {
+                  requestInitializer.initialize(request);
                 }
-                if (clientAuthentication != null) {
-                  clientAuthentication.intercept(request);
-                }
+                final HttpExecuteInterceptor interceptor = request.getInterceptor();
+                request.setInterceptor(
+                    new HttpExecuteInterceptor() {
+                      public void intercept(HttpRequest request) throws IOException {
+                        if (interceptor != null) {
+                          interceptor.intercept(request);
+                        }
+                        if (clientAuthentication != null) {
+                          clientAuthentication.intercept(request);
+                        }
+                      }
+                    });
               }
             });
-          }
-        });
     // make request
     HttpRequest request =
         requestFactory.buildPostRequest(tokenServerUrl, new UrlEncodedContent(this));
@@ -329,15 +311,11 @@ public class TokenRequest extends GenericData {
   /**
    * Executes request for an access token, and returns the parsed access token response.
    *
-   * <p>
-   * To execute but parse the response in an alternate way, use {@link #executeUnparsed()}.
-   * </p>
+   * <p>To execute but parse the response in an alternate way, use {@link #executeUnparsed()}.
    *
-   * <p>
-   * Default implementation calls {@link #executeUnparsed()} and then parses using
-   * {@link TokenResponse}. Subclasses may override to change the return type, but must still call
-   * {@link #executeUnparsed()}.
-   * </p>
+   * <p>Default implementation calls {@link #executeUnparsed()} and then parses using {@link
+   * TokenResponse}. Subclasses may override to change the return type, but must still call {@link
+   * #executeUnparsed()}.
    *
    * @return parsed successful access token response
    * @throws TokenResponseException for an error response

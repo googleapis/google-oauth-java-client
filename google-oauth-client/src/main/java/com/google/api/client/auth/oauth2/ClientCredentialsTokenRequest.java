@@ -20,58 +20,49 @@ import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
-
 import java.util.Collection;
 
 /**
  * OAuth 2.0 request for an access token using only its client credentials as specified in <a
  * href="http://tools.ietf.org/html/rfc6749#section-4.4">Client Credentials Grant</a>.
  *
- * <p>
- * Use {@link Credential} to access protected resources from the resource server using the
- * {@link TokenResponse} returned by {@link #execute()}. On error, it will instead throw
- * {@link TokenResponseException}.
- * </p>
+ * <p>Use {@link Credential} to access protected resources from the resource server using the {@link
+ * TokenResponse} returned by {@link #execute()}. On error, it will instead throw {@link
+ * TokenResponseException}.
  *
- * <p>
- * Sample usage:
- * </p>
+ * <p>Sample usage:
  *
  * <pre>
-  static void requestAccessToken() throws IOException {
-    try {
-      TokenResponse response =
-          new ClientCredentialsTokenRequest(new NetHttpTransport(), new JacksonFactory(),
-              new GenericUrl("https://server.example.com/token"))
-              .setRedirectUri("https://client.example.com/rd")
-              .setClientAuthentication(
-                  new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw")).execute();
-      System.out.println("Access token: " + response.getAccessToken());
-    } catch (TokenResponseException e) {
-      if (e.getDetails() != null) {
-        System.err.println("Error: " + e.getDetails().getError());
-        if (e.getDetails().getErrorDescription() != null) {
-          System.err.println(e.getDetails().getErrorDescription());
-        }
-        if (e.getDetails().getErrorUri() != null) {
-          System.err.println(e.getDetails().getErrorUri());
-        }
-      } else {
-        System.err.println(e.getMessage());
-      }
-    }
-  }
+ * static void requestAccessToken() throws IOException {
+ * try {
+ * TokenResponse response =
+ * new ClientCredentialsTokenRequest(new NetHttpTransport(), new JacksonFactory(),
+ * new GenericUrl("https://server.example.com/token"))
+ * .setRedirectUri("https://client.example.com/rd")
+ * .setClientAuthentication(
+ * new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw")).execute();
+ * System.out.println("Access token: " + response.getAccessToken());
+ * } catch (TokenResponseException e) {
+ * if (e.getDetails() != null) {
+ * System.err.println("Error: " + e.getDetails().getError());
+ * if (e.getDetails().getErrorDescription() != null) {
+ * System.err.println(e.getDetails().getErrorDescription());
+ * }
+ * if (e.getDetails().getErrorUri() != null) {
+ * System.err.println(e.getDetails().getErrorUri());
+ * }
+ * } else {
+ * System.err.println(e.getMessage());
+ * }
+ * }
+ * }
  * </pre>
  *
- * <p>
- * Some OAuth 2.0 providers don't support {@link BasicAuthentication} but instead support
- * {@link ClientParametersAuthentication}. In the above sample code, simply replace the class name
- * and it will work the same way.
- * </p>
+ * <p>Some OAuth 2.0 providers don't support {@link BasicAuthentication} but instead support {@link
+ * ClientParametersAuthentication}. In the above sample code, simply replace the class name and it
+ * will work the same way.
  *
- * <p>
- * Implementation is not thread-safe.
- * </p>
+ * <p>Implementation is not thread-safe.
  *
  * @since 1.14
  * @author Yaniv Inbar

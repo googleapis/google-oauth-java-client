@@ -24,7 +24,6 @@ import com.google.api.client.util.Charsets;
 import com.google.api.client.util.Preconditions;
 import com.google.api.client.util.store.DataStore;
 import com.google.api.client.util.store.FileDataStoreFactory;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -34,15 +33,14 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * Thread-safe file implementation of a credential store.
  *
  * @since 1.11
  * @author Rafael Naufal
- * @deprecated (to be removed in the future) Use {@link FileDataStoreFactory} with
- *             {@link StoredCredential} instead, optionally using
- *             {@link #migrateTo(FileDataStoreFactory)} or {@link #migrateTo(DataStore)} to
- *             migrating an existing {@link FileCredentialStore}.
+ * @deprecated (to be removed in the future) Use {@link FileDataStoreFactory} with {@link
+ *     StoredCredential} instead, optionally using {@link #migrateTo(FileDataStoreFactory)} or
+ *     {@link #migrateTo(DataStore)} to migrating an existing {@link FileCredentialStore}.
  */
 @Deprecated
 @Beta
@@ -86,7 +84,8 @@ public class FileCredentialStore implements CredentialStore {
       loadCredentials(file);
     } else {
       // disable access by other users if O/S allows it
-      if (!file.setReadable(false, false) || !file.setWritable(false, false)
+      if (!file.setReadable(false, false)
+          || !file.setWritable(false, false)
           || !file.setExecutable(false, false)) {
         LOGGER.warning("unable to change file permissions for everybody: " + file);
       }
@@ -171,18 +170,17 @@ public class FileCredentialStore implements CredentialStore {
   /**
    * Migrates to the new {@link FileDataStoreFactory} format.
    *
-   * <p>
-   * Sample usage:
-   * </p>
+   * <p>Sample usage:
    *
    * <pre>
-  public static FileDataStore migrate(FileCredentialStore credentialStore, File dataDirectory)
-      throws IOException {
-    FileDataStore dataStore = new FileDataStore(dataDirectory);
-    credentialStore.migrateTo(dataStore);
-    return dataStore;
-  }
+   * public static FileDataStore migrate(FileCredentialStore credentialStore, File dataDirectory)
+   * throws IOException {
+   * FileDataStore dataStore = new FileDataStore(dataDirectory);
+   * credentialStore.migrateTo(dataStore);
+   * return dataStore;
+   * }
    * </pre>
+   *
    * @param dataStoreFactory file data store factory
    * @since 1.16
    */

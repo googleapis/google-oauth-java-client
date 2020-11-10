@@ -32,8 +32,10 @@ public class ClientParametersAuthenticationTest extends TestCase {
   private static final String CLIENT_SECRET = "7Fjfp0ZBr1KtDRbnfVdmIw";
 
   public void test() throws Exception {
-    HttpRequest request = new MockHttpTransport().createRequestFactory()
-        .buildGetRequest(HttpTesting.SIMPLE_GENERIC_URL);
+    HttpRequest request =
+        new MockHttpTransport()
+            .createRequestFactory()
+            .buildGetRequest(HttpTesting.SIMPLE_GENERIC_URL);
     ClientParametersAuthentication auth =
         new ClientParametersAuthentication(CLIENT_ID, CLIENT_SECRET);
     assertEquals(CLIENT_ID, auth.getClientId());
@@ -47,10 +49,11 @@ public class ClientParametersAuthenticationTest extends TestCase {
   }
 
   public void test_noSecret() throws Exception {
-    HttpRequest request = new MockHttpTransport().createRequestFactory()
-        .buildGetRequest(HttpTesting.SIMPLE_GENERIC_URL);
-    ClientParametersAuthentication auth =
-        new ClientParametersAuthentication(CLIENT_ID, null);
+    HttpRequest request =
+        new MockHttpTransport()
+            .createRequestFactory()
+            .buildGetRequest(HttpTesting.SIMPLE_GENERIC_URL);
+    ClientParametersAuthentication auth = new ClientParametersAuthentication(CLIENT_ID, null);
     assertEquals(CLIENT_ID, auth.getClientId());
     assertNull(auth.getClientSecret());
     auth.intercept(request);

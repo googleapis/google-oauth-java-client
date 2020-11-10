@@ -22,9 +22,7 @@ import com.google.api.client.util.Preconditions;
  * OAuth 2.0 JSON model for a successful access token response as specified in <a
  * href="http://tools.ietf.org/html/rfc6749#section-5.1">Successful Response</a>.
  *
- * <p>
- * Implementation is not thread-safe.
- * </p>
+ * <p>Implementation is not thread-safe.
  *
  * @since 1.7
  * @author Yaniv Inbar
@@ -61,8 +59,7 @@ public class TokenResponse extends GenericJson {
    * href="http://tools.ietf.org/html/rfc6749#section-3.3">Access Token Scope</a> or {@code null}
    * for none.
    */
-  @Key
-  private String scope;
+  @Key private String scope;
 
   /** Returns the access token issued by the authorization server. */
   public String getAccessToken() {
@@ -72,10 +69,8 @@ public class TokenResponse extends GenericJson {
   /**
    * Sets the access token issued by the authorization server.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public TokenResponse setAccessToken(String accessToken) {
     this.accessToken = Preconditions.checkNotNull(accessToken);
@@ -94,10 +89,8 @@ public class TokenResponse extends GenericJson {
    * Sets the token type (as specified in <a
    * href="http://tools.ietf.org/html/rfc6749#section-7.1">Access Token Types</a>).
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public TokenResponse setTokenType(String tokenType) {
     this.tokenType = Preconditions.checkNotNull(tokenType);
@@ -105,8 +98,8 @@ public class TokenResponse extends GenericJson {
   }
 
   /**
-   * Returns the lifetime in seconds of the access token (for example 3600 for an hour) or
-   * {@code null} for none.
+   * Returns the lifetime in seconds of the access token (for example 3600 for an hour) or {@code
+   * null} for none.
    */
   public Long getExpiresInSeconds() {
     return expiresInSeconds;
@@ -116,10 +109,8 @@ public class TokenResponse extends GenericJson {
    * Sets the lifetime in seconds of the access token (for example 3600 for an hour) or {@code null}
    * for none.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public TokenResponse setExpiresInSeconds(Long expiresInSeconds) {
     this.expiresInSeconds = expiresInSeconds;
@@ -138,19 +129,15 @@ public class TokenResponse extends GenericJson {
    * Sets the refresh token which can be used to obtain new access tokens using the same
    * authorization grant or {@code null} for none.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public TokenResponse setRefreshToken(String refreshToken) {
     this.refreshToken = refreshToken;
     return this;
   }
 
-  /**
-   * Returns the scope of the access token or {@code null} for none.
-   */
+  /** Returns the scope of the access token or {@code null} for none. */
   public String getScope() {
     return scope;
   }
@@ -158,10 +145,8 @@ public class TokenResponse extends GenericJson {
   /**
    * Sets the scope of the access token or {@code null} for none.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public TokenResponse setScope(String scope) {
     this.scope = scope;

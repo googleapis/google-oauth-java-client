@@ -21,9 +21,7 @@ import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpStatusCodes;
 import com.google.api.client.util.Beta;
-
 import java.io.IOException;
-
 import javax.jdo.InstanceCallbacks;
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
@@ -31,10 +29,10 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * OAuth 1 credential which uses the {@link OAuthHmacSigner} to sign requests.
  *
- * This class is both immutable and thread safe.
+ * <p>This class is both immutable and thread safe.
  *
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.5
@@ -52,36 +50,23 @@ public final class OAuthHmacCredential implements Credential, InstanceCallbacks 
   @PrimaryKey
   private String userId;
 
-  /**
-   * Key that identifies the server to the service provider.
-   */
-  @Persistent
-  private String consumerKey;
+  /** Key that identifies the server to the service provider. */
+  @Persistent private String consumerKey;
 
-  /**
-   * Secret that the server shares with the service provider.
-   */
-  @Persistent
-  private String sharedSecret;
+  /** Secret that the server shares with the service provider. */
+  @Persistent private String sharedSecret;
 
-  /**
-   * Token secret that server uses to authenticate the requests.
-   */
-  @Persistent
-  private String tokenSharedSecret;
+  /** Token secret that server uses to authenticate the requests. */
+  @Persistent private String tokenSharedSecret;
 
   /**
    * Token that has been authorized by the end user to allow the server to access the resources or
    * {@code null} for none.
    */
-  @Persistent
-  private String token;
+  @Persistent private String token;
 
-  /**
-   * Authorizer instance used to sign requests.
-   */
-  @NotPersistent
-  private OAuthParameters authorizer;
+  /** Authorizer instance used to sign requests. */
+  @NotPersistent private OAuthParameters authorizer;
 
   /**
    * Create an OAuth 1 credential object from information obtained from the server.
@@ -91,10 +76,14 @@ public final class OAuthHmacCredential implements Credential, InstanceCallbacks 
    * @param sharedSecret Secret that the server shares with the service provider.
    * @param tokenSharedSecret Token secret that server uses to authenticate the requests.
    * @param token Token that has been authorized by the end user to allow the server to access the
-   *        resources or {@code null} for none
+   *     resources or {@code null} for none
    */
-  public OAuthHmacCredential(String userId, String consumerKey, String sharedSecret,
-      String tokenSharedSecret, String token) {
+  public OAuthHmacCredential(
+      String userId,
+      String consumerKey,
+      String sharedSecret,
+      String tokenSharedSecret,
+      String token) {
     this.userId = userId;
     this.consumerKey = consumerKey;
     this.sharedSecret = sharedSecret;

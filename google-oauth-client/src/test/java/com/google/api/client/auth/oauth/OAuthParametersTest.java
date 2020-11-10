@@ -34,7 +34,6 @@ public class OAuthParametersTest extends TestCase {
     public String computeSignature(String signatureBaseString) {
       return signatureBaseString;
     }
-
   }
 
   public void testEscape() {
@@ -56,11 +55,13 @@ public class OAuthParametersTest extends TestCase {
     parameters.timestamp = "1274732403";
     parameters.token = "4/1mZ3ZPynTry3szE49h3XyXk24p_I";
     parameters.signature = "OTfTeiNjKsNeqBtYhUPIiJO9pC4=";
-    assertEquals("OAuth oauth_consumer_key=\"anonymous\", oauth_nonce=\"b51df3249df9dfd\", "
-        + "oauth_signature=\"OTfTeiNjKsNeqBtYhUPIiJO9pC4%3D\", "
-        + "oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"1274732403\", "
-        + "oauth_token=\"4%2F1mZ3ZPynTry3szE49h3XyXk24p_I\", "
-        + "oauth_verifier=\"gZ1BFee1qSijpqbxfnX%2Bo8rQ\"", parameters.getAuthorizationHeader());
+    assertEquals(
+        "OAuth oauth_consumer_key=\"anonymous\", oauth_nonce=\"b51df3249df9dfd\", "
+            + "oauth_signature=\"OTfTeiNjKsNeqBtYhUPIiJO9pC4%3D\", "
+            + "oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"1274732403\", "
+            + "oauth_token=\"4%2F1mZ3ZPynTry3szE49h3XyXk24p_I\", "
+            + "oauth_verifier=\"gZ1BFee1qSijpqbxfnX%2Bo8rQ\"",
+        parameters.getAuthorizationHeader());
   }
 
   public void testSignature() throws GeneralSecurityException {
@@ -69,7 +70,9 @@ public class OAuthParametersTest extends TestCase {
 
     GenericUrl url = new GenericUrl("https://example.local?foo=bar");
     parameters.computeSignature("GET", url);
-    assertEquals("GET&https%3A%2F%2Fexample.local&foo%3Dbar%26oauth_signature_method%3Dmock", parameters.signature);
+    assertEquals(
+        "GET&https%3A%2F%2Fexample.local&foo%3Dbar%26oauth_signature_method%3Dmock",
+        parameters.signature);
   }
 
   public void testSignatureWithRepeatedParameter() throws GeneralSecurityException {
@@ -78,6 +81,8 @@ public class OAuthParametersTest extends TestCase {
 
     GenericUrl url = new GenericUrl("https://example.local?foo=baz&foo=bar");
     parameters.computeSignature("GET", url);
-    assertEquals("GET&https%3A%2F%2Fexample.local&foo%3Dbar%26foo%3Dbaz%26oauth_signature_method%3Dmock", parameters.signature);
+    assertEquals(
+        "GET&https%3A%2F%2Fexample.local&foo%3Dbar%26foo%3Dbaz%26oauth_signature_method%3Dmock",
+        parameters.signature);
   }
 }

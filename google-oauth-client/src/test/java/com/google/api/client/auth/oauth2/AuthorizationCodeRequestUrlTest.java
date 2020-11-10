@@ -14,7 +14,6 @@
 
 package com.google.api.client.auth.oauth2;
 
-
 import java.util.Arrays;
 import junit.framework.TestCase;
 
@@ -37,7 +36,8 @@ public class AuthorizationCodeRequestUrlTest extends TestCase {
   public void testBuild() {
     AuthorizationRequestUrl url =
         new AuthorizationCodeRequestUrl("https://server.example.com/authorize", "s6BhdRkqt3")
-            .setState("xyz").setRedirectUri("https://client.example.com/rd")
+            .setState("xyz")
+            .setRedirectUri("https://client.example.com/rd")
             .setScopes(Arrays.asList("a", "b", "c"));
     assertEquals(EXPECTED, url.build());
   }

@@ -17,26 +17,20 @@ package com.google.api.client.extensions.auth.helpers;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Beta;
-
 import java.io.IOException;
-
 import javax.jdo.PersistenceManager;
 import javax.jdo.annotations.PersistenceCapable;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * Interface for auth flows that require a user authorization step through a web browser to obtain
  * an authorization code.
  *
- * <p>
- * Implementations are required to be {@link PersistenceCapable} for storage in JDO compliant
+ * <p>Implementations are required to be {@link PersistenceCapable} for storage in JDO compliant
  * datastores during user authorization step.
- * </p>
  *
- * <p>
- * Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use
+ * <p>Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use
  * {@link com.google.api.client.auth.oauth2.AuthorizationCodeFlow}.
- * </p>
  *
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
@@ -54,14 +48,10 @@ public interface ThreeLeggedFlow {
    */
   String getAuthorizationUrl();
 
-  /**
-   * Set {@link HttpTransport} instance for this three legged flow.
-   */
+  /** Set {@link HttpTransport} instance for this three legged flow. */
   void setHttpTransport(HttpTransport transport);
 
-  /**
-   * Set {@link JsonFactory} instance for this three legged flow.
-   */
+  /** Set {@link JsonFactory} instance for this three legged flow. */
   void setJsonFactory(JsonFactory jsonFactory);
 
   /**
@@ -69,16 +59,16 @@ public interface ThreeLeggedFlow {
    * instantiated.
    *
    * @param pm {@link PersistenceManager} instance which this flow should use to interact with the
-   *        data store. The caller must remember to call {@link PersistenceManager#close()} after
-   *        this method returns.
+   *     data store. The caller must remember to call {@link PersistenceManager#close()} after this
+   *     method returns.
    * @return Fully initialized {@link Credential} object or {@code null} if none exists.
    */
   Credential loadCredential(PersistenceManager pm);
 
   /**
    * After the user has authorized the request, the token or code obtained should be passed to this
-   * complete function to allow us to exchange the code with the authentication server for a
-   * {@link Credential}.
+   * complete function to allow us to exchange the code with the authentication server for a {@link
+   * Credential}.
    *
    * @param authorizationCode Code or token obtained after the user grants permission
    * @return {@link Credential} object that is obtained from token server

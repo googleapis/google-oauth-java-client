@@ -15,23 +15,16 @@
 package com.google.api.services.samples.dailymotion.cmdline;
 
 import com.google.api.client.util.Key;
-
 import java.util.List;
 
-/**
- * @author Yaniv Inbar
- */
+/** @author Yaniv Inbar */
 public class Video {
 
-  @Key
-  public String id;
+  @Key public String id;
 
-  @Key
-  public List<String> tags;
+  @Key public List<String> tags;
 
-  @Key
-  public String title;
+  @Key public String title;
 
-  @Key
-  public String url;
+  @Key public String url;
 }

@@ -16,7 +16,6 @@ package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-
 import junit.framework.TestCase;
 
 /**
@@ -26,10 +25,11 @@ import junit.framework.TestCase;
  */
 public class TokenResponseTest extends TestCase {
 
-  private static final String JSON = "{\"access_token\":\"2YotnFZFEjr1zCsicMWpAA\","
-      + "\"token_type\":\"example\",\"expires_in\":3600,"
-      + "\"refresh_token\":\"tGzv3JOkF0XG5Qx2TlKWIA\","
-      + "\"example_parameter\":\"example_value\"}";
+  private static final String JSON =
+      "{\"access_token\":\"2YotnFZFEjr1zCsicMWpAA\","
+          + "\"token_type\":\"example\",\"expires_in\":3600,"
+          + "\"refresh_token\":\"tGzv3JOkF0XG5Qx2TlKWIA\","
+          + "\"example_parameter\":\"example_value\"}";
 
   public void test() throws Exception {
     JsonFactory jsonFactory = new JacksonFactory();

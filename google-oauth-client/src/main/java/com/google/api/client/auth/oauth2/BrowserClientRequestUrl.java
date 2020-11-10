@@ -23,26 +23,20 @@ import java.util.Collections;
  * client using a scripting language such as JavaScript, as specified in <a
  * href="http://tools.ietf.org/html/rfc6749#section-4.2">Implicit Grant</a>.
  *
- * <p>
- * The default for {@link #getResponseTypes()} is {@code "token"}.
- * </p>
+ * <p>The default for {@link #getResponseTypes()} is {@code "token"}.
  *
- * <p>
- * Sample usage for a web application:
- * </p>
+ * <p>Sample usage for a web application:
  *
  * <pre>
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String url = new BrowserClientRequestUrl(
-        "https://server.example.com/authorize", "s6BhdRkqt3").setState("xyz")
-        .setRedirectUri("https://client.example.com/cb").build();
-    response.sendRedirect(url);
-  }
+ * public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+ * String url = new BrowserClientRequestUrl(
+ * "https://server.example.com/authorize", "s6BhdRkqt3").setState("xyz")
+ * .setRedirectUri("https://client.example.com/cb").build();
+ * response.sendRedirect(url);
+ * }
  * </pre>
  *
- * <p>
- * Implementation is not thread-safe.
- * </p>
+ * <p>Implementation is not thread-safe.
  *
  * @since 1.7
  * @author Yaniv Inbar

@@ -17,36 +17,32 @@ package com.google.api.client.auth.openidconnect;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.Clock;
 import com.google.api.client.util.Preconditions;
-
 import java.util.Collection;
 import java.util.Collections;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * Thread-safe ID token verifier based on <a
  * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token
  * Validation</a>.
  *
- * <p>
- * Call {@link #verify(IdToken)} to verify a ID token. This is a light-weight object, so you may use
- * a new instance for each configuration of expected issuer and trusted client IDs. Sample usage:
- * </p>
+ * <p>Call {@link #verify(IdToken)} to verify a ID token. This is a light-weight object, so you may
+ * use a new instance for each configuration of expected issuer and trusted client IDs. Sample
+ * usage:
  *
  * <pre>
-    IdTokenVerifier verifier = new IdTokenVerifier.Builder()
-        .setIssuer("issuer.example.com")
-        .setAudience(Arrays.asList("myClientId"))
-        .build();
-    ...
-    if (!verifier.verify(idToken)) {...}
+ * IdTokenVerifier verifier = new IdTokenVerifier.Builder()
+ * .setIssuer("issuer.example.com")
+ * .setAudience(Arrays.asList("myClientId"))
+ * .build();
+ * ...
+ * if (!verifier.verify(idToken)) {...}
  * </pre>
  *
- * <p>
- * Note that {@link #verify(IdToken)} only implements a subset of the verification steps, mostly
+ * <p>Note that {@link #verify(IdToken)} only implements a subset of the verification steps, mostly
  * just the MUST steps. Please read <a
  * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation>ID Token
  * Validation</a> for the full list of verification steps.
- * </p>
  *
  * @since 1.16
  */
@@ -78,9 +74,7 @@ public class IdTokenVerifier {
     this(new Builder());
   }
 
-  /**
-   * @param builder builder
-   */
+  /** @param builder builder */
   protected IdTokenVerifier(Builder builder) {
     clock = builder.clock;
     acceptableTimeSkewSeconds = builder.acceptableTimeSkewSeconds;
@@ -130,21 +124,19 @@ public class IdTokenVerifier {
   /**
    * Verifies that the given ID token is valid using the cached public keys.
    *
-   * It verifies:
+   * <p>It verifies:
    *
    * <ul>
-   * <li>The issuer is one of {@link #getIssuers()} by calling {@link
-   * IdToken#verifyIssuer(String)}.</li>
-   * <li>The audience is one of {@link #getAudience()} by calling
-   * {@link IdToken#verifyAudience(Collection)}.</li>
-   * <li>The current time against the issued at and expiration time, using the {@link #getClock()}
-   * and allowing for a time skew specified in {@link #getAcceptableTimeSkewSeconds()} , by
-   * calling {@link IdToken#verifyTime(long, long)}.</li>
+   *   <li>The issuer is one of {@link #getIssuers()} by calling {@link
+   *       IdToken#verifyIssuer(String)}.
+   *   <li>The audience is one of {@link #getAudience()} by calling {@link
+   *       IdToken#verifyAudience(Collection)}.
+   *   <li>The current time against the issued at and expiration time, using the {@link #getClock()}
+   *       and allowing for a time skew specified in {@link #getAcceptableTimeSkewSeconds()} , by
+   *       calling {@link IdToken#verifyTime(long, long)}.
    * </ul>
    *
-   * <p>
-   * Overriding is allowed, but it must call the super implementation.
-   * </p>
+   * <p>Overriding is allowed, but it must call the super implementation.
    *
    * @param idToken ID token
    * @return {@code true} if verified successfully or {@code false} if failed
@@ -156,12 +148,10 @@ public class IdTokenVerifier {
   }
 
   /**
-   * {@link Beta} <br/>
+   * {@link Beta} <br>
    * Builder for {@link IdTokenVerifier}.
    *
-   * <p>
-   * Implementation is not thread-safe.
-   * </p>
+   * <p>Implementation is not thread-safe.
    *
    * @since 1.16
    */
@@ -193,10 +183,8 @@ public class IdTokenVerifier {
     /**
      * Sets the clock.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      */
     public Builder setClock(Clock clock) {
       this.clock = Preconditions.checkNotNull(clock);
@@ -217,10 +205,8 @@ public class IdTokenVerifier {
     /**
      * Sets the expected issuer or {@code null} to suppress the issuer check.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      */
     public Builder setIssuer(String issuer) {
       if (issuer == null) {
@@ -241,19 +227,17 @@ public class IdTokenVerifier {
 
     /**
      * Sets the list of equivalent expected issuers or {@code null} to suppress the issuer check.
-     * Typically only a single issuer should be used, but multiple may be specified to support
-     * an issuer transitioning to a new string. The collection must not be empty.
+     * Typically only a single issuer should be used, but multiple may be specified to support an
+     * issuer transitioning to a new string. The collection must not be empty.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      *
      * @since 1.21.0
      */
     public Builder setIssuers(Collection<String> issuers) {
-      Preconditions.checkArgument(issuers == null || !issuers.isEmpty(),
-          "Issuers must not be empty");
+      Preconditions.checkArgument(
+          issuers == null || !issuers.isEmpty(), "Issuers must not be empty");
       this.issuers = issuers;
       return this;
     }
@@ -269,10 +253,8 @@ public class IdTokenVerifier {
     /**
      * Sets the list of trusted audience client IDs or {@code null} to suppress the audience check.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      */
     public Builder setAudience(Collection<String> audience) {
       this.audience = audience;
@@ -285,23 +267,18 @@ public class IdTokenVerifier {
     }
 
     /**
-     * Sets the seconds of time skew to accept when verifying time (default is
-     * {@link #DEFAULT_TIME_SKEW_SECONDS}).
+     * Sets the seconds of time skew to accept when verifying time (default is {@link
+     * #DEFAULT_TIME_SKEW_SECONDS}).
      *
-     * <p>
-     * It must be greater or equal to zero.
-     * </p>
+     * <p>It must be greater or equal to zero.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      */
     public Builder setAcceptableTimeSkewSeconds(long acceptableTimeSkewSeconds) {
       Preconditions.checkArgument(acceptableTimeSkewSeconds >= 0);
       this.acceptableTimeSkewSeconds = acceptableTimeSkewSeconds;
       return this;
     }
-
   }
 }

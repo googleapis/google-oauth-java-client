@@ -37,9 +37,7 @@ import java.util.concurrent.Semaphore;
  * OAuth 2.0 verification code receiver that runs an HTTP server on a free port, waiting for a
  * redirect with the verification code.
  *
- * <p>
- * Implementation is thread-safe.
- * </p>
+ * <p>Implementation is thread-safe.
  *
  * @author Yaniv Inbar
  * @since 1.11
@@ -50,39 +48,25 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
 
   private static final String CALLBACK_PATH = "/Callback";
 
-  /**
-   * Server or {@code null} before {@link #getRedirectUri()}.
-   */
+  /** Server or {@code null} before {@link #getRedirectUri()}. */
   private HttpServer server;
 
-  /**
-   * Verification code or {@code null} for none.
-   */
+  /** Verification code or {@code null} for none. */
   String code;
 
-  /**
-   * Error code or {@code null} for none.
-   */
+  /** Error code or {@code null} for none. */
   String error;
 
-  /**
-   * To block until receiving an authorization response or stop() is called.
-   */
+  /** To block until receiving an authorization response or stop() is called. */
   final Semaphore waitUnlessSignaled = new Semaphore(0 /* initially zero permit */);
 
-  /**
-   * Port to use or {@code -1} to select an unused port in {@link #getRedirectUri()}.
-   */
+  /** Port to use or {@code -1} to select an unused port in {@link #getRedirectUri()}. */
   private int port;
 
-  /**
-   * Host name to use.
-   */
+  /** Host name to use. */
   private final String host;
 
-  /**
-   * Callback path of redirect_uri.
-   */
+  /** Callback path of redirect_uri. */
   private final String callbackPath;
 
   /**
@@ -100,9 +84,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
   /**
    * Constructor that starts the server on {@link #LOCALHOST} and an unused port.
    *
-   * <p>
-   * Use {@link Builder} if you need to specify any of the optional parameters.
-   * </p>
+   * <p>Use {@link Builder} if you need to specify any of the optional parameters.
    */
   public LocalServerReceiver() {
     this(LOCALHOST, -1, CALLBACK_PATH, null, null);
@@ -114,8 +96,8 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
    * @param host Host name to use
    * @param port Port to use or {@code -1} to select an unused port
    */
-  LocalServerReceiver(String host, int port,
-      String successLandingPageUrl, String failureLandingPageUrl) {
+  LocalServerReceiver(
+      String host, int port, String successLandingPageUrl, String failureLandingPageUrl) {
     this(host, port, CALLBACK_PATH, successLandingPageUrl, failureLandingPageUrl);
   }
 
@@ -125,8 +107,12 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
    * @param host Host name to use
    * @param port Port to use or {@code -1} to select an unused port
    */
-  LocalServerReceiver(String host, int port, String callbackPath,
-      String successLandingPageUrl, String failureLandingPageUrl) {
+  LocalServerReceiver(
+      String host,
+      int port,
+      String callbackPath,
+      String successLandingPageUrl,
+      String failureLandingPageUrl) {
     this.host = host;
     this.port = port;
     this.callbackPath = callbackPath;
@@ -169,9 +155,9 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
    * to return an authorization code.
    *
    * @return authorization code if login succeeds; may return {@code null} if the server is stopped
-   * by {@link #stop()}
+   *     by {@link #stop()}
    * @throws IOException if the server receives an error code (through an HTTP request parameter
-   *                     {@code error})
+   *     {@code error})
    */
   @Override
   public String waitForCode() throws IOException {
@@ -196,9 +182,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
     }
   }
 
-  /**
-   * Returns the host name to use.
-   */
+  /** Returns the host name to use. */
   public String getHost() {
     return host;
   }
@@ -210,9 +194,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
     return port;
   }
 
-  /**
-   * Returns callback path used in redirect_uri.
-   */
+  /** Returns callback path used in redirect_uri. */
   public String getCallbackPath() {
     return callbackPath;
   }
@@ -220,20 +202,14 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
   /**
    * Builder.
    *
-   * <p>
-   * Implementation is not thread-safe.
-   * </p>
+   * <p>Implementation is not thread-safe.
    */
   public static final class Builder {
 
-    /**
-     * Host name to use.
-     */
+    /** Host name to use. */
     private String host = LOCALHOST;
 
-    /**
-     * Port to use or {@code -1} to select an unused port.
-     */
+    /** Port to use or {@code -1} to select an unused port. */
     private int port = -1;
 
     private String successLandingPageUrl;
@@ -241,54 +217,40 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
 
     private String callbackPath = CALLBACK_PATH;
 
-    /**
-     * Builds the {@link LocalServerReceiver}.
-     */
+    /** Builds the {@link LocalServerReceiver}. */
     public LocalServerReceiver build() {
-      return new LocalServerReceiver(host, port, callbackPath,
-          successLandingPageUrl, failureLandingPageUrl);
+      return new LocalServerReceiver(
+          host, port, callbackPath, successLandingPageUrl, failureLandingPageUrl);
     }
 
-    /**
-     * Returns the host name to use.
-     */
+    /** Returns the host name to use. */
     public String getHost() {
       return host;
     }
 
-    /**
-     * Sets the host name to use.
-     */
+    /** Sets the host name to use. */
     public Builder setHost(String host) {
       this.host = host;
       return this;
     }
 
-    /**
-     * Returns the port to use or {@code -1} to select an unused port.
-     */
+    /** Returns the port to use or {@code -1} to select an unused port. */
     public int getPort() {
       return port;
     }
 
-    /**
-     * Sets the port to use or {@code -1} to select an unused port.
-     */
+    /** Sets the port to use or {@code -1} to select an unused port. */
     public Builder setPort(int port) {
       this.port = port;
       return this;
     }
 
-    /**
-     * Returns the callback path of redirect_uri.
-     */
+    /** Returns the callback path of redirect_uri. */
     public String getCallbackPath() {
       return callbackPath;
     }
 
-    /**
-     * Set the callback path of redirect_uri.
-     */
+    /** Set the callback path of redirect_uri. */
     public Builder setCallbackPath(String callbackPath) {
       this.callbackPath = callbackPath;
       return this;
@@ -317,8 +279,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
       StringBuilder body = new StringBuilder();
 
       try {
-        Map<String, String> parms =
-            this.queryToMap(httpExchange.getRequestURI().getQuery());
+        Map<String, String> parms = this.queryToMap(httpExchange.getRequestURI().getQuery());
         error = parms.get("error");
         code = parms.get("code");
 
@@ -368,7 +329,5 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
       doc.flush();
       os.close();
     }
-
   }
-
 }

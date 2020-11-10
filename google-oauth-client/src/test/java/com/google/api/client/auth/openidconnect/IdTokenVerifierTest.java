@@ -76,9 +76,12 @@ public class IdTokenVerifierTest extends TestCase {
 
   public void testVerify() throws Exception {
     MyClock clock = new MyClock();
-    IdTokenVerifier verifier = new IdTokenVerifier.Builder()
-        .setIssuers(Arrays.asList(ISSUER, ISSUER3))
-        .setAudience(Arrays.asList(CLIENT_ID)).setClock(clock).build();
+    IdTokenVerifier verifier =
+        new IdTokenVerifier.Builder()
+            .setIssuers(Arrays.asList(ISSUER, ISSUER3))
+            .setAudience(Arrays.asList(CLIENT_ID))
+            .setClock(clock)
+            .build();
     // verifier flexible doesn't check issuer and audience
     IdTokenVerifier verifierFlexible = new IdTokenVerifier.Builder().setClock(clock).build();
     // issuer
@@ -140,10 +143,12 @@ public class IdTokenVerifierTest extends TestCase {
 
     MyClock clock = new MyClock();
     clock.timeMillis = 1500000L;
-    IdTokenVerifier verifier = new IdTokenVerifier.Builder()
-        .setIssuers(Arrays.asList(ISSUER, ISSUER3))
-        .setAudience(Collections.<String>emptyList())
-        .setClock(clock).build();
+    IdTokenVerifier verifier =
+        new IdTokenVerifier.Builder()
+            .setIssuers(Arrays.asList(ISSUER, ISSUER3))
+            .setAudience(Collections.<String>emptyList())
+            .setClock(clock)
+            .build();
     assertFalse(verifier.verify(idToken));
   }
 }

@@ -20,9 +20,7 @@ import java.util.Scanner;
  * OAuth 2.0 abstract verification code receiver that prompts user to paste the code copied from the
  * browser.
  *
- * <p>
- * Implementation is thread-safe.
- * </p>
+ * <p>Implementation is thread-safe.
  *
  * @since 1.11
  * @author Yaniv Inbar
@@ -41,6 +39,5 @@ public abstract class AbstractPromptReceiver implements VerificationCodeReceiver
   }
 
   @Override
-  public void stop() {
-  }
+  public void stop() {}
 }

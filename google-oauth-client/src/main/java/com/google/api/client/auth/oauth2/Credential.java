@@ -28,7 +28,6 @@ import com.google.api.client.util.Lists;
 import com.google.api.client.util.Objects;
 import com.google.api.client.util.Preconditions;
 import com.google.api.client.util.store.DataStoreFactory;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,50 +41,41 @@ import java.util.logging.Logger;
  * Thread-safe OAuth 2.0 helper for accessing protected resources using an access token, as well as
  * optionally refreshing the access token when it expires using a refresh token.
  *
- * <p>
- * Sample usage:
- * </p>
+ * <p>Sample usage:
  *
  * <pre>
-  public static Credential createCredentialWithAccessTokenOnly(
-      HttpTransport transport, JsonFactory jsonFactory, TokenResponse tokenResponse) {
-    return new Credential(BearerToken.authorizationHeaderAccessMethod()).setFromTokenResponse(
-        tokenResponse);
-  }
-
-  public static Credential createCredentialWithRefreshToken(
-      HttpTransport transport, JsonFactory jsonFactory, TokenResponse tokenResponse) {
-    return new Credential.Builder(BearerToken.authorizationHeaderAccessMethod()).setTransport(
-        transport)
-        .setJsonFactory(jsonFactory)
-        .setTokenServerUrl(
-            new GenericUrl("https://server.example.com/token"))
-        .setClientAuthentication(new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw"))
-        .build()
-        .setFromTokenResponse(tokenResponse);
-  }
+ * public static Credential createCredentialWithAccessTokenOnly(
+ * HttpTransport transport, JsonFactory jsonFactory, TokenResponse tokenResponse) {
+ * return new Credential(BearerToken.authorizationHeaderAccessMethod()).setFromTokenResponse(
+ * tokenResponse);
+ * }
+ *
+ * public static Credential createCredentialWithRefreshToken(
+ * HttpTransport transport, JsonFactory jsonFactory, TokenResponse tokenResponse) {
+ * return new Credential.Builder(BearerToken.authorizationHeaderAccessMethod()).setTransport(
+ * transport)
+ * .setJsonFactory(jsonFactory)
+ * .setTokenServerUrl(
+ * new GenericUrl("https://server.example.com/token"))
+ * .setClientAuthentication(new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw"))
+ * .build()
+ * .setFromTokenResponse(tokenResponse);
+ * }
  * </pre>
  *
- * <p>
- * If you need to persist the access token in a data store, use {@link DataStoreFactory} and
- * {@link Builder#addRefreshListener(CredentialRefreshListener)} with
- * {@link DataStoreCredentialRefreshListener}.
- * </p>
+ * <p>If you need to persist the access token in a data store, use {@link DataStoreFactory} and
+ * {@link Builder#addRefreshListener(CredentialRefreshListener)} with {@link
+ * DataStoreCredentialRefreshListener}.
  *
- * <p>
- * If you have a custom request initializer, request execute interceptor, or unsuccessful response
- * handler, take a look at the sample usage for {@link HttpExecuteInterceptor} and
- * {@link HttpUnsuccessfulResponseHandler}, which are interfaces that this class also implements.
- * </p>
+ * <p>If you have a custom request initializer, request execute interceptor, or unsuccessful
+ * response handler, take a look at the sample usage for {@link HttpExecuteInterceptor} and {@link
+ * HttpUnsuccessfulResponseHandler}, which are interfaces that this class also implements.
  *
  * @since 1.7
  * @author Yaniv Inbar
  */
 public class Credential
-    implements
-      HttpExecuteInterceptor,
-      HttpRequestInitializer,
-      HttpUnsuccessfulResponseHandler {
+    implements HttpExecuteInterceptor, HttpRequestInitializer, HttpUnsuccessfulResponseHandler {
 
   static final Logger LOGGER = Logger.getLogger(Credential.class.getName());
 
@@ -105,8 +95,8 @@ public class Credential
     void intercept(HttpRequest request, String accessToken) throws IOException;
 
     /**
-     * Retrieve the original access token in the HTTP request, as provided in
-     * {@link #intercept(HttpRequest, String)}.
+     * Retrieve the original access token in the HTTP request, as provided in {@link
+     * #intercept(HttpRequest, String)}.
      *
      * @param request HTTP request
      * @return original access token or {@code null} for none
@@ -118,8 +108,8 @@ public class Credential
   private final Lock lock = new ReentrantLock();
 
   /**
-   * Method of presenting the access token to the resource server (for example
-   * {@link BearerToken.AuthorizationHeaderAccessMethod}).
+   * Method of presenting the access token to the resource server (for example {@link
+   * BearerToken.AuthorizationHeaderAccessMethod}).
    */
   private final AccessMethod method;
 
@@ -167,12 +157,10 @@ public class Credential
   /**
    * Constructor with the ability to access protected resources, but not refresh tokens.
    *
-   * <p>
-   * To use with the ability to refresh tokens, use {@link Builder}.
-   * </p>
+   * <p>To use with the ability to refresh tokens, use {@link Builder}.
    *
-   * @param method method of presenting the access token to the resource server (for example
-   *        {@link BearerToken.AuthorizationHeaderAccessMethod})
+   * @param method method of presenting the access token to the resource server (for example {@link
+   *     BearerToken.AuthorizationHeaderAccessMethod})
    */
   public Credential(AccessMethod method) {
     this(new Builder(method));
@@ -180,7 +168,6 @@ public class Credential
 
   /**
    * @param builder credential builder
-   *
    * @since 1.14
    */
   protected Credential(Builder builder) {
@@ -196,17 +183,14 @@ public class Credential
 
   /**
    * {@inheritDoc}
-   * <p>
-   * Default implementation is to try to refresh the access token if there is no access token or if
-   * we are 1 minute away from expiration. If token server is unavailable, it will try to use the
+   *
+   * <p>Default implementation is to try to refresh the access token if there is no access token or
+   * if we are 1 minute away from expiration. If token server is unavailable, it will try to use the
    * access token even if has expired. If a 4xx error is encountered while refreshing the token,
    * {@link TokenResponseException} is thrown. If successful, it will call {@link #getMethod()} and
    * {@link AccessMethod#intercept}.
-   * </p>
    *
-   * <p>
-   * Subclasses may override.
-   * </p>
+   * <p>Subclasses may override.
    */
   public void intercept(HttpRequest request) throws IOException {
     lock.lock();
@@ -228,15 +212,14 @@ public class Credential
 
   /**
    * {@inheritDoc}
-   * <p>
-   * Default implementation checks if {@code WWW-Authenticate} exists and contains a "Bearer" value
-   * (see <a href="http://tools.ietf.org/html/rfc6750#section-3.1">rfc6750 section 3.1</a> for more
-   * details). If so, it calls {@link #refreshToken} in case the error code contains
-   * {@code invalid_token}. If there is no "Bearer" in {@code WWW-Authenticate} and the status code
-   * is {@link HttpStatusCodes#STATUS_CODE_UNAUTHORIZED} it calls {@link #refreshToken}. If
-   * {@link #executeRefreshToken()} throws an I/O exception, this implementation will log the
-   * exception and return {@code false}. Subclasses may override.
-   * </p>
+   *
+   * <p>Default implementation checks if {@code WWW-Authenticate} exists and contains a "Bearer"
+   * value (see <a href="http://tools.ietf.org/html/rfc6750#section-3.1">rfc6750 section 3.1</a> for
+   * more details). If so, it calls {@link #refreshToken} in case the error code contains {@code
+   * invalid_token}. If there is no "Bearer" in {@code WWW-Authenticate} and the status code is
+   * {@link HttpStatusCodes#STATUS_CODE_UNAUTHORIZED} it calls {@link #refreshToken}. If {@link
+   * #executeRefreshToken()} throws an I/O exception, this implementation will log the exception and
+   * return {@code false}. Subclasses may override.
    */
   public boolean handleResponse(HttpRequest request, HttpResponse response, boolean supportsRetry) {
     boolean refreshToken = false;
@@ -286,8 +269,10 @@ public class Credential
     request.setUnsuccessfulResponseHandler(this);
   }
 
-  /** Returns the access token or {@code null} for none. If {@code null} the token needs to be
-   * refreshed using refreshToken(). */
+  /**
+   * Returns the access token or {@code null} for none. If {@code null} the token needs to be
+   * refreshed using refreshToken().
+   */
   public final String getAccessToken() {
     lock.lock();
     try {
@@ -300,10 +285,8 @@ public class Credential
   /**
    * Sets the access token.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    *
    * @param accessToken access token or {@code null} for none
    */
@@ -318,8 +301,8 @@ public class Credential
   }
 
   /**
-   * Return the method of presenting the access token to the resource server (for example
-   * {@link BearerToken.AuthorizationHeaderAccessMethod}).
+   * Return the method of presenting the access token to the resource server (for example {@link
+   * BearerToken.AuthorizationHeaderAccessMethod}).
    */
   public final AccessMethod getMethod() {
     return method;
@@ -327,6 +310,7 @@ public class Credential
 
   /**
    * Returns the clock used for expiration checks by this Credential. Mostly used for unit-testing.
+   *
    * @since 1.9
    */
   public final Clock getClock() {
@@ -367,10 +351,8 @@ public class Credential
   /**
    * Sets the refresh token.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    *
    * @param refreshToken refresh token or {@code null} for none
    */
@@ -378,10 +360,13 @@ public class Credential
     lock.lock();
     try {
       if (refreshToken != null) {
-        Preconditions.checkArgument(jsonFactory != null && transport != null
-            && clientAuthentication != null && tokenServerEncodedUrl != null,
+        Preconditions.checkArgument(
+            jsonFactory != null
+                && transport != null
+                && clientAuthentication != null
+                && tokenServerEncodedUrl != null,
             "Please use the Builder and call setJsonFactory, setTransport, setClientAuthentication"
-            + " and setTokenServerUrl/setTokenServerEncodedUrl");
+                + " and setTokenServerUrl/setTokenServerEncodedUrl");
       }
       this.refreshToken = refreshToken;
     } finally {
@@ -391,8 +376,8 @@ public class Credential
   }
 
   /**
-   * Expected expiration time in milliseconds relative to the
-   * {@link System#currentTimeMillis() Java epoch}, or {@code null} for none.
+   * Expected expiration time in milliseconds relative to the {@link System#currentTimeMillis() Java
+   * epoch}, or {@code null} for none.
    */
   public final Long getExpirationTimeMilliseconds() {
     lock.lock();
@@ -404,13 +389,11 @@ public class Credential
   }
 
   /**
-   * Sets the expected expiration time in milliseconds relative to the
-   * {@link System#currentTimeMillis() Java epoch}, or {@code null} for none.
+   * Sets the expected expiration time in milliseconds relative to the {@link
+   * System#currentTimeMillis() Java epoch}, or {@code null} for none.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public Credential setExpirationTimeMilliseconds(Long expirationTimeMilliseconds) {
     lock.lock();
@@ -439,16 +422,14 @@ public class Credential
   }
 
   /**
-   * Sets the lifetime in seconds of the access token (for example 3600 for an hour from now)
-   * or {@code null} for none.
+   * Sets the lifetime in seconds of the access token (for example 3600 for an hour from now) or
+   * {@code null} for none.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    *
    * @param expiresIn lifetime in seconds of the access token (for example 3600 for an hour from
-   *        now) or {@code null} for none
+   *     now) or {@code null} for none
    */
   public Credential setExpiresInSeconds(Long expiresIn) {
     return setExpirationTimeMilliseconds(
@@ -461,8 +442,8 @@ public class Credential
   }
 
   /**
-   * Returns the HTTP request initializer for refresh token requests to the token server or
-   * {@code null} for none.
+   * Returns the HTTP request initializer for refresh token requests to the token server or {@code
+   * null} for none.
    */
   public final HttpRequestInitializer getRequestInitializer() {
     return requestInitializer;
@@ -471,19 +452,14 @@ public class Credential
   /**
    * Request a new access token from the authorization endpoint.
    *
-   * <p>
-   * On success, it will call {@link #setFromTokenResponse(TokenResponse)}, call
-   * {@link CredentialRefreshListener#onTokenResponse} with the token response, and return
-   * {@code true}. On error, it will call {@link #setAccessToken(String)} and
-   * {@link #setExpiresInSeconds(Long)} with {@code null}, call
-   * {@link CredentialRefreshListener#onTokenErrorResponse} with the token error response, and
-   * return {@code false}. If a 4xx error is encountered while refreshing the token,
+   * <p>On success, it will call {@link #setFromTokenResponse(TokenResponse)}, call {@link
+   * CredentialRefreshListener#onTokenResponse} with the token response, and return {@code true}. On
+   * error, it will call {@link #setAccessToken(String)} and {@link #setExpiresInSeconds(Long)} with
+   * {@code null}, call {@link CredentialRefreshListener#onTokenErrorResponse} with the token error
+   * response, and return {@code false}. If a 4xx error is encountered while refreshing the token,
    * {@link TokenResponseException} is thrown.
-   * </p>
    *
-   * <p>
-   * If there is no refresh token, it will quietly return {@code false}.
-   * </p>
+   * <p>If there is no refresh token, it will quietly return {@code false}.
    *
    * @return whether a new access token was successfully retrieved
    */
@@ -526,14 +502,10 @@ public class Credential
    * available), and {@link #setExpiresInSeconds expires-in time} based on the values from the token
    * response.
    *
-   * <p>
-   * It does not call the refresh listeners.
-   * </p>
+   * <p>It does not call the refresh listeners.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    *
    * @param tokenResponse successful token response
    */
@@ -551,30 +523,28 @@ public class Credential
   /**
    * Executes a request for new credentials from the token server.
    *
-   * <p>
-   * The default implementation calls {@link RefreshTokenRequest#execute()} using the
-   * {@link #getTransport()}, {@link #getJsonFactory()}, {@link #getRequestInitializer()},
-   * {@link #getTokenServerEncodedUrl()}, {@link #getRefreshToken()}, and the
-   * {@link #getClientAuthentication()}. If {@link #getRefreshToken()} is {@code null}, it instead
-   * returns {@code null}.
-   * </p>
+   * <p>The default implementation calls {@link RefreshTokenRequest#execute()} using the {@link
+   * #getTransport()}, {@link #getJsonFactory()}, {@link #getRequestInitializer()}, {@link
+   * #getTokenServerEncodedUrl()}, {@link #getRefreshToken()}, and the {@link
+   * #getClientAuthentication()}. If {@link #getRefreshToken()} is {@code null}, it instead returns
+   * {@code null}.
    *
-   * <p>
-   * Subclasses may override for a different implementation. Implementations can assume proper
+   * <p>Subclasses may override for a different implementation. Implementations can assume proper
    * thread synchronization is already taken care of inside {@link #refreshToken()}.
-   * </p>
    *
    * @return successful response from the token server or {@code null} if it is not possible to
-   *         refresh the access token
+   *     refresh the access token
    * @throws TokenResponseException if an error response was received from the token server
    */
   protected TokenResponse executeRefreshToken() throws IOException {
     if (refreshToken == null) {
       return null;
     }
-    return new RefreshTokenRequest(transport, jsonFactory, new GenericUrl(tokenServerEncodedUrl),
-        refreshToken).setClientAuthentication(clientAuthentication)
-        .setRequestInitializer(requestInitializer).execute();
+    return new RefreshTokenRequest(
+            transport, jsonFactory, new GenericUrl(tokenServerEncodedUrl), refreshToken)
+        .setClientAuthentication(clientAuthentication)
+        .setRequestInitializer(requestInitializer)
+        .execute();
   }
 
   /** Returns the unmodifiable collection of listeners for refresh token results. */
@@ -585,15 +555,13 @@ public class Credential
   /**
    * Credential builder.
    *
-   * <p>
-   * Implementation is not thread-safe.
-   * </p>
+   * <p>Implementation is not thread-safe.
    */
   public static class Builder {
 
     /**
-     * Method of presenting the access token to the resource server (for example
-     * {@link BearerToken.AuthorizationHeaderAccessMethod}).
+     * Method of presenting the access token to the resource server (for example {@link
+     * BearerToken.AuthorizationHeaderAccessMethod}).
      */
     final AccessMethod method;
 
@@ -615,8 +583,8 @@ public class Credential
     Clock clock = Clock.SYSTEM;
 
     /**
-     * Client authentication or {@code null} for none (see
-     * {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
+     * Client authentication or {@code null} for none (see {@link
+     * TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
      */
     HttpExecuteInterceptor clientAuthentication;
 
@@ -631,7 +599,7 @@ public class Credential
 
     /**
      * @param method method of presenting the access token to the resource server (for example
-     *        {@link BearerToken.AuthorizationHeaderAccessMethod})
+     *     {@link BearerToken.AuthorizationHeaderAccessMethod})
      */
     public Builder(AccessMethod method) {
       this.method = Preconditions.checkNotNull(method);
@@ -643,8 +611,8 @@ public class Credential
     }
 
     /**
-     * Returns the method of presenting the access token to the resource server (for example
-     * {@link BearerToken.AuthorizationHeaderAccessMethod}).
+     * Returns the method of presenting the access token to the resource server (for example {@link
+     * BearerToken.AuthorizationHeaderAccessMethod}).
      */
     public final AccessMethod getMethod() {
       return method;
@@ -662,10 +630,8 @@ public class Credential
      * Sets the HTTP transport for executing refresh token request or {@code null} if not refreshing
      * tokens.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      */
     public Builder setTransport(HttpTransport transport) {
       this.transport = transport;
@@ -674,6 +640,7 @@ public class Credential
 
     /**
      * Returns the clock to use for expiration checks or {@link Clock#SYSTEM} as default.
+     *
      * @since 1.9
      */
     public final Clock getClock() {
@@ -683,9 +650,7 @@ public class Credential
     /**
      * Sets the clock to use for expiration checks.
      *
-     * <p>
-     * The default value is Clock.SYSTEM.
-     * </p>
+     * <p>The default value is Clock.SYSTEM.
      *
      * @since 1.9
      */
@@ -695,8 +660,8 @@ public class Credential
     }
 
     /**
-     * Returns the JSON factory to use for parsing response for refresh token request or
-     * {@code null} if not refreshing tokens.
+     * Returns the JSON factory to use for parsing response for refresh token request or {@code
+     * null} if not refreshing tokens.
      */
     public final JsonFactory getJsonFactory() {
       return jsonFactory;
@@ -706,10 +671,8 @@ public class Credential
      * Sets the JSON factory to use for parsing response for refresh token request or {@code null}
      * if not refreshing tokens.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      */
     public Builder setJsonFactory(JsonFactory jsonFactory) {
       this.jsonFactory = jsonFactory;
@@ -724,10 +687,8 @@ public class Credential
     /**
      * Sets the token server URL or {@code null} if not refreshing tokens.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      */
     public Builder setTokenServerUrl(GenericUrl tokenServerUrl) {
       this.tokenServerUrl = tokenServerUrl;
@@ -737,10 +698,8 @@ public class Credential
     /**
      * Sets the encoded token server URL or {@code null} if not refreshing tokens.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      */
     public Builder setTokenServerEncodedUrl(String tokenServerEncodedUrl) {
       this.tokenServerUrl =
@@ -749,21 +708,19 @@ public class Credential
     }
 
     /**
-     * Returns the client authentication or {@code null} for none (see
-     * {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
+     * Returns the client authentication or {@code null} for none (see {@link
+     * TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
      */
     public final HttpExecuteInterceptor getClientAuthentication() {
       return clientAuthentication;
     }
 
     /**
-     * Sets the client authentication or {@code null} for none (see
-     * {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
+     * Sets the client authentication or {@code null} for none (see {@link
+     * TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      */
     public Builder setClientAuthentication(HttpExecuteInterceptor clientAuthentication) {
       this.clientAuthentication = clientAuthentication;
@@ -771,21 +728,19 @@ public class Credential
     }
 
     /**
-     * Returns the HTTP request initializer for refresh token requests to the token server or
-     * {@code null} for none.
+     * Returns the HTTP request initializer for refresh token requests to the token server or {@code
+     * null} for none.
      */
     public final HttpRequestInitializer getRequestInitializer() {
       return requestInitializer;
     }
 
     /**
-     * Sets the HTTP request initializer for refresh token requests to the token server or
-     * {@code null} for none.
+     * Sets the HTTP request initializer for refresh token requests to the token server or {@code
+     * null} for none.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      */
     public Builder setRequestInitializer(HttpRequestInitializer requestInitializer) {
       this.requestInitializer = requestInitializer;
@@ -795,10 +750,8 @@ public class Credential
     /**
      * Adds a listener for refresh token results.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      *
      * @param refreshListener refresh listener
      */
@@ -815,10 +768,8 @@ public class Credential
     /**
      * Sets the listeners for refresh token results.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      */
     public Builder setRefreshListeners(Collection<CredentialRefreshListener> refreshListeners) {
       this.refreshListeners = Preconditions.checkNotNull(refreshListeners);

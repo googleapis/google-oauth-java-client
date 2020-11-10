@@ -19,9 +19,7 @@ import java.io.IOException;
 /**
  * OAuth 2.0 verification code receiver.
  *
- * <p>
- * Implementation should be thread-safe.
- * </p>
+ * <p>Implementation should be thread-safe.
  *
  * @since 1.11
  * @author Yaniv Inbar

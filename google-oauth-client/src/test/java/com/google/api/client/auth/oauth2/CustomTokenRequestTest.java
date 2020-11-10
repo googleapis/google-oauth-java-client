@@ -22,7 +22,6 @@ import com.google.api.client.http.LowLevelHttpResponse;
 import com.google.api.client.json.Json;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.testing.http.MockHttpTransport;
-
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 import java.io.IOException;
@@ -37,13 +36,15 @@ public class CustomTokenRequestTest extends TestCase {
 
   private static final MockHttpTransport TRANSPORT = new MockHttpTransport();
   private static final JacksonFactory JSON_FACTORY = new JacksonFactory();
-  private static final GenericUrl AUTHORIZATION_SERVER_URL = new GenericUrl(
-      "https://server.example.com/authorize");
-  private static final String JWT_ENCODED_CONTENT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+  private static final GenericUrl AUTHORIZATION_SERVER_URL =
+      new GenericUrl("https://server.example.com/authorize");
+  private static final String JWT_ENCODED_CONTENT =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
   public void testConstructorResponseClass() {
-    TokenRequest request = new TokenRequest(TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo",
-        IdTokenResponse.class);
+    TokenRequest request =
+        new TokenRequest(
+            TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo", IdTokenResponse.class);
     assertEquals(IdTokenResponse.class, request.getResponseClass());
   }
 
@@ -69,12 +70,13 @@ public class CustomTokenRequestTest extends TestCase {
   }
 
   public void testSetResponseClass() throws IOException {
-    TokenRequest request = new TokenRequest(new AccessTokenTransport(), JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo")
-        .setResponseClass(IdTokenResponse.class);
+    TokenRequest request =
+        new TokenRequest(new AccessTokenTransport(), JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo")
+            .setResponseClass(IdTokenResponse.class);
     assertEquals(IdTokenResponse.class, request.getResponseClass());
     TokenResponse response = request.execute();
     assertTrue(response instanceof IdTokenResponse);
-    IdTokenResponse tokenResponse = (IdTokenResponse)response;
+    IdTokenResponse tokenResponse = (IdTokenResponse) response;
     IdToken idToken = tokenResponse.parseIdToken();
     assertEquals("John Doe", idToken.getPayload().get("name"));
   }

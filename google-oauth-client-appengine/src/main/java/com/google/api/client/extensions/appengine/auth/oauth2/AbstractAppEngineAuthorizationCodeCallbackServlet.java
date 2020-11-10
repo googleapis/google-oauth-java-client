@@ -16,73 +16,67 @@ package com.google.api.client.extensions.appengine.auth.oauth2;
 
 import com.google.api.client.extensions.servlet.auth.oauth2.AbstractAuthorizationCodeCallbackServlet;
 import com.google.appengine.api.users.UserServiceFactory;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * Simple extension of {@link AbstractAuthorizationCodeCallbackServlet} that uses the currently
  * logged-in Google Account user, as directed in <a
- * href="https://cloud.google.com/appengine/docs/standard/java/config/webxml#security-auth">
- * Security and Authentication</a>.
+ * href="https://cloud.google.com/appengine/docs/standard/java/config/webxml#security-auth">Security
+ * and Authentication</a>.
  *
- * <p>
- * Note that if there is no currently logged-in user, {@link #getUserId(HttpServletRequest)} will
+ * <p>Note that if there is no currently logged-in user, {@link #getUserId(HttpServletRequest)} will
  * throw a {@link NullPointerException}. Example to require login for all pages:
- * </p>
  *
  * <pre>
-  &lt;security-constraint&gt;
-    &lt;web-resource-collection&gt;
-      &lt;web-resource-name&gt;any&lt;/web-resource-name&gt;
-      &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
-    &lt;/web-resource-collection&gt;
-    &lt;auth-constraint&gt;
-      &lt;role-name&gt;*&lt;/role-name&gt;
-    &lt;/auth-constraint&gt;
-  &lt;/security-constraint&gt;
+ * &lt;security-constraint&gt;
+ * &lt;web-resource-collection&gt;
+ * &lt;web-resource-name&gt;any&lt;/web-resource-name&gt;
+ * &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+ * &lt;/web-resource-collection&gt;
+ * &lt;auth-constraint&gt;
+ * &lt;role-name&gt;*&lt;/role-name&gt;
+ * &lt;/auth-constraint&gt;
+ * &lt;/security-constraint&gt;
  * </pre>
  *
- * <p>
- * Sample usage:
- * </p>
+ * <p>Sample usage:
  *
  * <pre>
-public class ServletCallbackSample extends AbstractAppEngineAuthorizationCodeCallbackServlet {
-
-  &#64;Override
-  protected void onSuccess(HttpServletRequest req, HttpServletResponse resp, Credential credential)
-      throws ServletException, IOException {
-    resp.sendRedirect("/");
-  }
-
-  &#64;Override
-  protected void onError(
-      HttpServletRequest req, HttpServletResponse resp, AuthorizationCodeResponseUrl errorResponse)
-      throws ServletException, IOException {
-    // handle error
-  }
-
-  &#64;Override
-  protected String getRedirectUri(HttpServletRequest req) throws ServletException, IOException {
-    GenericUrl url = new GenericUrl(req.getRequestURL().toString());
-    url.setRawPath("/oauth2callback");
-    return url.build();
-  }
-
-  &#64;Override
-  protected AuthorizationCodeFlow initializeFlow() throws IOException {
-    return new AuthorizationCodeFlow.Builder(BearerToken.authorizationHeaderAccessMethod(),
-        new UrlFetchTransport(),
-        new JacksonFactory(),
-        new GenericUrl("https://server.example.com/token"),
-        new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw"),
-        "s6BhdRkqt3",
-        "https://server.example.com/authorize").setCredentialStore(new AppEngineCredentialStore())
-        .build();
-  }
+ * public class ServletCallbackSample extends AbstractAppEngineAuthorizationCodeCallbackServlet {
+ *
+ * &#64;Override
+ * protected void onSuccess(HttpServletRequest req, HttpServletResponse resp, Credential credential)
+ * throws ServletException, IOException {
+ * resp.sendRedirect("/");
+ * }
+ *
+ * &#64;Override
+ * protected void onError(
+ * HttpServletRequest req, HttpServletResponse resp, AuthorizationCodeResponseUrl errorResponse)
+ * throws ServletException, IOException {
+ * // handle error
+ * }
+ *
+ * &#64;Override
+ * protected String getRedirectUri(HttpServletRequest req) throws ServletException, IOException {
+ * GenericUrl url = new GenericUrl(req.getRequestURL().toString());
+ * url.setRawPath("/oauth2callback");
+ * return url.build();
+ * }
+ *
+ * &#64;Override
+ * protected AuthorizationCodeFlow initializeFlow() throws IOException {
+ * return new AuthorizationCodeFlow.Builder(BearerToken.authorizationHeaderAccessMethod(),
+ * new UrlFetchTransport(),
+ * new JacksonFactory(),
+ * new GenericUrl("https://server.example.com/token"),
+ * new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw"),
+ * "s6BhdRkqt3",
+ * "https://server.example.com/authorize").setCredentialStore(new AppEngineCredentialStore())
+ * .build();
+ * }
  * </pre>
  *
  * @since 1.7
