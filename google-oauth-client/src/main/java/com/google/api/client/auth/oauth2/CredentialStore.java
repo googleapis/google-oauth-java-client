@@ -16,27 +16,22 @@ package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.store.DataStoreFactory;
-
 import java.io.IOException;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * OAuth 2.0 credential persistence store interface to provide a fully pluggable storage mechanism.
  *
- * <p>
- * The user ID should be used as the primary key for storage, and the rest of the data consists of
- * the {@link Credential#getAccessToken access token}, {@link Credential#getRefreshToken refresh
+ * <p>The user ID should be used as the primary key for storage, and the rest of the data consists
+ * of the {@link Credential#getAccessToken access token}, {@link Credential#getRefreshToken refresh
  * token}, and {@link Credential#getExpirationTimeMilliseconds expiration time}.
- * </p>
  *
- * <p>
- * Implementations should be thread safe.
- * </p>
+ * <p>Implementations should be thread safe.
  *
  * @since 1.7
  * @author Yaniv Inbar
- * @deprecated (to be removed in the future) Use {@link DataStoreFactory} with
- *             {@link StoredCredential} instead.
+ * @deprecated (to be removed in the future) Use {@link DataStoreFactory} with {@link
+ *     StoredCredential} instead.
  */
 @Deprecated
 @Beta
@@ -46,12 +41,12 @@ public interface CredentialStore {
    * Loads the credential for the given user ID.
    *
    * @param userId user ID whose credential needs to be loaded
-   * @param credential credential whose {@link Credential#setAccessToken access token},
-   *        {@link Credential#setRefreshToken refresh token}, and
-   *        {@link Credential#setExpirationTimeMilliseconds expiration time} need to be set if the
-   *        credential already exists in storage
+   * @param credential credential whose {@link Credential#setAccessToken access token}, {@link
+   *     Credential#setRefreshToken refresh token}, and {@link
+   *     Credential#setExpirationTimeMilliseconds expiration time} need to be set if the credential
+   *     already exists in storage
    * @return {@code true} if the credential has been successfully found and loaded or {@code false}
-   *         otherwise
+   *     otherwise
    */
   boolean load(String userId, Credential credential) throws IOException;
 
@@ -59,9 +54,9 @@ public interface CredentialStore {
    * Stores the credential of the given user ID.
    *
    * @param userId user ID whose credential needs to be stored
-   * @param credential credential whose {@link Credential#getAccessToken access token},
-   *        {@link Credential#getRefreshToken refresh token}, and
-   *        {@link Credential#getExpirationTimeMilliseconds expiration time} need to be stored
+   * @param credential credential whose {@link Credential#getAccessToken access token}, {@link
+   *     Credential#getRefreshToken refresh token}, and {@link
+   *     Credential#getExpirationTimeMilliseconds expiration time} need to be stored
    */
   void store(String userId, Credential credential) throws IOException;
 

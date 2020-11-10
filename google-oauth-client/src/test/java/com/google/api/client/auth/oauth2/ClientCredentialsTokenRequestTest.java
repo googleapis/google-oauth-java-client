@@ -25,9 +25,11 @@ import junit.framework.TestCase;
 public class ClientCredentialsTokenRequestTest extends TestCase {
 
   public void testConstructor() {
-    check(new ClientCredentialsTokenRequest(
-        TokenRequestTest.TRANSPORT, TokenRequestTest.JSON_FACTORY,
-        TokenRequestTest.AUTHORIZATION_SERVER_URL));
+    check(
+        new ClientCredentialsTokenRequest(
+            TokenRequestTest.TRANSPORT,
+            TokenRequestTest.JSON_FACTORY,
+            TokenRequestTest.AUTHORIZATION_SERVER_URL));
   }
 
   private void check(ClientCredentialsTokenRequest request) {
@@ -35,10 +37,12 @@ public class ClientCredentialsTokenRequestTest extends TestCase {
   }
 
   public void testSetResponseClass() {
-    ClientCredentialsTokenRequest request = new ClientCredentialsTokenRequest(
-        TokenRequestTest.TRANSPORT, TokenRequestTest.JSON_FACTORY,
-        TokenRequestTest.AUTHORIZATION_SERVER_URL)
-        .setResponseClass(IdTokenResponse.class);
+    ClientCredentialsTokenRequest request =
+        new ClientCredentialsTokenRequest(
+                TokenRequestTest.TRANSPORT,
+                TokenRequestTest.JSON_FACTORY,
+                TokenRequestTest.AUTHORIZATION_SERVER_URL)
+            .setResponseClass(IdTokenResponse.class);
     assertEquals(IdTokenResponse.class, request.getResponseClass());
   }
 }

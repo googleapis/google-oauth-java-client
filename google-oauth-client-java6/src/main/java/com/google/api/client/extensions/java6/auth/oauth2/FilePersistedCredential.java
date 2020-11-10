@@ -22,7 +22,7 @@ import com.google.api.client.util.Key;
 import com.google.api.client.util.store.FileDataStoreFactory;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * Persisted credential implementation to be used exclusively with {@link FileCredentialStore}.
  *
  * @author Rafael Naufal
@@ -48,9 +48,9 @@ public class FilePersistedCredential extends GenericJson {
   /**
    * Store information from the credential.
    *
-   * @param credential credential whose {@link Credential#getAccessToken access token},
-   *        {@link Credential#getRefreshToken refresh token}, and
-   *        {@link Credential#getExpirationTimeMilliseconds expiration time} need to be stored
+   * @param credential credential whose {@link Credential#getAccessToken access token}, {@link
+   *     Credential#getRefreshToken refresh token}, and {@link
+   *     Credential#getExpirationTimeMilliseconds expiration time} need to be stored
    */
   void store(Credential credential) {
     accessToken = credential.getAccessToken();
@@ -59,10 +59,10 @@ public class FilePersistedCredential extends GenericJson {
   }
 
   /**
-   * @param credential credential whose {@link Credential#setAccessToken access token},
-   *        {@link Credential#setRefreshToken refresh token}, and
-   *        {@link Credential#setExpirationTimeMilliseconds expiration time} need to be set if the
-   *        credential already exists in storage
+   * @param credential credential whose {@link Credential#setAccessToken access token}, {@link
+   *     Credential#setRefreshToken refresh token}, and {@link
+   *     Credential#setExpirationTimeMilliseconds expiration time} need to be set if the credential
+   *     already exists in storage
    */
   void load(Credential credential) {
     credential.setAccessToken(accessToken);
@@ -81,7 +81,9 @@ public class FilePersistedCredential extends GenericJson {
   }
 
   StoredCredential toStoredCredential() {
-    return new StoredCredential().setAccessToken(accessToken)
-        .setRefreshToken(refreshToken).setExpirationTimeMilliseconds(expirationTimeMillis);
+    return new StoredCredential()
+        .setAccessToken(accessToken)
+        .setRefreshToken(refreshToken)
+        .setExpirationTimeMilliseconds(expirationTimeMillis);
   }
 }

@@ -22,24 +22,21 @@ import com.google.api.client.json.webtoken.JsonWebSignature;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
-
 import java.io.IOException;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * OAuth ID Connect JSON model for a successful access token response as specified in <a
  * href="http://openid.net/specs/openid-connect-basic-1_0-23.html">OpenID Connect Basic Client
  * Profile 1.0 (draft 23)</a>.
  *
- * <p>
- * Implementation is not thread-safe. Sample usage:
- * </p>
+ * <p>Implementation is not thread-safe. Sample usage:
  *
  * <pre>
-  static JsonWebSignature executeIdToken(TokenRequest tokenRequest) throws IOException {
-    IdTokenResponse idTokenResponse = IdTokenResponse.execute(tokenRequest);
-    return idTokenResponse.parseIdToken();
-  }
+ * static JsonWebSignature executeIdToken(TokenRequest tokenRequest) throws IOException {
+ * IdTokenResponse idTokenResponse = IdTokenResponse.execute(tokenRequest);
+ * return idTokenResponse.parseIdToken();
+ * }
  * </pre>
  *
  * @since 1.7
@@ -60,10 +57,8 @@ public class IdTokenResponse extends TokenResponse {
   /**
    * Sets the ID token.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public IdTokenResponse setIdToken(String idToken) {
     this.idToken = Preconditions.checkNotNull(idToken);
@@ -101,8 +96,8 @@ public class IdTokenResponse extends TokenResponse {
   }
 
   /**
-   * Parses using {@link JsonWebSignature#parse(JsonFactory, String)} based on the
-   * {@link #getFactory() JSON factory} and {@link #getIdToken() ID token}.
+   * Parses using {@link JsonWebSignature#parse(JsonFactory, String)} based on the {@link
+   * #getFactory() JSON factory} and {@link #getIdToken() ID token}.
    */
   @SuppressWarnings("javadoc")
   public IdToken parseIdToken() throws IOException {

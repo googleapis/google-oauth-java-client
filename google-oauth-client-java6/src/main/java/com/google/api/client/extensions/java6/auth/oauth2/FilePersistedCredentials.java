@@ -23,12 +23,11 @@ import com.google.api.client.util.Maps;
 import com.google.api.client.util.Preconditions;
 import com.google.api.client.util.store.DataStore;
 import com.google.api.client.util.store.FileDataStoreFactory;
-
 import java.io.IOException;
 import java.util.Map;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * Persisted credential implementation to be used exclusively with {@link FileCredentialStore}.
  *
  * @author Rafael Naufal
@@ -40,16 +39,15 @@ import java.util.Map;
 public class FilePersistedCredentials extends GenericJson {
 
   /** User ID to be used as the primary key. */
-  @Key
-  private Map<String, FilePersistedCredential> credentials = Maps.newHashMap();
+  @Key private Map<String, FilePersistedCredential> credentials = Maps.newHashMap();
 
   /**
    * Store information from the credential.
    *
    * @param userId user ID whose credential needs to be stored
-   * @param credential credential whose {@link Credential#getAccessToken access token},
-   *        {@link Credential#getRefreshToken refresh token}, and
-   *        {@link Credential#getExpirationTimeMilliseconds expiration time} need to be stored
+   * @param credential credential whose {@link Credential#getAccessToken access token}, {@link
+   *     Credential#getRefreshToken refresh token}, and {@link
+   *     Credential#getExpirationTimeMilliseconds expiration time} need to be stored
    */
   void store(String userId, Credential credential) {
     Preconditions.checkNotNull(userId);
@@ -63,10 +61,10 @@ public class FilePersistedCredentials extends GenericJson {
 
   /**
    * @param userId user ID whose credential needs to be loaded
-   * @param credential credential whose {@link Credential#setAccessToken access token},
-   *        {@link Credential#setRefreshToken refresh token}, and
-   *        {@link Credential#setExpirationTimeMilliseconds expiration time} need to be set if the
-   *        credential already exists in storage
+   * @param credential credential whose {@link Credential#setAccessToken access token}, {@link
+   *     Credential#setRefreshToken refresh token}, and {@link
+   *     Credential#setExpirationTimeMilliseconds expiration time} need to be set if the credential
+   *     already exists in storage
    */
   boolean load(String userId, Credential credential) {
     Preconditions.checkNotNull(userId);

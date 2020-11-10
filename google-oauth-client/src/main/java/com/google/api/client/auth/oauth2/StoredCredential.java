@@ -18,7 +18,6 @@ import com.google.api.client.util.Beta;
 import com.google.api.client.util.Objects;
 import com.google.api.client.util.store.DataStore;
 import com.google.api.client.util.store.DataStoreFactory;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -26,12 +25,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * Credential information to be stored in a {@link DataStoreFactory}.
  *
- * <p>
- * Implementation is thread safe.
- * </p>
+ * <p>Implementation is thread safe.
  *
  * @author Yaniv Inbar
  * @since 1.16
@@ -56,12 +53,9 @@ public final class StoredCredential implements Serializable {
   /** Refresh token or {@code null} for none. */
   private String refreshToken;
 
-  public StoredCredential() {
-  }
+  public StoredCredential() {}
 
-  /**
-   * @param credential existing credential to copy from
-   */
+  /** @param credential existing credential to copy from */
   public StoredCredential(Credential credential) {
     setAccessToken(credential.getAccessToken());
     setRefreshToken(credential.getRefreshToken());

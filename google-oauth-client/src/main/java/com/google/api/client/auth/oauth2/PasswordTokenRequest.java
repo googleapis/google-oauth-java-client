@@ -22,7 +22,6 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
-
 import java.util.Collection;
 
 /**
@@ -30,51 +29,43 @@ import java.util.Collection;
  * href="http://tools.ietf.org/html/rfc6749#section-4.3">Resource Owner Password Credentials
  * Grant</a>.
  *
- * <p>
- * Use {@link Credential} to access protected resources from the resource server using the
- * {@link TokenResponse} returned by {@link #execute()}. On error, it will instead throw
- * {@link TokenResponseException}.
- * </p>
+ * <p>Use {@link Credential} to access protected resources from the resource server using the {@link
+ * TokenResponse} returned by {@link #execute()}. On error, it will instead throw {@link
+ * TokenResponseException}.
  *
- * <p>
- * Sample usage:
- * </p>
+ * <p>Sample usage:
  *
  * <pre>
-  static void requestAccessToken() throws IOException {
-    try {
-      TokenResponse response =
-          new PasswordTokenRequest(new NetHttpTransport(), new JacksonFactory(),
-              new GenericUrl("https://server.example.com/token"), "johndoe", "A3ddj3w")
-              .setRedirectUri("https://client.example.com/rd")
-              .setClientAuthentication(
-                  new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw")).execute();
-      System.out.println("Access token: " + response.getAccessToken());
-    } catch (TokenResponseException e) {
-      if (e.getDetails() != null) {
-        System.err.println("Error: " + e.getDetails().getError());
-        if (e.getDetails().getErrorDescription() != null) {
-          System.err.println(e.getDetails().getErrorDescription());
-        }
-        if (e.getDetails().getErrorUri() != null) {
-          System.err.println(e.getDetails().getErrorUri());
-        }
-      } else {
-        System.err.println(e.getMessage());
-      }
-    }
-  }
+ * static void requestAccessToken() throws IOException {
+ * try {
+ * TokenResponse response =
+ * new PasswordTokenRequest(new NetHttpTransport(), new JacksonFactory(),
+ * new GenericUrl("https://server.example.com/token"), "johndoe", "A3ddj3w")
+ * .setRedirectUri("https://client.example.com/rd")
+ * .setClientAuthentication(
+ * new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw")).execute();
+ * System.out.println("Access token: " + response.getAccessToken());
+ * } catch (TokenResponseException e) {
+ * if (e.getDetails() != null) {
+ * System.err.println("Error: " + e.getDetails().getError());
+ * if (e.getDetails().getErrorDescription() != null) {
+ * System.err.println(e.getDetails().getErrorDescription());
+ * }
+ * if (e.getDetails().getErrorUri() != null) {
+ * System.err.println(e.getDetails().getErrorUri());
+ * }
+ * } else {
+ * System.err.println(e.getMessage());
+ * }
+ * }
+ * }
  * </pre>
  *
- * <p>
- * Some OAuth 2.0 providers don't support {@link BasicAuthentication} but instead support
- * {@link ClientParametersAuthentication}. In the above sample code, simply replace the class name
- * and it will work the same way.
- * </p>
+ * <p>Some OAuth 2.0 providers don't support {@link BasicAuthentication} but instead support {@link
+ * ClientParametersAuthentication}. In the above sample code, simply replace the class name and it
+ * will work the same way.
  *
- * <p>
- * Implementation is not thread-safe.
- * </p>
+ * <p>Implementation is not thread-safe.
  *
  * @since 1.14
  * @author Yaniv Inbar
@@ -82,12 +73,10 @@ import java.util.Collection;
 public class PasswordTokenRequest extends TokenRequest {
 
   /** Resource owner username. */
-  @Key
-  private String username;
+  @Key private String username;
 
   /** Resource owner password. */
-  @Key
-  private String password;
+  @Key private String password;
 
   /**
    * @param transport HTTP transport
@@ -96,8 +85,12 @@ public class PasswordTokenRequest extends TokenRequest {
    * @param username resource owner username
    * @param password resource owner password
    */
-  public PasswordTokenRequest(HttpTransport transport, JsonFactory jsonFactory,
-      GenericUrl tokenServerUrl, String username, String password) {
+  public PasswordTokenRequest(
+      HttpTransport transport,
+      JsonFactory jsonFactory,
+      GenericUrl tokenServerUrl,
+      String username,
+      String password) {
     super(transport, jsonFactory, tokenServerUrl, "password");
     setUsername(username);
     setPassword(password);
@@ -141,10 +134,8 @@ public class PasswordTokenRequest extends TokenRequest {
   /**
    * Sets the resource owner username.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public PasswordTokenRequest setUsername(String username) {
     this.username = Preconditions.checkNotNull(username);
@@ -159,10 +150,8 @@ public class PasswordTokenRequest extends TokenRequest {
   /**
    * Sets the resource owner password.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public PasswordTokenRequest setPassword(String password) {
     this.password = Preconditions.checkNotNull(password);

@@ -28,21 +28,18 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-
 import java.io.IOException;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * Thread-safe Google App Engine implementation of a credential store that directly uses the App
  * Engine Data Store API.
  *
  * @since 1.7
  * @author Yaniv Inbar
- * @deprecated (to be removed in the future) Use {@link AppEngineDataStoreFactory} with
- *             {@link StoredCredential} instead,
- *             optionally using {@link #migrateTo(AppEngineDataStoreFactory)} or
- *             {@link #migrateTo(DataStore)} to migrating an existing
- *             {@link AppEngineCredentialStore}.
+ * @deprecated (to be removed in the future) Use {@link AppEngineDataStoreFactory} with {@link
+ *     StoredCredential} instead, optionally using {@link #migrateTo(AppEngineDataStoreFactory)} or
+ *     {@link #migrateTo(DataStore)} to migrating an existing {@link AppEngineCredentialStore}.
  */
 @Deprecated
 @Beta
@@ -85,18 +82,17 @@ public class AppEngineCredentialStore implements CredentialStore {
   /**
    * Migrates to the new {@link AppEngineDataStoreFactory} format.
    *
-   * <p>
-   * Sample usage:
-   * </p>
+   * <p>Sample usage:
    *
    * <pre>
-  public static AppEngineDataStore migrate(AppEngineCredentialStore credentialStore)
-      throws IOException {
-    AppEngineDataStore dataStore = new AppEngineDataStore();
-    credentialStore.migrateTo(dataStore);
-    return dataStore;
-  }
+   * public static AppEngineDataStore migrate(AppEngineCredentialStore credentialStore)
+   * throws IOException {
+   * AppEngineDataStore dataStore = new AppEngineDataStore();
+   * credentialStore.migrateTo(dataStore);
+   * return dataStore;
+   * }
    * </pre>
+   *
    * @param dataStoreFactory App Engine data store factory
    * @since 1.16
    */
@@ -114,10 +110,11 @@ public class AppEngineCredentialStore implements CredentialStore {
     DatastoreService service = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery queryResult = service.prepare(new Query(KIND));
     for (Entity entity : queryResult.asIterable()) {
-      StoredCredential storedCredential = new StoredCredential().setAccessToken(
-          (String) entity.getProperty("accessToken"))
-          .setRefreshToken((String) entity.getProperty("refreshToken"))
-          .setExpirationTimeMilliseconds((Long) entity.getProperty("expirationTimeMillis"));
+      StoredCredential storedCredential =
+          new StoredCredential()
+              .setAccessToken((String) entity.getProperty("accessToken"))
+              .setRefreshToken((String) entity.getProperty("refreshToken"))
+              .setExpirationTimeMilliseconds((Long) entity.getProperty("expirationTimeMillis"));
       credentialDataStore.set(entity.getKey().getName(), storedCredential);
     }
   }

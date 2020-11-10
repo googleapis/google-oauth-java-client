@@ -22,57 +22,48 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
-
 import java.util.Collection;
 
 /**
  * OAuth 2.0 request to refresh an access token using a refresh token as specified in <a
  * href="http://tools.ietf.org/html/rfc6749#section-6">Refreshing an Access Token</a>.
  *
- * <p>
- * Use {@link Credential} to access protected resources from the resource server using the
- * {@link TokenResponse} returned by {@link #execute()}. On error, it will instead throw
- * {@link TokenResponseException}.
- * </p>
+ * <p>Use {@link Credential} to access protected resources from the resource server using the {@link
+ * TokenResponse} returned by {@link #execute()}. On error, it will instead throw {@link
+ * TokenResponseException}.
  *
- * <p>
- * Sample usage:
- * </p>
+ * <p>Sample usage:
  *
  * <pre>
-  static void refreshAccessToken() throws IOException {
-    try {
-      TokenResponse response =
-          new RefreshTokenRequest(new NetHttpTransport(), new JacksonFactory(), new GenericUrl(
-              "https://server.example.com/token"), "tGzv3JOkF0XG5Qx2TlKWIA")
-              .setClientAuthentication(
-                  new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw")).execute();
-      System.out.println("Access token: " + response.getAccessToken());
-    } catch (TokenResponseException e) {
-      if (e.getDetails() != null) {
-        System.err.println("Error: " + e.getDetails().getError());
-        if (e.getDetails().getErrorDescription() != null) {
-          System.err.println(e.getDetails().getErrorDescription());
-        }
-        if (e.getDetails().getErrorUri() != null) {
-          System.err.println(e.getDetails().getErrorUri());
-        }
-      } else {
-        System.err.println(e.getMessage());
-      }
-    }
-  }
+ * static void refreshAccessToken() throws IOException {
+ * try {
+ * TokenResponse response =
+ * new RefreshTokenRequest(new NetHttpTransport(), new JacksonFactory(), new GenericUrl(
+ * "https://server.example.com/token"), "tGzv3JOkF0XG5Qx2TlKWIA")
+ * .setClientAuthentication(
+ * new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw")).execute();
+ * System.out.println("Access token: " + response.getAccessToken());
+ * } catch (TokenResponseException e) {
+ * if (e.getDetails() != null) {
+ * System.err.println("Error: " + e.getDetails().getError());
+ * if (e.getDetails().getErrorDescription() != null) {
+ * System.err.println(e.getDetails().getErrorDescription());
+ * }
+ * if (e.getDetails().getErrorUri() != null) {
+ * System.err.println(e.getDetails().getErrorUri());
+ * }
+ * } else {
+ * System.err.println(e.getMessage());
+ * }
+ * }
+ * }
  * </pre>
  *
- * <p>
- * Some OAuth 2.0 providers don't support {@link BasicAuthentication} but instead support
- * {@link ClientParametersAuthentication}. In the above sample code, simply replace the class name
- * and it will work the same way.
- * </p>
+ * <p>Some OAuth 2.0 providers don't support {@link BasicAuthentication} but instead support {@link
+ * ClientParametersAuthentication}. In the above sample code, simply replace the class name and it
+ * will work the same way.
  *
- * <p>
- * Implementation is not thread-safe.
- * </p>
+ * <p>Implementation is not thread-safe.
  *
  * @since 1.7
  * @author Yaniv Inbar
@@ -89,8 +80,11 @@ public class RefreshTokenRequest extends TokenRequest {
    * @param tokenServerUrl token server URL
    * @param refreshToken refresh token issued to the client
    */
-  public RefreshTokenRequest(HttpTransport transport, JsonFactory jsonFactory,
-      GenericUrl tokenServerUrl, String refreshToken) {
+  public RefreshTokenRequest(
+      HttpTransport transport,
+      JsonFactory jsonFactory,
+      GenericUrl tokenServerUrl,
+      String refreshToken) {
     super(transport, jsonFactory, tokenServerUrl, "refresh_token");
     setRefreshToken(refreshToken);
   }
@@ -133,10 +127,8 @@ public class RefreshTokenRequest extends TokenRequest {
   /**
    * Sets the refresh token issued to the client.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public RefreshTokenRequest setRefreshToken(String refreshToken) {
     this.refreshToken = Preconditions.checkNotNull(refreshToken);

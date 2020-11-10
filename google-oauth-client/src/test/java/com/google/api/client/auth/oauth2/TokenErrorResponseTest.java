@@ -16,7 +16,6 @@ package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-
 import junit.framework.TestCase;
 
 /**
@@ -26,9 +25,10 @@ import junit.framework.TestCase;
  */
 public class TokenErrorResponseTest extends TestCase {
 
-  private static final String JSON = "{\"error\":\"invalid_request\","
-      + "\"error_uri\":\"http://www.example.com/error\","
-      + "\"error_description\":\"error description\"}";
+  private static final String JSON =
+      "{\"error\":\"invalid_request\","
+          + "\"error_uri\":\"http://www.example.com/error\","
+          + "\"error_description\":\"error description\"}";
 
   public void test() throws Exception {
     JsonFactory jsonFactory = new JacksonFactory();

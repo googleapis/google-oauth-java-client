@@ -14,7 +14,6 @@
 
 package com.google.api.client.auth.oauth2;
 
-
 import java.util.Arrays;
 import junit.framework.TestCase;
 
@@ -27,13 +26,15 @@ public class BrowserClientRequestUrlTest extends TestCase {
 
   private static final String EXPECTED =
       "https://server.example.com/authorize?client_id=s6BhdRkqt3&"
-      + "redirect_uri=https://client.example.com/cb&response_type=token"
-      + "&scope=a%20b%20c&state=xyz";
+          + "redirect_uri=https://client.example.com/cb&response_type=token"
+          + "&scope=a%20b%20c&state=xyz";
 
   public void testBuild() {
-    BrowserClientRequestUrl url = new BrowserClientRequestUrl(
-        "https://server.example.com/authorize", "s6BhdRkqt3").setState("xyz")
-        .setRedirectUri("https://client.example.com/cb").setScopes(Arrays.asList("a", "b", "c"));
+    BrowserClientRequestUrl url =
+        new BrowserClientRequestUrl("https://server.example.com/authorize", "s6BhdRkqt3")
+            .setState("xyz")
+            .setRedirectUri("https://client.example.com/cb")
+            .setScopes(Arrays.asList("a", "b", "c"));
     assertEquals(EXPECTED, url.build());
   }
 }

@@ -17,7 +17,6 @@ package com.google.api.client.auth.oauth2;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.testing.http.MockHttpTransport;
-
 import junit.framework.TestCase;
 
 /**
@@ -29,11 +28,12 @@ public class TokenRequestTest extends TestCase {
 
   static final MockHttpTransport TRANSPORT = new MockHttpTransport();
   static final JacksonFactory JSON_FACTORY = new JacksonFactory();
-  static final GenericUrl AUTHORIZATION_SERVER_URL = new GenericUrl(
-      "https://server.example.com/authorize");
+  static final GenericUrl AUTHORIZATION_SERVER_URL =
+      new GenericUrl("https://server.example.com/authorize");
 
   public void testConstructor() {
-    TokenRequest request = new TokenRequest(TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo");
+    TokenRequest request =
+        new TokenRequest(TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo");
     check(request, "foo");
     assertEquals(TokenResponse.class, request.getResponseClass());
   }

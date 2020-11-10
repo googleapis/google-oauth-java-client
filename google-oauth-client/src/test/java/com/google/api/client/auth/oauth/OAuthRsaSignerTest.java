@@ -33,9 +33,11 @@ public class OAuthRsaSignerTest extends TestCase {
     KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
     keyPairGenerator.initialize(1024);
     signer.privateKey = keyPairGenerator.genKeyPair().getPrivate();
-    byte[] expected = SecurityUtils.sign(
-        SecurityUtils.getSha1WithRsaSignatureAlgorithm(), signer.privateKey,
-        StringUtils.getBytesUtf8("foo"));
+    byte[] expected =
+        SecurityUtils.sign(
+            SecurityUtils.getSha1WithRsaSignatureAlgorithm(),
+            signer.privateKey,
+            StringUtils.getBytesUtf8("foo"));
     assertEquals(Base64.encodeBase64String(expected), signer.computeSignature("foo"));
   }
 }

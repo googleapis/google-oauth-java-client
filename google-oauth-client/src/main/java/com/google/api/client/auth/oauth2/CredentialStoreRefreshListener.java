@@ -16,22 +16,19 @@ package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.Preconditions;
-
 import java.io.IOException;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * Thread-safe OAuth 2.0 credential refresh listener that stores the refresh token response in the
  * credential store.
  *
- * <p>
- * It needs to be added as a refresh listener using {@link Credential.Builder#addRefreshListener}.
- * </p>
+ * <p>It needs to be added as a refresh listener using {@link
+ * Credential.Builder#addRefreshListener}.
  *
  * @since 1.7
  * @author Yaniv Inbar
- * @deprecated (to be removed in the future) Use {@link DataStoreCredentialRefreshListener}
- *             instead.
+ * @deprecated (to be removed in the future) Use {@link DataStoreCredentialRefreshListener} instead.
  */
 @Deprecated
 @Beta

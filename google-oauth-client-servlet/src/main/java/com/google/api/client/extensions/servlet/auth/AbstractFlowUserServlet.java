@@ -19,9 +19,7 @@ import com.google.api.client.extensions.auth.helpers.ThreeLeggedFlow;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Beta;
-
 import java.io.IOException;
-
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.servlet.ServletException;
@@ -30,20 +28,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * Servlet that can be used to invoke and manage a {@link ThreeLeggedFlow} object in the App Engine
  * container. Developers should subclass this to provide the necessary information for their
  * specific use case.
  *
- * <p>
- * Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use {@link
- *    com.google.api.client.extensions.servlet.auth.oauth2.AbstractAuthorizationCodeServlet}.
- * </p>
+ * <p>Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use
+ * {@link com.google.api.client.extensions.servlet.auth.oauth2.AbstractAuthorizationCodeServlet}.
  *
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
  * @deprecated Use {@link
- *   com.google.api.client.extensions.servlet.auth.oauth2.AbstractAuthorizationCodeServlet}.
+ *     com.google.api.client.extensions.servlet.auth.oauth2.AbstractAuthorizationCodeServlet}.
  */
 @Beta
 @Deprecated
@@ -123,7 +119,6 @@ public abstract class AbstractFlowUserServlet extends HttpServlet {
    *
    * @param req Request object to use as context for fetching the credential.
    * @return Credential object for this request and user.
-   *
    * @since 1.5
    */
   protected Credential getCredential(HttpServletRequest req) {
@@ -131,16 +126,12 @@ public abstract class AbstractFlowUserServlet extends HttpServlet {
     return cred;
   }
 
-  /**
-   * Return the {@link JsonFactory} instance for this servlet.
-   */
+  /** Return the {@link JsonFactory} instance for this servlet. */
   protected final JsonFactory getJsonFactory() {
     return jsonFactory;
   }
 
-  /**
-   * Return the {@link HttpTransport} instance for this servlet.
-   */
+  /** Return the {@link HttpTransport} instance for this servlet. */
   protected final HttpTransport getHttpTransport() {
     return httpTransport;
   }
@@ -165,7 +156,7 @@ public abstract class AbstractFlowUserServlet extends HttpServlet {
    * transport and should be as simple as:
    *
    * <pre>
-  new NetHttpTransport();
+   * new NetHttpTransport();
    * </pre>
    *
    * @return {@link HttpTransport} instance for your particular environment
@@ -177,7 +168,7 @@ public abstract class AbstractFlowUserServlet extends HttpServlet {
    * json factory and should be as simple as:
    *
    * <pre>
-  new JacksonFactory();
+   * new JacksonFactory();
    * </pre>
    *
    * @return {@link JsonFactory} instance for your particular environment
@@ -186,7 +177,7 @@ public abstract class AbstractFlowUserServlet extends HttpServlet {
 
   /**
    * @return Get a string representation of a userId that can be used to associate credentials and
-   *         flows with a specific user.
+   *     flows with a specific user.
    */
   protected abstract String getUserId();
 }

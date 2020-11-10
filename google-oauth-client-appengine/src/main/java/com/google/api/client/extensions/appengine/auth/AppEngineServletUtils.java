@@ -27,15 +27,10 @@ import com.google.appengine.api.users.UserServiceFactory;
  * @since 1.4
  */
 class AppEngineServletUtils {
-  /**
-   * Private constructor to prevent instantiation.
-   */
-  private AppEngineServletUtils() {
-  }
+  /** Private constructor to prevent instantiation. */
+  private AppEngineServletUtils() {}
 
-  /**
-   * Return the user id for the currently logged in user.
-   */
+  /** Return the user id for the currently logged in user. */
   static final String getUserId() {
     UserService userService = UserServiceFactory.getUserService();
     User loggedIn = userService.getCurrentUser();

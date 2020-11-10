@@ -18,18 +18,15 @@ import com.google.api.client.util.Base64;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.SecurityUtils;
 import com.google.api.client.util.StringUtils;
-
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 import java.security.Signature;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * OAuth {@code "RSA-SHA1"} signature method.
  *
- * <p>
- * The private key may be loaded using the utilities in {@link SecurityUtils}.
- * </p>
+ * <p>The private key may be loaded using the utilities in {@link SecurityUtils}.
  *
  * @since 1.0
  * @author Yaniv Inbar

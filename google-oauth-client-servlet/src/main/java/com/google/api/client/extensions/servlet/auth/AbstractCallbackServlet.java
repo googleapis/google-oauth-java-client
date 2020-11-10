@@ -19,10 +19,8 @@ import com.google.api.client.extensions.auth.helpers.ThreeLeggedFlow;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Beta;
-
 import java.io.IOException;
 import java.util.logging.Logger;
-
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
@@ -32,20 +30,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * Callback that will retrieve and complete a {@link ThreeLeggedFlow} when redirected to by a token
  * server or service provider. Developer should subclass to provide the necessary information
  * tailored to their specific use case.
  *
- * <p>
- * Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use {@link
- *   com.google.api.client.extensions.servlet.auth.oauth2.AbstractAuthorizationCodeCallbackServlet}.
- * </p>
+ * <p>Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use
+ * {@link
+ * com.google.api.client.extensions.servlet.auth.oauth2.AbstractAuthorizationCodeCallbackServlet}.
  *
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4
  * @deprecated Use {@link
- *   com.google.api.client.extensions.servlet.auth.oauth2.AbstractAuthorizationCodeCallbackServlet}.
+ *     com.google.api.client.extensions.servlet.auth.oauth2.AbstractAuthorizationCodeCallbackServlet}.
  */
 @Beta
 @Deprecated
@@ -84,16 +81,12 @@ public abstract class AbstractCallbackServlet extends HttpServlet {
     jsonFactory = newJsonFactoryInstance();
   }
 
-  /**
-   * Return the {@link JsonFactory} instance for this servlet.
-   */
+  /** Return the {@link JsonFactory} instance for this servlet. */
   protected final JsonFactory getJsonFactory() {
     return jsonFactory;
   }
 
-  /**
-   * Return the {@link HttpTransport} instance for this servlet.
-   */
+  /** Return the {@link HttpTransport} instance for this servlet. */
   protected final HttpTransport getHttpTransport() {
     return httpTransport;
   }
@@ -106,30 +99,24 @@ public abstract class AbstractCallbackServlet extends HttpServlet {
    */
   protected abstract PersistenceManagerFactory getPersistenceManagerFactory();
 
-  /**
-   * @return Specific ThreeLeggedFlow type that this callback should retreieve and complete.
-   */
+  /** @return Specific ThreeLeggedFlow type that this callback should retreieve and complete. */
   protected abstract Class<? extends ThreeLeggedFlow> getConcreteFlowType();
 
-  /**
-   * @return Url to redirect the user to upon a successful credential exchange.
-   */
+  /** @return Url to redirect the user to upon a successful credential exchange. */
   protected abstract String getSuccessRedirectUrl();
 
-  /**
-   * @return Url to redirect the user to upon failure.
-   */
+  /** @return Url to redirect the user to upon failure. */
   protected abstract String getDeniedRedirectUrl();
 
   /**
    * @return Specific query parameter keyword to key off of to get completion code. (e.g. "code" for
-   *         OAuth2 and "verifier" for OAuth1)
+   *     OAuth2 and "verifier" for OAuth1)
    */
   protected abstract String getCompletionCodeQueryParam();
 
   /**
    * @return Get a string representation of a userId that can be used to associate credentials and
-   *         flows with a specific user.
+   *     flows with a specific user.
    */
   protected abstract String getUserId();
 
@@ -138,7 +125,7 @@ public abstract class AbstractCallbackServlet extends HttpServlet {
    * transport and should be as simple as:
    *
    * <pre>
-  new NetHttpTransport();
+   * new NetHttpTransport();
    * </pre>
    *
    * @return {@link HttpTransport} instance for your particular environment
@@ -150,7 +137,7 @@ public abstract class AbstractCallbackServlet extends HttpServlet {
    * json factory and should be as simple as:
    *
    * <pre>
-  new JacksonFactory();
+   * new JacksonFactory();
    * </pre>
    *
    * @return {@link JsonFactory} instance for your particular environment
@@ -202,5 +189,4 @@ public abstract class AbstractCallbackServlet extends HttpServlet {
       manager.close();
     }
   }
-
 }

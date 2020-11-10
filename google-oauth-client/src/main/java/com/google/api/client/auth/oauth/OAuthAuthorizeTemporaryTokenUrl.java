@@ -19,11 +19,11 @@ import com.google.api.client.util.Beta;
 import com.google.api.client.util.Key;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * OAuth 1.0a URL builder for an authorization web page to allow the end user to authorize the
  * temporary token.
- * <p>
- * The {@link #temporaryToken} should be set from the {@link OAuthCredentialsResponse#token}
+ *
+ * <p>The {@link #temporaryToken} should be set from the {@link OAuthCredentialsResponse#token}
  * returned by {@link OAuthGetTemporaryToken#execute()}. Use {@link #build()} to build the
  * authorization URL. If a {@link OAuthGetTemporaryToken#callback} was specified, after the end user
  * grants the authorization, the authorization server will redirect to that callback URL. To parse
@@ -43,9 +43,7 @@ public class OAuthAuthorizeTemporaryTokenUrl extends GenericUrl {
   @Key("oauth_token")
   public String temporaryToken;
 
-  /**
-   * @param encodedUserAuthorizationUrl encoded user authorization URL
-   */
+  /** @param encodedUserAuthorizationUrl encoded user authorization URL */
   public OAuthAuthorizeTemporaryTokenUrl(String encodedUserAuthorizationUrl) {
     super(encodedUserAuthorizationUrl);
   }

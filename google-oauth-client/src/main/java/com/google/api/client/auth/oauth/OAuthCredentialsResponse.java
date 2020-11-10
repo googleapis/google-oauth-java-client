@@ -18,7 +18,7 @@ import com.google.api.client.util.Beta;
 import com.google.api.client.util.Key;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * Data to parse a success response to a request for temporary or token credentials.
  *
  * @since 1.0
@@ -32,8 +32,8 @@ public final class OAuthCredentialsResponse {
   public String token;
 
   /**
-   * Credentials shared-secret for use with {@code "HMAC-SHA1"} signature algorithm. Used for
-   * {@link OAuthHmacSigner#tokenSharedSecret}.
+   * Credentials shared-secret for use with {@code "HMAC-SHA1"} signature algorithm. Used for {@link
+   * OAuthHmacSigner#tokenSharedSecret}.
    */
   @Key("oauth_token_secret")
   public String tokenSecret;

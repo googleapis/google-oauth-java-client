@@ -22,9 +22,7 @@ import com.google.api.client.util.Preconditions;
  * OAuth 2.0 parser for an error access token response as specified in <a
  * href="http://tools.ietf.org/html/rfc6749#section-5.2">Error Response</a>.
  *
- * <p>
- * Implementation is not thread-safe.
- * </p>
+ * <p>Implementation is not thread-safe.
  *
  * @since 1.7
  * @author Yaniv Inbar
@@ -37,8 +35,7 @@ public class TokenErrorResponse extends GenericJson {
    * extension error code as specified in <a
    * href="http://tools.ietf.org/html/rfc6749#section-8.5">Defining Additional Error Codes</a>).
    */
-  @Key
-  private String error;
+  @Key private String error;
 
   /**
    * Human-readable text providing additional information, used to assist the client developer in
@@ -55,9 +52,9 @@ public class TokenErrorResponse extends GenericJson {
   private String errorUri;
 
   /**
-   * Returns the error code ({@code "invalid_request"}, {@code "invalid_client"},
-   * {@code "invalid_grant"}, {@code "unauthorized_client"}, {@code "unsupported_grant_type"},
-   * {@code "invalid_scope"}, or an extension error code as specified in <a
+   * Returns the error code ({@code "invalid_request"}, {@code "invalid_client"}, {@code
+   * "invalid_grant"}, {@code "unauthorized_client"}, {@code "unsupported_grant_type"}, {@code
+   * "invalid_scope"}, or an extension error code as specified in <a
    * href="http://tools.ietf.org/html/rfc6749#section-8.5">Defining Additional Error Codes</a>).
    */
   public final String getError() {
@@ -65,15 +62,13 @@ public class TokenErrorResponse extends GenericJson {
   }
 
   /**
-   * Sets the error code ({@code "invalid_request"}, {@code "invalid_client"},
-   * {@code "invalid_grant"}, {@code "unauthorized_client"}, {@code "unsupported_grant_type"},
-   * {@code "invalid_scope"}, or an extension error code as specified in <a
+   * Sets the error code ({@code "invalid_request"}, {@code "invalid_client"}, {@code
+   * "invalid_grant"}, {@code "unauthorized_client"}, {@code "unsupported_grant_type"}, {@code
+   * "invalid_scope"}, or an extension error code as specified in <a
    * href="http://tools.ietf.org/html/rfc6749#section-8.5">Defining Additional Error Codes</a>).
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public TokenErrorResponse setError(String error) {
     this.error = Preconditions.checkNotNull(error);
@@ -92,10 +87,8 @@ public class TokenErrorResponse extends GenericJson {
    * Sets the human-readable text providing additional information, used to assist the client
    * developer in understanding the error that occurred or {@code null} for none.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public TokenErrorResponse setErrorDescription(String errorDescription) {
     this.errorDescription = errorDescription;
@@ -116,10 +109,8 @@ public class TokenErrorResponse extends GenericJson {
    * provide the client developer with additional information about the error or {@code null} for
    * none.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public TokenErrorResponse setErrorUri(String errorUri) {
     this.errorUri = errorUri;

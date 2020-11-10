@@ -18,7 +18,6 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.util.Joiner;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
-
 import java.util.Collection;
 
 /**
@@ -26,22 +25,18 @@ import java.util.Collection;
  * application to access their protected resources, as specified in <a
  * href="http://tools.ietf.org/html/rfc6749#section-3.1">Authorization Endpoint</a>.
  *
- * <p>
- * Sample usage for a web application:
- * </p>
+ * <p>Sample usage for a web application:
  *
  * <pre>
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String url = new AuthorizationRequestUrl(
-        "https://server.example.com/authorize", "s6BhdRkqt3", Arrays.asList("code")).setState("xyz")
-        .setRedirectUri("https://client.example.com/rd").build();
-    response.sendRedirect(url);
-  }
+ * public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+ * String url = new AuthorizationRequestUrl(
+ * "https://server.example.com/authorize", "s6BhdRkqt3", Arrays.asList("code")).setState("xyz")
+ * .setRedirectUri("https://client.example.com/rd").build();
+ * response.sendRedirect(url);
+ * }
  * </pre>
  *
- * <p>
- * Implementation is not thread-safe.
- * </p>
+ * <p>Implementation is not thread-safe.
  *
  * @since 1.7
  * @author Yaniv Inbar
@@ -59,8 +54,8 @@ public class AuthorizationRequestUrl extends GenericUrl {
   /**
    * URI that the authorization server directs the resource owner's user-agent back to the client
    * after a successful authorization grant (as specified in <a
-   * href="http://tools.ietf.org/html/rfc6749#section-3.1.2">Redirection Endpoint</a>) or
-   * {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-3.1.2">Redirection Endpoint</a>) or {@code
+   * null} for none.
    */
   @Key("redirect_uri")
   private String redirectUri;
@@ -82,16 +77,15 @@ public class AuthorizationRequestUrl extends GenericUrl {
    * as mentioned in <a href="http://tools.ietf.org/html/rfc6749#section-3.1.2.2">Registration
    * Requirements</a>) or {@code null} for none.
    */
-  @Key
-  private String state;
+  @Key private String state;
 
   /**
    * @param authorizationServerEncodedUrl authorization server encoded URL
    * @param clientId client identifier
    * @param responseTypes <a href="http://tools.ietf.org/html/rfc6749#section-3.1.1">response
-   *        type</a>, which must be {@code "code"} for requesting an authorization code,
-   *        {@code "token"} for requesting an access token (implicit grant), or a list of registered
-   *        extension values to join with a space
+   *     type</a>, which must be {@code "code"} for requesting an authorization code, {@code
+   *     "token"} for requesting an access token (implicit grant), or a list of registered extension
+   *     values to join with a space
    * @since 1.15
    */
   public AuthorizationRequestUrl(
@@ -116,10 +110,8 @@ public class AuthorizationRequestUrl extends GenericUrl {
    * must be {@code "code"} for requesting an authorization code, {@code "token"} for requesting an
    * access token (implicit grant), or a list of registered extension values to join with a space.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    *
    * @since 1.15
    */
@@ -131,8 +123,8 @@ public class AuthorizationRequestUrl extends GenericUrl {
   /**
    * Returns the URI that the authorization server directs the resource owner's user-agent back to
    * the client after a successful authorization grant (as specified in <a
-   * href="http://tools.ietf.org/html/rfc6749#section-3.1.2">Redirection Endpoint</a>) or
-   * {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-3.1.2">Redirection Endpoint</a>) or {@code
+   * null} for none.
    */
   public final String getRedirectUri() {
     return redirectUri;
@@ -141,13 +133,11 @@ public class AuthorizationRequestUrl extends GenericUrl {
   /**
    * Sets the URI that the authorization server directs the resource owner's user-agent back to the
    * client after a successful authorization grant (as specified in <a
-   * href="http://tools.ietf.org/html/rfc6749#section-3.1.2">Redirection Endpoint</a>) or
-   * {@code null} for none.
+   * href="http://tools.ietf.org/html/rfc6749#section-3.1.2">Redirection Endpoint</a>) or {@code
+   * null} for none.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public AuthorizationRequestUrl setRedirectUri(String redirectUri) {
     this.redirectUri = redirectUri;
@@ -168,13 +158,11 @@ public class AuthorizationRequestUrl extends GenericUrl {
    * href="http://tools.ietf.org/html/rfc6749#section-3.3">Access Token Scope</a>) or {@code null}
    * for none.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    *
    * @param scopes collection of scopes to be joined by a space separator (or a single value
-   *        containing multiple space-separated scopes) or {@code null} for none
+   *     containing multiple space-separated scopes) or {@code null} for none
    * @since 1.15
    */
   public AuthorizationRequestUrl setScopes(Collection<String> scopes) {
@@ -191,10 +179,8 @@ public class AuthorizationRequestUrl extends GenericUrl {
   /**
    * Sets the client identifier.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public AuthorizationRequestUrl setClientId(String clientId) {
     this.clientId = Preconditions.checkNotNull(clientId);
@@ -217,10 +203,8 @@ public class AuthorizationRequestUrl extends GenericUrl {
    * href="http://tools.ietf.org/html/rfc6749#section-3.1.2.2">Registration Requirements</a>) or
    * {@code null} for none.
    *
-   * <p>
-   * Overriding is only supported for the purpose of calling the super implementation and changing
-   * the return type, but nothing else.
-   * </p>
+   * <p>Overriding is only supported for the purpose of calling the super implementation and
+   * changing the return type, but nothing else.
    */
   public AuthorizationRequestUrl setState(String state) {
     this.state = state;

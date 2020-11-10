@@ -19,7 +19,6 @@ import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.util.Preconditions;
-
 import java.awt.Desktop;
 import java.awt.Desktop.Action;
 import java.io.IOException;
@@ -31,9 +30,7 @@ import java.util.logging.Logger;
  * OAuth 2.0 authorization code flow for an installed Java application that persists end-user
  * credentials.
  *
- * <p>
- * Implementation is thread-safe.
- * </p>
+ * <p>Implementation is thread-safe.
  *
  * @since 1.11
  * @author Yaniv Inbar
@@ -41,15 +38,9 @@ import java.util.logging.Logger;
  */
 public class AuthorizationCodeInstalledApp {
 
-
-  /**
-   *
-   * Helper interface to allow caller to browse.
-   *
-   */
+  /** Helper interface to allow caller to browse. */
   public static interface Browser {
     /**
-     *
      * @param url url to browse
      * @throws IOException
      */
@@ -57,18 +48,14 @@ public class AuthorizationCodeInstalledApp {
   }
 
   /**
-   *
-   * Default browser that just delegates to
-   * {@link AuthorizationCodeInstalledApp#browse(String)}.
-   *
+   * Default browser that just delegates to {@link AuthorizationCodeInstalledApp#browse(String)}.
    */
-  public static class DefaultBrowser implements Browser{
+  public static class DefaultBrowser implements Browser {
 
     @Override
     public void browse(String url) throws IOException {
       AuthorizationCodeInstalledApp.browse(url);
     }
-
   }
 
   /** Authorization code flow. */
@@ -88,7 +75,7 @@ public class AuthorizationCodeInstalledApp {
    */
   public AuthorizationCodeInstalledApp(
       AuthorizationCodeFlow flow, VerificationCodeReceiver receiver) {
-    this(flow, receiver,  new DefaultBrowser());
+    this(flow, receiver, new DefaultBrowser());
   }
 
   /**
@@ -112,9 +99,9 @@ public class AuthorizationCodeInstalledApp {
     try {
       Credential credential = flow.loadCredential(userId);
       if (credential != null
-          && (credential.getRefreshToken() != null ||
-              credential.getExpiresInSeconds() == null ||
-              credential.getExpiresInSeconds() > 60)) {
+          && (credential.getRefreshToken() != null
+              || credential.getExpiresInSeconds() == null
+              || credential.getExpiresInSeconds() > 60)) {
         return credential;
       }
       // open in browser
@@ -135,18 +122,16 @@ public class AuthorizationCodeInstalledApp {
   /**
    * Handles user authorization by redirecting to the OAuth 2.0 authorization server.
    *
-   * <p>
-   * Default implementation is to call {@code browse(authorizationUrl.build())}. Subclasses may
+   * <p>Default implementation is to call {@code browse(authorizationUrl.build())}. Subclasses may
    * override to provide optional parameters such as the recommended state parameter. Sample
    * implementation:
-   * </p>
    *
    * <pre>
-  &#64;Override
-  protected void onAuthorization(AuthorizationCodeRequestUrl authorizationUrl) throws IOException {
-    authorizationUrl.setState("xyz");
-    super.onAuthorization(authorizationUrl);
-  }
+   * &#64;Override
+   * protected void onAuthorization(AuthorizationCodeRequestUrl authorizationUrl) throws IOException {
+   * authorizationUrl.setState("xyz");
+   * super.onAuthorization(authorizationUrl);
+   * }
    * </pre>
    *
    * @param authorizationUrl authorization URL

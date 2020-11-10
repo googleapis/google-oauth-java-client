@@ -18,7 +18,6 @@ import com.google.api.client.auth.oauth2.AuthorizationCodeFlow.CredentialCreated
 import com.google.api.client.http.BasicAuthentication;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.Joiner;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -62,13 +61,16 @@ public class AuthorizationCodeFlowTest extends AuthenticationTestBase {
   public void testCredentialCreatedListener() throws IOException {
     MyCredentialCreatedListener listener = new MyCredentialCreatedListener();
     AuthorizationCodeFlow flow =
-        new AuthorizationCodeFlow.Builder(BearerToken.queryParameterAccessMethod(),
-            new AccessTokenTransport(),
-            new JacksonFactory(),
-            TOKEN_SERVER_URL,
-            new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
-            CLIENT_ID,
-            "authorizationServerEncodedUrl").setCredentialCreatedListener(listener).build();
+        new AuthorizationCodeFlow.Builder(
+                BearerToken.queryParameterAccessMethod(),
+                new AccessTokenTransport(),
+                new JacksonFactory(),
+                TOKEN_SERVER_URL,
+                new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
+                CLIENT_ID,
+                "authorizationServerEncodedUrl")
+            .setCredentialCreatedListener(listener)
+            .build();
     assertFalse(listener.called);
     flow.createAndStoreCredential(new TokenResponse(), "userId");
     assertTrue(listener.called);
@@ -78,15 +80,18 @@ public class AuthorizationCodeFlowTest extends AuthenticationTestBase {
     MyCredentialRefreshListener listener1 = new MyCredentialRefreshListener();
     MyCredentialRefreshListener listener2 = new MyCredentialRefreshListener();
 
-    AuthorizationCodeFlow flow = new AuthorizationCodeFlow.Builder(BearerToken
-        .queryParameterAccessMethod(),
-        new AccessTokenTransport(),
-        new JacksonFactory(),
-        TOKEN_SERVER_URL,
-        new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
-        CLIENT_ID,
-        "authorizationServerEncodedUrl").addRefreshListener(listener1)
-        .addRefreshListener(listener2).build();
+    AuthorizationCodeFlow flow =
+        new AuthorizationCodeFlow.Builder(
+                BearerToken.queryParameterAccessMethod(),
+                new AccessTokenTransport(),
+                new JacksonFactory(),
+                TOKEN_SERVER_URL,
+                new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
+                CLIENT_ID,
+                "authorizationServerEncodedUrl")
+            .addRefreshListener(listener1)
+            .addRefreshListener(listener2)
+            .build();
     TokenResponse tokenResponse = new TokenResponse();
     tokenResponse.setAccessToken(ACCESS_TOKEN);
     tokenResponse.setRefreshToken(REFRESH_TOKEN);
@@ -110,13 +115,16 @@ public class AuthorizationCodeFlowTest extends AuthenticationTestBase {
 
   public void subsetTestNewAuthorizationUrl(Collection<String> scopes) {
     AuthorizationCodeFlow flow =
-        new AuthorizationCodeFlow.Builder(BearerToken.queryParameterAccessMethod(),
-            new AccessTokenTransport(),
-            new JacksonFactory(),
-            TOKEN_SERVER_URL,
-            new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
-            CLIENT_ID,
-            "https://example.com").setScopes(scopes).build();
+        new AuthorizationCodeFlow.Builder(
+                BearerToken.queryParameterAccessMethod(),
+                new AccessTokenTransport(),
+                new JacksonFactory(),
+                TOKEN_SERVER_URL,
+                new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
+                CLIENT_ID,
+                "https://example.com")
+            .setScopes(scopes)
+            .build();
 
     AuthorizationCodeRequestUrl url = flow.newAuthorizationUrl();
     if (scopes.isEmpty()) {
@@ -128,15 +136,16 @@ public class AuthorizationCodeFlowTest extends AuthenticationTestBase {
 
   public void testPKCE() {
     AuthorizationCodeFlow flow =
-        new AuthorizationCodeFlow.Builder(BearerToken.queryParameterAccessMethod(),
-            new AccessTokenTransport(),
-            new JacksonFactory(),
-            TOKEN_SERVER_URL,
-            new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
-            CLIENT_ID,
-            "https://example.com")
-        .enablePKCE()
-        .build();
+        new AuthorizationCodeFlow.Builder(
+                BearerToken.queryParameterAccessMethod(),
+                new AccessTokenTransport(),
+                new JacksonFactory(),
+                TOKEN_SERVER_URL,
+                new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
+                CLIENT_ID,
+                "https://example.com")
+            .enablePKCE()
+            .build();
 
     AuthorizationCodeRequestUrl url = flow.newAuthorizationUrl();
     assertNotNull(url.getCodeChallenge());

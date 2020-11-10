@@ -15,11 +15,10 @@
 package com.google.api.client.auth.oauth;
 
 import com.google.api.client.util.Beta;
-
 import java.security.GeneralSecurityException;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * OAuth signature method.
  *
  * @since 1.0

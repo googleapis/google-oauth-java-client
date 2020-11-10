@@ -25,7 +25,6 @@ import com.google.api.client.testing.http.HttpTesting;
 import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
-
 import java.util.Map;
 
 /**
@@ -53,7 +52,8 @@ public class CredentialTest extends AuthenticationTestBase {
     Credential credential =
         new Credential(BearerToken.formEncodedBodyAccessMethod()).setAccessToken(ACCESS_TOKEN);
     HttpRequest request = subtestConstructor(credential);
-    assertEquals(ACCESS_TOKEN,
+    assertEquals(
+        ACCESS_TOKEN,
         ((Map<?, ?>) ((UrlEncodedContent) request.getContent()).getData()).get("access_token"));
   }
 
@@ -67,36 +67,44 @@ public class CredentialTest extends AuthenticationTestBase {
 
   public void testConstructor_expiredHeader() throws Exception {
     HttpRequest request =
-        subtestConstructor_expired(BearerToken.authorizationHeaderAccessMethod(), new CheckAuth() {
+        subtestConstructor_expired(
+            BearerToken.authorizationHeaderAccessMethod(),
+            new CheckAuth() {
 
-          public boolean checkAuth(MockLowLevelHttpRequest req) {
-            return req.getFirstHeaderValue("Authorization").equals("Bearer def");
-          }
-        });
+              public boolean checkAuth(MockLowLevelHttpRequest req) {
+                return req.getFirstHeaderValue("Authorization").equals("Bearer def");
+              }
+            });
     assertEquals("Bearer def", request.getHeaders().getAuthorization());
   }
 
   public void testConstructor_expiredQueryParam() throws Exception {
     HttpRequest request =
-        subtestConstructor_expired(BearerToken.queryParameterAccessMethod(), new CheckAuth() {
+        subtestConstructor_expired(
+            BearerToken.queryParameterAccessMethod(),
+            new CheckAuth() {
 
-          public boolean checkAuth(MockLowLevelHttpRequest req) {
-            return req.getUrl().contains("access_token=def");
-          }
-        });
+              public boolean checkAuth(MockLowLevelHttpRequest req) {
+                return req.getUrl().contains("access_token=def");
+              }
+            });
     assertEquals(NEW_ACCESS_TOKEN, request.getUrl().get("access_token"));
   }
 
   public void testConstructor_expiredBody() throws Exception {
     HttpRequest request =
-        subtestConstructor_expired(BearerToken.formEncodedBodyAccessMethod(), new CheckAuth() {
+        subtestConstructor_expired(
+            BearerToken.formEncodedBodyAccessMethod(),
+            new CheckAuth() {
 
-          public boolean checkAuth(MockLowLevelHttpRequest req) {
-            return NEW_ACCESS_TOKEN.equals(((Map<?, ?>) ((UrlEncodedContent) req
-                .getStreamingContent()).getData()).get("access_token"));
-          }
-        });
-    assertEquals(NEW_ACCESS_TOKEN,
+              public boolean checkAuth(MockLowLevelHttpRequest req) {
+                return NEW_ACCESS_TOKEN.equals(
+                    ((Map<?, ?>) ((UrlEncodedContent) req.getStreamingContent()).getData())
+                        .get("access_token"));
+              }
+            });
+    assertEquals(
+        NEW_ACCESS_TOKEN,
         ((Map<?, ?>) ((UrlEncodedContent) request.getContent()).getData()).get("access_token"));
   }
 
@@ -107,7 +115,8 @@ public class CredentialTest extends AuthenticationTestBase {
   private HttpRequest subtestConstructor_expired(
       Credential.AccessMethod method, final CheckAuth checkAuth) throws Exception {
     final Credential credential =
-        new Credential.Builder(method).setTransport(new AccessTokenTransport())
+        new Credential.Builder(method)
+            .setTransport(new AccessTokenTransport())
             .setJsonFactory(JSON_FACTORY)
             .setTokenServerUrl(TOKEN_SERVER_URL)
             .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET))
@@ -153,7 +162,8 @@ public class CredentialTest extends AuthenticationTestBase {
   public void testRefreshToken_noRefreshToken2() throws Exception {
     AccessTokenTransport transport = new AccessTokenTransport();
     Credential access =
-        new Credential.Builder(BearerToken.queryParameterAccessMethod()).setTransport(transport)
+        new Credential.Builder(BearerToken.queryParameterAccessMethod())
+            .setTransport(transport)
             .setJsonFactory(JSON_FACTORY)
             .setTokenServerUrl(TOKEN_SERVER_URL)
             .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET))
@@ -168,7 +178,8 @@ public class CredentialTest extends AuthenticationTestBase {
   public void testRefreshToken_refreshToken() throws Exception {
     AccessTokenTransport transport = new AccessTokenTransport();
     Credential access =
-        new Credential.Builder(BearerToken.queryParameterAccessMethod()).setTransport(transport)
+        new Credential.Builder(BearerToken.queryParameterAccessMethod())
+            .setTransport(transport)
             .setJsonFactory(JSON_FACTORY)
             .setTokenServerUrl(TOKEN_SERVER_URL)
             .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET))
@@ -235,7 +246,8 @@ public class CredentialTest extends AuthenticationTestBase {
   private void subtestRefreshToken_request(AccessTokenTransport transport, int expectedCalls)
       throws Exception {
     Credential credential =
-        new Credential.Builder(BearerToken.queryParameterAccessMethod()).setTransport(transport)
+        new Credential.Builder(BearerToken.queryParameterAccessMethod())
+            .setTransport(transport)
             .setJsonFactory(JSON_FACTORY)
             .setTokenServerUrl(TOKEN_SERVER_URL)
             .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET))
@@ -264,7 +276,8 @@ public class CredentialTest extends AuthenticationTestBase {
     AccessTokenTransport transport = new AccessTokenTransport();
     transport.statusCode = 400;
     Credential access =
-        new Credential.Builder(BearerToken.queryParameterAccessMethod()).setTransport(transport)
+        new Credential.Builder(BearerToken.queryParameterAccessMethod())
+            .setTransport(transport)
             .setJsonFactory(JSON_FACTORY)
             .setTokenServerUrl(TOKEN_SERVER_URL)
             .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET))
@@ -287,7 +300,8 @@ public class CredentialTest extends AuthenticationTestBase {
     AccessTokenTransport transport = new AccessTokenTransport();
     transport.statusCode = 500;
     Credential access =
-        new Credential.Builder(BearerToken.queryParameterAccessMethod()).setTransport(transport)
+        new Credential.Builder(BearerToken.queryParameterAccessMethod())
+            .setTransport(transport)
             .setJsonFactory(JSON_FACTORY)
             .setTokenServerUrl(TOKEN_SERVER_URL)
             .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET))

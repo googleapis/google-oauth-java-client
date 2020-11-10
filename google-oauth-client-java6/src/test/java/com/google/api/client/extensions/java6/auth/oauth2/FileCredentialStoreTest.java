@@ -123,25 +123,27 @@ public class FileCredentialStoreTest extends TestCase {
   }
 
   private Credential createCredential() {
-    Credential access = new Credential.Builder(
-        BearerToken.queryParameterAccessMethod()).setTransport(new AccessTokenTransport())
-        .setJsonFactory(JSON_FACTORY)
-        .setTokenServerUrl(TOKEN_SERVER_URL)
-        .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET))
-        .build()
-        .setAccessToken(ACCESS_TOKEN)
-        .setRefreshToken(REFRESH_TOKEN)
-        .setExpirationTimeMilliseconds(EXPIRES_IN);
+    Credential access =
+        new Credential.Builder(BearerToken.queryParameterAccessMethod())
+            .setTransport(new AccessTokenTransport())
+            .setJsonFactory(JSON_FACTORY)
+            .setTokenServerUrl(TOKEN_SERVER_URL)
+            .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET))
+            .build()
+            .setAccessToken(ACCESS_TOKEN)
+            .setRefreshToken(REFRESH_TOKEN)
+            .setExpirationTimeMilliseconds(EXPIRES_IN);
     return access;
   }
 
   private Credential createEmptyCredential() {
-    Credential access = new Credential.Builder(
-        BearerToken.queryParameterAccessMethod()).setTransport(new AccessTokenTransport())
-        .setJsonFactory(JSON_FACTORY)
-        .setTokenServerUrl(TOKEN_SERVER_URL)
-        .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET))
-        .build();
+    Credential access =
+        new Credential.Builder(BearerToken.queryParameterAccessMethod())
+            .setTransport(new AccessTokenTransport())
+            .setJsonFactory(JSON_FACTORY)
+            .setTokenServerUrl(TOKEN_SERVER_URL)
+            .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET))
+            .build();
     return access;
   }
 
@@ -152,7 +154,7 @@ public class FileCredentialStoreTest extends TestCase {
     @Override
     public LowLevelHttpRequest buildRequest(String method, String url) {
       return new MockLowLevelHttpRequest(url) {
-          @Override
+        @Override
         public LowLevelHttpResponse execute() throws IOException {
           MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
           response.setContentType("UTF-8");

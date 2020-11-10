@@ -17,15 +17,13 @@ package com.google.api.client.auth.oauth;
 import com.google.api.client.util.Base64;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.StringUtils;
-
 import java.security.GeneralSecurityException;
-
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * OAuth {@code "HMAC-SHA1"} signature method.
  *
  * @since 1.0

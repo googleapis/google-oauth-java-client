@@ -44,9 +44,7 @@ public abstract class AuthenticationTestBase extends TestCase {
   protected static final String NEW_REFRESH_TOKEN = "newRefreshToken";
   protected static final long EXPIRES_IN = 3600;
 
-  /**
-   * Mock transport class which has been extended to enable more precise testing.
-   */
+  /** Mock transport class which has been extended to enable more precise testing. */
   protected static class AccessTokenTransport extends MockHttpTransport {
 
     int statusCode = 200;

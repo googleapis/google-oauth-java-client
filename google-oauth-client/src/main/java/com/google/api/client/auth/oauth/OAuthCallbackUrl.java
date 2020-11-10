@@ -19,11 +19,11 @@ import com.google.api.client.util.Beta;
 import com.google.api.client.util.Key;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * Generic URL that parses the callback URL after a temporary token has been authorized by the end
  * user.
- * <p>
- * The {@link #verifier} is required in order to exchange the authorized temporary token for a
+ *
+ * <p>The {@link #verifier} is required in order to exchange the authorized temporary token for a
  * long-lived access token in {@link OAuthGetAccessToken#verifier}.
  *
  * @since 1.0

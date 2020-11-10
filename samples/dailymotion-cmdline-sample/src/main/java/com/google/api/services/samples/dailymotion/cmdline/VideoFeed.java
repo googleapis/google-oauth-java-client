@@ -15,19 +15,14 @@
 package com.google.api.services.samples.dailymotion.cmdline;
 
 import com.google.api.client.util.Key;
-
 import java.util.List;
 
-/**
- * @author Yaniv Inbar
- */
+/** @author Yaniv Inbar */
 public class VideoFeed {
 
-  @Key
-  public List<Video> list;
+  @Key public List<Video> list;
 
-  @Key
-  public int limit;
+  @Key public int limit;
 
   @Key("has_more")
   public boolean hasMore;

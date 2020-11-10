@@ -22,20 +22,15 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.util.Preconditions;
 import com.google.api.client.util.StringUtils;
-
 import java.io.IOException;
 
 /**
  * Exception thrown when receiving an error response from the token server as specified in <a
  * href="http://tools.ietf.org/html/rfc6749#section-5.2">Error Response</a>
  *
- * <p>
- * To get the structured details, use {@link #getDetails()}.
- * </p>
+ * <p>To get the structured details, use {@link #getDetails()}.
  *
- * <p>
- * Sample usage can be found for {@link AuthorizationCodeTokenRequest}.
- * </p>
+ * <p>Sample usage can be found for {@link AuthorizationCodeTokenRequest}.
  *
  * @since 1.7
  * @author Yaniv Inbar
@@ -64,29 +59,32 @@ public class TokenResponseException extends HttpResponseException {
   /**
    * Returns a new instance of {@link TokenResponseException}.
    *
-   * <p>
-   * If there is a JSON error response, it is parsed using {@link TokenErrorResponse}, which can be
-   * inspected using {@link #getDetails()}. Otherwise, the full response content is read and
+   * <p>If there is a JSON error response, it is parsed using {@link TokenErrorResponse}, which can
+   * be inspected using {@link #getDetails()}. Otherwise, the full response content is read and
    * included in the exception message.
-   * </p>
    *
    * @param jsonFactory JSON factory
    * @param response HTTP response
    * @return new instance of {@link TokenErrorResponse}
    */
   public static TokenResponseException from(JsonFactory jsonFactory, HttpResponse response) {
-    HttpResponseException.Builder builder = new HttpResponseException.Builder(
-        response.getStatusCode(), response.getStatusMessage(), response.getHeaders());
+    HttpResponseException.Builder builder =
+        new HttpResponseException.Builder(
+            response.getStatusCode(), response.getStatusMessage(), response.getHeaders());
     // details
     Preconditions.checkNotNull(jsonFactory);
     TokenErrorResponse details = null;
     String detailString = null;
     String contentType = response.getContentType();
     try {
-      if (!response.isSuccessStatusCode() && contentType != null && response.getContent() != null
+      if (!response.isSuccessStatusCode()
+          && contentType != null
+          && response.getContent() != null
           && HttpMediaType.equalsIgnoreParameters(Json.MEDIA_TYPE, contentType)) {
-        details = new JsonObjectParser(jsonFactory).parseAndClose(
-            response.getContent(), response.getContentCharset(), TokenErrorResponse.class);
+        details =
+            new JsonObjectParser(jsonFactory)
+                .parseAndClose(
+                    response.getContent(), response.getContentCharset(), TokenErrorResponse.class);
         detailString = details.toPrettyString();
       } else {
         detailString = response.parseAsString();

@@ -18,11 +18,9 @@ import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.http.HttpResponseException;
-
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,8 +30,7 @@ import javax.servlet.http.HttpServletResponse;
  * Thread-safe OAuth 2.0 authorization code flow HTTP servlet that manages and persists end-user
  * credentials.
  *
- * <p>
- * This is designed to simplify the flow in which an end-user authorizes your web application to
+ * <p>This is designed to simplify the flow in which an end-user authorizes your web application to
  * access their protected data. Your application then has access to their data based on an access
  * token and a refresh token to refresh that access token when it expires. Your main servlet class
  * should extend {@link AbstractAuthorizationCodeServlet} and implement the abstract methods. To get
@@ -42,56 +39,50 @@ import javax.servlet.http.HttpServletResponse;
  * obtained. This user ID is used as the primary key for persisting the end-user credentials, and
  * passed in via {@link #getUserId(HttpServletRequest)}. The first time an end-user arrives at your
  * servlet, they will be redirected in the browser to an authorization page. Next, they will be
- * redirected back to your site at the redirect URI selected in
- * {@link #getRedirectUri(HttpServletRequest)}. The servlet to process that should extend
- * {@link AbstractAuthorizationCodeCallbackServlet}, which should redirect back to this servlet on
- * success.
- * </p>
+ * redirected back to your site at the redirect URI selected in {@link
+ * #getRedirectUri(HttpServletRequest)}. The servlet to process that should extend {@link
+ * AbstractAuthorizationCodeCallbackServlet}, which should redirect back to this servlet on success.
  *
- * <p>
- * Although this implementation is thread-safe, it can only process one request at a time. For a
- * more performance-critical multi-threaded web application, instead use
- * {@link AuthorizationCodeFlow} directly.
- * </p>
+ * <p>Although this implementation is thread-safe, it can only process one request at a time. For a
+ * more performance-critical multi-threaded web application, instead use {@link
+ * AuthorizationCodeFlow} directly.
  *
- * <p>
- * Sample usage:
- * </p>
+ * <p>Sample usage:
  *
  * <pre>
-public class ServletSample extends AbstractAuthorizationCodeServlet {
-
-  &#64;Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
-    // do stuff
-  }
-
-  &#64;Override
-  protected String getRedirectUri(HttpServletRequest req) throws ServletException, IOException {
-    GenericUrl url = new GenericUrl(req.getRequestURL().toString());
-    url.setRawPath("/oauth2callback");
-    return url.build();
-  }
-
-  &#64;Override
-  protected AuthorizationCodeFlow initializeFlow() throws IOException {
-    return new AuthorizationCodeFlow.Builder(BearerToken.authorizationHeaderAccessMethod(),
-        new NetHttpTransport(),
-        new JacksonFactory(),
-        new GenericUrl("https://server.example.com/token"),
-        new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw"),
-        "s6BhdRkqt3",
-        "https://server.example.com/authorize").setCredentialStore(
-        new JdoCredentialStore(JDOHelper.getPersistenceManagerFactory("transactions-optional")))
-        .build();
-  }
-
-  &#64;Override
-  protected String getUserId(HttpServletRequest req) throws ServletException, IOException {
-    // return user ID
-  }
-}
+ * public class ServletSample extends AbstractAuthorizationCodeServlet {
+ *
+ * &#64;Override
+ * protected void doGet(HttpServletRequest request, HttpServletResponse response)
+ * throws IOException {
+ * // do stuff
+ * }
+ *
+ * &#64;Override
+ * protected String getRedirectUri(HttpServletRequest req) throws ServletException, IOException {
+ * GenericUrl url = new GenericUrl(req.getRequestURL().toString());
+ * url.setRawPath("/oauth2callback");
+ * return url.build();
+ * }
+ *
+ * &#64;Override
+ * protected AuthorizationCodeFlow initializeFlow() throws IOException {
+ * return new AuthorizationCodeFlow.Builder(BearerToken.authorizationHeaderAccessMethod(),
+ * new NetHttpTransport(),
+ * new JacksonFactory(),
+ * new GenericUrl("https://server.example.com/token"),
+ * new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw"),
+ * "s6BhdRkqt3",
+ * "https://server.example.com/authorize").setCredentialStore(
+ * new JdoCredentialStore(JDOHelper.getPersistenceManagerFactory("transactions-optional")))
+ * .build();
+ * }
+ *
+ * &#64;Override
+ * protected String getUserId(HttpServletRequest req) throws ServletException, IOException {
+ * // return user ID
+ * }
+ * }
  * </pre>
  *
  * @since 1.7
@@ -158,9 +149,9 @@ public abstract class AbstractAuthorizationCodeServlet extends HttpServlet {
       throws ServletException, IOException;
 
   /**
-   * Returns the user ID for the given HTTP servlet request. This identifies your application's
-   * user and is used to fetch persisted credentials for that user. Most commonly, this will be a
-   * user id stored in the session or even the session id itself.
+   * Returns the user ID for the given HTTP servlet request. This identifies your application's user
+   * and is used to fetch persisted credentials for that user. Most commonly, this will be a user id
+   * stored in the session or even the session id itself.
    */
   protected abstract String getUserId(HttpServletRequest req) throws ServletException, IOException;
 
@@ -174,19 +165,17 @@ public abstract class AbstractAuthorizationCodeServlet extends HttpServlet {
   /**
    * Handles user authorization by redirecting to the OAuth 2.0 authorization server.
    *
-   * <p>
-   * Default implementation is to call {@code resp.sendRedirect(authorizationUrl.build())}.
+   * <p>Default implementation is to call {@code resp.sendRedirect(authorizationUrl.build())}.
    * Subclasses may override to provide optional parameters such as the recommended state parameter.
    * Sample implementation:
-   * </p>
    *
    * <pre>
-  &#64;Override
-  protected void onAuthorization(HttpServletRequest req, HttpServletResponse resp,
-      AuthorizationCodeRequestUrl authorizationUrl) throws ServletException, IOException {
-    authorizationUrl.setState("xyz");
-    super.onAuthorization(req, resp, authorizationUrl);
-  }
+   * &#64;Override
+   * protected void onAuthorization(HttpServletRequest req, HttpServletResponse resp,
+   * AuthorizationCodeRequestUrl authorizationUrl) throws ServletException, IOException {
+   * authorizationUrl.setState("xyz");
+   * super.onAuthorization(req, resp, authorizationUrl);
+   * }
    * </pre>
    *
    * @param authorizationUrl authorization code request URL
@@ -194,8 +183,11 @@ public abstract class AbstractAuthorizationCodeServlet extends HttpServlet {
    * @throws ServletException servlet exception
    * @since 1.11
    */
-  protected void onAuthorization(HttpServletRequest req, HttpServletResponse resp,
-      AuthorizationCodeRequestUrl authorizationUrl) throws ServletException, IOException {
+  protected void onAuthorization(
+      HttpServletRequest req,
+      HttpServletResponse resp,
+      AuthorizationCodeRequestUrl authorizationUrl)
+      throws ServletException, IOException {
     resp.sendRedirect(authorizationUrl.build());
   }
 }

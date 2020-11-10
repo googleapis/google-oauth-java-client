@@ -14,6 +14,8 @@
 
 package com.google.api.client.auth.oauth2;
 
+import static com.google.api.client.util.Strings.isNullOrEmpty;
+
 import com.google.api.client.auth.oauth2.Credential.AccessMethod;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpExecuteInterceptor;
@@ -24,14 +26,13 @@ import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Base64;
 import com.google.api.client.util.Beta;
-import com.google.api.client.util.Data;
 import com.google.api.client.util.Clock;
+import com.google.api.client.util.Data;
 import com.google.api.client.util.Joiner;
 import com.google.api.client.util.Lists;
 import com.google.api.client.util.Preconditions;
 import com.google.api.client.util.store.DataStore;
 import com.google.api.client.util.store.DataStoreFactory;
-
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -40,26 +41,20 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-import static com.google.api.client.util.Strings.isNullOrEmpty;
-
 /**
  * Thread-safe OAuth 2.0 authorization code flow that manages and persists end-user credentials.
  *
- * <p>
- * This is designed to simplify the flow in which an end-user authorizes the application to access
- * their protected data, and then the application has access to their data based on an access token
- * and a refresh token to refresh that access token when it expires.
- * </p>
+ * <p>This is designed to simplify the flow in which an end-user authorizes the application to
+ * access their protected data, and then the application has access to their data based on an access
+ * token and a refresh token to refresh that access token when it expires.
  *
- * <p>
- * The first step is to call {@link #loadCredential(String)} based on the known user ID to check if
- * the end-user's credentials are already known. If not, call {@link #newAuthorizationUrl()} and
+ * <p>The first step is to call {@link #loadCredential(String)} based on the known user ID to check
+ * if the end-user's credentials are already known. If not, call {@link #newAuthorizationUrl()} and
  * direct the end-user's browser to an authorization page. The web browser will then redirect to the
  * redirect URL with a {@code "code"} query parameter which can then be used to request an access
- * token using {@link #newTokenRequest(String)}. Finally, use
- * {@link #createAndStoreCredential(TokenResponse, String)} to store and obtain a credential for
- * accessing protected resources.
- * </p>
+ * token using {@link #newTokenRequest(String)}. Finally, use {@link
+ * #createAndStoreCredential(TokenResponse, String)} to store and obtain a credential for accessing
+ * protected resources.
  *
  * @since 1.7
  * @author Yaniv Inbar
@@ -67,8 +62,8 @@ import static com.google.api.client.util.Strings.isNullOrEmpty;
 public class AuthorizationCodeFlow {
 
   /**
-   * Method of presenting the access token to the resource server (for example
-   * {@link BearerToken#authorizationHeaderAccessMethod}).
+   * Method of presenting the access token to the resource server (for example {@link
+   * BearerToken#authorizationHeaderAccessMethod}).
    */
   private final AccessMethod method;
 
@@ -82,8 +77,8 @@ public class AuthorizationCodeFlow {
   private final String tokenServerEncodedUrl;
 
   /**
-   * Client authentication or {@code null} for none (see
-   * {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
+   * Client authentication or {@code null} for none (see {@link
+   * TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
    */
   private final HttpExecuteInterceptor clientAuthentication;
 
@@ -97,13 +92,10 @@ public class AuthorizationCodeFlow {
   private final PKCE pkce;
 
   /** Credential persistence store or {@code null} for none. */
-  @Beta
-  @Deprecated
-  private final CredentialStore credentialStore;
+  @Beta @Deprecated private final CredentialStore credentialStore;
 
   /** Stored credential data store or {@code null} for none. */
-  @Beta
-  private final DataStore<StoredCredential> credentialDataStore;
+  @Beta private final DataStore<StoredCredential> credentialDataStore;
 
   /** HTTP request initializer or {@code null} for none. */
   private final HttpRequestInitializer requestInitializer;
@@ -121,37 +113,38 @@ public class AuthorizationCodeFlow {
   private final Collection<CredentialRefreshListener> refreshListeners;
 
   /**
-   * @param method method of presenting the access token to the resource server (for example
-   *        {@link BearerToken#authorizationHeaderAccessMethod})
+   * @param method method of presenting the access token to the resource server (for example {@link
+   *     BearerToken#authorizationHeaderAccessMethod})
    * @param transport HTTP transport
    * @param jsonFactory JSON factory
    * @param tokenServerUrl token server URL
-   * @param clientAuthentication client authentication or {@code null} for none (see
-   *        {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)})
+   * @param clientAuthentication client authentication or {@code null} for none (see {@link
+   *     TokenRequest#setClientAuthentication(HttpExecuteInterceptor)})
    * @param clientId client identifier
    * @param authorizationServerEncodedUrl authorization server encoded URL
-   *
    * @since 1.14
    */
-  public AuthorizationCodeFlow(AccessMethod method,
+  public AuthorizationCodeFlow(
+      AccessMethod method,
       HttpTransport transport,
       JsonFactory jsonFactory,
       GenericUrl tokenServerUrl,
       HttpExecuteInterceptor clientAuthentication,
       String clientId,
       String authorizationServerEncodedUrl) {
-    this(new Builder(method,
-        transport,
-        jsonFactory,
-        tokenServerUrl,
-        clientAuthentication,
-        clientId,
-        authorizationServerEncodedUrl));
+    this(
+        new Builder(
+            method,
+            transport,
+            jsonFactory,
+            tokenServerUrl,
+            clientAuthentication,
+            clientId,
+            authorizationServerEncodedUrl));
   }
 
   /**
    * @param builder authorization code flow builder
-   *
    * @since 1.14
    */
   protected AuthorizationCodeFlow(Builder builder) {
@@ -176,25 +169,24 @@ public class AuthorizationCodeFlow {
   /**
    * Returns a new instance of an authorization code request URL.
    *
-   * <p>
-   * This is a builder for an authorization web page to allow the end user to authorize the
+   * <p>This is a builder for an authorization web page to allow the end user to authorize the
    * application to access their protected resources and that returns an authorization code. It uses
-   * the {@link #getAuthorizationServerEncodedUrl()}, {@link #getClientId()}, and
-   * {@link #getScopes()}. Sample usage:
-   * </p>
+   * the {@link #getAuthorizationServerEncodedUrl()}, {@link #getClientId()}, and {@link
+   * #getScopes()}. Sample usage:
    *
    * <pre>
-  private AuthorizationCodeFlow flow;
-
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String url = flow.newAuthorizationUrl().setState("xyz")
-        .setRedirectUri("https://client.example.com/rd").build();
-    response.sendRedirect(url);
-  }
+   * private AuthorizationCodeFlow flow;
+   *
+   * public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+   * String url = flow.newAuthorizationUrl().setState("xyz")
+   * .setRedirectUri("https://client.example.com/rd").build();
+   * response.sendRedirect(url);
+   * }
    * </pre>
    */
   public AuthorizationCodeRequestUrl newAuthorizationUrl() {
-    AuthorizationCodeRequestUrl url = new  AuthorizationCodeRequestUrl(authorizationServerEncodedUrl, clientId);
+    AuthorizationCodeRequestUrl url =
+        new AuthorizationCodeRequestUrl(authorizationServerEncodedUrl, clientId);
     url.setScopes(scopes);
     if (pkce != null) {
       url.setCodeChallenge(pkce.getChallenge());
@@ -207,41 +199,43 @@ public class AuthorizationCodeFlow {
    * Returns a new instance of an authorization code token request based on the given authorization
    * code.
    *
-   * <p>
-   * This is used to make a request for an access token using the authorization code. It uses
-   * {@link #getTransport()}, {@link #getJsonFactory()}, {@link #getTokenServerEncodedUrl()},
-   * {@link #getClientAuthentication()}, {@link #getRequestInitializer()}, and {@link #getScopes()}.
-   * </p>
+   * <p>This is used to make a request for an access token using the authorization code. It uses
+   * {@link #getTransport()}, {@link #getJsonFactory()}, {@link #getTokenServerEncodedUrl()}, {@link
+   * #getClientAuthentication()}, {@link #getRequestInitializer()}, and {@link #getScopes()}.
    *
    * <pre>
-  static TokenResponse requestAccessToken(AuthorizationCodeFlow flow, String code)
-      throws IOException, TokenResponseException {
-    return flow.newTokenRequest(code).setRedirectUri("https://client.example.com/rd").execute();
-  }
+   * static TokenResponse requestAccessToken(AuthorizationCodeFlow flow, String code)
+   * throws IOException, TokenResponseException {
+   * return flow.newTokenRequest(code).setRedirectUri("https://client.example.com/rd").execute();
+   * }
    * </pre>
    *
    * @param authorizationCode authorization code.
    */
   public AuthorizationCodeTokenRequest newTokenRequest(String authorizationCode) {
-    HttpExecuteInterceptor pkceClientAuthenticationWrapper = new HttpExecuteInterceptor() {
-      @Override
-      public void intercept(HttpRequest request) throws IOException {
-        clientAuthentication.intercept(request);
-        if (pkce != null) {
-          Map<String, Object> data = Data.mapOf(UrlEncodedContent.getContent(request).getData());
-          data.put("code_verifier", pkce.getVerifier());
-        }
-      }
-    };
+    HttpExecuteInterceptor pkceClientAuthenticationWrapper =
+        new HttpExecuteInterceptor() {
+          @Override
+          public void intercept(HttpRequest request) throws IOException {
+            clientAuthentication.intercept(request);
+            if (pkce != null) {
+              Map<String, Object> data =
+                  Data.mapOf(UrlEncodedContent.getContent(request).getData());
+              data.put("code_verifier", pkce.getVerifier());
+            }
+          }
+        };
 
-    return new AuthorizationCodeTokenRequest(transport, jsonFactory,
-        new GenericUrl(tokenServerEncodedUrl), authorizationCode).setClientAuthentication(
-        pkceClientAuthenticationWrapper).setRequestInitializer(requestInitializer).setScopes(scopes);
+    return new AuthorizationCodeTokenRequest(
+            transport, jsonFactory, new GenericUrl(tokenServerEncodedUrl), authorizationCode)
+        .setClientAuthentication(pkceClientAuthenticationWrapper)
+        .setRequestInitializer(requestInitializer)
+        .setScopes(scopes);
   }
 
   /**
-   * Creates a new credential for the given user ID based on the given token response
-   * and stores it in the credential store.
+   * Creates a new credential for the given user ID based on the given token response and stores it
+   * in the credential store.
    *
    * @param response token response
    * @param userId user ID or {@code null} if not using a persisted credential store
@@ -268,7 +262,7 @@ public class AuthorizationCodeFlow {
    *
    * @param userId user ID or {@code null} if not using a persisted credential store
    * @return credential found in the credential store of the given user ID or {@code null} for none
-   *         found
+   *     found
    */
   @SuppressWarnings("deprecation")
   public Credential loadCredential(String userId) throws IOException {
@@ -303,12 +297,14 @@ public class AuthorizationCodeFlow {
    */
   @SuppressWarnings("deprecation")
   private Credential newCredential(String userId) {
-    Credential.Builder builder = new Credential.Builder(method).setTransport(transport)
-        .setJsonFactory(jsonFactory)
-        .setTokenServerEncodedUrl(tokenServerEncodedUrl)
-        .setClientAuthentication(clientAuthentication)
-        .setRequestInitializer(requestInitializer)
-        .setClock(clock);
+    Credential.Builder builder =
+        new Credential.Builder(method)
+            .setTransport(transport)
+            .setJsonFactory(jsonFactory)
+            .setTokenServerEncodedUrl(tokenServerEncodedUrl)
+            .setClientAuthentication(clientAuthentication)
+            .setRequestInitializer(requestInitializer)
+            .setClock(clock);
     if (credentialDataStore != null) {
       builder.addRefreshListener(
           new DataStoreCredentialRefreshListener(userId, credentialDataStore));
@@ -320,8 +316,8 @@ public class AuthorizationCodeFlow {
   }
 
   /**
-   * Returns the method of presenting the access token to the resource server (for example
-   * {@link BearerToken#authorizationHeaderAccessMethod}).
+   * Returns the method of presenting the access token to the resource server (for example {@link
+   * BearerToken#authorizationHeaderAccessMethod}).
    */
   public final AccessMethod getMethod() {
     return method;
@@ -343,8 +339,8 @@ public class AuthorizationCodeFlow {
   }
 
   /**
-   * Returns the client authentication or {@code null} for none (see
-   * {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
+   * Returns the client authentication or {@code null} for none (see {@link
+   * TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
    */
   public final HttpExecuteInterceptor getClientAuthentication() {
     return clientAuthentication;
@@ -361,8 +357,9 @@ public class AuthorizationCodeFlow {
   }
 
   /**
-   * {@link Beta} <br/>
+   * {@link Beta} <br>
    * Returns the credential persistence store or {@code null} for none.
+   *
    * @deprecated (to be removed in the future) Use {@link #getCredentialDataStore()} instead.
    */
   @Beta
@@ -372,7 +369,7 @@ public class AuthorizationCodeFlow {
   }
 
   /**
-   * {@link Beta} <br/>
+   * {@link Beta} <br>
    * Returns the stored credential data store or {@code null} for none.
    *
    * @since 1.16
@@ -403,6 +400,7 @@ public class AuthorizationCodeFlow {
 
   /**
    * Returns the clock which will be passed along to the Credential.
+   *
    * @since 1.9
    */
   public final Clock getClock() {
@@ -419,20 +417,19 @@ public class AuthorizationCodeFlow {
   }
 
   /**
-   * Listener for a created credential after a successful token response in
-   * {@link #createAndStoreCredential}.
+   * Listener for a created credential after a successful token response in {@link
+   * #createAndStoreCredential}.
    *
    * @since 1.14
    */
   public interface CredentialCreatedListener {
 
     /**
-     * Notifies of a created credential after a successful token response in
-     * {@link #createAndStoreCredential}.
+     * Notifies of a created credential after a successful token response in {@link
+     * #createAndStoreCredential}.
      *
-     * <p>
-     * Typical use is to parse additional fields from the credential created, such as an ID token.
-     * </p>
+     * <p>Typical use is to parse additional fields from the credential created, such as an ID
+     * token.
      *
      * @param credential created credential
      * @param tokenResponse successful token response
@@ -441,9 +438,10 @@ public class AuthorizationCodeFlow {
   }
 
   /**
-   * An implementation of <a href="https://tools.ietf.org/html/rfc7636">Proof Key for Code Exchange</a>
-   * which, according to the <a href="https://tools.ietf.org/html/rfc8252#section-6">OAuth 2.0 for Native Apps RFC</a>,
-   * is mandatory for public native apps.
+   * An implementation of <a href="https://tools.ietf.org/html/rfc7636">Proof Key for Code
+   * Exchange</a> which, according to the <a
+   * href="https://tools.ietf.org/html/rfc8252#section-6">OAuth 2.0 for Native Apps RFC</a>, is
+   * mandatory for public native apps.
    */
   private static class PKCE {
     private final String verifier;
@@ -463,9 +461,8 @@ public class AuthorizationCodeFlow {
     }
 
     /**
-     * Create the PKCE code verifier. It uses the S256 method but
-     * falls back to using the 'plain' method in the unlikely case
-     * that the SHA-256 MessageDigest algorithm implementation can't be
+     * Create the PKCE code verifier. It uses the S256 method but falls back to using the 'plain'
+     * method in the unlikely case that the SHA-256 MessageDigest algorithm implementation can't be
      * loaded.
      */
     private void generateChallenge(String verifier) {
@@ -498,15 +495,13 @@ public class AuthorizationCodeFlow {
   /**
    * Authorization code flow builder.
    *
-   * <p>
-   * Implementation is not thread-safe.
-   * </p>
+   * <p>Implementation is not thread-safe.
    */
   public static class Builder {
 
     /**
-     * Method of presenting the access token to the resource server (for example
-     * {@link BearerToken#authorizationHeaderAccessMethod}).
+     * Method of presenting the access token to the resource server (for example {@link
+     * BearerToken#authorizationHeaderAccessMethod}).
      */
     AccessMethod method;
 
@@ -520,8 +515,8 @@ public class AuthorizationCodeFlow {
     GenericUrl tokenServerUrl;
 
     /**
-     * Client authentication or {@code null} for none (see
-     * {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
+     * Client authentication or {@code null} for none (see {@link
+     * TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
      */
     HttpExecuteInterceptor clientAuthentication;
 
@@ -534,13 +529,10 @@ public class AuthorizationCodeFlow {
     PKCE pkce;
 
     /** Credential persistence store or {@code null} for none. */
-    @Deprecated
-    @Beta
-    CredentialStore credentialStore;
+    @Deprecated @Beta CredentialStore credentialStore;
 
     /** Stored credential data store or {@code null} for none. */
-    @Beta
-    DataStore<StoredCredential> credentialDataStore;
+    @Beta DataStore<StoredCredential> credentialDataStore;
 
     /** HTTP request initializer or {@code null} for none. */
     HttpRequestInitializer requestInitializer;
@@ -559,16 +551,17 @@ public class AuthorizationCodeFlow {
 
     /**
      * @param method method of presenting the access token to the resource server (for example
-     *        {@link BearerToken#authorizationHeaderAccessMethod})
+     *     {@link BearerToken#authorizationHeaderAccessMethod})
      * @param transport HTTP transport
      * @param jsonFactory JSON factory
      * @param tokenServerUrl token server URL
-     * @param clientAuthentication client authentication or {@code null} for none (see
-     *        {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)})
+     * @param clientAuthentication client authentication or {@code null} for none (see {@link
+     *     TokenRequest#setClientAuthentication(HttpExecuteInterceptor)})
      * @param clientId client identifier
      * @param authorizationServerEncodedUrl authorization server encoded URL
      */
-    public Builder(AccessMethod method,
+    public Builder(
+        AccessMethod method,
         HttpTransport transport,
         JsonFactory jsonFactory,
         GenericUrl tokenServerUrl,
@@ -590,21 +583,20 @@ public class AuthorizationCodeFlow {
     }
 
     /**
-     * Returns the method of presenting the access token to the resource server (for example
-     * {@link BearerToken#authorizationHeaderAccessMethod}).
+     * Returns the method of presenting the access token to the resource server (for example {@link
+     * BearerToken#authorizationHeaderAccessMethod}).
      */
     public final AccessMethod getMethod() {
       return method;
     }
 
     /**
-     * Sets the method of presenting the access token to the resource server (for example
-     * {@link BearerToken#authorizationHeaderAccessMethod}).
+     * Sets the method of presenting the access token to the resource server (for example {@link
+     * BearerToken#authorizationHeaderAccessMethod}).
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
+     *
      * @since 1.11
      */
     public Builder setMethod(AccessMethod method) {
@@ -620,10 +612,9 @@ public class AuthorizationCodeFlow {
     /**
      * Sets the HTTP transport.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
+     *
      * @since 1.11
      */
     public Builder setTransport(HttpTransport transport) {
@@ -639,10 +630,9 @@ public class AuthorizationCodeFlow {
     /**
      * Sets the JSON factory.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
+     *
      * @since 1.11
      */
     public Builder setJsonFactory(JsonFactory jsonFactory) {
@@ -658,10 +648,9 @@ public class AuthorizationCodeFlow {
     /**
      * Sets the token server URL.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
+     *
      * @since 1.11
      */
     public Builder setTokenServerUrl(GenericUrl tokenServerUrl) {
@@ -670,21 +659,20 @@ public class AuthorizationCodeFlow {
     }
 
     /**
-     * Returns the client authentication or {@code null} for none (see
-     * {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
+     * Returns the client authentication or {@code null} for none (see {@link
+     * TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
      */
     public final HttpExecuteInterceptor getClientAuthentication() {
       return clientAuthentication;
     }
 
     /**
-     * Sets the client authentication or {@code null} for none (see
-     * {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
+     * Sets the client authentication or {@code null} for none (see {@link
+     * TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}).
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
+     *
      * @since 1.11
      */
     public Builder setClientAuthentication(HttpExecuteInterceptor clientAuthentication) {
@@ -700,10 +688,9 @@ public class AuthorizationCodeFlow {
     /**
      * Sets the client identifier.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
+     *
      * @since 1.11
      */
     public Builder setClientId(String clientId) {
@@ -719,10 +706,9 @@ public class AuthorizationCodeFlow {
     /**
      * Sets the authorization server encoded URL.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
+     *
      * @since 1.11
      */
     public Builder setAuthorizationServerEncodedUrl(String authorizationServerEncodedUrl) {
@@ -732,8 +718,9 @@ public class AuthorizationCodeFlow {
     }
 
     /**
-     * {@link Beta} <br/>
+     * {@link Beta} <br>
      * Returns the credential persistence store or {@code null} for none.
+     *
      * @deprecated (to be removed in the future) Use {@link #getCredentialDataStore()} instead.
      */
     @Beta
@@ -743,7 +730,7 @@ public class AuthorizationCodeFlow {
     }
 
     /**
-     * {@link Beta} <br/>
+     * {@link Beta} <br>
      * Returns the stored credential data store or {@code null} for none.
      *
      * @since 1.16
@@ -756,6 +743,7 @@ public class AuthorizationCodeFlow {
     /**
      * Returns the clock passed along to the Credential or {@link Clock#SYSTEM} when system default
      * is used.
+     *
      * @since 1.9
      */
     public final Clock getClock() {
@@ -765,14 +753,11 @@ public class AuthorizationCodeFlow {
     /**
      * Sets the clock to pass to the Credential.
      *
-     * <p>
-     * The default value for this parameter is {@link Clock#SYSTEM}
-     * </p>
+     * <p>The default value for this parameter is {@link Clock#SYSTEM}
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
+     *
      * @since 1.9
      */
     public Builder setClock(Clock clock) {
@@ -781,23 +766,18 @@ public class AuthorizationCodeFlow {
     }
 
     /**
-     * {@link Beta} <br/>
+     * {@link Beta} <br>
      * Sets the credential persistence store or {@code null} for none.
      *
-     * <p>
-     * Warning: not compatible with {@link #setDataStoreFactory} or {@link #setCredentialDataStore},
-     * and if either of those is called before this method is called, this method will throw an
-     * {@link IllegalArgumentException}.
-     * </p>
+     * <p>Warning: not compatible with {@link #setDataStoreFactory} or {@link
+     * #setCredentialDataStore}, and if either of those is called before this method is called, this
+     * method will throw an {@link IllegalArgumentException}.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      *
-     * @deprecated (to be removed in the future) Use
-     *             {@link #setDataStoreFactory(DataStoreFactory)} or
-     *             {@link #setCredentialDataStore(DataStore)} instead.
+     * @deprecated (to be removed in the future) Use {@link #setDataStoreFactory(DataStoreFactory)}
+     *     or {@link #setCredentialDataStore(DataStore)} instead.
      */
     @Beta
     @Deprecated
@@ -808,18 +788,14 @@ public class AuthorizationCodeFlow {
     }
 
     /**
-     * {@link Beta} <br/>
+     * {@link Beta} <br>
      * Sets the data store factory or {@code null} for none.
      *
-     * <p>
-     * Warning: not compatible with {@link #setCredentialStore}, and if it is called before this
+     * <p>Warning: not compatible with {@link #setCredentialStore}, and if it is called before this
      * method is called, this method will throw an {@link IllegalArgumentException}.
-     * </p>
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      *
      * @since 1.16
      */
@@ -829,18 +805,14 @@ public class AuthorizationCodeFlow {
     }
 
     /**
-     * {@link Beta} <br/>
+     * {@link Beta} <br>
      * Sets the stored credential data store or {@code null} for none.
      *
-     * <p>
-     * Warning: not compatible with {@link #setCredentialStore}, and if it is called before this
+     * <p>Warning: not compatible with {@link #setCredentialStore}, and if it is called before this
      * method is called, this method will throw an {@link IllegalArgumentException}.
-     * </p>
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      *
      * @since 1.16
      */
@@ -859,10 +831,8 @@ public class AuthorizationCodeFlow {
     /**
      * Sets the HTTP request initializer or {@code null} for none.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      */
     public Builder setRequestInitializer(HttpRequestInitializer requestInitializer) {
       this.requestInitializer = requestInitializer;
@@ -871,6 +841,7 @@ public class AuthorizationCodeFlow {
 
     /**
      * Enables Proof Key for Code Exchange (PKCE) for this Athorization Code Flow.
+     *
      * @since 1.31
      */
     @Beta
@@ -882,10 +853,8 @@ public class AuthorizationCodeFlow {
     /**
      * Sets the collection of scopes.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      *
      * @param scopes collection of scopes
      * @since 1.15
@@ -903,10 +872,8 @@ public class AuthorizationCodeFlow {
     /**
      * Sets the credential created listener or {@code null} for none.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      *
      * @since 1.14
      */
@@ -919,10 +886,8 @@ public class AuthorizationCodeFlow {
     /**
      * Adds a listener for refresh token results.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      *
      * @param refreshListener refresh listener
      * @since 1.15
@@ -944,10 +909,8 @@ public class AuthorizationCodeFlow {
     /**
      * Sets the listeners for refresh token results.
      *
-     * <p>
-     * Overriding is only supported for the purpose of calling the super implementation and changing
-     * the return type, but nothing else.
-     * </p>
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
      *
      * @since 1.15
      */

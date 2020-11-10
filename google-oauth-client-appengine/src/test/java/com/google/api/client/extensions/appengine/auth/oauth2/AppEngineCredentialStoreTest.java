@@ -26,7 +26,6 @@ import com.google.api.client.util.store.DataStore;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.common.collect.ImmutableSet;
-
 import junit.framework.TestCase;
 
 /**
@@ -61,8 +60,8 @@ public class AppEngineCredentialStoreTest extends TestCase {
   private static final GenericUrl TOKEN_SERVER_URL = new GenericUrl("http://example.com/token");
 
   private Credential createCredential() {
-    return new Credential.Builder(BearerToken.queryParameterAccessMethod()).setTransport(
-        new MockHttpTransport())
+    return new Credential.Builder(BearerToken.queryParameterAccessMethod())
+        .setTransport(new MockHttpTransport())
         .setJsonFactory(new MockJsonFactory())
         .setTokenServerUrl(TOKEN_SERVER_URL)
         .setClientAuthentication(new BasicAuthentication(CLIENT_ID, CLIENT_SECRET))

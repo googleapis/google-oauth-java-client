@@ -20,7 +20,6 @@ import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.util.Data;
 import com.google.api.client.util.Preconditions;
-
 import java.io.IOException;
 import java.util.Map;
 
@@ -28,52 +27,44 @@ import java.util.Map;
  * Client credentials specified as URL-encoded parameters in the HTTP request body as specified in
  * <a href="http://tools.ietf.org/html/rfc6749#section-2.3.1">Client Password</a>
  *
- * <p>
- * This implementation assumes that the {@link HttpRequest#getContent()} is {@code null} or an
- * instance of {@link UrlEncodedContent}. This is used as the client authentication in
- * {@link TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}.
- * </p>
+ * <p>This implementation assumes that the {@link HttpRequest#getContent()} is {@code null} or an
+ * instance of {@link UrlEncodedContent}. This is used as the client authentication in {@link
+ * TokenRequest#setClientAuthentication(HttpExecuteInterceptor)}.
  *
- * <p>
- * Sample usage:
- * </p>
+ * <p>Sample usage:
  *
  * <pre>
-  static void requestAccessToken() throws IOException {
-    try {
-      TokenResponse response = new AuthorizationCodeTokenRequest(new NetHttpTransport(),
-          new JacksonFactory(), new GenericUrl("https://server.example.com/token"),
-          "SplxlOBeZQQYbYS6WxSbIA").setRedirectUri("https://client.example.com/rd")
-          .setClientAuthentication(
-              new ClientParametersAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw")).execute();
-      System.out.println("Access token: " + response.getAccessToken());
-    } catch (TokenResponseException e) {
-      if (e.getDetails() != null) {
-        System.err.println("Error: " + e.getDetails().getError());
-        if (e.getDetails().getErrorDescription() != null) {
-          System.err.println(e.getDetails().getErrorDescription());
-        }
-        if (e.getDetails().getErrorUri() != null) {
-          System.err.println(e.getDetails().getErrorUri());
-        }
-      } else {
-        System.err.println(e.getMessage());
-      }
-    }
-  }
+ * static void requestAccessToken() throws IOException {
+ * try {
+ * TokenResponse response = new AuthorizationCodeTokenRequest(new NetHttpTransport(),
+ * new JacksonFactory(), new GenericUrl("https://server.example.com/token"),
+ * "SplxlOBeZQQYbYS6WxSbIA").setRedirectUri("https://client.example.com/rd")
+ * .setClientAuthentication(
+ * new ClientParametersAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw")).execute();
+ * System.out.println("Access token: " + response.getAccessToken());
+ * } catch (TokenResponseException e) {
+ * if (e.getDetails() != null) {
+ * System.err.println("Error: " + e.getDetails().getError());
+ * if (e.getDetails().getErrorDescription() != null) {
+ * System.err.println(e.getDetails().getErrorDescription());
+ * }
+ * if (e.getDetails().getErrorUri() != null) {
+ * System.err.println(e.getDetails().getErrorUri());
+ * }
+ * } else {
+ * System.err.println(e.getMessage());
+ * }
+ * }
+ * }
  * </pre>
  *
- * <p>
- * Implementation is immutable and thread-safe.
- * </p>
+ * <p>Implementation is immutable and thread-safe.
  *
  * @since 1.7
  * @author Yaniv Inbar
  */
 public class ClientParametersAuthentication
-    implements
-      HttpRequestInitializer,
-      HttpExecuteInterceptor {
+    implements HttpRequestInitializer, HttpExecuteInterceptor {
 
   /** Client identifier issued to the client during the registration process. */
   private final String clientId;

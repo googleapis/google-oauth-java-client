@@ -18,11 +18,9 @@ import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
-
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,61 +30,57 @@ import javax.servlet.http.HttpServletResponse;
  * Thread-safe OAuth 2.0 authorization code callback servlet to process the authorization code or
  * error response from authorization page redirect.
  *
- * <p>
- * This is designed to simplify the flow in which an end-user authorizes your web application to
- * access their protected data. The main servlet class extends
- * {@link AbstractAuthorizationCodeServlet} which if the end-user credentials are not found, will
- * redirect the end-user to an authorization page. If the end-user grants authorization, they will
- * be redirected to this servlet that extends {@link AbstractAuthorizationCodeCallbackServlet} and
- * the {@link #onSuccess} will be called. Similarly, if the end-user grants authorization, they will
- * be redirected to this servlet and {@link #onError} will be called.
- * </p>
+ * <p>This is designed to simplify the flow in which an end-user authorizes your web application to
+ * access their protected data. The main servlet class extends {@link
+ * AbstractAuthorizationCodeServlet} which if the end-user credentials are not found, will redirect
+ * the end-user to an authorization page. If the end-user grants authorization, they will be
+ * redirected to this servlet that extends {@link AbstractAuthorizationCodeCallbackServlet} and the
+ * {@link #onSuccess} will be called. Similarly, if the end-user grants authorization, they will be
+ * redirected to this servlet and {@link #onError} will be called.
  *
- * <p>
- * Sample usage:
- * </p>
+ * <p>Sample usage:
  *
  * <pre>
-public class ServletCallbackSample extends AbstractAuthorizationCodeCallbackServlet {
-
-  &#64;Override
-  protected void onSuccess(HttpServletRequest req, HttpServletResponse resp, Credential credential)
-      throws ServletException, IOException {
-    resp.sendRedirect("/");
-  }
-
-  &#64;Override
-  protected void onError(
-      HttpServletRequest req, HttpServletResponse resp, AuthorizationCodeResponseUrl errorResponse)
-      throws ServletException, IOException {
-    // handle error
-  }
-
-  &#64;Override
-  protected String getRedirectUri(HttpServletRequest req) throws ServletException, IOException {
-    GenericUrl url = new GenericUrl(req.getRequestURL().toString());
-    url.setRawPath("/oauth2callback");
-    return url.build();
-  }
-
-  &#64;Override
-  protected AuthorizationCodeFlow initializeFlow() throws IOException {
-    return new AuthorizationCodeFlow.Builder(BearerToken.authorizationHeaderAccessMethod(),
-        new NetHttpTransport(),
-        new JacksonFactory(),
-        new GenericUrl("https://server.example.com/token"),
-        new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw"),
-        "s6BhdRkqt3",
-        "https://server.example.com/authorize").setCredentialStore(
-        new JdoCredentialStore(JDOHelper.getPersistenceManagerFactory("transactions-optional")))
-        .build();
-  }
-
-  &#64;Override
-  protected String getUserId(HttpServletRequest req) throws ServletException, IOException {
-    // return user ID
-  }
-}
+ * public class ServletCallbackSample extends AbstractAuthorizationCodeCallbackServlet {
+ *
+ * &#64;Override
+ * protected void onSuccess(HttpServletRequest req, HttpServletResponse resp, Credential credential)
+ * throws ServletException, IOException {
+ * resp.sendRedirect("/");
+ * }
+ *
+ * &#64;Override
+ * protected void onError(
+ * HttpServletRequest req, HttpServletResponse resp, AuthorizationCodeResponseUrl errorResponse)
+ * throws ServletException, IOException {
+ * // handle error
+ * }
+ *
+ * &#64;Override
+ * protected String getRedirectUri(HttpServletRequest req) throws ServletException, IOException {
+ * GenericUrl url = new GenericUrl(req.getRequestURL().toString());
+ * url.setRawPath("/oauth2callback");
+ * return url.build();
+ * }
+ *
+ * &#64;Override
+ * protected AuthorizationCodeFlow initializeFlow() throws IOException {
+ * return new AuthorizationCodeFlow.Builder(BearerToken.authorizationHeaderAccessMethod(),
+ * new NetHttpTransport(),
+ * new JacksonFactory(),
+ * new GenericUrl("https://server.example.com/token"),
+ * new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw"),
+ * "s6BhdRkqt3",
+ * "https://server.example.com/authorize").setCredentialStore(
+ * new JdoCredentialStore(JDOHelper.getPersistenceManagerFactory("transactions-optional")))
+ * .build();
+ * }
+ *
+ * &#64;Override
+ * protected String getUserId(HttpServletRequest req) throws ServletException, IOException {
+ * // return user ID
+ * }
+ * }
  * </pre>
  *
  * @since 1.7
@@ -147,22 +141,20 @@ public abstract class AbstractAuthorizationCodeCallbackServlet extends HttpServl
       throws ServletException, IOException;
 
   /**
-   * Returns the user ID for the given HTTP servlet request. This identifies your application's
-   * user and is used to assign and persist credentials to that user. Most commonly, this will be a
-   * user id stored in the session or even the session id itself.
+   * Returns the user ID for the given HTTP servlet request. This identifies your application's user
+   * and is used to assign and persist credentials to that user. Most commonly, this will be a user
+   * id stored in the session or even the session id itself.
    */
   protected abstract String getUserId(HttpServletRequest req) throws ServletException, IOException;
 
   /**
    * Handles a successfully granted authorization.
    *
-   * <p>
-   * Default implementation is to do nothing, but subclasses should override and implement. Sample
-   * implementation:
-   * </p>
+   * <p>Default implementation is to do nothing, but subclasses should override and implement.
+   * Sample implementation:
    *
    * <pre>
-      resp.sendRedirect("/granted");
+   * resp.sendRedirect("/granted");
    * </pre>
    *
    * @param req HTTP servlet request
@@ -172,30 +164,26 @@ public abstract class AbstractAuthorizationCodeCallbackServlet extends HttpServl
    * @throws IOException some I/O exception
    */
   protected void onSuccess(HttpServletRequest req, HttpServletResponse resp, Credential credential)
-      throws ServletException, IOException {
-  }
+      throws ServletException, IOException {}
 
   /**
    * Handles an error to the authorization, such as when an end user denies authorization.
    *
-   * <p>
-   * Default implementation is to do nothing, but subclasses should override and implement. Sample
-   * implementation:
-   * </p>
+   * <p>Default implementation is to do nothing, but subclasses should override and implement.
+   * Sample implementation:
    *
    * <pre>
-      resp.sendRedirect("/denied");
+   * resp.sendRedirect("/denied");
    * </pre>
    *
    * @param req HTTP servlet request
    * @param resp HTTP servlet response
    * @param errorResponse error response ({@link AuthorizationCodeResponseUrl#getError()} is not
-   *        {@code null})
+   *     {@code null})
    * @throws ServletException HTTP servlet exception
    * @throws IOException some I/O exception
    */
   protected void onError(
       HttpServletRequest req, HttpServletResponse resp, AuthorizationCodeResponseUrl errorResponse)
-      throws ServletException, IOException {
-  }
+      throws ServletException, IOException {}
 }

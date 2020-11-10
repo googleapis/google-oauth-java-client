@@ -20,21 +20,18 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.util.Beta;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * This class fills in some of the unknowns of the generic {@link AbstractFlowUserServlet} with
  * reasonable defaults for App Engine. This servlet requires that the App Engine user must be logged
  * in to work correctly.
  *
- * <p>
- * Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use {@link
- *com.google.api.client.extensions.appengine.auth.oauth2.AbstractAppEngineAuthorizationCodeServlet}.
- * </p>
+ * <p>Warning: starting with version 1.7, usage of this for OAuth 2.0 is deprecated. Instead use
+ * {@link
+ * com.google.api.client.extensions.appengine.auth.oauth2.AbstractAppEngineAuthorizationCodeServlet}.
  *
- * <p>
- * Upgrade warning: in version 1.15 there was an implementation of {@link #newJsonFactoryInstance()}
- * that used {@code com.google.api.client.json.jackson.JacksonFactory}, but starting with version
- * 1.16 there is no such implementation.
- * </p>
+ * <p>Upgrade warning: in version 1.15 there was an implementation of {@link
+ * #newJsonFactoryInstance()} that used {@code com.google.api.client.json.jackson.JacksonFactory},
+ * but starting with version 1.16 there is no such implementation.
  *
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.4

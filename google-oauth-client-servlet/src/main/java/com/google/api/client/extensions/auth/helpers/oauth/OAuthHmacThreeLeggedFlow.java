@@ -25,9 +25,7 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.Preconditions;
-
 import java.io.IOException;
-
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.annotations.NotPersistent;
@@ -36,14 +34,12 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 /**
- * {@link Beta} <br/>
+ * {@link Beta} <br>
  * {@link ThreeLeggedFlow} implementation that will execute the proper requests to obtain an OAuth1
  * Credential object that can be used to sign requests.
  *
- * <p>
- * This class is not thread safe, nor should you attempt to execute a flow from multiple threads
+ * <p>This class is not thread safe, nor should you attempt to execute a flow from multiple threads
  * simultaneously.
- * </p>
  *
  * @author moshenko@google.com (Jacob Moshenko)
  * @since 1.5
@@ -52,53 +48,29 @@ import javax.jdo.annotations.PrimaryKey;
 @Beta
 public class OAuthHmacThreeLeggedFlow implements ThreeLeggedFlow {
 
-  /**
-   * Key that can be used to associate this flow with an end user.
-   */
-  @PrimaryKey
-  private String userId;
+  /** Key that can be used to associate this flow with an end user. */
+  @PrimaryKey private String userId;
 
-  /**
-   * Temporary token that gets associated with this flow.
-   */
-  @Persistent
-  private String tempToken;
+  /** Temporary token that gets associated with this flow. */
+  @Persistent private String tempToken;
 
-  /**
-   * Temporary secret that gets associated with the temporary token.
-   */
-  @Persistent
-  private String tempTokenSecret;
+  /** Temporary secret that gets associated with the temporary token. */
+  @Persistent private String tempTokenSecret;
 
-  /**
-   * Secret that is shared between the server and the service provider.
-   */
-  @Persistent
-  private String consumerSecret;
+  /** Secret that is shared between the server and the service provider. */
+  @Persistent private String consumerSecret;
 
-  /**
-   * Key that identifies the server to the service provider.
-   */
-  @Persistent
-  private String consumerKey;
+  /** Key that identifies the server to the service provider. */
+  @Persistent private String consumerKey;
 
-  /**
-   * Authorization url which we will use to talk to the server.
-   */
-  @Persistent
-  private String authorizationServerUrl;
+  /** Authorization url which we will use to talk to the server. */
+  @Persistent private String authorizationServerUrl;
 
-  /**
-   * Url which is generated to authorize this specific user for this service.
-   */
-  @Persistent
-  private String authorizationUrl;
+  /** Url which is generated to authorize this specific user for this service. */
+  @Persistent private String authorizationUrl;
 
-  /**
-   * Http transport to use to communicate with the auth server.
-   */
-  @NotPersistent
-  private HttpTransport transport;
+  /** Http transport to use to communicate with the auth server. */
+  @NotPersistent private HttpTransport transport;
 
   /**
    * Create an OAuthThreeLeggedFlow instance from the required information.
@@ -109,18 +81,19 @@ public class OAuthHmacThreeLeggedFlow implements ThreeLeggedFlow {
    * @param authorizationServerUrl Url with which we communicate to authorize tis application.
    * @param temporaryTokenUrl Url which we will use to obtain a temporary token.
    * @param callbackUrl Url which the server should redirect the user to after obtaining
-   *        authorization.
-   *
+   *     authorization.
    * @throws IOException Exception thrown when the flow is unable to communicate with the service
-   *         provider.
+   *     provider.
    */
-  public OAuthHmacThreeLeggedFlow(String userId,
+  public OAuthHmacThreeLeggedFlow(
+      String userId,
       String consumerKey,
       String consumerSecret,
       String authorizationServerUrl,
       String temporaryTokenUrl,
       String callbackUrl,
-      HttpTransport transport) throws IOException {
+      HttpTransport transport)
+      throws IOException {
 
     this.userId = userId;
     this.consumerSecret = consumerSecret;
@@ -168,8 +141,9 @@ public class OAuthHmacThreeLeggedFlow implements ThreeLeggedFlow {
     OAuthCredentialsResponse credentials = accessToken.execute();
     signer.tokenSharedSecret = credentials.tokenSecret;
 
-    OAuthHmacCredential accessCredential = new OAuthHmacCredential(
-        userId, consumerKey, consumerSecret, credentials.tokenSecret, credentials.token);
+    OAuthHmacCredential accessCredential =
+        new OAuthHmacCredential(
+            userId, consumerKey, consumerSecret, credentials.tokenSecret, credentials.token);
 
     return accessCredential;
   }
