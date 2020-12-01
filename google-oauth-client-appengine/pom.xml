@@ -85,6 +85,10 @@
   <dependencies>
     <dependency>
       <groupId>com.google.http-client</groupId>
+      <artifactId>google-http-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.http-client</groupId>
       <artifactId>google-http-client-appengine</artifactId>
     </dependency>
     <dependency>
@@ -118,11 +122,6 @@
     <dependency>
       <groupId>com.google.appengine</groupId>
       <artifactId>appengine-testing</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.appengine</groupId>
-      <artifactId>appengine-api-stubs</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
