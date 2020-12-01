@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.31.3](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.31.2...v1.31.3) (2020-12-01)
+
+
+### Dependencies
+
+* fix declared dependencies ([#570](https://www.github.com/googleapis/google-oauth-java-client/issues/570)) ([ec79525](https://www.github.com/googleapis/google-oauth-java-client/commit/ec79525da8bc50d4cb641a87c186a5870a61afd4))
+
 ### [1.31.2](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.31.1...v1.31.2) (2020-11-04)
 
 
