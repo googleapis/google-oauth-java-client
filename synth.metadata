@@ -4,7 +4,7 @@
       "git": {
         "name": ".",
         "remote": "https://github.com/googleapis/google-oauth-java-client.git",
-        "sha": "cfeacbf15b21fc2704d043131a4230dd2692a727"
+        "sha": "c621321ad5f60e813a4e50ac8e5774ffb82f9d99"
       }
     },
     {
