@@ -21,6 +21,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.testing.http.HttpTesting;
 import com.google.api.client.testing.http.MockHttpTransport;
 import junit.framework.TestCase;
+import org.junit.function.ThrowingRunnable;
 
 import java.util.Map;
 
@@ -75,7 +76,7 @@ public class JWTAuthenticationTest extends TestCase {
   }
 
   public void testInvalidGrantType() throws Exception {
-    TokenRequest request =
+    final TokenRequest request =
             new ClientCredentialsTokenRequest(new MockHttpTransport(), new JacksonFactory(),
                     new GenericUrl(HttpTesting.SIMPLE_GENERIC_URL.toString()));
 
@@ -89,9 +90,12 @@ public class JWTAuthenticationTest extends TestCase {
     request.setClientAuthentication(auth);
 
 
-    assertThrows(IllegalArgumentException.class, () -> {
-              request.executeUnparsed();
-            });
+    assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
+      @Override
+      public void run() throws Throwable {
+        request.executeUnparsed();
+      }
+    });
   }
 
   public void test_noJWT() throws Exception {
@@ -99,8 +103,11 @@ public class JWTAuthenticationTest extends TestCase {
         new MockHttpTransport()
             .createRequestFactory()
             .buildGetRequest(HttpTesting.SIMPLE_GENERIC_URL);
-    assertThrows(RuntimeException.class, () -> {
-              JWTAuthentication auth = new JWTAuthentication(null);
-            });
+    assertThrows(RuntimeException.class, new ThrowingRunnable() {
+      @Override
+      public void run() throws Throwable {
+        JWTAuthentication auth = new JWTAuthentication(null);
+      }
+    });
   }
 }
