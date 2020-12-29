@@ -75,7 +75,7 @@ public class JWTAuthenticationTest extends TestCase {
     assertEquals(JWTAuthentication.GRANT_TYPE_CLIENT_CREDENTIALS, data.get("grant_type"));
   }
 
-  public void testInvalidGrantType() throws Exception {
+  public void testInvalidGrantType() {
     final TokenRequest request =
             new ClientCredentialsTokenRequest(new MockHttpTransport(), new JacksonFactory(),
                     new GenericUrl(HttpTesting.SIMPLE_GENERIC_URL.toString()));
@@ -98,14 +98,10 @@ public class JWTAuthenticationTest extends TestCase {
     });
   }
 
-  public void test_noJWT() throws Exception {
-    HttpRequest request =
-        new MockHttpTransport()
-            .createRequestFactory()
-            .buildGetRequest(HttpTesting.SIMPLE_GENERIC_URL);
+  public void test_noJWT() {
     assertThrows(RuntimeException.class, new ThrowingRunnable() {
       @Override
-      public void run() throws Throwable {
+      public void run() {
         JWTAuthentication auth = new JWTAuthentication(null);
       }
     });
