@@ -46,7 +46,7 @@ import java.util.Map;
  * static void requestAccessToken() throws IOException {
  * try {
  * TokenResponse response = new AuthorizationCodeTokenRequest(new NetHttpTransport(),
- * new JacksonFactory(), new GenericUrl("https://server.example.com/token")
+ * new GsonFactory(), new GenericUrl("https://server.example.com/token")
  * .setGrantType(JWTAuthentication.GRANT_TYPE_CLIENT_CREDENTIALS)
  * .setClientAuthentication(
  * new JWTAuthentication("eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzM4NCJ9...")).execute();
