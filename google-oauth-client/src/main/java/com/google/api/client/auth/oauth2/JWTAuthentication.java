@@ -37,7 +37,7 @@ import java.util.Map;
  *     To use JWT authentication, grant_type must be "client_credentials".
  *     If AuthorizationCodeTokenRequest.setGrantType() is called, set it to
  *     JWTAuthentication.GRANT_TYPE_CLIENT_CREDENTIALS. It can also be left
- *     uncalled. Setting it to any other value will cause an IllegalArgumentException.
+ *     uncalled. Setting it to any other value causes an IllegalArgumentException.
  * </p>
  *
  * <p>Sample usage:
