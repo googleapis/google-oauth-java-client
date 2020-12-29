@@ -168,7 +168,7 @@ public abstract class AbstractFlowUserServlet extends HttpServlet {
    * json factory and should be as simple as:
    *
    * <pre>
-   * new JacksonFactory();
+   * new GsonFactory();
    * </pre>
    *
    * @return {@link JsonFactory} instance for your particular environment

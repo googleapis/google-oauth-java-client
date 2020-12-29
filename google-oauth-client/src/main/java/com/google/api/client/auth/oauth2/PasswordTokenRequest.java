@@ -39,7 +39,7 @@ import java.util.Collection;
  * static void requestAccessToken() throws IOException {
  * try {
  * TokenResponse response =
- * new PasswordTokenRequest(new NetHttpTransport(), new JacksonFactory(),
+ * new PasswordTokenRequest(new NetHttpTransport(), new GsonFactory(),
  * new GenericUrl("https://server.example.com/token"), "johndoe", "A3ddj3w")
  * .setRedirectUri("https://client.example.com/rd")
  * .setClientAuthentication(

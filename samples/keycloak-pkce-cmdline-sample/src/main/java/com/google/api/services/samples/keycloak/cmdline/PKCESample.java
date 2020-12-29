@@ -24,7 +24,7 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.DataStoreFactory;
 import com.google.api.client.util.store.MemoryDataStoreFactory;
 import java.io.IOException;
@@ -56,7 +56,7 @@ public class PKCESample {
   private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
 
   /** Global instance of the JSON factory. */
-  static final JsonFactory JSON_FACTORY = new JacksonFactory();
+  static final JsonFactory JSON_FACTORY = new GsonFactory();
 
   private static final String TOKEN_SERVER_URL =
       "http://127.0.0.1:8080/auth/realms/master/protocol/openid-connect/token";
