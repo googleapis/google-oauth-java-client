@@ -410,7 +410,6 @@
       <!-- Build the dependencies report at package time (needed for the assembly artifact). -->
       <plugin>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.1.1</version>
         <executions>
           <execution>
             <goals>
@@ -457,7 +456,7 @@
     <project.http.version>1.38.0</project.http.version>
     <project.jsr305.version>3.0.2</project.jsr305.version>
     <project.jackson-core2.version>2.9.6</project.jackson-core2.version>
-    <project.guava.version>30.0-android</project.guava.version>
+    <project.guava.version>30.1-android</project.guava.version>
     <project.xpp3.version>1.1.4c</project.xpp3.version>
     <project.commons-logging.version>1.1.1</project.commons-logging.version>
     <project.jdo2-api.version>2.3-eb</project.jdo2-api.version>
