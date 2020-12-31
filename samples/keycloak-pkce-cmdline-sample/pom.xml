@@ -8,7 +8,7 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <artifactId>keycloak-pkce-cmdline-sample</artifactId>
-  <name>Example for obtaining OAuth2 tokens with PKCE verification using the Authorization Code Flow against Keycloak.</name>
+  <name>Example of obtaining OAuth2 tokens with PKCE verification using the Authorization Code Flow against Keycloak.</name>
 
   <build>
     <plugins>

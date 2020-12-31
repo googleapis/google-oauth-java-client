@@ -8,7 +8,7 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <artifactId>dailymotion-simple-cmdline-sample</artifactId>
-  <name>Example for the DailyMotion API using OAuth2.</name>
+  <name>Example of the DailyMotion API using OAuth2.</name>
 
   <build>
     <plugins>
