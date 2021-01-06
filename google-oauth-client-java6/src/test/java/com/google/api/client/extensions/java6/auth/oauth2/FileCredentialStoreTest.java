@@ -25,7 +25,7 @@ import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonGenerator;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
@@ -48,7 +48,7 @@ import junit.framework.TestCase;
 @Deprecated
 public class FileCredentialStoreTest extends TestCase {
 
-  static final JsonFactory JSON_FACTORY = new JacksonFactory();
+  static final JsonFactory JSON_FACTORY = new GsonFactory();
   private static final String ACCESS_TOKEN = "abc";
   static final String NEW_ACCESS_TOKEN = "def";
   private static final GenericUrl TOKEN_SERVER_URL = new GenericUrl("http://example.com/token");

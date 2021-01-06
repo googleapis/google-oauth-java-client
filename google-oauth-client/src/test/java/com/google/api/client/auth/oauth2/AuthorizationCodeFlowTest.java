@@ -16,7 +16,7 @@ package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow.CredentialCreatedListener;
 import com.google.api.client.http.BasicAuthentication;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.Joiner;
 import java.io.IOException;
 import java.util.Arrays;
@@ -64,7 +64,7 @@ public class AuthorizationCodeFlowTest extends AuthenticationTestBase {
         new AuthorizationCodeFlow.Builder(
                 BearerToken.queryParameterAccessMethod(),
                 new AccessTokenTransport(),
-                new JacksonFactory(),
+                new GsonFactory(),
                 TOKEN_SERVER_URL,
                 new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
                 CLIENT_ID,
@@ -84,7 +84,7 @@ public class AuthorizationCodeFlowTest extends AuthenticationTestBase {
         new AuthorizationCodeFlow.Builder(
                 BearerToken.queryParameterAccessMethod(),
                 new AccessTokenTransport(),
-                new JacksonFactory(),
+                new GsonFactory(),
                 TOKEN_SERVER_URL,
                 new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
                 CLIENT_ID,
@@ -118,7 +118,7 @@ public class AuthorizationCodeFlowTest extends AuthenticationTestBase {
         new AuthorizationCodeFlow.Builder(
                 BearerToken.queryParameterAccessMethod(),
                 new AccessTokenTransport(),
-                new JacksonFactory(),
+                new GsonFactory(),
                 TOKEN_SERVER_URL,
                 new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
                 CLIENT_ID,
@@ -139,7 +139,7 @@ public class AuthorizationCodeFlowTest extends AuthenticationTestBase {
         new AuthorizationCodeFlow.Builder(
                 BearerToken.queryParameterAccessMethod(),
                 new AccessTokenTransport(),
-                new JacksonFactory(),
+                new GsonFactory(),
                 TOKEN_SERVER_URL,
                 new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
                 CLIENT_ID,
