@@ -326,6 +326,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
         doc.write("Received verification code. You may now close this window.");
         doc.write("</body>");
         doc.write("</html>\n");
+        doc.flush();
       }
     }
   }
