@@ -44,26 +44,26 @@ import java.util.Map;
  *
  * <pre>
  * static void requestAccessToken() throws IOException {
- * try {
- * TokenResponse response = new AuthorizationCodeTokenRequest(new NetHttpTransport(),
- * new GsonFactory(), new GenericUrl("https://server.example.com/token")
- * .setGrantType(JWTAuthentication.GRANT_TYPE_CLIENT_CREDENTIALS)
- * .setClientAuthentication(
- * new JWTAuthentication("eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzM4NCJ9...")).execute();
- * System.out.println("Access token: " + response.getAccessToken());
- * } catch (TokenResponseException e) {
- * if (e.getDetails() != null) {
- * System.err.println("Error: " + e.getDetails().getError());
- * if (e.getDetails().getErrorDescription() != null) {
- * System.err.println(e.getDetails().getErrorDescription());
- * }
- * if (e.getDetails().getErrorUri() != null) {
- * System.err.println(e.getDetails().getErrorUri());
- * }
- * } else {
- * System.err.println(e.getMessage());
- * }
- * }
+ *   try {
+ *     TokenResponse response = new AuthorizationCodeTokenRequest(new NetHttpTransport(),
+ *       new GsonFactory(), new GenericUrl("https://server.example.com/token")
+ *       .setGrantType(JWTAuthentication.GRANT_TYPE_CLIENT_CREDENTIALS)
+ *       .setClientAuthentication(
+ *     new JWTAuthentication("eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzM4NCJ9...")).execute();
+ *     System.out.println("Access token: " + response.getAccessToken());
+ *   } catch (TokenResponseException e) {
+ *     if (e.getDetails() != null) {
+ *         System.err.println("Error: " + e.getDetails().getError());
+ *       if (e.getDetails().getErrorDescription() != null) {
+ *         System.err.println(e.getDetails().getErrorDescription());
+ *       }
+ *       if (e.getDetails().getErrorUri() != null) {
+ *         System.err.println(e.getDetails().getErrorUri());
+ *       }
+ *     } else {
+ *       System.err.println(e.getMessage());
+ *     }
+ *   }
  * }
  * </pre>
  *
