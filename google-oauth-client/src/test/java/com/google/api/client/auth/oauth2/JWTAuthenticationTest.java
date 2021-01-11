@@ -20,12 +20,10 @@ import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.testing.http.HttpTesting;
 import com.google.api.client.testing.http.MockHttpTransport;
-import junit.framework.TestCase;
-import org.junit.function.ThrowingRunnable;
-
 import java.util.Map;
-
+import junit.framework.TestCase;
 import static org.junit.Assert.assertThrows;
+import org.junit.function.ThrowingRunnable;
 
 /**
  * Tests {@link JWTAuthentication}.
