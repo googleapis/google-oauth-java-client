@@ -318,7 +318,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
       try (OutputStream os = exchange.getResponseBody()) {
         exchange.sendResponseHeaders(HTTP_OK, 0);
         headers.add("ContentType", "text/html");
-  
+
         OutputStreamWriter doc = new OutputStreamWriter(os, StandardCharsets.UTF_8);
         doc.write("<html>");
         doc.write("<head><title>OAuth 2.0 Authentication Token Received</title></head>");
