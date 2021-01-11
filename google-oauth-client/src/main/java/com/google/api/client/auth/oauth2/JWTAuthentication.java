@@ -73,55 +73,55 @@ import java.util.Map;
  */
 
 public class JWTAuthentication
-    implements HttpRequestInitializer, HttpExecuteInterceptor {
+        implements HttpRequestInitializer, HttpExecuteInterceptor {
 
-    public static final String GRANT_TYPE_KEY = "grant_type";
+  public static final String GRANT_TYPE_KEY = "grant_type";
 
-    /** Predefined value for grant_type when using JWT **/
-    public static final String GRANT_TYPE_CLIENT_CREDENTIALS = "client_credentials";
+  /** Predefined value for grant_type when using JWT **/
+  public static final String GRANT_TYPE_CLIENT_CREDENTIALS = "client_credentials";
 
-    public static final String CLIENT_ASSERTION_TYPE_KEY = "client_assertion_type";
+  public static final String CLIENT_ASSERTION_TYPE_KEY = "client_assertion_type";
 
-    /** Predefined value for client_assertion_type when using JWT **/
-    public static final String CLIENT_ASSERTION_TYPE = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+  /** Predefined value for client_assertion_type when using JWT **/
+  public static final String CLIENT_ASSERTION_TYPE = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
 
-    public static final String CLIENT_ASSERTION_KEY = "client_assertion";
+  public static final String CLIENT_ASSERTION_KEY = "client_assertion";
 
-    /** JWT for authentication. */
-    private final String jwt;
+  /** JWT for authentication. */
+  private final String jwt;
 
-    /**
-     * @param jwt JWT used for authentication
-     */
-    public JWTAuthentication(String jwt) {
-        this.jwt = Preconditions.checkNotNull(jwt);
+  /**
+   * @param jwt JWT used for authentication
+   */
+  public JWTAuthentication(String jwt) {
+    this.jwt = Preconditions.checkNotNull(jwt);
+  }
+
+  public void initialize(HttpRequest request) throws IOException {
+    request.setInterceptor(this);
+  }
+
+  public void intercept(HttpRequest request) {
+    Map<String, Object> data = Data.mapOf(UrlEncodedContent.getContent(request).getData());
+    if (!data.containsKey(GRANT_TYPE_KEY)) {
+      data.put(GRANT_TYPE_KEY, GRANT_TYPE_CLIENT_CREDENTIALS);
+    } else {
+      String grantType = (String) data.get(GRANT_TYPE_KEY);
+      if (!grantType.equals(GRANT_TYPE_CLIENT_CREDENTIALS)) {
+        throw new IllegalArgumentException(GRANT_TYPE_KEY
+                + " must be "
+                + GRANT_TYPE_CLIENT_CREDENTIALS
+                + ", not "
+                + grantType
+                + ".");
+      }
     }
+    data.put(CLIENT_ASSERTION_TYPE_KEY, CLIENT_ASSERTION_TYPE);
+    data.put(CLIENT_ASSERTION_KEY, jwt);
+  }
 
-    public void initialize(HttpRequest request) throws IOException {
-        request.setInterceptor(this);
-    }
-
-    public void intercept(HttpRequest request) {
-        Map<String, Object> data = Data.mapOf(UrlEncodedContent.getContent(request).getData());
-        if (!data.containsKey(GRANT_TYPE_KEY)) {
-            data.put(GRANT_TYPE_KEY, GRANT_TYPE_CLIENT_CREDENTIALS);
-        } else {
-            String grantType = (String) data.get(GRANT_TYPE_KEY);
-            if (!grantType.equals(GRANT_TYPE_CLIENT_CREDENTIALS)) {
-                throw new IllegalArgumentException(GRANT_TYPE_KEY
-                        + " must be "
-                        + GRANT_TYPE_CLIENT_CREDENTIALS
-                        + ", not "
-                        + grantType
-                        + ".");
-            }
-        }
-        data.put(CLIENT_ASSERTION_TYPE_KEY, CLIENT_ASSERTION_TYPE);
-        data.put(CLIENT_ASSERTION_KEY, jwt);
-    }
-
-    /** Returns the JWT. */
-    public final String getJWT() {
-        return jwt;
-    }
+  /** Returns the JWT. */
+  public final String getJWT() {
+    return jwt;
+  }
 }
