@@ -20,7 +20,7 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
 import com.google.api.client.json.Json;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
@@ -35,7 +35,7 @@ import junit.framework.TestCase;
 public class CustomTokenRequestTest extends TestCase {
 
   private static final MockHttpTransport TRANSPORT = new MockHttpTransport();
-  private static final JacksonFactory JSON_FACTORY = new JacksonFactory();
+  private static final GsonFactory JSON_FACTORY = new GsonFactory();
   private static final GenericUrl AUTHORIZATION_SERVER_URL =
       new GenericUrl("https://server.example.com/authorize");
   private static final String JWT_ENCODED_CONTENT =

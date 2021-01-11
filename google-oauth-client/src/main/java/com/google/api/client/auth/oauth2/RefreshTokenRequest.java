@@ -38,7 +38,7 @@ import java.util.Collection;
  * static void refreshAccessToken() throws IOException {
  * try {
  * TokenResponse response =
- * new RefreshTokenRequest(new NetHttpTransport(), new JacksonFactory(), new GenericUrl(
+ * new RefreshTokenRequest(new NetHttpTransport(), new GsonFactory(), new GenericUrl(
  * "https://server.example.com/token"), "tGzv3JOkF0XG5Qx2TlKWIA")
  * .setClientAuthentication(
  * new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw")).execute();

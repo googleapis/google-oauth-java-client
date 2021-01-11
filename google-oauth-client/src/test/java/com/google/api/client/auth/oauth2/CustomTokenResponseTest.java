@@ -15,7 +15,7 @@
 package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.Key;
 import junit.framework.TestCase;
 
@@ -48,7 +48,7 @@ public class CustomTokenResponseTest extends TestCase {
   }
 
   public void testStringExpires() throws Exception {
-    JsonFactory jsonFactory = new JacksonFactory();
+    JsonFactory jsonFactory = new GsonFactory();
     TokenResponse response = jsonFactory.fromString(JSON, StringExpiresTokenResponse.class);
     assertEquals("2YotnFZFEjr1zCsicMWpAA", response.getAccessToken());
     assertEquals("example", response.getTokenType());

@@ -36,7 +36,7 @@ import java.util.Collection;
  * static void requestAccessToken() throws IOException {
  * try {
  * TokenResponse response =
- * new ClientCredentialsTokenRequest(new NetHttpTransport(), new JacksonFactory(),
+ * new ClientCredentialsTokenRequest(new NetHttpTransport(), new GsonFactory(),
  * new GenericUrl("https://server.example.com/token"))
  * .setRedirectUri("https://client.example.com/rd")
  * .setClientAuthentication(

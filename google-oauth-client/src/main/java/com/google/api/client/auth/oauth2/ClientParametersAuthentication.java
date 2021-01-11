@@ -37,7 +37,7 @@ import java.util.Map;
  * static void requestAccessToken() throws IOException {
  * try {
  * TokenResponse response = new AuthorizationCodeTokenRequest(new NetHttpTransport(),
- * new JacksonFactory(), new GenericUrl("https://server.example.com/token"),
+ * new GsonFactory(), new GenericUrl("https://server.example.com/token"),
  * "SplxlOBeZQQYbYS6WxSbIA").setRedirectUri("https://client.example.com/rd")
  * .setClientAuthentication(
  * new ClientParametersAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw")).execute();
