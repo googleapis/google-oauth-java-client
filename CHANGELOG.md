@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.31.4](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.31.3...v1.31.4) (2021-01-05)
+
+
+### Dependencies
+
+* update dependency com.google.guava:guava to v30.1-android ([#578](https://www.github.com/googleapis/google-oauth-java-client/issues/578)) ([a719fbb](https://www.github.com/googleapis/google-oauth-java-client/commit/a719fbb03701938aac125f456153433e41b69393))
+
 ### [1.31.3](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.31.2...v1.31.3) (2020-12-01)
 
 
