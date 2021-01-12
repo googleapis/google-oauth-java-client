@@ -16,13 +16,17 @@ package com.google.api.client.extensions.jetty.auth.oauth2;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.io.CharStreams;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import org.junit.Test;
 
 public class LocalServerReceiverTest {
@@ -33,8 +37,8 @@ public class LocalServerReceiverTest {
 
     try {
       receiver.getRedirectUri();
-      assertTrue(receiver.getPort() != 0);
-      assertTrue(receiver.getPort() != -1);
+      assertNotEquals(0, receiver.getPort());
+      assertNotEquals(-1, receiver.getPort());
     } finally {
       receiver.stop();
     }
@@ -268,12 +272,12 @@ public class LocalServerReceiverTest {
   }
 
   private void verifyLoginFailure() {
-    assertEquals(authCode, null);
+    assertNull(authCode);
     assertTrue(error.contains("some-error"));
   }
 
   private int responseCode;
-  private StringBuilder responseOutput = new StringBuilder();
+  private String responseOutput;
   private String redirectedLandingPageUrl;
 
   @Test
@@ -339,8 +343,8 @@ public class LocalServerReceiverTest {
   private void verifyDefaultLandingPage() {
     assertEquals(200, responseCode);
     assertNull(redirectedLandingPageUrl);
-    assertTrue(responseOutput.toString().contains("<html>"));
-    assertTrue(responseOutput.toString().contains("</html>"));
+    assertTrue(responseOutput.contains("<html>"));
+    assertTrue(responseOutput.contains("</html>"));
   }
 
   private void sendSuccessLoginResult(String serverEndpoint) throws IOException {
@@ -362,11 +366,8 @@ public class LocalServerReceiverTest {
       connection.setReadTimeout(2000 /* ms */);
       responseCode = connection.getResponseCode();
       redirectedLandingPageUrl = connection.getHeaderField("Location");
-
-      InputStreamReader reader = new InputStreamReader(connection.getInputStream(), "UTF-8");
-      for (int ch = reader.read(); ch != -1; ch = reader.read()) {
-        responseOutput.append((char) ch);
-      }
+      Reader reader = new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8);
+      responseOutput = CharStreams.toString(reader);
     } finally {
       if (connection != null) {
         connection.disconnect();

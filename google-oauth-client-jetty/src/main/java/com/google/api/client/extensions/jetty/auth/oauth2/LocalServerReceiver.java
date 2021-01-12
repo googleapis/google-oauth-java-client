@@ -26,9 +26,10 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
@@ -138,9 +139,8 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
   }
 
   /*
-   *Copied from Jetty findFreePort() as referenced by: https://gist.github.com/vorburger/3429822
+   * Copied from Jetty findFreePort() as referenced by: https://gist.github.com/vorburger/3429822
    */
-
   private int findOpenPort() {
     try (ServerSocket socket = new ServerSocket(0)) {
       socket.setReuseAddress(true);
@@ -315,19 +315,19 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
     }
 
     private void writeLandingHtml(HttpExchange exchange, Headers headers) throws IOException {
-      OutputStream os = exchange.getResponseBody();
-      exchange.sendResponseHeaders(HTTP_OK, 0);
-      headers.add("ContentType", "text/html");
+      try (OutputStream os = exchange.getResponseBody()) {
+        exchange.sendResponseHeaders(HTTP_OK, 0);
+        headers.add("ContentType", "text/html");
 
-      PrintWriter doc = new PrintWriter(os);
-      doc.println("<html>");
-      doc.println("<head><title>OAuth 2.0 Authentication Token Received</title></head>");
-      doc.println("<body>");
-      doc.println("Received verification code. You may now close this window.");
-      doc.println("</body>");
-      doc.println("</html>");
-      doc.flush();
-      os.close();
+        OutputStreamWriter doc = new OutputStreamWriter(os, StandardCharsets.UTF_8);
+        doc.write("<html>");
+        doc.write("<head><title>OAuth 2.0 Authentication Token Received</title></head>");
+        doc.write("<body>");
+        doc.write("Received verification code. You may now close this window.");
+        doc.write("</body>");
+        doc.write("</html>\n");
+        doc.flush();
+      }
     }
   }
 }
