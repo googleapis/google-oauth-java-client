@@ -51,12 +51,6 @@
       <filtered>true</filtered>
     </file>
     <file>
-      <source>properties/google-http-client-jackson2.jar.properties</source>
-      <destName>google-http-client-jackson2-${project.http.version}.jar.properties</destName>
-      <outputDirectory>google-oauth-java-client/libs</outputDirectory>
-      <filtered>true</filtered>
-    </file>
-    <file>
       <source>properties/google-http-client-xml.jar.properties</source>
       <destName>google-http-client-xml-${project.http.version}.jar.properties</destName>
       <outputDirectory>google-oauth-java-client/libs</outputDirectory>
@@ -65,12 +59,6 @@
     <file>
       <source>properties/gson.jar.properties</source>
       <destName>gson-${project.gson.version}.jar.properties</destName>
-      <outputDirectory>google-oauth-java-client/libs</outputDirectory>
-      <filtered>true</filtered>
-    </file>
-    <file>
-      <source>properties/jackson-core.jar.properties</source>
-      <destName>jackson-core-${project.jackson-core2.version}.jar.properties</destName>
       <outputDirectory>google-oauth-java-client/libs</outputDirectory>
       <filtered>true</filtered>
     </file>

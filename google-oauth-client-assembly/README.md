@@ -28,8 +28,6 @@ The dependency structure and licenses for the different libraries can be found h
 * [google-http-client-android](dependencies/google-http-client-android-dependencies.html)
 * [google-http-client-appengine](dependencies/google-http-client-appengine-dependencies.html)
 * [google-http-client-gson](dependencies/google-http-client-gson-dependencies.html)
-* [google-http-client-jackson](dependencies/google-http-client-jackson-dependencies.html)
-* [google-http-client-jackson2](dependencies/google-http-client-jackson2-dependencies.html)
 
 ## Maven Usage
 
@@ -60,10 +58,6 @@ The following are the jars from the [libs](libs) folder needed for applications 
 * jsr305-${project.jsr305.version}.jar
 * google-http-client-gson-${project.http.version}.jar (when using GSON)
   * gson-${project.gson.version}.jar
-* google-http-client-jackson-${project.http.version}.jar (when using Jackson)
-  * jackson-core-asl-${project.jackson-core-asl.version}.jar
-* google-http-client-jackson2-${project.http.version}.jar (when using Jackson 2)
-  * jackson-core-${project.jackson-core2.version}.jar
 * google-http-client-xml-${project.version}.jar (when using XML)
   * xpp3-${project.xpp3.version}.jar (when NOT on Android)
 
