@@ -15,7 +15,15 @@
 package com.google.api.client.auth.oauth;
 
 import com.google.api.client.http.GenericUrl;
+
+import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.Collections;
+import java.util.Map;
+
+import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.UrlEncodedContent;
+import com.google.api.client.http.javanet.NetHttpTransport;
 import junit.framework.TestCase;
 
 /**
@@ -73,6 +81,22 @@ public class OAuthParametersTest extends TestCase {
     assertEquals(
         "GET&https%3A%2F%2Fexample.local&foo%3Dbar%26oauth_signature_method%3Dmock",
         parameters.signature);
+  }
+
+  public void testSignatureWithUrlEncodedContent() throws IOException {
+    OAuthParameters parameters = new OAuthParameters();
+    parameters.signer = new MockSigner();
+
+    GenericUrl url = new GenericUrl("https://example.local?foo=bar");
+    Map<String, Object> contentParameters = Collections.singletonMap("this", (Object) "that");
+    UrlEncodedContent content = new UrlEncodedContent(contentParameters);
+
+    HttpRequest request = new NetHttpTransport.Builder().build()
+            .createRequestFactory().buildPostRequest(url, content);
+    parameters.intercept(request);
+
+    assertTrue(parameters.signature.endsWith("%26this%3Dthat"));
+    assertEquals("https://example.local?foo=bar", url.build());
   }
 
   public void testSignatureWithRepeatedParameter() throws GeneralSecurityException {

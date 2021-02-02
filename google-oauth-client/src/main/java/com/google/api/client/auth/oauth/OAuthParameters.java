@@ -14,15 +14,19 @@
 
 package com.google.api.client.auth.oauth;
 
+import com.google.api.client.http.HttpContent;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.util.Beta;
+import com.google.api.client.util.Data;
 import com.google.api.client.util.escape.PercentEscaper;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.SortedMultiset;
 import com.google.common.collect.TreeMultiset;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
@@ -53,7 +57,8 @@ import java.util.Map;
  * @author Yaniv Inbar
  */
 @Beta
-public final class OAuthParameters implements HttpExecuteInterceptor, HttpRequestInitializer {
+public final class OAuthParameters implements HttpExecuteInterceptor, HttpRequestInitializer
+{
 
   /** Secure random number generator to sign requests. */
   private static final SecureRandom RANDOM = new SecureRandom();
@@ -271,7 +276,19 @@ public final class OAuthParameters implements HttpExecuteInterceptor, HttpReques
     computeNonce();
     computeTimestamp();
     try {
-      computeSignature(request.getRequestMethod(), request.getUrl());
+      GenericUrl url = request.getUrl();
+      HttpContent content = request.getContent();
+      Map<String, Object> urlEncodedParams = null;
+      if (content instanceof UrlEncodedContent) {
+        urlEncodedParams = Data.mapOf(((UrlEncodedContent) content).getData());
+        url.putAll(urlEncodedParams);
+      }
+      computeSignature(request.getRequestMethod(), url);
+      if (urlEncodedParams != null) {
+        for (Map.Entry<String, Object> entry : urlEncodedParams.entrySet()) {
+          url.remove(entry.getKey());
+        }
+      }
     } catch (GeneralSecurityException e) {
       IOException io = new IOException();
       io.initCause(e);
