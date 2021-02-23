@@ -14,8 +14,8 @@
 
 package com.google.api.client.auth.oauth;
 
-import com.google.api.client.http.HttpContent;
 import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpContent;
 import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -26,7 +26,6 @@ import com.google.api.client.util.escape.PercentEscaper;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.SortedMultiset;
 import com.google.common.collect.TreeMultiset;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
@@ -57,8 +56,7 @@ import java.util.Map;
  * @author Yaniv Inbar
  */
 @Beta
-public final class OAuthParameters implements HttpExecuteInterceptor, HttpRequestInitializer
-{
+public final class OAuthParameters implements HttpExecuteInterceptor, HttpRequestInitializer {
 
   /** Secure random number generator to sign requests. */
   private static final SecureRandom RANDOM = new SecureRandom();
