@@ -34,12 +34,6 @@ The dependency structure and licenses for the different libraries can be found h
 For information on how to add these libraries to your Maven project please see
 [Setup Maven][setup-maven].
 
-## Eclipse
-
-A `.classpath` file snippet that can be included in your project's `.classpath` has been provided
-[here](.classpath). Please only use the `classpathentry`s you actually need (see below for more
-details).
-
 ## ProGuard
 
 A ProGuard configuration file [proguard-google-oauth-client.txt](proguard-google-oauth-client.txt)
