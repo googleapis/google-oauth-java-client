@@ -164,7 +164,7 @@ public class ServletSample extends AbstractAuthorizationCodeServlet {
   protected AuthorizationCodeFlow initializeFlow() throws IOException {
     return new AuthorizationCodeFlow.Builder(BearerToken.authorizationHeaderAccessMethod(),
         new NetHttpTransport(),
-        new JacksonFactory(),
+        new GsonFactory(),
         new GenericUrl("https://server.example.com/token"),
         new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw"),
         "s6BhdRkqt3",
@@ -206,7 +206,7 @@ public class ServletCallbackSample extends AbstractAuthorizationCodeCallbackServ
   protected AuthorizationCodeFlow initializeFlow() throws IOException {
     return new AuthorizationCodeFlow.Builder(BearerToken.authorizationHeaderAccessMethod(),
         new NetHttpTransport(),
-        new JacksonFactory(),
+        new GsonFactory(),
         new GenericUrl("https://server.example.com/token"),
         new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw"),
         "s6BhdRkqt3",
@@ -262,7 +262,7 @@ public class AppEngineSample extends AbstractAppEngineAuthorizationCodeServlet {
   protected AuthorizationCodeFlow initializeFlow() throws IOException {
     return new AuthorizationCodeFlow.Builder(BearerToken.authorizationHeaderAccessMethod(),
         new UrlFetchTransport(),
-        new JacksonFactory(),
+        new GsonFactory(),
         new GenericUrl("https://server.example.com/token"),
         new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw"),
         "s6BhdRkqt3",
@@ -298,7 +298,7 @@ public class AppEngineCallbackSample extends AbstractAppEngineAuthorizationCodeC
   protected AuthorizationCodeFlow initializeFlow() throws IOException {
     return new AuthorizationCodeFlow.Builder(BearerToken.authorizationHeaderAccessMethod(),
         new UrlFetchTransport(),
-        new JacksonFactory(),
+        new GsonFactory(),
         new GenericUrl("https://server.example.com/token"),
         new BasicAuthentication("s6BhdRkqt3", "7Fjfp0ZBr1KtDRbnfVdmIw"),
         "s6BhdRkqt3",
