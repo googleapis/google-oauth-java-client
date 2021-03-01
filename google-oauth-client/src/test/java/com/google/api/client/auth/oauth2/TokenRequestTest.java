@@ -15,9 +15,15 @@
 package com.google.api.client.auth.oauth2;
 
 import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpContent;
+import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.testing.http.MockHttpTransport;
+import com.google.common.collect.ImmutableList;
 import junit.framework.TestCase;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 /**
  * Tests {@link TokenRequest}.
@@ -44,5 +50,36 @@ public class TokenRequestTest extends TestCase {
     assertEquals(TRANSPORT, request.getTransport());
     assertEquals(JSON_FACTORY, request.getJsonFactory());
     assertEquals(AUTHORIZATION_SERVER_URL, request.getTokenServerUrl());
+  }
+
+  public void testScopes() throws IOException {
+    TokenRequest request = new TokenRequest(TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo")
+        .setScopes(ImmutableList.of("scope1"));
+    HttpContent content = new UrlEncodedContent(request);
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    content.writeTo(outputStream);
+    String encoded = new String(outputStream.toByteArray());
+    assertEquals("grant_type=foo&scope=scope1", encoded);
+  }
+
+  public void testEmptyScopes() throws IOException {
+    TokenRequest request = new TokenRequest(TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo")
+        .setScopes(ImmutableList.<String>of());
+    HttpContent content = new UrlEncodedContent(request);
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    content.writeTo(outputStream);
+    String encoded = new String(outputStream.toByteArray());
+    System.out.println(encoded);
+    assertEquals("grant_type=foo", encoded);
+  }
+
+  public void testNullScopes() throws IOException {
+    TokenRequest request = new TokenRequest(TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo")
+        .setScopes(null);
+    HttpContent content = new UrlEncodedContent(request);
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    content.writeTo(outputStream);
+    String encoded = new String(outputStream.toByteArray());
+    assertEquals("grant_type=foo", encoded);
   }
 }
