@@ -20,10 +20,9 @@ import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.common.collect.ImmutableList;
-import junit.framework.TestCase;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import junit.framework.TestCase;
 
 /**
  * Tests {@link TokenRequest}.
@@ -53,8 +52,9 @@ public class TokenRequestTest extends TestCase {
   }
 
   public void testScopes() throws IOException {
-    TokenRequest request = new TokenRequest(TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo")
-        .setScopes(ImmutableList.of("scope1"));
+    TokenRequest request =
+        new TokenRequest(TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo")
+            .setScopes(ImmutableList.of("scope1"));
     HttpContent content = new UrlEncodedContent(request);
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     content.writeTo(outputStream);
@@ -63,8 +63,9 @@ public class TokenRequestTest extends TestCase {
   }
 
   public void testEmptyScopes() throws IOException {
-    TokenRequest request = new TokenRequest(TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo")
-        .setScopes(ImmutableList.<String>of());
+    TokenRequest request =
+        new TokenRequest(TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo")
+            .setScopes(ImmutableList.<String>of());
     HttpContent content = new UrlEncodedContent(request);
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     content.writeTo(outputStream);
@@ -74,8 +75,8 @@ public class TokenRequestTest extends TestCase {
   }
 
   public void testNullScopes() throws IOException {
-    TokenRequest request = new TokenRequest(TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo")
-        .setScopes(null);
+    TokenRequest request =
+        new TokenRequest(TRANSPORT, JSON_FACTORY, AUTHORIZATION_SERVER_URL, "foo").setScopes(null);
     HttpContent content = new UrlEncodedContent(request);
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     content.writeTo(outputStream);
