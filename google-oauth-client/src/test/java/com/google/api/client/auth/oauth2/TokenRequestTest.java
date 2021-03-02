@@ -70,8 +70,7 @@ public class TokenRequestTest extends TestCase {
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     content.writeTo(outputStream);
     String encoded = new String(outputStream.toByteArray());
-    System.out.println(encoded);
-    assertEquals("grant_type=foo", encoded);
+    assertEquals("grant_type=foo&scope", encoded);
   }
 
   public void testNullScopes() throws IOException {

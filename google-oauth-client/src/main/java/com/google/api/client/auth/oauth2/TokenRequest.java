@@ -210,7 +210,7 @@ public class TokenRequest extends GenericData {
    * @since 1.15
    */
   public TokenRequest setScopes(Collection<String> scopes) {
-    this.scopes = (scopes == null || scopes.isEmpty()) ? null : Joiner.on(' ').join(scopes);
+    this.scopes = scopes == null ? null : Joiner.on(' ').join(scopes);
     return this;
   }
 
