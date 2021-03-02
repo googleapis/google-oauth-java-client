@@ -22,6 +22,8 @@ import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.common.collect.ImmutableList;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
 import junit.framework.TestCase;
 
 /**
@@ -58,7 +60,7 @@ public class TokenRequestTest extends TestCase {
     HttpContent content = new UrlEncodedContent(request);
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     content.writeTo(outputStream);
-    String encoded = new String(outputStream.toByteArray());
+    String encoded = new String(outputStream.toByteArray(), StandardCharsets.UTF_8);
     assertEquals("grant_type=foo&scope=scope1", encoded);
   }
 
@@ -69,7 +71,7 @@ public class TokenRequestTest extends TestCase {
     HttpContent content = new UrlEncodedContent(request);
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     content.writeTo(outputStream);
-    String encoded = new String(outputStream.toByteArray());
+    String encoded = new String(outputStream.toByteArray(), StandardCharsets.UTF_8);
     assertEquals("grant_type=foo&scope", encoded);
   }
 
@@ -79,7 +81,7 @@ public class TokenRequestTest extends TestCase {
     HttpContent content = new UrlEncodedContent(request);
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     content.writeTo(outputStream);
-    String encoded = new String(outputStream.toByteArray());
+    String encoded = new String(outputStream.toByteArray(), StandardCharsets.UTF_8);
     assertEquals("grant_type=foo", encoded);
   }
 }
