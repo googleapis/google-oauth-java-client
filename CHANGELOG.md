@@ -1,5 +1,20 @@
 # Changelog
 
+### [1.31.5](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.31.4...v1.31.5) (2021-04-09)
+
+
+### Bug Fixes
+
+* don't swallow exceptions in LocalServerReceiver ([#595](https://www.github.com/googleapis/google-oauth-java-client/issues/595)) ([f39faec](https://www.github.com/googleapis/google-oauth-java-client/commit/f39faec9980fa65602a216fbf34555b744139443))
+* oauth1 signing for url encoded content ([#538](https://www.github.com/googleapis/google-oauth-java-client/issues/538)) ([d9507e4](https://www.github.com/googleapis/google-oauth-java-client/commit/d9507e4c367cc870b811e28e3b206ef4661c67d8))
+* remove Jackson from assembly ([#605](https://www.github.com/googleapis/google-oauth-java-client/issues/605)) ([a482000](https://www.github.com/googleapis/google-oauth-java-client/commit/a482000eddf3c056f57492487c4a2f1e2f81feeb))
+* switch to GSON per security team advice ([#586](https://www.github.com/googleapis/google-oauth-java-client/issues/586)) ([58a1828](https://www.github.com/googleapis/google-oauth-java-client/commit/58a1828e8e291c59494893b2632c294dffe98b23))
+
+
+### Dependencies
+
+* update appengine packages to v1.9.84 ([#577](https://www.github.com/googleapis/google-oauth-java-client/issues/577)) ([3fbd4d5](https://www.github.com/googleapis/google-oauth-java-client/commit/3fbd4d5205215447969adb7fa93a46f309eed4a5))
+
 ### [1.31.4](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.31.3...v1.31.4) (2021-01-05)
 
 
