@@ -502,5 +502,71 @@
         </plugins>
       </build>
     </profile>
+
+    <profile>
+      <id>docFX</id>
+      <activation>
+        <property>
+          <!-- Activate with -P docFX -->
+          <name>docFX</name>
+        </property>
+      </activation>
+      <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.2.0</version>
+            <reportSets>
+              <reportSet>
+                <id>docFX</id>
+                <reports>
+                  <report>javadoc</report>
+                  <report>aggregate</report>
+                  <report>aggregate-jar</report>
+                </reports>
+              </reportSet>
+            </reportSets>
+            <configuration>
+              <doclet>com.microsoft.doclet.DocFxDoclet</doclet>
+              <useStandardDocletOptions>false</useStandardDocletOptions>
+              <docletPath>${env.KOKORO_GFILE_DIR}/docfx-doclet-1.0-SNAPSHOT-jar-with-dependencies-172556.jar</docletPath>
+              <additionalOptions>-outputpath ${project.build.directory}/docfx-yml</additionalOptions>
+              <doclint>none</doclint>
+              <show>protected</show>
+              <nohelp>true</nohelp>
+              <source>7</source>
+              <groups>
+                <group>
+                  <title>google-oauth-client</title>
+                  <packages>com.google.api.client.auth*</packages>
+                </group>
+                <group>
+                  <title>google-oauth-client-appengine</title>
+                  <packages>com.google.api.client.extensions.appengine.*</packages>
+                </group>
+                <group>
+                  <title>google-oauth-client-servlet</title>
+                  <packages>com.google.api.client.extensions.servlet.*:com.google.api.client.extensions.auth.*:com.google.api.client.extensions.jdo.*</packages>
+                </group>
+                <group>
+                  <title>google-oauth-client-java6</title>
+                  <packages>com.google.api.client.extensions.java6.*</packages>
+                </group>
+                <group>
+                  <title>google-oauth-client-jetty</title>
+                  <packages>com.google.api.client.extensions.jetty.*</packages>
+                </group>
+              </groups>
+              <links>
+                <link>https://docs.oracle.com/javase/7/docs/api/</link>
+                <link>https://cloud.google.com/appengine/docs/java/javadoc</link>
+                <link>https://googleapis.dev/java/google-http-client/${project.http.version}/</link>
+              </links>
+            </configuration>
+          </plugin>
+        </plugins>
+      </reporting>
+    </profile>
   </profiles>
 </project>
