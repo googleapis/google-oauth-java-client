@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.31.4-sp.1](https://www.github.com/googleapis/google-oauth-java-client/compare/1.31.4...v1.31.4-sp.1) (2021-05-11)
+
+
+### Features
+
+* configure initial sp version ([#677](https://www.github.com/googleapis/google-oauth-java-client/issues/677)) ([31849ac](https://www.github.com/googleapis/google-oauth-java-client/commit/31849ac59be2244122c11eaac5617cc47473fba9))
+
 ### [1.31.4](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.31.3...v1.31.4) (2021-01-05)
 
 
