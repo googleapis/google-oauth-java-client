@@ -4,7 +4,7 @@
       "git": {
         "name": ".",
         "remote": "https://github.com/googleapis/google-oauth-java-client.git",
-        "sha": "18167ad71c479e927c6b52ed02fa4b39862cc88c"
+        "sha": "04a0ecb59f0c41222df4b58e8b541437dc123d43"
       }
     },
     {
@@ -81,6 +81,7 @@
     "CODE_OF_CONDUCT.md",
     "CONTRIBUTING.md",
     "LICENSE",
+    "codecov.yaml",
     "samples/install-without-bom/pom.xml",
     "samples/pom.xml",
     "samples/snapshot/pom.xml",
