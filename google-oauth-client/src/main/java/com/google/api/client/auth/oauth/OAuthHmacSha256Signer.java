@@ -24,13 +24,10 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * {@link Beta} <br>
- * OAuth {@code "HMAC-SHA1"} signature method.
- *
- * @since 1.0
- * @author Yaniv Inbar
+ * OAuth {@code "HMAC-SHA256"} signature method.
  */
 @Beta
-public final class OAuthHmacSigner implements OAuthSigner {
+public final class OAuthHmacSha256Signer implements OAuthSigner {
 
   /** Client-shared secret or {@code null} for none. */
   public String clientSharedSecret;
@@ -39,7 +36,7 @@ public final class OAuthHmacSigner implements OAuthSigner {
   public String tokenSharedSecret;
 
   public String getSignatureMethod() {
-    return "HMAC-SHA1";
+    return "HMAC-SHA256";
   }
 
   public String computeSignature(String signatureBaseString) throws GeneralSecurityException {
@@ -56,8 +53,8 @@ public final class OAuthHmacSigner implements OAuthSigner {
     }
     String key = keyBuf.toString();
     // sign
-    SecretKey secretKey = new SecretKeySpec(StringUtils.getBytesUtf8(key), "HmacSHA1");
-    Mac mac = Mac.getInstance("HmacSHA1");
+    SecretKey secretKey = new SecretKeySpec(StringUtils.getBytesUtf8(key), "HmacSHA256");
+    Mac mac = Mac.getInstance("HmacSHA256");
     mac.init(secretKey);
     return Base64.encodeBase64String(mac.doFinal(StringUtils.getBytesUtf8(signatureBaseString)));
   }

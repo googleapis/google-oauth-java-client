@@ -18,18 +18,16 @@ import java.security.GeneralSecurityException;
 import junit.framework.TestCase;
 
 /**
- * Tests {@link OAuthHmacSigner}.
- *
- * @author Yaniv Inbar
+ * Tests {@link OAuthHmacSha256Signer}.
  */
-public class OAuthHmacSignerTest extends TestCase {
+public class OAuthHmacSha256SignerTest extends TestCase {
 
-  private static final String EXPECTED_SIGNATURE = "0anl6O7gtZfslLZ5j3QoTwd0uPY=";
+  private static final String EXPECTED_SIGNATURE = "xDJIQbKJTwGumZFvSG1V3ctym2tz6kD8fKGWPr5ImPU=";
 
   public void testComputeSignature() throws GeneralSecurityException {
-    OAuthHmacSigner signer = new OAuthHmacSigner();
-    signer.clientSharedSecret = "abc";
-    signer.tokenSharedSecret = "def";
-    assertEquals(EXPECTED_SIGNATURE, signer.computeSignature("foo"));
+    OAuthHmacSha256Signer signer = new OAuthHmacSha256Signer();
+    signer.clientSharedSecret = "apiSecret";
+    signer.tokenSharedSecret = "tokenSecret";
+    assertEquals(EXPECTED_SIGNATURE, signer.computeSignature("baseString"));
   }
 }
