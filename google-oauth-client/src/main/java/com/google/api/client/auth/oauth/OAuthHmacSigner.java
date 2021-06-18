@@ -26,7 +26,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * {@link Beta} <br>
- * OAuth {@code "HMAC-SHA1"} signature method.
+ * OAuth {@code "HMAC-SHA1"} and {@code "HMAC-SHA256"} signature method.
  *
  * @since 1.0
  * @author Yaniv Inbar
