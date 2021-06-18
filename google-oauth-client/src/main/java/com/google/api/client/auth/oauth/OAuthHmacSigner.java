@@ -17,7 +17,7 @@ package com.google.api.client.auth.oauth;
 import com.google.api.client.util.Base64;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.StringUtils;
-import com.google.common.collect.ImmutableMap;
+
 import java.security.GeneralSecurityException;
 import java.util.Map;
 import javax.crypto.Mac;
@@ -55,6 +55,7 @@ public final class OAuthHmacSigner implements OAuthSigner {
     return signatureMethod;
   }
 
+  /** Set the signature method.  Valid signature methods are "HMAC-SHA1" and "HMAC-SHA256" */
   public void setSignatureMethod(String signatureMethod) throws IllegalArgumentException {
     if (signatureMethodMap.containsKey(signatureMethod)) {
       this.signatureMethod = signatureMethod;
