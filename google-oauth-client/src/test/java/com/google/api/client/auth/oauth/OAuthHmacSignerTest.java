@@ -16,6 +16,9 @@ package com.google.api.client.auth.oauth;
 
 import java.security.GeneralSecurityException;
 import junit.framework.TestCase;
+import org.junit.function.ThrowingRunnable;
+
+import static org.junit.Assert.assertThrows;
 
 /**
  * Tests {@link OAuthHmacSigner}.
@@ -31,5 +34,40 @@ public class OAuthHmacSignerTest extends TestCase {
     signer.clientSharedSecret = "abc";
     signer.tokenSharedSecret = "def";
     assertEquals(EXPECTED_SIGNATURE, signer.computeSignature("foo"));
+  }
+
+  public void testComputeSignatureHmacSha256() throws GeneralSecurityException {
+    final OAuthHmacSigner signer = new OAuthHmacSigner();
+    signer.setSignatureMethod("HMAC-SHA256");
+    signer.clientSharedSecret = "apiSecret";
+    signer.tokenSharedSecret = "tokenSecret";
+    final String expected = "xDJIQbKJTwGumZFvSG1V3ctym2tz6kD8fKGWPr5ImPU=";
+    assertEquals(expected, signer.computeSignature("baseString"));
+  }
+
+  public void testGetSignatureMethod() {
+    final OAuthHmacSigner signer = new OAuthHmacSigner();
+    final String expected = "HMAC-SHA1";
+    assertEquals(expected, signer.getSignatureMethod());
+  }
+
+  public void testGetSignatureMethodHmacSha256() {
+    final OAuthHmacSigner signer = new OAuthHmacSigner();
+    final String signatureMethod = "HMAC-SHA256";
+    signer.setSignatureMethod(signatureMethod);
+    assertEquals(signatureMethod, signer.getSignatureMethod());
+  }
+
+  public void testSetSignatureMethodHmacMD5() {
+    assertThrows(
+            "Signature method HMAC-MD5 not available",
+            IllegalArgumentException.class,
+            new ThrowingRunnable() {
+              @Override
+              public void run() {
+                new OAuthHmacSigner().setSignatureMethod("HMAC-MD5");
+              }
+            }
+    );
   }
 }

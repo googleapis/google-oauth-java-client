@@ -17,7 +17,9 @@ package com.google.api.client.auth.oauth;
 import com.google.api.client.util.Base64;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.StringUtils;
+import com.google.common.collect.ImmutableMap;
 import java.security.GeneralSecurityException;
+import java.util.Map;
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -32,14 +34,33 @@ import javax.crypto.spec.SecretKeySpec;
 @Beta
 public final class OAuthHmacSigner implements OAuthSigner {
 
+  private final Map<String, String> signatureMethodMap = ImmutableMap.of(
+          "HMAC-SHA1", "HmacSHA1",
+          "HMAC-SHA256", "HmacSHA256"
+  );
+
+  private String signatureMethod = "HMAC-SHA1";
+
   /** Client-shared secret or {@code null} for none. */
   public String clientSharedSecret;
 
   /** Token-shared secret or {@code null} for none. */
   public String tokenSharedSecret;
 
+  private String getAlgorithm() {
+    return signatureMethodMap.get(signatureMethod);
+  }
+
   public String getSignatureMethod() {
-    return "HMAC-SHA1";
+    return signatureMethod;
+  }
+
+  public void setSignatureMethod(String signatureMethod) throws IllegalArgumentException {
+    if (signatureMethodMap.containsKey(signatureMethod)) {
+      this.signatureMethod = signatureMethod;
+    } else {
+      throw new IllegalArgumentException("Signature method " + signatureMethod + " not available");
+    }
   }
 
   public String computeSignature(String signatureBaseString) throws GeneralSecurityException {
@@ -56,8 +77,8 @@ public final class OAuthHmacSigner implements OAuthSigner {
     }
     String key = keyBuf.toString();
     // sign
-    SecretKey secretKey = new SecretKeySpec(StringUtils.getBytesUtf8(key), "HmacSHA1");
-    Mac mac = Mac.getInstance("HmacSHA1");
+    SecretKey secretKey = new SecretKeySpec(StringUtils.getBytesUtf8(key), getAlgorithm());
+    Mac mac = Mac.getInstance(getAlgorithm());
     mac.init(secretKey);
     return Base64.encodeBase64String(mac.doFinal(StringUtils.getBytesUtf8(signatureBaseString)));
   }
