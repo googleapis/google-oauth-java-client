@@ -15,19 +15,22 @@
 package com.google.api.client.auth.oauth;
 
 import java.security.GeneralSecurityException;
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests {@link OAuthHmacSha256Signer}.
  */
-public class OAuthHmacSha256SignerTest extends TestCase {
+public class OAuthHmacSha256SignerTest {
 
   private static final String EXPECTED_SIGNATURE = "xDJIQbKJTwGumZFvSG1V3ctym2tz6kD8fKGWPr5ImPU=";
 
+  @Test
   public void testComputeSignature() throws GeneralSecurityException {
     OAuthHmacSha256Signer signer = new OAuthHmacSha256Signer();
-    signer.clientSharedSecret = "apiSecret";
-    signer.tokenSharedSecret = "tokenSecret";
+    signer.setClientSecret("apiSecret");
+    signer.setTokenSecret("tokenSecret");
     assertEquals(EXPECTED_SIGNATURE, signer.computeSignature("baseString"));
   }
 }

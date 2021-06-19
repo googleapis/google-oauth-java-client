@@ -29,11 +29,19 @@ import javax.crypto.spec.SecretKeySpec;
 @Beta
 public final class OAuthHmacSha256Signer implements OAuthSigner {
 
-  /** Client-shared secret or {@code null} for none. */
-  public String clientSharedSecret;
+  /** Client secret */
+  private String clientSharedSecret;
 
-  /** Token-shared secret or {@code null} for none. */
-  public String tokenSharedSecret;
+  /** Token secret */
+  private String tokenSharedSecret;
+
+  public void setClientSecret(String clientSecret) {
+    clientSharedSecret = clientSecret;
+  }
+
+  public void setTokenSecret(String tokenSecret) {
+    tokenSharedSecret = tokenSecret;
+  }
 
   public String getSignatureMethod() {
     return "HMAC-SHA256";
@@ -42,14 +50,14 @@ public final class OAuthHmacSha256Signer implements OAuthSigner {
   public String computeSignature(String signatureBaseString) throws GeneralSecurityException {
     // compute key
     StringBuilder keyBuffer = new StringBuilder();
-    String clientSharedSecret = this.clientSharedSecret;
-    if (clientSharedSecret != null) {
-      keyBuffer.append(OAuthParameters.escape(clientSharedSecret));
+    String clientSecret = clientSharedSecret;
+    if (clientSecret != null) {
+      keyBuffer.append(OAuthParameters.escape(clientSecret));
     }
     keyBuffer.append('&');
-    String tokenSharedSecret = this.tokenSharedSecret;
-    if (tokenSharedSecret != null) {
-      keyBuffer.append(OAuthParameters.escape(tokenSharedSecret));
+    String tokenSecret = tokenSharedSecret;
+    if (tokenSecret != null) {
+      keyBuffer.append(OAuthParameters.escape(tokenSecret));
     }
     String key = keyBuffer.toString();
     // sign
