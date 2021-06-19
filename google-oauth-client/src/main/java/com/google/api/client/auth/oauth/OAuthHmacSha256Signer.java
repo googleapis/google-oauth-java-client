@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010 Google Inc.
+ * Copyright 2021 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -41,17 +41,17 @@ public final class OAuthHmacSha256Signer implements OAuthSigner {
 
   public String computeSignature(String signatureBaseString) throws GeneralSecurityException {
     // compute key
-    StringBuilder keyBuf = new StringBuilder();
+    StringBuilder keyBuffer = new StringBuilder();
     String clientSharedSecret = this.clientSharedSecret;
     if (clientSharedSecret != null) {
-      keyBuf.append(OAuthParameters.escape(clientSharedSecret));
+      keyBuffer.append(OAuthParameters.escape(clientSharedSecret));
     }
-    keyBuf.append('&');
+    keyBuffer.append('&');
     String tokenSharedSecret = this.tokenSharedSecret;
     if (tokenSharedSecret != null) {
-      keyBuf.append(OAuthParameters.escape(tokenSharedSecret));
+      keyBuffer.append(OAuthParameters.escape(tokenSharedSecret));
     }
-    String key = keyBuf.toString();
+    String key = keyBuffer.toString();
     // sign
     SecretKey secretKey = new SecretKeySpec(StringUtils.getBytesUtf8(key), "HmacSHA256");
     Mac mac = Mac.getInstance("HmacSHA256");
