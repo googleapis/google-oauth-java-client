@@ -23,41 +23,40 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * {@link Beta} <br>
  * OAuth {@code "HMAC-SHA256"} signature method.
  */
 @Beta
 public final class OAuthHmacSha256Signer implements OAuthSigner {
 
   /** Client secret */
-  private String clientSharedSecret;
+  private final String clientSharedSecret;
 
   /** Token secret */
   private String tokenSharedSecret;
-
-  public void setClientSecret(String clientSecret) {
-    clientSharedSecret = clientSecret;
-  }
 
   public void setTokenSecret(String tokenSecret) {
     tokenSharedSecret = tokenSecret;
   }
 
+  public OAuthHmacSha256Signer(String clientSecret) {
+    this.clientSharedSecret = clientSecret;
+  }
+
+  @Override
   public String getSignatureMethod() {
     return "HMAC-SHA256";
   }
 
+  @Override
   public String computeSignature(String signatureBaseString) throws GeneralSecurityException {
     // compute key
     StringBuilder keyBuffer = new StringBuilder();
-    String clientSecret = clientSharedSecret;
-    if (clientSecret != null) {
-      keyBuffer.append(OAuthParameters.escape(clientSecret));
+    if (clientSharedSecret != null) {
+      keyBuffer.append(OAuthParameters.escape(clientSharedSecret));
     }
     keyBuffer.append('&');
-    String tokenSecret = tokenSharedSecret;
-    if (tokenSecret != null) {
-      keyBuffer.append(OAuthParameters.escape(tokenSecret));
+    if (tokenSharedSecret != null) {
+      keyBuffer.append(OAuthParameters.escape(tokenSharedSecret));
     }
     String key = keyBuffer.toString();
     // sign
