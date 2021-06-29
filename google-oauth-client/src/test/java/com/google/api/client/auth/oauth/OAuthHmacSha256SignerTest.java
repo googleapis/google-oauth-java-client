@@ -24,13 +24,33 @@ import static org.junit.Assert.assertEquals;
  */
 public class OAuthHmacSha256SignerTest {
 
-  private static final String EXPECTED_SIGNATURE = "xDJIQbKJTwGumZFvSG1V3ctym2tz6kD8fKGWPr5ImPU=";
+  @Test
+  public void testComputeSignatureWithNullSecrets() throws GeneralSecurityException {
+    OAuthHmacSha256Signer signer = new OAuthHmacSha256Signer(null);
+    String expectedSignature = "l/Es58FI4BtBciSH9XtY/5jXFee70v7/rPiQgEpvv00=";
+    assertEquals(expectedSignature, signer.computeSignature("baseString"));
+  }
+
+  @Test
+  public void testComputeSignatureWithNullClientSecret() throws GeneralSecurityException {
+    OAuthHmacSha256Signer signer = new OAuthHmacSha256Signer(null);
+    signer.setTokenSecret("tokenSecret");
+    String expectedSignature = "PgNWY2qQ53qvk3WySct/f037/usxMGpNDjmJeISmgCM=";
+    assertEquals(expectedSignature, signer.computeSignature("baseString"));
+  }
+
+  @Test
+  public void testComputeSignatureWithNullTokenSecret() throws GeneralSecurityException {
+    OAuthHmacSha256Signer signer = new OAuthHmacSha256Signer("clientSecret");
+    String expectedSignature = "cNrT2sqgyQ+dd7rbAhYBFBk8o82/yZyZkavqsfMDqpo=";
+    assertEquals(expectedSignature, signer.computeSignature("baseString"));
+  }
 
   @Test
   public void testComputeSignature() throws GeneralSecurityException {
-    OAuthHmacSha256Signer signer = new OAuthHmacSha256Signer();
-    signer.setClientSecret("apiSecret");
+    OAuthHmacSha256Signer signer = new OAuthHmacSha256Signer("clientSecret");
     signer.setTokenSecret("tokenSecret");
-    assertEquals(EXPECTED_SIGNATURE, signer.computeSignature("baseString"));
+    String expectedSignature = "sfnrBcfwccOs2mpc60VQ5zXx5ReP/46lgUcBhU2a4PM=";
+    assertEquals(expectedSignature, signer.computeSignature("baseString"));
   }
 }
