@@ -14,9 +14,9 @@
 
 package com.google.api.client.auth.oauth;
 
-import com.google.api.client.util.Base64;
-import com.google.api.client.util.Beta;
 import com.google.api.client.util.StringUtils;
+import com.google.common.io.BaseEncoding;
+
 import java.security.GeneralSecurityException;
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -25,7 +25,6 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * OAuth {@code "HMAC-SHA256"} signature method.
  */
-@Beta
 public final class OAuthHmacSha256Signer implements OAuthSigner {
 
   /** Client secret */
@@ -63,6 +62,6 @@ public final class OAuthHmacSha256Signer implements OAuthSigner {
     SecretKey secretKey = new SecretKeySpec(StringUtils.getBytesUtf8(key), "HmacSHA256");
     Mac mac = Mac.getInstance("HmacSHA256");
     mac.init(secretKey);
-    return Base64.encodeBase64String(mac.doFinal(StringUtils.getBytesUtf8(signatureBaseString)));
+    return BaseEncoding.base64().encode(mac.doFinal(StringUtils.getBytesUtf8(signatureBaseString)));
   }
 }
