@@ -14,14 +14,12 @@
 
 package com.google.api.client.auth.oauth;
 
+import static org.junit.Assert.assertEquals;
+
 import java.security.GeneralSecurityException;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-
-/**
- * Tests {@link OAuthHmacSha256Signer}.
- */
+/** Tests {@link OAuthHmacSha256Signer}. */
 public class OAuthHmacSha256SignerTest {
 
   @Test

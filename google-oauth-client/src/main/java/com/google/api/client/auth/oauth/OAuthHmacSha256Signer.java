@@ -16,15 +16,12 @@ package com.google.api.client.auth.oauth;
 
 import com.google.api.client.util.StringUtils;
 import com.google.common.io.BaseEncoding;
-
 import java.security.GeneralSecurityException;
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-/**
- * OAuth {@code "HMAC-SHA256"} signature method.
- */
+/** OAuth {@code "HMAC-SHA256"} signature method. */
 public final class OAuthHmacSha256Signer implements OAuthSigner {
 
   /** Client secret */
