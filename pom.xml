@@ -435,7 +435,7 @@
           <dependency>
             <groupId>com.google.googlejavaformat</groupId>
             <artifactId>google-java-format</artifactId>
-            <version>1.10.0</version>
+            <version>1.7.0</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -531,7 +531,7 @@
               <doclet>com.microsoft.doclet.DocFxDoclet</doclet>
               <useStandardDocletOptions>false</useStandardDocletOptions>
               <docletPath>${env.KOKORO_GFILE_DIR}/java-docfx-doclet-1.0.jar</docletPath>
-              <additionalOptions>-outputpath ${project.build.directory}/docfx-yml -projectname ${artifactId}</additionalOptions>
+              <additionalOptions>-outputpath ${project.build.directory}/docfx-yml -projectname ${project.artifactId}</additionalOptions>
               <doclint>none</doclint>
               <show>protected</show>
               <nohelp>true</nohelp>
