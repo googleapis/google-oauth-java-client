@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.32.0](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.31.5...v1.32.0) (2021-08-11)
+
+
+### Features
+
+* add `gcf-owl-bot[bot]` to `ignoreAuthors` ([#690](https://www.github.com/googleapis/google-oauth-java-client/issues/690)) ([2786401](https://www.github.com/googleapis/google-oauth-java-client/commit/27864015793eab524c83ba4fc345a1afc27d7a95))
+* Add HMAC-SHA256 signature method for OAuth 1.0 ([#711](https://www.github.com/googleapis/google-oauth-java-client/issues/711)) ([c070f5f](https://www.github.com/googleapis/google-oauth-java-client/commit/c070f5f27d8034f681b7fc9a43825cfc7fd6f06f))
+
+
+### Bug Fixes
+
+* release scripts from issuing overlapping phases ([#664](https://www.github.com/googleapis/google-oauth-java-client/issues/664)) ([60fec2b](https://www.github.com/googleapis/google-oauth-java-client/commit/60fec2b9bbd5d632dff155a45a2ed0fa2f261c45))
+* Revert "chore(deps): update dependency com.google.googlejavaformat:google-java-format to v1.10.0" to fix linter ([#713](https://www.github.com/googleapis/google-oauth-java-client/issues/713)) ([bbc9ea2](https://www.github.com/googleapis/google-oauth-java-client/commit/bbc9ea2865f30a12402869e427bc6ae3ebffc588))
+* Update dependencies.sh to not break on mac ([#706](https://www.github.com/googleapis/google-oauth-java-client/issues/706)) ([39c2777](https://www.github.com/googleapis/google-oauth-java-client/commit/39c2777543ca46dc2e4c12bd5469e829c9a85c37))
+
 ### [1.31.5](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.31.4...v1.31.5) (2021-04-09)
 
 
