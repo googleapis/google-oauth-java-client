@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.32.1](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.32.0...v1.32.1) (2021-08-12)
+
+
+### Bug Fixes
+
+* force a release ([#718](https://www.github.com/googleapis/google-oauth-java-client/issues/718)) ([ec12293](https://www.github.com/googleapis/google-oauth-java-client/commit/ec122937c496396dad90ac05d71814342c611e70))
+
 ## [1.32.0](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.31.5...v1.32.0) (2021-08-11)
 
 
