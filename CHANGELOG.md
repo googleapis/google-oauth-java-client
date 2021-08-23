@@ -1,25 +1,19 @@
 # Changelog
 
-## [1.33.0](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.32.2...v1.33.0) (2021-08-23)
+### [1.32.1](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.32.0...v1.32.1) (2021-08-12)
 
 
 ### Features
 
-* trigger release ([#735](https://www.github.com/googleapis/google-oauth-java-client/issues/735)) ([720b75e](https://www.github.com/googleapis/google-oauth-java-client/commit/720b75e479db3eab65365132aca54f43bddbdf4f))
-
-### [1.32.2](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.32.1...v1.32.2) (2021-08-23)
-
-
-### Bug Fixes
-
-* fix release ([#728](https://www.github.com/googleapis/google-oauth-java-client/issues/728)) ([855503a](https://www.github.com/googleapis/google-oauth-java-client/commit/855503afa55def3192e2bdaf7247aa2484a2abbd))
-
-### [1.32.1](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.32.0...v1.32.1) (2021-08-12)
+* add `gcf-owl-bot[bot]` to `ignoreAuthors` ([#690](https://www.github.com/googleapis/google-oauth-java-client/issues/690)) ([2786401](https://www.github.com/googleapis/google-oauth-java-client/commit/27864015793eab524c83ba4fc345a1afc27d7a95))
+* Add HMAC-SHA256 signature method for OAuth 1.0 ([#711](https://www.github.com/googleapis/google-oauth-java-client/issues/711)) ([c070f5f](https://www.github.com/googleapis/google-oauth-java-client/commit/c070f5f27d8034f681b7fc9a43825cfc7fd6f06f))
 
 
 ### Bug Fixes
 
-* force a release ([#718](https://www.github.com/googleapis/google-oauth-java-client/issues/718)) ([ec12293](https://www.github.com/googleapis/google-oauth-java-client/commit/ec122937c496396dad90ac05d71814342c611e70))
+* release scripts from issuing overlapping phases ([#664](https://www.github.com/googleapis/google-oauth-java-client/issues/664)) ([60fec2b](https://www.github.com/googleapis/google-oauth-java-client/commit/60fec2b9bbd5d632dff155a45a2ed0fa2f261c45))
+* Revert "chore(deps): update dependency com.google.googlejavaformat:google-java-format to v1.10.0" to fix linter ([#713](https://www.github.com/googleapis/google-oauth-java-client/issues/713)) ([bbc9ea2](https://www.github.com/googleapis/google-oauth-java-client/commit/bbc9ea2865f30a12402869e427bc6ae3ebffc588))
+* Update dependencies.sh to not break on mac ([#706](https://www.github.com/googleapis/google-oauth-java-client/issues/706)) ([39c2777](https://www.github.com/googleapis/google-oauth-java-client/commit/39c2777543ca46dc2e4c12bd5469e829c9a85c37))
 
 ## [1.32.0](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.31.5...v1.32.0) (2021-08-11)
 
