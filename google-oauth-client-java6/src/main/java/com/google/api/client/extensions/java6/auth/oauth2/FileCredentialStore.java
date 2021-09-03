@@ -65,6 +65,7 @@ public class FileCredentialStore implements CredentialStore {
   /**
    * @param file File to store user credentials
    * @param jsonFactory JSON factory to serialize user credentials
+   * @throws IOException
    */
   public FileCredentialStore(File file, JsonFactory jsonFactory) throws IOException {
     this.file = Preconditions.checkNotNull(file);
@@ -100,7 +101,7 @@ public class FileCredentialStore implements CredentialStore {
 
   /**
    * Returns whether the given file is a symbolic link.
-   *
+   * @throws IOException
    * @since 1.13
    */
   protected boolean isSymbolicLink(File file) throws IOException {
@@ -182,6 +183,7 @@ public class FileCredentialStore implements CredentialStore {
    * </pre>
    *
    * @param dataStoreFactory file data store factory
+   * @throws IOException
    * @since 1.16
    */
   public final void migrateTo(FileDataStoreFactory dataStoreFactory) throws IOException {
@@ -192,6 +194,7 @@ public class FileCredentialStore implements CredentialStore {
    * Migrates to the new format using {@link DataStore} of {@link StoredCredential}.
    *
    * @param credentialDataStore credential data store
+   * @throws IOException
    * @since 1.16
    */
   public final void migrateTo(DataStore<StoredCredential> credentialDataStore) throws IOException {
