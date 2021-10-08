@@ -101,6 +101,7 @@ public class FileCredentialStore implements CredentialStore {
 
   /**
    * Returns whether the given file is a symbolic link.
+   *
    * @throws IOException
    * @since 1.13
    */
