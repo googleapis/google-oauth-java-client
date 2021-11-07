@@ -89,12 +89,10 @@
     <dependency>
       <groupId>com.google.http-client</groupId>
       <artifactId>google-http-client</artifactId>
-      <version>1.40.1</version>
     </dependency>
     <dependency>
       <groupId>com.google.http-client</groupId>
       <artifactId>google-http-client-gson</artifactId>
-      <version>1.40.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>

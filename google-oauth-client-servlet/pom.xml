@@ -115,7 +115,6 @@
     <dependency>
       <groupId>com.google.http-client</groupId>
       <artifactId>google-http-client</artifactId>
-      <version>1.40.1</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
