@@ -473,7 +473,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.http.version>1.40.1</project.http.version>
     <project.jsr305.version>3.0.2</project.jsr305.version>
-    <project.guava.version>30.1-android</project.guava.version>
+    <project.guava.version>31.0-android</project.guava.version>
     <project.xpp3.version>1.1.4c</project.xpp3.version>
     <project.commons-logging.version>1.1.1</project.commons-logging.version>
     <project.jdo2-api.version>2.3-eb</project.jdo2-api.version>
