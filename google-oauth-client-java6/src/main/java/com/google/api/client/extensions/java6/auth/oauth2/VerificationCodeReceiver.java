@@ -26,12 +26,24 @@ import java.io.IOException;
  */
 public interface VerificationCodeReceiver {
 
-  /** Returns the redirect URI. */
+  /**
+   * Returns the redirect URI.
+   *
+   * @throws IOException
+   */
   String getRedirectUri() throws IOException;
 
-  /** Waits for a verification code. */
+  /**
+   * Waits for a verification code.
+   *
+   * @throws IOException
+   */
   String waitForCode() throws IOException;
 
-  /** Releases any resources and stops any processes started. */
+  /**
+   * Releases any resources and stops any processes started.
+   *
+   * @throws IOException
+   */
   void stop() throws IOException;
 }

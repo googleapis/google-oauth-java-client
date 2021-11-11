@@ -94,6 +94,7 @@ public class AuthorizationCodeInstalledApp {
    *
    * @param userId user ID or {@code null} if not using a persisted credential store
    * @return credential
+   * @throws IOException
    */
   public Credential authorize(String userId) throws IOException {
     try {
