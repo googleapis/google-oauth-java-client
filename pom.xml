@@ -174,16 +174,6 @@
         <artifactId>datanucleus-rdbms</artifactId>
         <version>${project.datanucleus-rdbms.version}</version>
       </dependency>
-      <dependency>
-        <groupId>com.google.auto.service</groupId>
-        <artifactId>${project.auto-service-annotations.version}</artifactId>
-        <version>1.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.auto.value</groupId>
-        <artifactId>${project.auto-value-annotations.version}</artifactId>
-        <version>1.8.2</version>
-      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -483,8 +473,6 @@
     <project.datanucleus-rdbms.version>3.2.13</project.datanucleus-rdbms.version>
     <project.datanucleus-maven-plugin.version>4.0.5</project.datanucleus-maven-plugin.version>
     <project.servlet-api.version>2.5</project.servlet-api.version>
-    <project.auto-value-annotations.version>1.8.2</project.auto-value-annotations.version>
-    <project.auto-service-annotations.version>1.0</project.auto-service-annotations.version>
     <deploy.autorelease>false</deploy.autorelease>
   </properties>
 
