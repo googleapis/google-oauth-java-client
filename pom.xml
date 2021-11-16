@@ -174,16 +174,6 @@
         <artifactId>datanucleus-rdbms</artifactId>
         <version>${project.datanucleus-rdbms.version}</version>
       </dependency>
-      <dependency>
-        <groupId>com.google.auto.service</groupId>
-        <artifactId>${project.auto-service-annotations.version}</artifactId>
-        <version>1.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.auto.value</groupId>
-        <artifactId>${project.auto-value-annotations.version}</artifactId>
-        <version>1.8.2</version>
-      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -230,7 +220,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.3.1</version>
           <executions>
             <execution>
               <id>attach-javadocs</id>
@@ -483,8 +473,6 @@
     <project.datanucleus-rdbms.version>3.2.13</project.datanucleus-rdbms.version>
     <project.datanucleus-maven-plugin.version>4.0.5</project.datanucleus-maven-plugin.version>
     <project.servlet-api.version>2.5</project.servlet-api.version>
-    <project.auto-value-annotations.version>1.8.2</project.auto-value-annotations.version>
-    <project.auto-service-annotations.version>1.0</project.auto-service-annotations.version>
     <deploy.autorelease>false</deploy.autorelease>
   </properties>
 
@@ -531,62 +519,44 @@
           <name>docFX</name>
         </property>
       </activation>
-      <reporting>
+      <properties>
+        <!-- default config values -->
+        <docletName>java-docfx-doclet-1.3.0</docletName>
+        <outputpath>${project.build.directory}/docfx-yml</outputpath>
+        <projectname>${project.artifactId}</projectname>
+        <excludeclasses></excludeclasses>
+        <excludePackages></excludePackages>
+        <source>7</source>            
+        <sourceFileExclude></sourceFileExclude>
+      </properties>
+      <build>
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.2.0</version>
-            <reportSets>
-              <reportSet>
-                <id>docFX</id>
-                <reports>
-                  <report>javadoc</report>
-                  <report>aggregate</report>
-                  <report>aggregate-jar</report>
-                </reports>
-              </reportSet>
-            </reportSets>
+            <version>3.3.1</version>
             <configuration>
               <doclet>com.microsoft.doclet.DocFxDoclet</doclet>
               <useStandardDocletOptions>false</useStandardDocletOptions>
-              <docletPath>${env.KOKORO_GFILE_DIR}/java-docfx-doclet-1.3.0.jar</docletPath>
-              <additionalOptions>-outputpath ${project.build.directory}/docfx-yml -projectname ${project.artifactId}</additionalOptions>
+               <!-- custom config with -Dproperty=value -->
+              <docletPath>${env.KOKORO_GFILE_DIR}/${docletName}.jar</docletPath>
+              <additionalOptions>
+                -outputpath ${outputpath} 
+                -projectname ${projectname} 
+                -excludeclasses ${excludeclasses}: 
+                -excludepackages ${excludePackages}:
+              </additionalOptions>
               <doclint>none</doclint>
               <show>protected</show>
               <nohelp>true</nohelp>
-              <source>7</source>
-              <groups>
-                <group>
-                  <title>google-oauth-client</title>
-                  <packages>com.google.api.client.auth*</packages>
-                </group>
-                <group>
-                  <title>google-oauth-client-appengine</title>
-                  <packages>com.google.api.client.extensions.appengine.*</packages>
-                </group>
-                <group>
-                  <title>google-oauth-client-servlet</title>
-                  <packages>com.google.api.client.extensions.servlet.*:com.google.api.client.extensions.auth.*:com.google.api.client.extensions.jdo.*</packages>
-                </group>
-                <group>
-                  <title>google-oauth-client-java6</title>
-                  <packages>com.google.api.client.extensions.java6.*</packages>
-                </group>
-                <group>
-                  <title>google-oauth-client-jetty</title>
-                  <packages>com.google.api.client.extensions.jetty.*</packages>
-                </group>
-              </groups>
-              <links>
-                <link>https://docs.oracle.com/javase/7/docs/api/</link>
-                <link>https://cloud.google.com/appengine/docs/java/javadoc</link>
-                <link>https://googleapis.dev/java/google-http-client/${project.http.version}/</link>
-              </links>
+              <source>${source}</source>
+              <sourceFileExcludes>
+                <exclude>${sourceFileExclude}</exclude>
+              </sourceFileExcludes>
             </configuration>
-          </plugin>
+          </plugin>  
         </plugins>
-      </reporting>
+      </build>
     </profile>
   </profiles>
 </project>
