@@ -1,5 +1,65 @@
 # Changelog
 
+## [1.33.0](https://github.com/googleapis/google-oauth-java-client/compare/google-oauth-java-client-v1.32.1...google-oauth-java-client-v1.33.0) (2022-01-04)
+
+
+### Features
+
+* add `gcf-owl-bot[bot]` to `ignoreAuthors` ([#690](https://github.com/googleapis/google-oauth-java-client/issues/690)) ([2786401](https://github.com/googleapis/google-oauth-java-client/commit/27864015793eab524c83ba4fc345a1afc27d7a95))
+* Add HMAC-SHA256 signature method for OAuth 1.0 ([#711](https://github.com/googleapis/google-oauth-java-client/issues/711)) ([c070f5f](https://github.com/googleapis/google-oauth-java-client/commit/c070f5f27d8034f681b7fc9a43825cfc7fd6f06f))
+* add PKCE support to AuthorizationCodeFlow ([#470](https://github.com/googleapis/google-oauth-java-client/issues/470)) ([13433cd](https://github.com/googleapis/google-oauth-java-client/commit/13433cd7dd06267fc261f0b1d4764f8e3432c824))
+* next release from main branch is 1.33.0 ([#772](https://github.com/googleapis/google-oauth-java-client/issues/772)) ([4c3a639](https://github.com/googleapis/google-oauth-java-client/commit/4c3a6399f6d4aa4871bd119de378965e187e58b3))
+* trigger release ([#735](https://github.com/googleapis/google-oauth-java-client/issues/735)) ([720b75e](https://github.com/googleapis/google-oauth-java-client/commit/720b75e479db3eab65365132aca54f43bddbdf4f))
+
+
+### Bug Fixes
+
+* add Automatic-Module-Name for all modules ([#348](https://github.com/googleapis/google-oauth-java-client/issues/348)) ([45d484c](https://github.com/googleapis/google-oauth-java-client/commit/45d484c6eb1203976e99eafb0b468a57d22a73a4))
+* don't swallow exceptions in LocalServerReceiver ([#595](https://github.com/googleapis/google-oauth-java-client/issues/595)) ([f39faec](https://github.com/googleapis/google-oauth-java-client/commit/f39faec9980fa65602a216fbf34555b744139443))
+* fix release ([#728](https://github.com/googleapis/google-oauth-java-client/issues/728)) ([855503a](https://github.com/googleapis/google-oauth-java-client/commit/855503afa55def3192e2bdaf7247aa2484a2abbd))
+* force a release ([#718](https://github.com/googleapis/google-oauth-java-client/issues/718)) ([ec12293](https://github.com/googleapis/google-oauth-java-client/commit/ec122937c496396dad90ac05d71814342c611e70))
+* **java:** add -ntp flag to native image testing command ([#1299](https://github.com/googleapis/google-oauth-java-client/issues/1299)) ([#784](https://github.com/googleapis/google-oauth-java-client/issues/784)) ([5ab7e71](https://github.com/googleapis/google-oauth-java-client/commit/5ab7e71390fbb2077b990e7a4b846b0eaa91d8a5))
+* **java:** java 17 dependency arguments ([#1266](https://github.com/googleapis/google-oauth-java-client/issues/1266)) ([#764](https://github.com/googleapis/google-oauth-java-client/issues/764)) ([34318c5](https://github.com/googleapis/google-oauth-java-client/commit/34318c5342dbf6226c9959dcef26e45ecbcb650f))
+* **java:** run Maven in plain console-friendly mode ([#1301](https://github.com/googleapis/google-oauth-java-client/issues/1301)) ([#790](https://github.com/googleapis/google-oauth-java-client/issues/790)) ([894bbfc](https://github.com/googleapis/google-oauth-java-client/commit/894bbfc751099d19b5f18fe70c2e068b1f6fd09c))
+* new java format dependencies and linter fix ([#768](https://github.com/googleapis/google-oauth-java-client/issues/768)) ([9df1cd7](https://github.com/googleapis/google-oauth-java-client/commit/9df1cd70057bbb4f37f487f10d309d651ed68d20))
+* oauth1 signing for url encoded content ([#538](https://github.com/googleapis/google-oauth-java-client/issues/538)) ([d9507e4](https://github.com/googleapis/google-oauth-java-client/commit/d9507e4c367cc870b811e28e3b206ef4661c67d8))
+* release scripts from issuing overlapping phases ([#664](https://github.com/googleapis/google-oauth-java-client/issues/664)) ([60fec2b](https://github.com/googleapis/google-oauth-java-client/commit/60fec2b9bbd5d632dff155a45a2ed0fa2f261c45))
+* remove Jackson from assembly ([#605](https://github.com/googleapis/google-oauth-java-client/issues/605)) ([a482000](https://github.com/googleapis/google-oauth-java-client/commit/a482000eddf3c056f57492487c4a2f1e2f81feeb))
+* remove vestigial, outdated protobuf dependencies from assembly docs ([#409](https://github.com/googleapis/google-oauth-java-client/issues/409)) ([bc8a5aa](https://github.com/googleapis/google-oauth-java-client/commit/bc8a5aa3745b414bea035d9dad66882be7ad6311))
+* Revert "chore(deps): update dependency com.google.googlejavaformat:google-java-format to v1.10.0" to fix linter ([#713](https://github.com/googleapis/google-oauth-java-client/issues/713)) ([bbc9ea2](https://github.com/googleapis/google-oauth-java-client/commit/bbc9ea2865f30a12402869e427bc6ae3ebffc588))
+* switch to GSON per security team advice ([#586](https://github.com/googleapis/google-oauth-java-client/issues/586)) ([58a1828](https://github.com/googleapis/google-oauth-java-client/commit/58a1828e8e291c59494893b2632c294dffe98b23))
+* Update dependencies.sh to not break on mac ([#706](https://github.com/googleapis/google-oauth-java-client/issues/706)) ([39c2777](https://github.com/googleapis/google-oauth-java-client/commit/39c2777543ca46dc2e4c12bd5469e829c9a85c37))
+
+
+### Documentation
+
+* Convert to markdown ([#193](https://github.com/googleapis/google-oauth-java-client/issues/193)) ([123b055](https://github.com/googleapis/google-oauth-java-client/commit/123b055fea07702b771976921915ccfdf8243f3e))
+* document process for updating pom.xml versions ([e848c78](https://github.com/googleapis/google-oauth-java-client/commit/e848c78e656517df32f22a1b94cd9b615174a9d6))
+* fix navigation link to OAuth 2.0 page ([09dba36](https://github.com/googleapis/google-oauth-java-client/commit/09dba36c4166fd1a062cc75e8688cd933c30f21d))
+* move wiki to docs area ([#386](https://github.com/googleapis/google-oauth-java-client/issues/386)) ([ee7e98b](https://github.com/googleapis/google-oauth-java-client/commit/ee7e98b187251f1031863ad02790bf37a65b5691))
+
+
+### Dependencies
+
+* fix declared dependencies ([#570](https://github.com/googleapis/google-oauth-java-client/issues/570)) ([ec79525](https://github.com/googleapis/google-oauth-java-client/commit/ec79525da8bc50d4cb641a87c186a5870a61afd4))
+* replace Jetty with HttpServer ([#433](https://github.com/googleapis/google-oauth-java-client/issues/433)) ([bcabce2](https://github.com/googleapis/google-oauth-java-client/commit/bcabce25df8b7dc9d3d0edfca009d47a465d1af3))
+* update appengine packages to v1.9.82 ([#465](https://github.com/googleapis/google-oauth-java-client/issues/465)) ([651256c](https://github.com/googleapis/google-oauth-java-client/commit/651256caaaa0f760c6e098d6dae10b0c939564d4))
+* update appengine packages to v1.9.83 ([#557](https://github.com/googleapis/google-oauth-java-client/issues/557)) ([7d89fd3](https://github.com/googleapis/google-oauth-java-client/commit/7d89fd36810e5c29073e0ab571e7e433d4473996))
+* update appengine packages to v1.9.84 ([#577](https://github.com/googleapis/google-oauth-java-client/issues/577)) ([3fbd4d5](https://github.com/googleapis/google-oauth-java-client/commit/3fbd4d5205215447969adb7fa93a46f309eed4a5))
+* update dependency com.google.guava:guava to v30 ([#549](https://github.com/googleapis/google-oauth-java-client/issues/549)) ([e3a0903](https://github.com/googleapis/google-oauth-java-client/commit/e3a0903fc405ea6fa86e62032dfb2a9fc9a23d1f))
+* update dependency com.google.guava:guava to v30.1-android ([#578](https://github.com/googleapis/google-oauth-java-client/issues/578)) ([a719fbb](https://github.com/googleapis/google-oauth-java-client/commit/a719fbb03701938aac125f456153433e41b69393))
+* update dependency commons-codec:commons-codec to v1.14 ([#412](https://github.com/googleapis/google-oauth-java-client/issues/412)) ([f5abf5e](https://github.com/googleapis/google-oauth-java-client/commit/f5abf5e00b9785f48fdea55a9d993565c66af61a))
+* update dependency mysql:mysql-connector-java to v8.0.18 ([#381](https://github.com/googleapis/google-oauth-java-client/issues/381)) ([3e351de](https://github.com/googleapis/google-oauth-java-client/commit/3e351de3fb9a70a9174d06970b60d2387955e196))
+* update google-http-client to v1.32.1 ([#372](https://github.com/googleapis/google-oauth-java-client/issues/372)) ([cfaee50](https://github.com/googleapis/google-oauth-java-client/commit/cfaee50cd3f4ef519619fc83366344ca6469c785))
+* update google-http-client to v1.35.0 ([#466](https://github.com/googleapis/google-oauth-java-client/issues/466)) ([6447917](https://github.com/googleapis/google-oauth-java-client/commit/6447917c657a5ae4267afbab74dfdb890bbfbf28))
+* update google-http-client to v1.37.0 ([#544](https://github.com/googleapis/google-oauth-java-client/issues/544)) ([26a1e6d](https://github.com/googleapis/google-oauth-java-client/commit/26a1e6d17f984cc6c3d5a9d7dbfe984eda2c27bd))
+* update google-http-client to v1.38.0 ([#556](https://github.com/googleapis/google-oauth-java-client/issues/556)) ([71840b4](https://github.com/googleapis/google-oauth-java-client/commit/71840b44348f70f9c1e226f51aae3761d71dc341))
+* update guava to 28.1-android ([#374](https://github.com/googleapis/google-oauth-java-client/issues/374)) ([d86a67a](https://github.com/googleapis/google-oauth-java-client/commit/d86a67ac5e7eef0b272c0c8970b2cccc5053d4d7))
+* update jetty to 8.2 ([#377](https://github.com/googleapis/google-oauth-java-client/issues/377)) ([6584664](https://github.com/googleapis/google-oauth-java-client/commit/658466473c4f016c356e3647234e19c9166fcaec))
+* update project.http.version to v1.32.0 ([#366](https://github.com/googleapis/google-oauth-java-client/issues/366)) ([f18c445](https://github.com/googleapis/google-oauth-java-client/commit/f18c445cc1282a9bf907f58bec8d83c053b0b7fa))
+* update project.http.version to v1.34.0 ([#405](https://github.com/googleapis/google-oauth-java-client/issues/405)) ([61c21c7](https://github.com/googleapis/google-oauth-java-client/commit/61c21c7f6be6aca8285e3fedf1edab9a0faf3570))
+* update to guava 29.0-android ([#456](https://github.com/googleapis/google-oauth-java-client/issues/456)) ([fc75233](https://github.com/googleapis/google-oauth-java-client/commit/fc752336af9cbdb9b2ed816a63d7bd3d8d1e2778))
+
 ### [1.32.1](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.32.0...v1.32.1) (2021-08-12)
 
 
