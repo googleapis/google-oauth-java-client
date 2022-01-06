@@ -13,7 +13,6 @@ branchProtectionRules:
       - units (11)
       - dependencies (8)
       - dependencies (11)
-      - linkage-monitor
       - clirr
       - cla/google
   - pattern: 1.31.4-sp
@@ -27,7 +26,6 @@ branchProtectionRules:
       - units (11)
       - dependencies (8)
       - dependencies (11)
-      - linkage-monitor
       - clirr
       - cla/google
   - pattern: 1.32.x
@@ -41,7 +39,6 @@ branchProtectionRules:
       - units (11)
       - dependencies (8)
       - dependencies (11)
-      - linkage-monitor
       - clirr
       - cla/google
 permissionRules:
