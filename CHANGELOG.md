@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.33.0](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.32.1...v1.33.0) (2022-01-06)
+
+
+### Features
+
+* next release from main branch is 1.33.0 ([#772](https://www.github.com/googleapis/google-oauth-java-client/issues/772)) ([4c3a639](https://www.github.com/googleapis/google-oauth-java-client/commit/4c3a6399f6d4aa4871bd119de378965e187e58b3))
+
+
+### Bug Fixes
+
+* **java:** add -ntp flag to native image testing command ([#1299](https://www.github.com/googleapis/google-oauth-java-client/issues/1299)) ([#784](https://www.github.com/googleapis/google-oauth-java-client/issues/784)) ([5ab7e71](https://www.github.com/googleapis/google-oauth-java-client/commit/5ab7e71390fbb2077b990e7a4b846b0eaa91d8a5))
+* **java:** java 17 dependency arguments ([#1266](https://www.github.com/googleapis/google-oauth-java-client/issues/1266)) ([#764](https://www.github.com/googleapis/google-oauth-java-client/issues/764)) ([34318c5](https://www.github.com/googleapis/google-oauth-java-client/commit/34318c5342dbf6226c9959dcef26e45ecbcb650f))
+* **java:** run Maven in plain console-friendly mode ([#1301](https://www.github.com/googleapis/google-oauth-java-client/issues/1301)) ([#790](https://www.github.com/googleapis/google-oauth-java-client/issues/790)) ([894bbfc](https://www.github.com/googleapis/google-oauth-java-client/commit/894bbfc751099d19b5f18fe70c2e068b1f6fd09c))
+* new java format dependencies and linter fix ([#768](https://www.github.com/googleapis/google-oauth-java-client/issues/768)) ([9df1cd7](https://www.github.com/googleapis/google-oauth-java-client/commit/9df1cd70057bbb4f37f487f10d309d651ed68d20))
+
 ### [1.32.1](https://www.github.com/googleapis/google-oauth-java-client/compare/v1.32.0...v1.32.1) (2021-08-12)
 
 
