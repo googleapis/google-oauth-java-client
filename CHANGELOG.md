@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.33.1](https://github.com/googleapis/google-oauth-java-client/compare/v1.33.0...v1.33.1) (2022-02-08)
+
+
+### Dependencies
+
+* **java:** update actions/github-script action to v5 ([#1339](https://github.com/googleapis/google-oauth-java-client/issues/1339)) ([#822](https://github.com/googleapis/google-oauth-java-client/issues/822)) ([1f15374](https://github.com/googleapis/google-oauth-java-client/commit/1f15374fe935bf46e9cda59270694f682ba5f75b))
+
 ## [1.33.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.32.1...v1.33.0) (2022-01-19)
 
 
