@@ -13,6 +13,7 @@ jobs:
       matrix:
         java: [17]
         repo:
+        # This list needs to be updated manually until an automated solution is in place.
         - accessapproval
         - accesscontextmanager
         - aiplatform
