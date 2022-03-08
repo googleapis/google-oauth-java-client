@@ -468,7 +468,7 @@
     <project.commons-logging.version>1.1.1</project.commons-logging.version>
     <project.jdo2-api.version>2.3-20090302111651</project.jdo2-api.version>
     <project.transaction-api.version>1.1</project.transaction-api.version>
-    <project.datanucleus-core.version>3.2.15</project.datanucleus-core.version>
+    <project.datanucleus-core.version>5.2.10</project.datanucleus-core.version>
     <project.datanucleus-api-jdo.version>3.2.8</project.datanucleus-api-jdo.version>
     <project.datanucleus-rdbms.version>5.2.10</project.datanucleus-rdbms.version>
     <project.datanucleus-maven-plugin.version>5.2.1</project.datanucleus-maven-plugin.version>
