@@ -6,4 +6,11 @@ bin/
 .idea/
 *.iml
 .checkstyle
+.factorypath
+
+# MacOS
+.DS_Store
+
+# VS Code
+.vscode/
 
