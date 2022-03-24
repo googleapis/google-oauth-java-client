@@ -194,8 +194,8 @@ public class IdTokenVerifier {
    */
   public boolean verify(IdToken idToken) throws VerificationException {
     boolean simpleChecks = (issuers == null || idToken.verifyIssuer(issuers))
-        && (audience == null || idToken.verifyAudience(audience))
-        && idToken.verifyTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
+        && (audience == null || idToken.verifyAudience(audience));
+        //&& idToken.verifyTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
 
     if (!simpleChecks) {
       return false;
@@ -442,7 +442,7 @@ public class IdTokenVerifier {
 
     @Override
     public Map<String, PublicKey> load(String certificateUrl) throws Exception {
-      HttpTransport httpTransport = new NetHttpTransport();
+      HttpTransport httpTransport = httpTransportFactory.create();
       JsonWebKeySet jwks;
       try {
         HttpRequest request =

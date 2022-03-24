@@ -19,6 +19,7 @@ import com.google.api.client.auth.openidconnect.IdTokenVerifier.VerificationExce
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
+import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.webtoken.JsonWebSignature.Header;
@@ -27,7 +28,11 @@ import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 import com.google.api.client.util.Clock;
 import com.google.api.client.util.Lists;
+import com.google.common.io.CharStreams;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -66,6 +71,7 @@ public class IdTokenVerifierTest extends TestCase {
       Arrays.asList(ES256_TOKEN, FEDERATED_SIGNON_RS256_TOKEN, SERVICE_ACCOUNT_RS256_TOKEN);
 
   static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+  static final MyClock FIXED_CLOCK = new MyClock(1582704000000L);
 
   private static IdToken newIdToken(String issuer, String audience) {
     Payload payload = new Payload();
@@ -82,7 +88,7 @@ public class IdTokenVerifierTest extends TestCase {
     assertEquals(Clock.SYSTEM, builder.getClock());
     assertEquals(ISSUER, builder.getIssuer());
     assertEquals(Collections.singleton(ISSUER), builder.getIssuers());
-    assertTrue(TRUSTED_CLIENT_IDS.equals(builder.getAudience()));
+    assertEquals(TRUSTED_CLIENT_IDS, builder.getAudience());
     Clock clock = new MyClock();
     builder.setClock(clock);
     assertEquals(clock, builder.getClock());
@@ -91,15 +97,6 @@ public class IdTokenVerifierTest extends TestCase {
     assertEquals(ISSUER, verifier.getIssuer());
     assertEquals(Collections.singleton(ISSUER), builder.getIssuers());
     assertEquals(TRUSTED_CLIENT_IDS, Lists.newArrayList(verifier.getAudience()));
-  }
-
-  static class MyClock implements Clock {
-
-    long timeMillis;
-
-    public long currentTimeMillis() {
-      return timeMillis;
-    }
   }
 
   public void testVerify() throws Exception {
@@ -216,62 +213,89 @@ public class IdTokenVerifierTest extends TestCase {
       tokenVerifier.verify(IdToken.parse(JSON_FACTORY, ES256_TOKEN));
     } catch (VerificationException ex) {
       assertTrue(ex.getMessage().contains("Error fetching PublicKey"));
+      return;
     }
     throw new Exception("Should have failed verification");
   }
 
-  // @Test
-  // void verifyEs256Token() throws TokenVerifier.VerificationException, IOException {
-  //   HttpTransportFactory httpTransportFactory =
-  //       mockTransport(
-  //           "https://www.gstatic.com/iap/verify/public_key-jwk",
-  //           readResourceAsString("iap_keys.json"));
-  //   TokenVerifier tokenVerifier =
-  //       TokenVerifier.newBuilder()
-  //           .setClock(FIXED_CLOCK)
-  //           .setHttpTransportFactory(httpTransportFactory)
-  //           .build();
-  //   assertNotNull(tokenVerifier.verify(ES256_TOKEN));
-  // }
-  //
-  // @Test
-  // void verifyRs256Token() throws TokenVerifier.VerificationException, IOException {
-  //   HttpTransportFactory httpTransportFactory =
-  //       mockTransport(
-  //           "https://www.googleapis.com/oauth2/v3/certs",
-  //           readResourceAsString("federated_keys.json"));
-  //   TokenVerifier tokenVerifier =
-  //       TokenVerifier.newBuilder()
-  //           .setClock(FIXED_CLOCK)
-  //           .setHttpTransportFactory(httpTransportFactory)
-  //           .build();
-  //   assertNotNull(tokenVerifier.verify(FEDERATED_SIGNON_RS256_TOKEN));
-  // }
-  //
-  // @Test
-  // void verifyRs256TokenWithLegacyCertificateUrlFormat()
-  //     throws TokenVerifier.VerificationException, IOException {
-  //   HttpTransportFactory httpTransportFactory =
-  //       mockTransport(
-  //           LEGACY_FEDERATED_SIGNON_CERT_URL, readResourceAsString("legacy_federated_keys.json"));
-  //   TokenVerifier tokenVerifier =
-  //       TokenVerifier.newBuilder()
-  //           .setCertificatesLocation(LEGACY_FEDERATED_SIGNON_CERT_URL)
-  //           .setClock(FIXED_CLOCK)
-  //           .setHttpTransportFactory(httpTransportFactory)
-  //           .build();
-  //   assertNotNull(tokenVerifier.verify(FEDERATED_SIGNON_RS256_TOKEN));
-  // }
-  //
-  // @Test
-  // void verifyServiceAccountRs256Token() throws TokenVerifier.VerificationException, IOException {
-  //   TokenVerifier tokenVerifier =
-  //       TokenVerifier.newBuilder()
-  //           .setClock(FIXED_CLOCK)
-  //           .setCertificatesLocation(SERVICE_ACCOUNT_CERT_URL)
-  //           .build();
-  //   assertNotNull(tokenVerifier.verify(SERVICE_ACCOUNT_RS256_TOKEN));
-  // }
+  public void testVerifyEs256Token() throws VerificationException, IOException {
+    HttpTransportFactory httpTransportFactory =
+        mockTransport(
+            "https://www.gstatic.com/iap/verify/public_key-jwk",
+            readResourceAsString("iap_keys.json"));
+    MyClock clock = new MyClock();
+    clock.timeMillis = 1582704000000L;
+    IdTokenVerifier tokenVerifier =
+        new IdTokenVerifier.Builder()
+            .setClock(clock)
+            .setHttpTransportFactory(httpTransportFactory)
+            .build();
+    assertTrue(tokenVerifier.verify(IdToken.parse(JSON_FACTORY, ES256_TOKEN)));
+  }
+
+  public void testVerifyRs256Token() throws VerificationException, IOException {
+    HttpTransportFactory httpTransportFactory =
+        mockTransport(
+            "https://www.googleapis.com/oauth2/v3/certs",
+            readResourceAsString("federated_keys.json"));
+    IdTokenVerifier tokenVerifier =
+        new IdTokenVerifier.Builder()
+            .setClock(FIXED_CLOCK)
+            .setHttpTransportFactory(httpTransportFactory)
+            .build();
+    assertTrue(tokenVerifier.verify(IdToken.parse(JSON_FACTORY, FEDERATED_SIGNON_RS256_TOKEN)));
+  }
+
+  public void testVerifyRs256TokenWithLegacyCertificateUrlFormat()
+      throws VerificationException, IOException {
+    HttpTransportFactory httpTransportFactory =
+        mockTransport(
+            LEGACY_FEDERATED_SIGNON_CERT_URL, readResourceAsString("legacy_federated_keys.json"));
+    IdTokenVerifier tokenVerifier =
+        new IdTokenVerifier.Builder()
+            .setCertificatesLocation(LEGACY_FEDERATED_SIGNON_CERT_URL)
+            .setClock(FIXED_CLOCK)
+            .setHttpTransportFactory(httpTransportFactory)
+            .build();
+    assertTrue(tokenVerifier.verify(IdToken.parse(JSON_FACTORY, FEDERATED_SIGNON_RS256_TOKEN)));
+  }
+
+  public void testVerifyServiceAccountRs256Token() throws VerificationException, IOException {
+    IdTokenVerifier tokenVerifier =
+        new IdTokenVerifier.Builder()
+            .setClock(FIXED_CLOCK)
+            .setCertificatesLocation(SERVICE_ACCOUNT_CERT_URL)
+            .setHttpTransportFactory(new DefaultHttpTransportFactory())
+            .build();
+    assertTrue(tokenVerifier.verify(IdToken.parse(JSON_FACTORY, SERVICE_ACCOUNT_RS256_TOKEN)));
+  }
+
+  static String readResourceAsString(String resourceName) throws IOException {
+    InputStream inputStream =
+        IdTokenVerifierTest.class.getClassLoader().getResourceAsStream(resourceName);
+    try (final Reader reader = new InputStreamReader(inputStream)) {
+      return CharStreams.toString(reader);
+    }
+  }
+
+  static class MyClock implements Clock {
+    public MyClock() {}
+
+    public MyClock(long timeMillis) {
+      this.timeMillis = timeMillis;
+    }
+
+    long timeMillis;
+    public long currentTimeMillis() {
+      return timeMillis;
+    }
+  }
+
+  static class DefaultHttpTransportFactory implements HttpTransportFactory {
+    public HttpTransport create() {
+      return new NetHttpTransport();
+    }
+  }
 
   static HttpTransportFactory mockTransport(String url, String certificates) {
     final String certificatesContent = certificates;
