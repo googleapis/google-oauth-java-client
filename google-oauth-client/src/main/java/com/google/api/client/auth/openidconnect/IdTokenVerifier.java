@@ -18,10 +18,8 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.GenericJson;
 import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.client.json.webtoken.JsonWebSignature;
 import com.google.api.client.json.webtoken.JsonWebSignature.Header;
 import com.google.api.client.util.Base64;
 import com.google.api.client.util.Beta;
@@ -98,6 +96,7 @@ public class IdTokenVerifier {
 
   /** Clock to use for expiration checks. */
   private final Clock clock;
+
   private final String certificatesLocation;
   private final LoadingCache<String, Map<String, PublicKey>> publicKeyCache;
 
@@ -193,9 +192,10 @@ public class IdTokenVerifier {
    * @return {@code true} if verified successfully or {@code false} if failed
    */
   public boolean verify(IdToken idToken) throws VerificationException {
-    boolean simpleChecks = (issuers == null || idToken.verifyIssuer(issuers))
-        && (audience == null || idToken.verifyAudience(audience));
-        //&& idToken.verifyTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
+    boolean simpleChecks =
+        (issuers == null || idToken.verifyIssuer(issuers))
+            && (audience == null || idToken.verifyAudience(audience));
+    // && idToken.verifyTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
 
     if (!simpleChecks) {
       return false;
@@ -204,16 +204,14 @@ public class IdTokenVerifier {
     PublicKey publicKeyToUse = null;
     try {
       String certificateLocation = getCertificateLocation(idToken.getHeader());
-      publicKeyToUse =
-          publicKeyCache.get(certificateLocation).get(idToken.getHeader().getKeyId());
+      publicKeyToUse = publicKeyCache.get(certificateLocation).get(idToken.getHeader().getKeyId());
     } catch (ExecutionException | UncheckedExecutionException e) {
       throw new VerificationException("Error fetching PublicKey from certificate location", e);
     }
 
     if (publicKeyToUse == null) {
       throw new VerificationException(
-          "Could not find PublicKey for provided keyId: "
-              + idToken.getHeader().getKeyId());
+          "Could not find PublicKey for provided keyId: " + idToken.getHeader().getKeyId());
     }
 
     try {
@@ -226,8 +224,7 @@ public class IdTokenVerifier {
     }
   }
 
-  private String getCertificateLocation(Header header)
-      throws VerificationException {
+  private String getCertificateLocation(Header header) throws VerificationException {
     if (certificatesLocation != null) return certificatesLocation;
 
     switch (header.getAlgorithm()) {
@@ -264,6 +261,7 @@ public class IdTokenVerifier {
 
     /** List of trusted audience client IDs or {@code null} to suppress the audience check. */
     Collection<String> audience;
+
     HttpTransportFactory httpTransportFactory;
 
     /** Builds a new instance of {@link IdTokenVerifier}. */
@@ -410,8 +408,7 @@ public class IdTokenVerifier {
      * Data class used for deserializing a JSON Web Key Set (JWKS) from an external HTTP request.
      */
     public static class JsonWebKeySet extends GenericJson {
-      @Key
-      public List<JsonWebKey> keys;
+      @Key public List<JsonWebKey> keys;
     }
 
     /** Data class used for deserializing a single JSON Web Key. */

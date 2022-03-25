@@ -286,6 +286,7 @@ public class IdTokenVerifierTest extends TestCase {
     }
 
     long timeMillis;
+
     public long currentTimeMillis() {
       return timeMillis;
     }
