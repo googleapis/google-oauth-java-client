@@ -35,7 +35,9 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import junit.framework.TestCase;
 
 /**
@@ -71,7 +73,7 @@ public class IdTokenVerifierTest extends TestCase {
       Arrays.asList(ES256_TOKEN, FEDERATED_SIGNON_RS256_TOKEN, SERVICE_ACCOUNT_RS256_TOKEN);
 
   static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-  static final MyClock FIXED_CLOCK = new MyClock(1582704000000L);
+  static final MockClock FIXED_CLOCK = new MockClock(1584047020000L);
 
   private static IdToken newIdToken(String issuer, String audience) {
     Payload payload = new Payload();
@@ -89,7 +91,7 @@ public class IdTokenVerifierTest extends TestCase {
     assertEquals(ISSUER, builder.getIssuer());
     assertEquals(Collections.singleton(ISSUER), builder.getIssuers());
     assertEquals(TRUSTED_CLIENT_IDS, builder.getAudience());
-    Clock clock = new MyClock();
+    Clock clock = new MockClock();
     builder.setClock(clock);
     assertEquals(clock, builder.getClock());
     IdTokenVerifier verifier = builder.build();
@@ -100,15 +102,24 @@ public class IdTokenVerifierTest extends TestCase {
   }
 
   public void testVerify() throws Exception {
-    MyClock clock = new MyClock();
+    MockClock clock = new MockClock();
+    MockEnvironment testEnvironment = new MockEnvironment();
+    testEnvironment.setVariable(IdTokenVerifier.SKIP_SIGNATURE_ENV_VAR, "true");
     IdTokenVerifier verifier =
         new IdTokenVerifier.Builder()
             .setIssuers(Arrays.asList(ISSUER, ISSUER3))
             .setAudience(Arrays.asList(CLIENT_ID))
             .setClock(clock)
+            .setEnvironment(testEnvironment)
             .build();
+
     // verifier flexible doesn't check issuer and audience
-    IdTokenVerifier verifierFlexible = new IdTokenVerifier.Builder().setClock(clock).build();
+    IdTokenVerifier verifierFlexible =
+        new IdTokenVerifier.Builder()
+            .setClock(clock)
+            .setEnvironment(testEnvironment)
+            .build();
+
     // issuer
     clock.timeMillis = 1500000L;
     IdToken idToken = newIdToken(ISSUER, CLIENT_ID);
@@ -166,7 +177,7 @@ public class IdTokenVerifierTest extends TestCase {
   public void testMissingAudience() throws VerificationException {
     IdToken idToken = newIdToken(ISSUER, null);
 
-    MyClock clock = new MyClock();
+    MockClock clock = new MockClock();
     clock.timeMillis = 1500000L;
     IdTokenVerifier verifier =
         new IdTokenVerifier.Builder()
@@ -201,11 +212,9 @@ public class IdTokenVerifierTest extends TestCase {
             };
           }
         };
-    MyClock clock = new MyClock();
-    clock.timeMillis = 1582704000000L;
     IdTokenVerifier tokenVerifier =
         new IdTokenVerifier.Builder()
-            .setClock(clock)
+            .setClock(FIXED_CLOCK)
             .setHttpTransportFactory(httpTransportFactory)
             .build();
 
@@ -223,11 +232,9 @@ public class IdTokenVerifierTest extends TestCase {
         mockTransport(
             "https://www.gstatic.com/iap/verify/public_key-jwk",
             readResourceAsString("iap_keys.json"));
-    MyClock clock = new MyClock();
-    clock.timeMillis = 1582704000000L;
     IdTokenVerifier tokenVerifier =
         new IdTokenVerifier.Builder()
-            .setClock(clock)
+            .setClock(FIXED_CLOCK)
             .setHttpTransportFactory(httpTransportFactory)
             .build();
     assertTrue(tokenVerifier.verify(IdToken.parse(JSON_FACTORY, ES256_TOKEN)));
@@ -238,9 +245,10 @@ public class IdTokenVerifierTest extends TestCase {
         mockTransport(
             "https://www.googleapis.com/oauth2/v3/certs",
             readResourceAsString("federated_keys.json"));
+    MockClock clock = new MockClock(1587625988000L);
     IdTokenVerifier tokenVerifier =
         new IdTokenVerifier.Builder()
-            .setClock(FIXED_CLOCK)
+            .setClock(clock)
             .setHttpTransportFactory(httpTransportFactory)
             .build();
     assertTrue(tokenVerifier.verify(IdToken.parse(JSON_FACTORY, FEDERATED_SIGNON_RS256_TOKEN)));
@@ -251,19 +259,21 @@ public class IdTokenVerifierTest extends TestCase {
     HttpTransportFactory httpTransportFactory =
         mockTransport(
             LEGACY_FEDERATED_SIGNON_CERT_URL, readResourceAsString("legacy_federated_keys.json"));
+    MockClock clock = new MockClock(1587626288000L);
     IdTokenVerifier tokenVerifier =
         new IdTokenVerifier.Builder()
             .setCertificatesLocation(LEGACY_FEDERATED_SIGNON_CERT_URL)
-            .setClock(FIXED_CLOCK)
+            .setClock(clock)
             .setHttpTransportFactory(httpTransportFactory)
             .build();
     assertTrue(tokenVerifier.verify(IdToken.parse(JSON_FACTORY, FEDERATED_SIGNON_RS256_TOKEN)));
   }
 
   public void testVerifyServiceAccountRs256Token() throws VerificationException, IOException {
+    MockClock clock = new MockClock(1587626643000L);
     IdTokenVerifier tokenVerifier =
         new IdTokenVerifier.Builder()
-            .setClock(FIXED_CLOCK)
+            .setClock(clock)
             .setCertificatesLocation(SERVICE_ACCOUNT_CERT_URL)
             .setHttpTransportFactory(new DefaultHttpTransportFactory())
             .build();
@@ -275,26 +285,6 @@ public class IdTokenVerifierTest extends TestCase {
         IdTokenVerifierTest.class.getClassLoader().getResourceAsStream(resourceName);
     try (final Reader reader = new InputStreamReader(inputStream)) {
       return CharStreams.toString(reader);
-    }
-  }
-
-  static class MyClock implements Clock {
-    public MyClock() {}
-
-    public MyClock(long timeMillis) {
-      this.timeMillis = timeMillis;
-    }
-
-    long timeMillis;
-
-    public long currentTimeMillis() {
-      return timeMillis;
-    }
-  }
-
-  static class DefaultHttpTransportFactory implements HttpTransportFactory {
-    public HttpTransport create() {
-      return new NetHttpTransport();
     }
   }
 
@@ -322,5 +312,46 @@ public class IdTokenVerifierTest extends TestCase {
         };
       }
     };
+  }
+
+  /**
+   * A mock implementation of {@link Clock} to set clock for testing
+   */
+  static class MockClock implements Clock {
+    public MockClock() {}
+
+    public MockClock(long timeMillis) {
+      this.timeMillis = timeMillis;
+    }
+
+    long timeMillis;
+    public long currentTimeMillis() {
+      return timeMillis;
+    }
+  }
+
+  /**
+   * A default http transport factory for testing
+   */
+  static class DefaultHttpTransportFactory implements HttpTransportFactory {
+    public HttpTransport create() {
+      return new NetHttpTransport();
+    }
+  }
+
+  /**
+   * A mock implementation of {@link Environment} to set environment variables for testing
+   */
+  class MockEnvironment extends Environment {
+    private final Map<String, String> variables = new HashMap<>();
+
+    @Override
+    public String getVariable(String name) {
+      return variables.get(name);
+    }
+
+    public void setVariable(String name, String value) {
+      variables.put(name, value);
+    }
   }
 }

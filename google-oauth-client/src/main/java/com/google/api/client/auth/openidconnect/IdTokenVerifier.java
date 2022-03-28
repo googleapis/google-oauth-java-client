@@ -91,6 +91,7 @@ public class IdTokenVerifier {
       "https://www.googleapis.com/oauth2/v3/certs";
   private static final Set<String> SUPPORTED_ALGORITHMS = ImmutableSet.of("RS256", "ES256");
 
+  static final String SKIP_SIGNATURE_ENV_VAR = "OAUTH_CLIENT_SKIP_SIGNATURE";
   /** Default value for seconds of time skew to accept when verifying time (5 minutes). */
   public static final long DEFAULT_TIME_SKEW_SECONDS = 300;
 
@@ -98,6 +99,7 @@ public class IdTokenVerifier {
   private final Clock clock;
 
   private final String certificatesLocation;
+  private final Environment environment;
   private final LoadingCache<String, Map<String, PublicKey>> publicKeyCache;
 
   /** Seconds of time skew to accept when verifying time. */
@@ -131,6 +133,7 @@ public class IdTokenVerifier {
         CacheBuilder.newBuilder()
             .expireAfterWrite(1, TimeUnit.HOURS)
             .build(new PublicKeyLoader(builder.httpTransportFactory));
+    this.environment = builder.environment == null ? new Environment() : builder.environment;
   }
 
   /** Returns the clock. */
@@ -192,13 +195,22 @@ public class IdTokenVerifier {
    * @return {@code true} if verified successfully or {@code false} if failed
    */
   public boolean verify(IdToken idToken) throws VerificationException {
-    boolean simpleChecks =
-        (issuers == null || idToken.verifyIssuer(issuers))
-            && (audience == null || idToken.verifyAudience(audience));
-    // && idToken.verifyTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
+    boolean simpleChecks = (issuers == null || idToken.verifyIssuer(issuers))
+        && (audience == null || idToken.verifyAudience(audience))
+        && idToken.verifyTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
 
     if (!simpleChecks) {
       return false;
+    }
+
+    if (Boolean.parseBoolean(environment.getVariable(SKIP_SIGNATURE_ENV_VAR))) {
+      return true;
+    }
+
+    // Short-circuit signature types
+    if (!SUPPORTED_ALGORITHMS.contains(idToken.getHeader().getAlgorithm())) {
+      throw new VerificationException(
+          "Unexpected signing algorithm: expected either RS256 or ES256");
     }
 
     PublicKey publicKeyToUse = null;
@@ -252,6 +264,9 @@ public class IdTokenVerifier {
     Clock clock = Clock.SYSTEM;
 
     String certificatesLocation;
+
+    /** wrapper for environment variables */
+    Environment environment;
 
     /** Seconds of time skew to accept when verifying time. */
     long acceptableTimeSkewSeconds = DEFAULT_TIME_SKEW_SECONDS;
@@ -384,6 +399,17 @@ public class IdTokenVerifier {
     public Builder setAcceptableTimeSkewSeconds(long acceptableTimeSkewSeconds) {
       Preconditions.checkArgument(acceptableTimeSkewSeconds >= 0);
       this.acceptableTimeSkewSeconds = acceptableTimeSkewSeconds;
+      return this;
+    }
+
+    /** Returns an instance of the {@link Environment}  */
+    public final Environment getEnvironment() {
+      return environment;
+    }
+
+    /** Sets the environment. Used mostly for testing */
+    public Builder setEnvironment(Environment environment) {
+      this.environment = environment;
       return this;
     }
 
