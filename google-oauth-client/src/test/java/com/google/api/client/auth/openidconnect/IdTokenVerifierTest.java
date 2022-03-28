@@ -115,10 +115,7 @@ public class IdTokenVerifierTest extends TestCase {
 
     // verifier flexible doesn't check issuer and audience
     IdTokenVerifier verifierFlexible =
-        new IdTokenVerifier.Builder()
-            .setClock(clock)
-            .setEnvironment(testEnvironment)
-            .build();
+        new IdTokenVerifier.Builder().setClock(clock).setEnvironment(testEnvironment).build();
 
     // issuer
     clock.timeMillis = 1500000L;
@@ -314,9 +311,7 @@ public class IdTokenVerifierTest extends TestCase {
     };
   }
 
-  /**
-   * A mock implementation of {@link Clock} to set clock for testing
-   */
+  /** A mock implementation of {@link Clock} to set clock for testing */
   static class MockClock implements Clock {
     public MockClock() {}
 
@@ -325,23 +320,20 @@ public class IdTokenVerifierTest extends TestCase {
     }
 
     long timeMillis;
+
     public long currentTimeMillis() {
       return timeMillis;
     }
   }
 
-  /**
-   * A default http transport factory for testing
-   */
+  /** A default http transport factory for testing */
   static class DefaultHttpTransportFactory implements HttpTransportFactory {
     public HttpTransport create() {
       return new NetHttpTransport();
     }
   }
 
-  /**
-   * A mock implementation of {@link Environment} to set environment variables for testing
-   */
+  /** A mock implementation of {@link Environment} to set environment variables for testing */
   class MockEnvironment extends Environment {
     private final Map<String, String> variables = new HashMap<>();
 

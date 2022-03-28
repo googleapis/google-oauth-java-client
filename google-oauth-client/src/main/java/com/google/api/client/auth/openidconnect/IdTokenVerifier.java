@@ -195,9 +195,10 @@ public class IdTokenVerifier {
    * @return {@code true} if verified successfully or {@code false} if failed
    */
   public boolean verify(IdToken idToken) throws VerificationException {
-    boolean simpleChecks = (issuers == null || idToken.verifyIssuer(issuers))
-        && (audience == null || idToken.verifyAudience(audience))
-        && idToken.verifyTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
+    boolean simpleChecks =
+        (issuers == null || idToken.verifyIssuer(issuers))
+            && (audience == null || idToken.verifyAudience(audience))
+            && idToken.verifyTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
 
     if (!simpleChecks) {
       return false;
@@ -402,7 +403,7 @@ public class IdTokenVerifier {
       return this;
     }
 
-    /** Returns an instance of the {@link Environment}  */
+    /** Returns an instance of the {@link Environment} */
     public final Environment getEnvironment() {
       return environment;
     }
