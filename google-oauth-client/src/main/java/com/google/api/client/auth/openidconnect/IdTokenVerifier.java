@@ -211,7 +211,8 @@ public class IdTokenVerifier {
     // Short-circuit signature types
     if (!SUPPORTED_ALGORITHMS.contains(idToken.getHeader().getAlgorithm())) {
       throw new VerificationException(
-          "Unexpected signing algorithm: expected either RS256 or ES256 but got " + idToken.getHeader().getAlgorithm());
+          "Unexpected signing algorithm: expected either RS256 or ES256 but got "
+              + idToken.getHeader().getAlgorithm());
     }
 
     PublicKey publicKeyToUse = null;
