@@ -30,12 +30,16 @@ public class DailyMotionUrl extends GenericUrl {
     super(encodedUrl);
   }
 
-  /** @return the fields */
+  /**
+   * @return the fields
+   */
   public String getFields() {
     return fields;
   }
 
-  /** @param fields the fields to set */
+  /**
+   * @param fields the fields to set
+   */
   public void setFields(String fields) {
     this.fields = fields;
   }
