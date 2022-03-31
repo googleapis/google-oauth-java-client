@@ -50,7 +50,9 @@ public abstract class AbstractOAuthGetToken extends GenericUrl {
   /** {@code true} for POST request or the default {@code false} for GET request. */
   protected boolean usePost;
 
-  /** @param authorizationServerUrl encoded authorization server URL */
+  /**
+   * @param authorizationServerUrl encoded authorization server URL
+   */
   protected AbstractOAuthGetToken(String authorizationServerUrl) {
     super(authorizationServerUrl);
   }

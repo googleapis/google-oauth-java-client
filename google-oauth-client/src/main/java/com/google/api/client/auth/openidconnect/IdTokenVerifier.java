@@ -74,7 +74,9 @@ public class IdTokenVerifier {
     this(new Builder());
   }
 
-  /** @param builder builder */
+  /**
+   * @param builder builder
+   */
   protected IdTokenVerifier(Builder builder) {
     clock = builder.clock;
     acceptableTimeSkewSeconds = builder.acceptableTimeSkewSeconds;
