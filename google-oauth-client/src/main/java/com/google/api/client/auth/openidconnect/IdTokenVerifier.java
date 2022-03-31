@@ -231,7 +231,7 @@ public class IdTokenVerifier {
   /**
    * Verifies the signature part of the id token By default, method gets a certificate from
    * well-known location. A request to certificate location is performed using {@link
-   * com.google.api.client.http.javanet.NetHttpTransport} Both default can be overridden via {@link
+   * com.google.api.client.http.javanet.NetHttpTransport}. Both default can be overridden via {@link
    * Builder}
    *
    * @param idToken an id token
