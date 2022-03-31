@@ -18,6 +18,7 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.GenericJson;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.webtoken.JsonWebSignature.Header;
@@ -26,6 +27,7 @@ import com.google.api.client.util.Beta;
 import com.google.api.client.util.Clock;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -90,7 +92,10 @@ public class IdTokenVerifier {
   private static final String FEDERATED_SIGNON_CERT_URL =
       "https://www.googleapis.com/oauth2/v3/certs";
   private static final Set<String> SUPPORTED_ALGORITHMS = ImmutableSet.of("RS256", "ES256");
+  private static final String NOT_SUPPORTED_ALGORITHM =
+      "Unexpected signing algorithm %s: expected either RS256 or ES256";
 
+  static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
   static final String SKIP_SIGNATURE_ENV_VAR = "OAUTH_CLIENT_SKIP_SIGNATURE";
   /** Default value for seconds of time skew to accept when verifying time (5 minutes). */
   public static final long DEFAULT_TIME_SKEW_SECONDS = 300;
@@ -121,7 +126,9 @@ public class IdTokenVerifier {
     this(new Builder());
   }
 
-  /** @param builder builder */
+  /**
+   * @param builder builder
+   */
   protected IdTokenVerifier(Builder builder) {
     this.certificatesLocation = builder.certificatesLocation;
     clock = builder.clock;
@@ -129,10 +136,14 @@ public class IdTokenVerifier {
     issuers = builder.issuers == null ? null : Collections.unmodifiableCollection(builder.issuers);
     audience =
         builder.audience == null ? null : Collections.unmodifiableCollection(builder.audience);
+    HttpTransportFactory transport =
+        builder.httpTransportFactory == null
+            ? new DefaultHttpTransportFactory()
+            : builder.httpTransportFactory;
     this.publicKeyCache =
         CacheBuilder.newBuilder()
             .expireAfterWrite(1, TimeUnit.HOURS)
-            .build(new PublicKeyLoader(builder.httpTransportFactory));
+            .build(new PublicKeyLoader(transport));
     this.environment = builder.environment == null ? new Environment() : builder.environment;
   }
 
@@ -194,7 +205,7 @@ public class IdTokenVerifier {
    * @param idToken ID token
    * @return {@code true} if verified successfully or {@code false} if failed
    */
-  public boolean verify(IdToken idToken) throws VerificationException {
+  public boolean verify(IdToken idToken) {
     boolean simpleChecks =
         (issuers == null || idToken.verifyIssuer(issuers))
             && (audience == null || idToken.verifyAudience(audience))
@@ -204,6 +215,33 @@ public class IdTokenVerifier {
       return false;
     }
 
+    // This method validates token signature per current OpenID Connect Spec:
+    // https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation
+    // By default, method gets a certificate from well-known location
+    // A request to certificate location is performed using
+    // {@link com.google.api.client.http.javanet.NetHttpTransport}
+    // Both certificate location and transport implementation can be overridden via {@link Builder}
+    // not recommended: this check can be disabled with OAUTH_CLIENT_SKIP_SIGNATURE
+    // environment variable set to true.
+    try {
+      return verifySignature(idToken);
+    } catch (VerificationException ex) {
+      return false;
+    }
+  }
+
+  /**
+   * Verifies the signature part of the id token By default, method gets a certificate from
+   * well-known location A request to certificate location is performed using {@link
+   * com.google.api.client.http.javanet.NetHttpTransport} Both default can be overridden via {@link
+   * Builder}
+   *
+   * @param idToken an id token
+   * @return true if signature validated successfully, false otherwise
+   */
+  @VisibleForTesting
+  boolean verifySignature(IdToken idToken) throws VerificationException {
+
     if (Boolean.parseBoolean(environment.getVariable(SKIP_SIGNATURE_ENV_VAR))) {
       return true;
     }
@@ -211,8 +249,7 @@ public class IdTokenVerifier {
     // Short-circuit signature types
     if (!SUPPORTED_ALGORITHMS.contains(idToken.getHeader().getAlgorithm())) {
       throw new VerificationException(
-          "Unexpected signing algorithm: expected either RS256 or ES256 but got "
-              + idToken.getHeader().getAlgorithm());
+          String.format(NOT_SUPPORTED_ALGORITHM, idToken.getHeader().getAlgorithm()));
     }
 
     PublicKey publicKeyToUse = null;
@@ -220,7 +257,8 @@ public class IdTokenVerifier {
       String certificateLocation = getCertificateLocation(idToken.getHeader());
       publicKeyToUse = publicKeyCache.get(certificateLocation).get(idToken.getHeader().getKeyId());
     } catch (ExecutionException | UncheckedExecutionException e) {
-      throw new VerificationException("Error fetching PublicKey from certificate location", e);
+      throw new VerificationException(
+          "Error fetching PublicKey from certificate location " + certificatesLocation, e);
     }
 
     if (publicKeyToUse == null) {
@@ -248,7 +286,7 @@ public class IdTokenVerifier {
         return IAP_CERT_URL;
     }
 
-    throw new VerificationException("Unknown algorithm");
+    throw new VerificationException(String.format(NOT_SUPPORTED_ALGORITHM, header.getAlgorithm()));
   }
 
   /**
@@ -405,12 +443,12 @@ public class IdTokenVerifier {
     }
 
     /** Returns an instance of the {@link Environment} */
-    public final Environment getEnvironment() {
+    final Environment getEnvironment() {
       return environment;
     }
 
     /** Sets the environment. Used mostly for testing */
-    public Builder setEnvironment(Environment environment) {
+    Builder setEnvironment(Environment environment) {
       this.environment = environment;
       return this;
     }
@@ -560,6 +598,13 @@ public class IdTokenVerifier {
 
     public VerificationException(String message, Throwable cause) {
       super(message, cause);
+    }
+  }
+
+  static class DefaultHttpTransportFactory implements HttpTransportFactory {
+
+    public HttpTransport create() {
+      return HTTP_TRANSPORT;
     }
   }
 }

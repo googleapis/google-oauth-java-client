@@ -216,12 +216,11 @@ public class IdTokenVerifierTest extends TestCase {
             .build();
 
     try {
-      tokenVerifier.verify(IdToken.parse(JSON_FACTORY, ES256_TOKEN));
+      tokenVerifier.verifySignature(IdToken.parse(JSON_FACTORY, ES256_TOKEN));
+      fail("Should have failed verification");
     } catch (VerificationException ex) {
       assertTrue(ex.getMessage().contains("Error fetching PublicKey"));
-      return;
     }
-    throw new Exception("Should have failed verification");
   }
 
   public void testVerifyEs256Token() throws VerificationException, IOException {
