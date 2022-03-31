@@ -79,6 +79,28 @@ import java.util.concurrent.TimeUnit;
  * if (!verifier.verify(idToken)) {...}
  * </pre>
  *
+ * The verifier validates token signature per current OpenID Connect Spec:
+ * https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation
+ * By default, method gets a certificate from well-known location
+ * A request to certificate location is performed using
+ * {@link com.google.api.client.http.javanet.NetHttpTransport}
+ * Either or both certificate location and transport implementation
+ * can be overridden via {@link Builder}
+ *
+ * <pre>
+ * IdTokenVerifier verifier = new IdTokenVerifier.Builder()
+ * .setIssuer("issuer.example.com")
+ * .setAudience(Arrays.asList("myClientId"))
+ * .setHttpTransportFactory(customHttpTransportFactory)
+ * .build();
+ * ...
+ * if (!verifier.verify(idToken)) {...}
+ * </pre>
+ *
+ * not recommended: this check can be disabled with OAUTH_CLIENT_SKIP_SIGNATURE
+ * environment variable set to true.
+ *
+ *
  * <p>Note that {@link #verify(IdToken)} only implements a subset of the verification steps, mostly
  * just the MUST steps. Please read <a
  * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation>ID Token
