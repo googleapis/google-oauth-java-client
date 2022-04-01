@@ -83,9 +83,7 @@ public class AuthorizationCodeResponseUrl extends GenericUrl {
   @Key("error_uri")
   private String errorUri;
 
-  /**
-   * @param encodedResponseUrl encoded authorization code response URL
-   */
+  /** @param encodedResponseUrl encoded authorization code response URL */
   public AuthorizationCodeResponseUrl(String encodedResponseUrl) {
     super(encodedResponseUrl);
     // either error or code but not both

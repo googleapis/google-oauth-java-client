@@ -99,19 +99,13 @@ public abstract class AbstractCallbackServlet extends HttpServlet {
    */
   protected abstract PersistenceManagerFactory getPersistenceManagerFactory();
 
-  /**
-   * @return Specific ThreeLeggedFlow type that this callback should retreieve and complete.
-   */
+  /** @return Specific ThreeLeggedFlow type that this callback should retreieve and complete. */
   protected abstract Class<? extends ThreeLeggedFlow> getConcreteFlowType();
 
-  /**
-   * @return Url to redirect the user to upon a successful credential exchange.
-   */
+  /** @return Url to redirect the user to upon a successful credential exchange. */
   protected abstract String getSuccessRedirectUrl();
 
-  /**
-   * @return Url to redirect the user to upon failure.
-   */
+  /** @return Url to redirect the user to upon failure. */
   protected abstract String getDeniedRedirectUrl();
 
   /**
