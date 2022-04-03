@@ -59,6 +59,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * {@link Beta} <br>
@@ -110,6 +112,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Beta
 public class IdTokenVerifier {
+  private static final Logger LOGGER = Logger.getLogger(IdTokenVerifier.class.getName());
   private static final String IAP_CERT_URL = "https://www.gstatic.com/iap/verify/public_key-jwk";
   private static final String FEDERATED_SIGNON_CERT_URL =
       "https://www.googleapis.com/oauth2/v3/certs";
@@ -218,6 +221,14 @@ public class IdTokenVerifier {
    *   <li>The current time against the issued at and expiration time, using the {@link #getClock()}
    *       and allowing for a time skew specified in {@link #getAcceptableTimeSkewSeconds()} , by
    *       calling {@link IdToken#verifyTime(long, long)}.
+   *   <li>This method verifies token signature per current OpenID Connect Spec:
+   *       https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation.
+   *       By default, method gets a certificate from well-known location.
+   *       A request to certificate location is performed using
+   *       {@link com.google.api.client.http.javanet.NetHttpTransport}
+   *       Both certificate location and transport implementation can be overridden via {@link Builder}
+   *       not recommended: this check can be disabled with OAUTH_CLIENT_SKIP_SIGNATURE
+   *       environment variable set to true.
    * </ul>
    *
    * <p>Overriding is allowed, but it must call the super implementation.
@@ -226,42 +237,26 @@ public class IdTokenVerifier {
    * @return {@code true} if verified successfully or {@code false} if failed
    */
   public boolean verify(IdToken idToken) {
-    boolean simpleChecks =
-        (issuers == null || idToken.verifyIssuer(issuers))
-            && (audience == null || idToken.verifyAudience(audience))
-            && idToken.verifyTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
+    boolean tokenFieldsValid =
+      (issuers == null || idToken.verifyIssuer(issuers))
+        && (audience == null || idToken.verifyAudience(audience))
+        && idToken.verifyTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
 
-    if (!simpleChecks) {
+    if (!tokenFieldsValid) {
       return false;
     }
 
-    // This method validates token signature per current OpenID Connect Spec:
-    // https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation
-    // By default, method gets a certificate from well-known location
-    // A request to certificate location is performed using
-    // {@link com.google.api.client.http.javanet.NetHttpTransport}
-    // Both certificate location and transport implementation can be overridden via {@link Builder}
-    // not recommended: this check can be disabled with OAUTH_CLIENT_SKIP_SIGNATURE
-    // environment variable set to true.
     try {
       return verifySignature(idToken);
     } catch (VerificationException ex) {
+      LOGGER.log(Level.SEVERE, "id token signature verification failed. "
+          + "Please see docs for IdTokenVerifier for default settings and configuration options", ex);
       return false;
     }
   }
 
-  /**
-   * Verifies the signature part of the id token By default, method gets a certificate from
-   * well-known location. A request to certificate location is performed using {@link
-   * com.google.api.client.http.javanet.NetHttpTransport}. Both default can be overridden via {@link
-   * Builder}
-   *
-   * @param idToken an id token
-   * @return true if signature validated successfully, false otherwise
-   */
   @VisibleForTesting
   boolean verifySignature(IdToken idToken) throws VerificationException {
-
     if (Boolean.parseBoolean(environment.getVariable(SKIP_SIGNATURE_ENV_VAR))) {
       return true;
     }
@@ -536,6 +531,8 @@ public class IdTokenVerifier {
         HttpResponse response = request.execute();
         jwks = response.parseAs(JsonWebKeySet.class);
       } catch (IOException io) {
+        LOGGER.log(Level.WARNING, "Failed to get a certificate from certificate location "
+            + certificateUrl, io);
         return ImmutableMap.of();
       }
 
@@ -553,6 +550,7 @@ public class IdTokenVerifier {
           } catch (NoSuchAlgorithmException
               | InvalidKeySpecException
               | InvalidParameterSpecException ignored) {
+            LOGGER.log(Level.WARNING, "Failed to put a key into the cache", ignored);
             ignored.printStackTrace();
           }
         }
@@ -611,7 +609,7 @@ public class IdTokenVerifier {
   }
 
   /** Custom exception for wrapping all verification errors. */
-  public static class VerificationException extends Exception {
+  static class VerificationException extends Exception {
     public VerificationException(String message) {
       super(message);
     }
@@ -622,7 +620,6 @@ public class IdTokenVerifier {
   }
 
   static class DefaultHttpTransportFactory implements HttpTransportFactory {
-
     public HttpTransport create() {
       return HTTP_TRANSPORT;
     }
