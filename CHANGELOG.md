@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.33.2](https://github.com/googleapis/google-oauth-java-client/compare/v1.33.1...v1.33.2) (2022-04-07)
+
+
+### Dependencies
+
+* update project.http.version to v1.41.5 ([e945b8d](https://github.com/googleapis/google-oauth-java-client/commit/e945b8d7233038f417f40771508d171f6f0cbaf5))
+
 ### [1.33.1](https://github.com/googleapis/google-oauth-java-client/compare/v1.33.0...v1.33.1) (2022-02-08)
 
 
