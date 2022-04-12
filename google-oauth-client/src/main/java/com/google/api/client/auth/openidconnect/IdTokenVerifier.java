@@ -468,7 +468,7 @@ public class IdTokenVerifier {
     }
 
     /**
-     * Set the HttpTransportFactory used for requesting public keys from the certificate URL. Used
+     * Sets the HttpTransportFactory used for requesting public keys from the certificate URL. Used
      * mostly for testing.
      *
      * @param httpTransportFactory the HttpTransportFactory used to build certificate URL requests
