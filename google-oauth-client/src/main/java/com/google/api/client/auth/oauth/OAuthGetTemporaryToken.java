@@ -38,7 +38,9 @@ public class OAuthGetTemporaryToken extends AbstractOAuthGetToken {
    */
   public String callback;
 
-  /** @param authorizationServerUrl encoded authorization server URL */
+  /**
+   * @param authorizationServerUrl encoded authorization server URL
+   */
   public OAuthGetTemporaryToken(String authorizationServerUrl) {
     super(authorizationServerUrl);
   }

@@ -148,7 +148,9 @@ public class IdTokenVerifier {
     this(new Builder());
   }
 
-  /** @param builder builder */
+  /**
+   * @param builder builder
+   */
   protected IdTokenVerifier(Builder builder) {
     this.certificatesLocation = builder.certificatesLocation;
     clock = builder.clock;
@@ -552,7 +554,6 @@ public class IdTokenVerifier {
               | InvalidKeySpecException
               | InvalidParameterSpecException ignored) {
             LOGGER.log(Level.WARNING, "Failed to put a key into the cache", ignored);
-            ignored.printStackTrace();
           }
         }
       }
