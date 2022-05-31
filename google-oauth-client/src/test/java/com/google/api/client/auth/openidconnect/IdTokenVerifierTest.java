@@ -16,6 +16,7 @@ package com.google.api.client.auth.openidconnect;
 
 import com.google.api.client.auth.openidconnect.IdToken.Payload;
 import com.google.api.client.auth.openidconnect.IdTokenVerifier.VerificationException;
+import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
@@ -33,12 +34,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import junit.framework.TestCase;
+import org.junit.Assert;
 
 /**
  * Tests {@link IdTokenVerifier}.
@@ -187,28 +192,36 @@ public class IdTokenVerifierTest extends TestCase {
 
   public void testVerifyEs256TokenPublicKeyMismatch() throws Exception {
     // Mock HTTP requests
-    HttpTransportFactory httpTransportFactory =
-        new HttpTransportFactory() {
-          @Override
-          public HttpTransport create() {
-            return new MockHttpTransport() {
-              @Override
-              public LowLevelHttpRequest buildRequest(String method, String url)
-                  throws IOException {
-                return new MockLowLevelHttpRequest() {
-                  @Override
-                  public LowLevelHttpResponse execute() throws IOException {
-                    MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
-                    response.setStatusCode(200);
-                    response.setContentType("application/json");
-                    response.setContent("");
-                    return response;
-                  }
-                };
-              }
-            };
-          }
-        };
+    MockLowLevelHttpRequest failedRequest = new MockLowLevelHttpRequest() {
+      @Override
+      public LowLevelHttpResponse execute() throws IOException {
+        throw new IOException("test io exception");
+      }
+    };
+
+    MockLowLevelHttpRequest emptyRequest = new MockLowLevelHttpRequest() {
+      @Override
+      public LowLevelHttpResponse execute() throws IOException {
+        MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
+        response.setStatusCode(404);
+        response.setContentType("application/json");
+        response.setContent("");
+        return response;
+      }
+    };
+
+    MockLowLevelHttpRequest goodRequest = new MockLowLevelHttpRequest() {
+      @Override
+      public LowLevelHttpResponse execute() throws IOException {
+        MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
+        response.setStatusCode(200);
+        response.setContentType("application/json");
+        response.setContent(readResourceAsString("iap_keys.json"));
+        return response;
+      }
+    };
+
+    HttpTransportFactory httpTransportFactory = mockTransport(failedRequest, emptyRequest, goodRequest);
     IdTokenVerifier tokenVerifier =
         new IdTokenVerifier.Builder()
             .setClock(FIXED_CLOCK)
@@ -221,6 +234,15 @@ public class IdTokenVerifierTest extends TestCase {
     } catch (VerificationException ex) {
       assertTrue(ex.getMessage().contains("Error fetching PublicKey"));
     }
+
+    try {
+      tokenVerifier.verifySignature(IdToken.parse(JSON_FACTORY, ES256_TOKEN));
+      fail("Should have failed verification");
+    } catch (VerificationException ex) {
+      assertTrue(ex.getMessage().contains("Error fetching PublicKey"));
+    }
+
+    Assert.assertTrue(tokenVerifier.verifySignature(IdToken.parse(JSON_FACTORY, ES256_TOKEN)));
   }
 
   public void testVerifyEs256Token() throws VerificationException, IOException {
@@ -282,6 +304,26 @@ public class IdTokenVerifierTest extends TestCase {
     try (final Reader reader = new InputStreamReader(inputStream)) {
       return CharStreams.toString(reader);
     }
+  }
+
+  static HttpTransportFactory mockTransport(LowLevelHttpRequest... requests) {
+    final LowLevelHttpRequest firstRequest = requests[0];
+    final Queue<LowLevelHttpRequest> requestQueue = new ArrayDeque<>();
+    for (LowLevelHttpRequest request : requests) {
+      requestQueue.add(request);
+    }
+    return new HttpTransportFactory() {
+      @Override
+      public HttpTransport create() {
+        return new MockHttpTransport() {
+          @Override
+          public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+            //assertEquals(requestQueue.peek(), firstRequest);
+            return requestQueue.poll();
+          }
+        };
+      }
+    };
   }
 
   static HttpTransportFactory mockTransport(String url, String certificates) {

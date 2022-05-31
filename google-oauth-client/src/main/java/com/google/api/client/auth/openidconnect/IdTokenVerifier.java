@@ -235,12 +235,9 @@ public class IdTokenVerifier {
    * @return {@code true} if verified successfully or {@code false} if failed
    */
   public boolean verify(IdToken idToken) {
-    boolean tokenFieldsValid =
-        (issuers == null || idToken.verifyIssuer(issuers))
-            && (audience == null || idToken.verifyAudience(audience))
-            && idToken.verifyTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
+    boolean payloadValid = verifyPayload(idToken);
 
-    if (!tokenFieldsValid) {
+    if (!payloadValid) {
       return false;
     }
 
@@ -254,6 +251,15 @@ public class IdTokenVerifier {
           ex);
       return false;
     }
+  }
+  
+  protected boolean verifyPayload(IdToken idToken) {
+    boolean tokenFieldsValid =
+        (issuers == null || idToken.verifyIssuer(issuers))
+            && (audience == null || idToken.verifyAudience(audience))
+            && idToken.verifyTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
+
+    return tokenFieldsValid ? true : false;
   }
 
   @VisibleForTesting
@@ -382,7 +388,7 @@ public class IdTokenVerifier {
     }
 
     /**
-     * Override the location URL that contains published public keys. Defaults to well-known Google
+     * Overrides the location URL that contains published public keys. Defaults to well-known Google
      * locations.
      *
      * @param certificatesLocation URL to published public keys
@@ -536,7 +542,7 @@ public class IdTokenVerifier {
             Level.WARNING,
             "Failed to get a certificate from certificate location " + certificateUrl,
             io);
-        return ImmutableMap.of();
+        throw io;
       }
 
       ImmutableMap.Builder<String, PublicKey> keyCacheBuilder = new ImmutableMap.Builder<>();
@@ -556,6 +562,13 @@ public class IdTokenVerifier {
             LOGGER.log(Level.WARNING, "Failed to put a key into the cache", ignored);
           }
         }
+      }
+
+      ImmutableMap<String, PublicKey> keyCache = keyCacheBuilder.build();
+
+      if (keyCache.isEmpty()) {
+        throw new VerificationException(
+            "No valid public key returned the keystore: " + certificateUrl);
       }
 
       return keyCacheBuilder.build();
