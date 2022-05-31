@@ -16,7 +16,6 @@ package com.google.api.client.auth.openidconnect;
 
 import com.google.api.client.auth.openidconnect.IdToken.Payload;
 import com.google.api.client.auth.openidconnect.IdTokenVerifier.VerificationException;
-import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
@@ -38,7 +37,6 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -192,36 +190,40 @@ public class IdTokenVerifierTest extends TestCase {
 
   public void testVerifyEs256TokenPublicKeyMismatch() throws Exception {
     // Mock HTTP requests
-    MockLowLevelHttpRequest failedRequest = new MockLowLevelHttpRequest() {
-      @Override
-      public LowLevelHttpResponse execute() throws IOException {
-        throw new IOException("test io exception");
-      }
-    };
+    MockLowLevelHttpRequest failedRequest =
+        new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            throw new IOException("test io exception");
+          }
+        };
 
-    MockLowLevelHttpRequest emptyRequest = new MockLowLevelHttpRequest() {
-      @Override
-      public LowLevelHttpResponse execute() throws IOException {
-        MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
-        response.setStatusCode(404);
-        response.setContentType("application/json");
-        response.setContent("");
-        return response;
-      }
-    };
+    MockLowLevelHttpRequest emptyRequest =
+        new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
+            response.setStatusCode(404);
+            response.setContentType("application/json");
+            response.setContent("");
+            return response;
+          }
+        };
 
-    MockLowLevelHttpRequest goodRequest = new MockLowLevelHttpRequest() {
-      @Override
-      public LowLevelHttpResponse execute() throws IOException {
-        MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
-        response.setStatusCode(200);
-        response.setContentType("application/json");
-        response.setContent(readResourceAsString("iap_keys.json"));
-        return response;
-      }
-    };
+    MockLowLevelHttpRequest goodRequest =
+        new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
+            response.setStatusCode(200);
+            response.setContentType("application/json");
+            response.setContent(readResourceAsString("iap_keys.json"));
+            return response;
+          }
+        };
 
-    HttpTransportFactory httpTransportFactory = mockTransport(failedRequest, emptyRequest, goodRequest);
+    HttpTransportFactory httpTransportFactory =
+        mockTransport(failedRequest, emptyRequest, goodRequest);
     IdTokenVerifier tokenVerifier =
         new IdTokenVerifier.Builder()
             .setClock(FIXED_CLOCK)
@@ -318,7 +320,7 @@ public class IdTokenVerifierTest extends TestCase {
         return new MockHttpTransport() {
           @Override
           public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
-            //assertEquals(requestQueue.peek(), firstRequest);
+            // assertEquals(requestQueue.peek(), firstRequest);
             return requestQueue.poll();
           }
         };
