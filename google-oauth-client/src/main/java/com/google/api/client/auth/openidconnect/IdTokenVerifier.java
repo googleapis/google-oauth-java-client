@@ -252,14 +252,34 @@ public class IdTokenVerifier {
       return false;
     }
   }
-  
+
+  /**
+   * Verifies the payload of the given ID token
+   *
+   * <p>It verifies:
+   *
+   * <ul>
+   *   <li>The issuer is one of {@link #getIssuers()} by calling {@link
+   *       IdToken#verifyIssuer(String)}.
+   *   <li>The audience is one of {@link #getAudience()} by calling {@link
+   *       IdToken#verifyAudience(Collection)}.
+   *   <li>The current time against the issued at and expiration time, using the {@link #getClock()}
+   *       and allowing for a time skew specified in {@link #getAcceptableTimeSkewSeconds()} , by
+   *       calling {@link IdToken#verifyTime(long, long)}.
+   * </ul>
+   *
+   * <p>Overriding is allowed, but it must call the super implementation.
+   *
+   * @param idToken ID token
+   * @return {@code true} if verified successfully or {@code false} if failed
+   */
   protected boolean verifyPayload(IdToken idToken) {
-    boolean tokenFieldsValid =
+    boolean tokenPayload =
         (issuers == null || idToken.verifyIssuer(issuers))
             && (audience == null || idToken.verifyAudience(audience))
             && idToken.verifyTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
 
-    return tokenFieldsValid ? true : false;
+    return tokenPayload ? true : false;
   }
 
   @VisibleForTesting
@@ -280,12 +300,12 @@ public class IdTokenVerifier {
       publicKeyToUse = publicKeyCache.get(certificateLocation).get(idToken.getHeader().getKeyId());
     } catch (ExecutionException | UncheckedExecutionException e) {
       throw new VerificationException(
-          "Error fetching PublicKey from certificate location " + certificatesLocation, e);
+          "Error fetching public key from certificate location " + certificatesLocation, e);
     }
 
     if (publicKeyToUse == null) {
       throw new VerificationException(
-          "Could not find PublicKey for provided keyId: " + idToken.getHeader().getKeyId());
+          "Could not find public key for provided keyId: " + idToken.getHeader().getKeyId());
     }
 
     try {
@@ -568,7 +588,7 @@ public class IdTokenVerifier {
 
       if (keyCache.isEmpty()) {
         throw new VerificationException(
-            "No valid public key returned the keystore: " + certificateUrl);
+            "No valid public key returned by the keystore: " + certificateUrl);
       }
 
       return keyCacheBuilder.build();
