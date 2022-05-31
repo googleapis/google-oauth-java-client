@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.oauth-client</groupId>
   <artifactId>google-oauth-client-bom</artifactId>
-  <version>1.33.2-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
+  <version>1.33.3</version><!-- {x-version-update:google-oauth-client:current} -->
   <packaging>pom</packaging>
 
   <name>Google OAuth Client Library for Java BOM</name>
@@ -63,27 +63,27 @@
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client</artifactId>
-        <version>1.33.2-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
+        <version>1.33.3</version><!-- {x-version-update:google-oauth-client:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client-appengine</artifactId>
-        <version>1.33.2-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
+        <version>1.33.3</version><!-- {x-version-update:google-oauth-client:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client-java6</artifactId>
-        <version>1.33.2-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
+        <version>1.33.3</version><!-- {x-version-update:google-oauth-client:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client-jetty</artifactId>
-        <version>1.33.2-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
+        <version>1.33.3</version><!-- {x-version-update:google-oauth-client:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client-servlet</artifactId>
-        <version>1.33.2-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
+        <version>1.33.3</version><!-- {x-version-update:google-oauth-client:current} -->
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -92,7 +92,7 @@
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.6.11</version>
+        <version>1.6.13</version>
         <extensions>true</extensions>
         <configuration>
           <serverId>sonatype-nexus-staging</serverId>
@@ -102,14 +102,14 @@
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.3.2</version>
+        <version>3.4.0</version>
         <configuration>
           <skip>true</skip>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-site-plugin</artifactId>
-        <version>3.11.0</version>
+        <version>3.12.0</version>
         <configuration>
           <skip>true</skip>
         </configuration>
@@ -126,7 +126,7 @@
           <dependency>
             <groupId>com.google.googlejavaformat</groupId>
             <artifactId>google-java-format</artifactId>
-            <version>1.14.0</version>
+            <version>1.15.0</version>
           </dependency>
         </dependencies>
       </plugin>

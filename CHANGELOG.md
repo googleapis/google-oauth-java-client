@@ -1,5 +1,19 @@
 # Changelog
 
+### [1.33.3](https://github.com/googleapis/google-oauth-java-client/compare/v1.33.2...v1.33.3) (2022-04-13)
+
+
+### Bug Fixes
+
+* add signature verification to IdTokenVerifier ([#861](https://github.com/googleapis/google-oauth-java-client/issues/861)) ([22419d6](https://github.com/googleapis/google-oauth-java-client/commit/22419d60579ef4c1a8a256a90e6ca7bc58f09aa1))
+
+### [1.33.2](https://github.com/googleapis/google-oauth-java-client/compare/v1.33.1...v1.33.2) (2022-04-07)
+
+
+### Dependencies
+
+* update project.http.version to v1.41.5 ([e945b8d](https://github.com/googleapis/google-oauth-java-client/commit/e945b8d7233038f417f40771508d171f6f0cbaf5))
+
 ### [1.33.1](https://github.com/googleapis/google-oauth-java-client/compare/v1.33.0...v1.33.1) (2022-02-08)
 
 
