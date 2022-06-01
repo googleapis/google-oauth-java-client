@@ -198,7 +198,8 @@ public class IdTokenVerifierTest extends TestCase {
           }
         };
 
-    MockLowLevelHttpRequest emptyRequest =
+
+    MockLowLevelHttpRequest badRequest =
         new MockLowLevelHttpRequest() {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
@@ -206,6 +207,18 @@ public class IdTokenVerifierTest extends TestCase {
             response.setStatusCode(404);
             response.setContentType("application/json");
             response.setContent("");
+            return response;
+          }
+        };
+
+    MockLowLevelHttpRequest emptyRequest =
+        new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
+            response.setStatusCode(200);
+            response.setContentType("application/json");
+            response.setContent("{\"keys\":[]}");
             return response;
           }
         };
@@ -223,7 +236,7 @@ public class IdTokenVerifierTest extends TestCase {
         };
 
     HttpTransportFactory httpTransportFactory =
-        mockTransport(failedRequest, emptyRequest, goodRequest);
+        mockTransport(failedRequest, badRequest, emptyRequest, goodRequest);
     IdTokenVerifier tokenVerifier =
         new IdTokenVerifier.Builder()
             .setClock(FIXED_CLOCK)
@@ -234,14 +247,21 @@ public class IdTokenVerifierTest extends TestCase {
       tokenVerifier.verifySignature(IdToken.parse(JSON_FACTORY, ES256_TOKEN));
       fail("Should have failed verification");
     } catch (VerificationException ex) {
-      assertTrue(ex.getMessage().contains("Error fetching PublicKey"));
+      assertTrue(ex.getMessage().contains("Error fetching public key"));
     }
 
     try {
       tokenVerifier.verifySignature(IdToken.parse(JSON_FACTORY, ES256_TOKEN));
       fail("Should have failed verification");
     } catch (VerificationException ex) {
-      assertTrue(ex.getMessage().contains("Error fetching PublicKey"));
+      assertTrue(ex.getMessage().contains("Error fetching public key"));
+    }
+
+    try {
+      tokenVerifier.verifySignature(IdToken.parse(JSON_FACTORY, ES256_TOKEN));
+      fail("Should have failed verification");
+    } catch (VerificationException ex) {
+      assertTrue(ex.getCause().getMessage().contains("No valid public key returned"));
     }
 
     Assert.assertTrue(tokenVerifier.verifySignature(IdToken.parse(JSON_FACTORY, ES256_TOKEN)));
@@ -320,7 +340,6 @@ public class IdTokenVerifierTest extends TestCase {
         return new MockHttpTransport() {
           @Override
           public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
-            // assertEquals(requestQueue.peek(), firstRequest);
             return requestQueue.poll();
           }
         };
