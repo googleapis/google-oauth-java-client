@@ -198,7 +198,6 @@ public class IdTokenVerifierTest extends TestCase {
           }
         };
 
-
     MockLowLevelHttpRequest badRequest =
         new MockLowLevelHttpRequest() {
           @Override
