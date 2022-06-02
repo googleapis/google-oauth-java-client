@@ -233,12 +233,9 @@ public class IdTokenVerifier {
    * @return {@code true} if verified successfully or {@code false} if failed
    */
   public boolean verify(IdToken idToken) {
-    boolean tokenFieldsValid =
-        (issuers == null || idToken.verifyIssuer(issuers))
-            && (audience == null || idToken.verifyAudience(audience))
-            && idToken.verifyTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
+    boolean payloadValid = verifyPayload(idToken);
 
-    if (!tokenFieldsValid) {
+    if (!payloadValid) {
       return false;
     }
 
@@ -252,6 +249,35 @@ public class IdTokenVerifier {
           ex);
       return false;
     }
+  }
+
+  /**
+   * Verifies the payload of the given ID token
+   *
+   * <p>It verifies:
+   *
+   * <ul>
+   *   <li>The issuer is one of {@link #getIssuers()} by calling {@link
+   *       IdToken#verifyIssuer(String)}.
+   *   <li>The audience is one of {@link #getAudience()} by calling {@link
+   *       IdToken#verifyAudience(Collection)}.
+   *   <li>The current time against the issued at and expiration time, using the {@link #getClock()}
+   *       and allowing for a time skew specified in {@link #getAcceptableTimeSkewSeconds()} , by
+   *       calling {@link IdToken#verifyTime(long, long)}.
+   * </ul>
+   *
+   * <p>Overriding is allowed, but it must call the super implementation.
+   *
+   * @param idToken ID token
+   * @return {@code true} if verified successfully or {@code false} if failed
+   */
+  protected boolean verifyPayload(IdToken idToken) {
+    boolean tokenPayloadValid =
+        (issuers == null || idToken.verifyIssuer(issuers))
+            && (audience == null || idToken.verifyAudience(audience))
+            && idToken.verifyTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
+
+    return tokenPayloadValid;
   }
 
   @VisibleForTesting
@@ -272,12 +298,12 @@ public class IdTokenVerifier {
       publicKeyToUse = publicKeyCache.get(certificateLocation).get(idToken.getHeader().getKeyId());
     } catch (ExecutionException | UncheckedExecutionException e) {
       throw new VerificationException(
-          "Error fetching PublicKey from certificate location " + certificatesLocation, e);
+          "Error fetching public key from certificate location " + certificatesLocation, e);
     }
 
     if (publicKeyToUse == null) {
       throw new VerificationException(
-          "Could not find PublicKey for provided keyId: " + idToken.getHeader().getKeyId());
+          "Could not find public key for provided keyId: " + idToken.getHeader().getKeyId());
     }
 
     try {
@@ -380,7 +406,7 @@ public class IdTokenVerifier {
     }
 
     /**
-     * Override the location URL that contains published public keys. Defaults to well-known Google
+     * Overrides the location URL that contains published public keys. Defaults to well-known Google
      * locations.
      *
      * @param certificatesLocation URL to published public keys
@@ -534,7 +560,7 @@ public class IdTokenVerifier {
             Level.WARNING,
             "Failed to get a certificate from certificate location " + certificateUrl,
             io);
-        return ImmutableMap.of();
+        throw io;
       }
 
       ImmutableMap.Builder<String, PublicKey> keyCacheBuilder = new ImmutableMap.Builder<>();
@@ -554,6 +580,13 @@ public class IdTokenVerifier {
             LOGGER.log(Level.WARNING, "Failed to put a key into the cache", ignored);
           }
         }
+      }
+
+      ImmutableMap<String, PublicKey> keyCache = keyCacheBuilder.build();
+
+      if (keyCache.isEmpty()) {
+        throw new VerificationException(
+            "No valid public key returned by the keystore: " + certificateUrl);
       }
 
       return keyCacheBuilder.build();

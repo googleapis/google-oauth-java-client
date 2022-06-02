@@ -33,12 +33,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import junit.framework.TestCase;
+import org.junit.Assert;
 
 /**
  * Tests {@link IdTokenVerifier}.
@@ -101,7 +104,7 @@ public class IdTokenVerifierTest extends TestCase {
     assertEquals(TRUSTED_CLIENT_IDS, Lists.newArrayList(verifier.getAudience()));
   }
 
-  public void testVerify() throws Exception {
+  public void testVerifyPayload() throws Exception {
     MockClock clock = new MockClock();
     MockEnvironment testEnvironment = new MockEnvironment();
     testEnvironment.setVariable(IdTokenVerifier.SKIP_SIGNATURE_ENV_VAR, "true");
@@ -121,21 +124,31 @@ public class IdTokenVerifierTest extends TestCase {
     clock.timeMillis = 1500000L;
     IdToken idToken = newIdToken(ISSUER, CLIENT_ID);
     assertTrue(verifier.verify(idToken));
+    assertTrue(verifier.verifyPayload(idToken));
     assertTrue(verifierFlexible.verify(newIdToken(ISSUER2, CLIENT_ID)));
+    assertTrue(verifierFlexible.verifyPayload(newIdToken(ISSUER2, CLIENT_ID)));
     assertFalse(verifier.verify(newIdToken(ISSUER2, CLIENT_ID)));
+    assertFalse(verifier.verifyPayload(newIdToken(ISSUER2, CLIENT_ID)));
     assertTrue(verifier.verify(newIdToken(ISSUER3, CLIENT_ID)));
+    assertTrue(verifier.verifyPayload(newIdToken(ISSUER3, CLIENT_ID)));
     // audience
     assertTrue(verifierFlexible.verify(newIdToken(ISSUER, CLIENT_ID2)));
+    assertTrue(verifierFlexible.verifyPayload(newIdToken(ISSUER, CLIENT_ID2)));
     assertFalse(verifier.verify(newIdToken(ISSUER, CLIENT_ID2)));
+    assertFalse(verifier.verifyPayload(newIdToken(ISSUER, CLIENT_ID2)));
     // time
     clock.timeMillis = 700000L;
     assertTrue(verifier.verify(idToken));
+    assertTrue(verifier.verifyPayload(idToken));
     clock.timeMillis = 2300000L;
     assertTrue(verifier.verify(idToken));
+    assertTrue(verifier.verifyPayload(idToken));
     clock.timeMillis = 699999L;
     assertFalse(verifier.verify(idToken));
+    assertFalse(verifier.verifyPayload(idToken));
     clock.timeMillis = 2300001L;
     assertFalse(verifier.verify(idToken));
+    assertFalse(verifier.verifyPayload(idToken));
   }
 
   public void testEmptyIssuersFails() throws Exception {
@@ -187,28 +200,52 @@ public class IdTokenVerifierTest extends TestCase {
 
   public void testVerifyEs256TokenPublicKeyMismatch() throws Exception {
     // Mock HTTP requests
-    HttpTransportFactory httpTransportFactory =
-        new HttpTransportFactory() {
+    MockLowLevelHttpRequest failedRequest =
+        new MockLowLevelHttpRequest() {
           @Override
-          public HttpTransport create() {
-            return new MockHttpTransport() {
-              @Override
-              public LowLevelHttpRequest buildRequest(String method, String url)
-                  throws IOException {
-                return new MockLowLevelHttpRequest() {
-                  @Override
-                  public LowLevelHttpResponse execute() throws IOException {
-                    MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
-                    response.setStatusCode(200);
-                    response.setContentType("application/json");
-                    response.setContent("");
-                    return response;
-                  }
-                };
-              }
-            };
+          public LowLevelHttpResponse execute() throws IOException {
+            throw new IOException("test io exception");
           }
         };
+
+    MockLowLevelHttpRequest badRequest =
+        new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
+            response.setStatusCode(404);
+            response.setContentType("application/json");
+            response.setContent("");
+            return response;
+          }
+        };
+
+    MockLowLevelHttpRequest emptyRequest =
+        new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
+            response.setStatusCode(200);
+            response.setContentType("application/json");
+            response.setContent("{\"keys\":[]}");
+            return response;
+          }
+        };
+
+    MockLowLevelHttpRequest goodRequest =
+        new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
+            response.setStatusCode(200);
+            response.setContentType("application/json");
+            response.setContent(readResourceAsString("iap_keys.json"));
+            return response;
+          }
+        };
+
+    HttpTransportFactory httpTransportFactory =
+        mockTransport(failedRequest, badRequest, emptyRequest, goodRequest);
     IdTokenVerifier tokenVerifier =
         new IdTokenVerifier.Builder()
             .setClock(FIXED_CLOCK)
@@ -219,8 +256,24 @@ public class IdTokenVerifierTest extends TestCase {
       tokenVerifier.verifySignature(IdToken.parse(JSON_FACTORY, ES256_TOKEN));
       fail("Should have failed verification");
     } catch (VerificationException ex) {
-      assertTrue(ex.getMessage().contains("Error fetching PublicKey"));
+      assertTrue(ex.getMessage().contains("Error fetching public key"));
     }
+
+    try {
+      tokenVerifier.verifySignature(IdToken.parse(JSON_FACTORY, ES256_TOKEN));
+      fail("Should have failed verification");
+    } catch (VerificationException ex) {
+      assertTrue(ex.getMessage().contains("Error fetching public key"));
+    }
+
+    try {
+      tokenVerifier.verifySignature(IdToken.parse(JSON_FACTORY, ES256_TOKEN));
+      fail("Should have failed verification");
+    } catch (VerificationException ex) {
+      assertTrue(ex.getCause().getMessage().contains("No valid public key returned"));
+    }
+
+    Assert.assertTrue(tokenVerifier.verifySignature(IdToken.parse(JSON_FACTORY, ES256_TOKEN)));
   }
 
   public void testVerifyEs256Token() throws VerificationException, IOException {
@@ -282,6 +335,25 @@ public class IdTokenVerifierTest extends TestCase {
     try (final Reader reader = new InputStreamReader(inputStream)) {
       return CharStreams.toString(reader);
     }
+  }
+
+  static HttpTransportFactory mockTransport(LowLevelHttpRequest... requests) {
+    final LowLevelHttpRequest firstRequest = requests[0];
+    final Queue<LowLevelHttpRequest> requestQueue = new ArrayDeque<>();
+    for (LowLevelHttpRequest request : requests) {
+      requestQueue.add(request);
+    }
+    return new HttpTransportFactory() {
+      @Override
+      public HttpTransport create() {
+        return new MockHttpTransport() {
+          @Override
+          public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+            return requestQueue.poll();
+          }
+        };
+      }
+    };
   }
 
   static HttpTransportFactory mockTransport(String url, String certificates) {
