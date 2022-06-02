@@ -104,7 +104,7 @@ public class IdTokenVerifierTest extends TestCase {
     assertEquals(TRUSTED_CLIENT_IDS, Lists.newArrayList(verifier.getAudience()));
   }
 
-  public void testVerify() throws Exception {
+  public void testVerifyPayload() throws Exception {
     MockClock clock = new MockClock();
     MockEnvironment testEnvironment = new MockEnvironment();
     testEnvironment.setVariable(IdTokenVerifier.SKIP_SIGNATURE_ENV_VAR, "true");
@@ -124,21 +124,31 @@ public class IdTokenVerifierTest extends TestCase {
     clock.timeMillis = 1500000L;
     IdToken idToken = newIdToken(ISSUER, CLIENT_ID);
     assertTrue(verifier.verify(idToken));
+    assertTrue(verifier.verifyPayload(idToken));
     assertTrue(verifierFlexible.verify(newIdToken(ISSUER2, CLIENT_ID)));
+    assertTrue(verifierFlexible.verifyPayload(newIdToken(ISSUER2, CLIENT_ID)));
     assertFalse(verifier.verify(newIdToken(ISSUER2, CLIENT_ID)));
+    assertFalse(verifier.verifyPayload(newIdToken(ISSUER2, CLIENT_ID)));
     assertTrue(verifier.verify(newIdToken(ISSUER3, CLIENT_ID)));
+    assertTrue(verifier.verifyPayload(newIdToken(ISSUER3, CLIENT_ID)));
     // audience
     assertTrue(verifierFlexible.verify(newIdToken(ISSUER, CLIENT_ID2)));
+    assertTrue(verifierFlexible.verifyPayload(newIdToken(ISSUER, CLIENT_ID2)));
     assertFalse(verifier.verify(newIdToken(ISSUER, CLIENT_ID2)));
+    assertFalse(verifier.verifyPayload(newIdToken(ISSUER, CLIENT_ID2)));
     // time
     clock.timeMillis = 700000L;
     assertTrue(verifier.verify(idToken));
+    assertTrue(verifier.verifyPayload(idToken));
     clock.timeMillis = 2300000L;
     assertTrue(verifier.verify(idToken));
+    assertTrue(verifier.verifyPayload(idToken));
     clock.timeMillis = 699999L;
     assertFalse(verifier.verify(idToken));
+    assertFalse(verifier.verifyPayload(idToken));
     clock.timeMillis = 2300001L;
     assertFalse(verifier.verify(idToken));
+    assertFalse(verifier.verifyPayload(idToken));
   }
 
   public void testEmptyIssuersFails() throws Exception {

@@ -272,12 +272,12 @@ public class IdTokenVerifier {
    * @return {@code true} if verified successfully or {@code false} if failed
    */
   protected boolean verifyPayload(IdToken idToken) {
-    boolean tokenPayload =
+    boolean tokenPayloadValid =
         (issuers == null || idToken.verifyIssuer(issuers))
             && (audience == null || idToken.verifyAudience(audience))
             && idToken.verifyTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
 
-    return tokenPayload ? true : false;
+    return tokenPayloadValid;
   }
 
   @VisibleForTesting
