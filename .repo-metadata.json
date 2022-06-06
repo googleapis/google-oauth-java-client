@@ -1,7 +1,7 @@
 {
   "api_shortname": "google-oauth-client",
   "name_pretty": "Google OAuth Java Client",
-  "client_documentation": "oauths://googleapis.dev/java/google-oauth-client/latest/",
+  "client_documentation": "https://googleapis.dev/java/google-oauth-client/latest/",
   "release_level": "stable",
   "language": "java",
   "repo": "googleapis/google-oauth-java-client",
