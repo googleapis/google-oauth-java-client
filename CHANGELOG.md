@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.34.1](https://github.com/googleapis/google-oauth-java-client/compare/v1.34.0...v1.34.1) (2022-06-09)
+
+
+### Bug Fixes
+
+* .repo-metadata.json file with https: [#813](https://github.com/googleapis/google-oauth-java-client/issues/813) ([#898](https://github.com/googleapis/google-oauth-java-client/issues/898)) ([be4d54a](https://github.com/googleapis/google-oauth-java-client/commit/be4d54ad6b3264a1246cd1bd5789140112407681))
+
+
+### Dependencies
+
+* update project.http.version to v1.42.0 ([#902](https://github.com/googleapis/google-oauth-java-client/issues/902)) ([51c1eb5](https://github.com/googleapis/google-oauth-java-client/commit/51c1eb5e4c6797b51b4347046422681780bd0d81))
+
 ## [1.34.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.33.3...v1.34.0) (2022-06-02)
 
 
