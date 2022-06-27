@@ -470,7 +470,7 @@
     <project.transaction-api.version>1.1</project.transaction-api.version>
     <project.datanucleus-core.version>3.2.15</project.datanucleus-core.version>
     <project.datanucleus-api-jdo.version>3.2.8</project.datanucleus-api-jdo.version>
-    <project.datanucleus-rdbms.version>5.2.12</project.datanucleus-rdbms.version>
+    <project.datanucleus-rdbms.version>6.0.0-release</project.datanucleus-rdbms.version>
     <project.datanucleus-maven-plugin.version>5.2.1</project.datanucleus-maven-plugin.version>
     <project.servlet-api.version>2.5</project.servlet-api.version>
     <deploy.autorelease>false</deploy.autorelease>
