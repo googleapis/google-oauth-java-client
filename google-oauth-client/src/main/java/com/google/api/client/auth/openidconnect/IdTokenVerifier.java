@@ -148,7 +148,9 @@ public class IdTokenVerifier {
     this(new Builder());
   }
 
-  /** @param builder builder */
+  /**
+   * @param builder builder
+   */
   protected IdTokenVerifier(Builder builder) {
     this.certificatesLocation = builder.certificatesLocation;
     clock = builder.clock;
