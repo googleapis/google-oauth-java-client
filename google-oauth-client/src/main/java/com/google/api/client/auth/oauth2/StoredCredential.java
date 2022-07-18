@@ -55,9 +55,7 @@ public final class StoredCredential implements Serializable {
 
   public StoredCredential() {}
 
-  /**
-   * @param credential existing credential to copy from
-   */
+  /** @param credential existing credential to copy from */
   public StoredCredential(Credential credential) {
     setAccessToken(credential.getAccessToken());
     setRefreshToken(credential.getRefreshToken());
