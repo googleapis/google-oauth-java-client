@@ -43,7 +43,9 @@ public class OAuthGetAccessToken extends AbstractOAuthGetToken {
    */
   public String verifier;
 
-  /** @param authorizationServerUrl encoded authorization server URL */
+  /**
+   * @param authorizationServerUrl encoded authorization server URL
+   */
   public OAuthGetAccessToken(String authorizationServerUrl) {
     super(authorizationServerUrl);
   }
