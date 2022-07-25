@@ -61,3 +61,5 @@ permissionRules:
     permission: admin
   - team: yoshi-java
     permission: push
+  - team: googleapis-auth
+    permission: push

@@ -7,5 +7,6 @@
   "repo": "googleapis/google-oauth-java-client",
   "repo_short": "google-oauth-java-client",
   "library_type": "AUTH",
-  "distribution_name": "com.google.oauth-client:google-oauth-client"
+  "distribution_name": "com.google.oauth-client:google-oauth-client",
+  "codeowner_team": "@googleapis/googleapis-auth"
 }
