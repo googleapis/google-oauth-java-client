@@ -6,7 +6,10 @@
 
 # The @googleapis/googleapis-auth is the default owner for changes in this repo
 *                       @googleapis/yoshi-java @googleapis/googleapis-auth
+
+# for handwritten libraries, keep codeowner_team in .repo-metadata.json as owner
 **/*.java               @googleapis/googleapis-auth
+
 
 # The java-samples-reviewers team is the default owner for samples changes
 samples/**/*.java       @googleapis/java-samples-reviewers
