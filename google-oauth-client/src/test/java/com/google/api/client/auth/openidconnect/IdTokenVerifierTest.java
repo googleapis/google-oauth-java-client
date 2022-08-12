@@ -69,6 +69,8 @@ public class IdTokenVerifierTest extends TestCase {
 
   private static final String SERVICE_ACCOUNT_RS256_TOKEN =
       "eyJhbGciOiJSUzI1NiIsImtpZCI6IjJlZjc3YjM4YTFiMDM3MDQ4NzA0MzkxNmFjYmYyN2Q3NGVkZDA4YjEiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJodHRwczovL2V4YW1wbGUuY29tL2F1ZGllbmNlIiwiZXhwIjoxNTg3NjMwNTQzLCJpYXQiOjE1ODc2MjY5NDMsImlzcyI6InNvbWUgaXNzdWVyIiwic3ViIjoic29tZSBzdWJqZWN0In0.gGOQW0qQgs4jGUmCsgRV83RqsJLaEy89-ZOG6p1u0Y26FyY06b6Odgd7xXLsSTiiSnch62dl0Lfi9D0x2ByxvsGOCbovmBl2ZZ0zHr1wpc4N0XS9lMUq5RJQbonDibxXG4nC2zroDfvD0h7i-L8KMXeJb9pYwW7LkmrM_YwYfJnWnZ4bpcsDjojmPeUBlACg7tjjOgBFbyQZvUtaERJwSRlaWibvNjof7eCVfZChE0PwBpZc_cGqSqKXv544L4ttqdCnmONjqrTATXwC4gYxruevkjHfYI5ojcQmXoWDJJ0-_jzfyPE4MFFdCFgzLgnfIOwe5ve0MtquKuv2O0pgvg";
+  private static final String SERVICE_ACCOUNT_RS256_TOKEN_BAD_SIGNATURE =
+      "eyJhbGciOiJSUzI1NiIsImtpZCI6IjJlZjc3YjM4YTFiMDM3MDQ4NzA0MzkxNmFjYmYyN2Q3NGVkZDA4YjEiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJodHRwczovL2V4YW1wbGUuY29tL2F1ZGllbmNlIiwiZXhwIjoxNTg3NjMwNTQzLCJpYXQiOjE1ODc2MjY5NDMsImlzcyI6InNvbWUgaXNzdWVyIiwic3ViIjoic29tZSBzdWJqZWN0In0.gGOQW0qQgs4jGUmCsgRV83RqsJLaEy89-ZOG6p1u0Y26FyY06b6Odgd7xXLsSTiiSnch62dl0Lfi9D0x2ByxvsGOCbovmBl2ZZ0zHr1wpc4N0XS9lMUq5RJQbonDibxXG4nC2zroDfvD0h7i-L8KMXeJb9pYwW7LkmrM_YwYfJnWnZ4bpcsDjojmPeUBlACg7tjjOgBFbyQZvUtaERJwSRlaWibvNjof7eCVfZChE0PwBpZc_cGqSqKXv544L4ttqdCnm0NjqrTATXwC4gYxruevkjHfYI5ojcQmXoWDJJ0-_jzfyPE4MFFdCFgzLgnfIOwe5ve0MtquKuv2O0pgvg";
   private static final String SERVICE_ACCOUNT_CERT_URL =
       "https://www.googleapis.com/robot/v1/metadata/x509/integration-tests%40chingor-test.iam.gserviceaccount.com";
 
@@ -198,7 +200,7 @@ public class IdTokenVerifierTest extends TestCase {
     assertFalse(verifier.verify(idToken));
   }
 
-  public void testVerifyEs256TokenPublicKeyMismatch() throws Exception {
+  public void testPublicKeyStoreIntermittentError() throws Exception {
     // Mock HTTP requests
     MockLowLevelHttpRequest failedRequest =
         new MockLowLevelHttpRequest() {
@@ -276,7 +278,7 @@ public class IdTokenVerifierTest extends TestCase {
     Assert.assertTrue(tokenVerifier.verifySignature(IdToken.parse(JSON_FACTORY, ES256_TOKEN)));
   }
 
-  public void testVerifyEs256Token() throws VerificationException, IOException {
+  public void testVerifyEs256Token() throws IOException {
     HttpTransportFactory httpTransportFactory =
         mockTransport(
             "https://www.gstatic.com/iap/verify/public_key-jwk",
@@ -304,7 +306,7 @@ public class IdTokenVerifierTest extends TestCase {
   }
 
   public void testVerifyRs256TokenWithLegacyCertificateUrlFormat()
-      throws VerificationException, IOException {
+      throws IOException {
     HttpTransportFactory httpTransportFactory =
         mockTransport(
             LEGACY_FEDERATED_SIGNON_CERT_URL, readResourceAsString("legacy_federated_keys.json"));
@@ -318,7 +320,7 @@ public class IdTokenVerifierTest extends TestCase {
     assertTrue(tokenVerifier.verify(IdToken.parse(JSON_FACTORY, FEDERATED_SIGNON_RS256_TOKEN)));
   }
 
-  public void testVerifyServiceAccountRs256Token() throws VerificationException, IOException {
+  public void testVerifyServiceAccountRs256Token() throws IOException {
     MockClock clock = new MockClock(1587626643000L);
     IdTokenVerifier tokenVerifier =
         new IdTokenVerifier.Builder()
@@ -327,6 +329,12 @@ public class IdTokenVerifierTest extends TestCase {
             .setHttpTransportFactory(new DefaultHttpTransportFactory())
             .build();
     assertTrue(tokenVerifier.verify(IdToken.parse(JSON_FACTORY, SERVICE_ACCOUNT_RS256_TOKEN)));
+
+    // a token with bad signature expected to fail in verify and work in verifyPayload
+    assertFalse(tokenVerifier.verify(IdToken.parse(JSON_FACTORY,
+        SERVICE_ACCOUNT_RS256_TOKEN_BAD_SIGNATURE)));
+    assertTrue(tokenVerifier.verifyPayload(IdToken.parse(JSON_FACTORY,
+        SERVICE_ACCOUNT_RS256_TOKEN_BAD_SIGNATURE)));
   }
 
   static String readResourceAsString(String resourceName) throws IOException {

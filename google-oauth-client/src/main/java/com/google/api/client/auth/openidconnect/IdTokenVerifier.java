@@ -589,7 +589,7 @@ public class IdTokenVerifier {
             "No valid public key returned by the keystore: " + certificateUrl);
       }
 
-      return keyCacheBuilder.build();
+      return keyCache;
     }
 
     private PublicKey buildPublicKey(JsonWebKey key)
