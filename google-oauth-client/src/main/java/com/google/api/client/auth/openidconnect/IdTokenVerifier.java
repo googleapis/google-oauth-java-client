@@ -15,6 +15,8 @@
 package com.google.api.client.auth.openidconnect;
 
 import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpBackOffUnsuccessfulResponseHandler;
+import com.google.api.client.http.HttpBackOffUnsuccessfulResponseHandler.BackOffRequired;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
@@ -25,6 +27,7 @@ import com.google.api.client.json.webtoken.JsonWebSignature.Header;
 import com.google.api.client.util.Base64;
 import com.google.api.client.util.Beta;
 import com.google.api.client.util.Clock;
+import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
 import com.google.common.annotations.VisibleForTesting;
@@ -231,8 +234,10 @@ public class IdTokenVerifier {
    *
    * @param idToken ID token
    * @return {@code true} if verified successfully or {@code false} if failed
+   * @throws IOException thrown if verification failed to run. For example, failure to get
+   * public keys for signature validation.
    */
-  public boolean verify(IdToken idToken) {
+  public boolean verify(IdToken idToken) throws IOException {
     boolean payloadValid = verifyPayload(idToken);
 
     if (!payloadValid) {
@@ -243,9 +248,8 @@ public class IdTokenVerifier {
       return verifySignature(idToken);
     } catch (VerificationException ex) {
       LOGGER.log(
-          Level.SEVERE,
-          "id token signature verification failed. "
-              + "Please see docs for IdTokenVerifier for default settings and configuration options",
+          Level.INFO,
+          "Id token signature verification failed. ",
           ex);
       return false;
     }
@@ -281,7 +285,7 @@ public class IdTokenVerifier {
   }
 
   @VisibleForTesting
-  boolean verifySignature(IdToken idToken) throws VerificationException {
+  boolean verifySignature(IdToken idToken) throws IOException, VerificationException {
     if (Boolean.parseBoolean(environment.getVariable(SKIP_SIGNATURE_ENV_VAR))) {
       return true;
     }
@@ -297,12 +301,12 @@ public class IdTokenVerifier {
       String certificateLocation = getCertificateLocation(idToken.getHeader());
       publicKeyToUse = publicKeyCache.get(certificateLocation).get(idToken.getHeader().getKeyId());
     } catch (ExecutionException | UncheckedExecutionException e) {
-      throw new VerificationException(
+      throw new IOException(
           "Error fetching public key from certificate location " + certificatesLocation, e);
     }
 
     if (publicKeyToUse == null) {
-      throw new VerificationException(
+      throw new IOException(
           "Could not find public key for provided keyId: " + idToken.getHeader().getKeyId());
     }
 
@@ -508,6 +512,10 @@ public class IdTokenVerifier {
 
   /** Custom CacheLoader for mapping certificate urls to the contained public keys. */
   static class PublicKeyLoader extends CacheLoader<String, Map<String, PublicKey>> {
+    private static final int DEFAULT_NUMBER_OF_RETRIES = 2;
+    private static final int INITIAL_RETRY_INTERVAL_MILLIS = 1000;
+    private static final double RETRY_RANDOMIZATION_FACTOR = 0.1;
+    private static final double RETRY_MULTIPLIER = 2;
     private final HttpTransportFactory httpTransportFactory;
 
     /**
@@ -553,6 +561,18 @@ public class IdTokenVerifier {
                 .createRequestFactory()
                 .buildGetRequest(new GenericUrl(certificateUrl))
                 .setParser(GsonFactory.getDefaultInstance().createJsonObjectParser());
+        request.setNumberOfRetries(DEFAULT_NUMBER_OF_RETRIES);
+
+        ExponentialBackOff backoff =
+            new ExponentialBackOff.Builder()
+                .setInitialIntervalMillis(INITIAL_RETRY_INTERVAL_MILLIS)
+                .setRandomizationFactor(RETRY_RANDOMIZATION_FACTOR)
+                .setMultiplier(RETRY_MULTIPLIER)
+                .build();
+
+        request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(backoff)
+            .setBackOffRequired(BackOffRequired.ALWAYS));
+
         HttpResponse response = request.execute();
         jwks = response.parseAs(JsonWebKeySet.class);
       } catch (IOException io) {
