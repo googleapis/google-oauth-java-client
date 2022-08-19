@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.34.1](https://github.com/googleapis/google-oauth-java-client/compare/v1.34.0...v1.34.1) (2022-06-09)
+
+
+### Bug Fixes
+
+* .repo-metadata.json file with https: [#813](https://github.com/googleapis/google-oauth-java-client/issues/813) ([#898](https://github.com/googleapis/google-oauth-java-client/issues/898)) ([be4d54a](https://github.com/googleapis/google-oauth-java-client/commit/be4d54ad6b3264a1246cd1bd5789140112407681))
+
+
+### Dependencies
+
+* update project.http.version to v1.42.0 ([#902](https://github.com/googleapis/google-oauth-java-client/issues/902)) ([51c1eb5](https://github.com/googleapis/google-oauth-java-client/commit/51c1eb5e4c6797b51b4347046422681780bd0d81))
+
+## [1.34.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.33.3...v1.34.0) (2022-06-02)
+
+
+### Features
+
+* add build scripts for native image testing in Java 17 ([#1440](https://github.com/googleapis/google-oauth-java-client/issues/1440)) ([#890](https://github.com/googleapis/google-oauth-java-client/issues/890)) ([373891e](https://github.com/googleapis/google-oauth-java-client/commit/373891e2dc9742fdf8954cc590b18caf4c8c44f7))
+* next release from main branch is 1.34.0 ([#875](https://github.com/googleapis/google-oauth-java-client/issues/875)) ([187651e](https://github.com/googleapis/google-oauth-java-client/commit/187651eeb963c490c1a5595222548bbdba660c22))
+
+
+### Bug Fixes
+
+* fix IdTokenVerifier so it does not cache empty entries ([#892](https://github.com/googleapis/google-oauth-java-client/issues/892)) ([773b388](https://github.com/googleapis/google-oauth-java-client/commit/773b38844cd6a0a72a360cc25692412e9b36b1e7))
+
 ### [1.33.3](https://github.com/googleapis/google-oauth-java-client/compare/v1.33.2...v1.33.3) (2022-04-13)
 
 

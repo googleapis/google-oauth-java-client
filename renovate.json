@@ -21,5 +21,6 @@
       "packagePatterns": ["^com.google.appengine:appengine-"],
       "groupName": "AppEngine packages"
     }
-  ]
+  ],
+  "dependencyDashboard": true
 }
