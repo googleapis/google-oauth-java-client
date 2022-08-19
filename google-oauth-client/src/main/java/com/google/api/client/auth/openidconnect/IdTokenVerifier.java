@@ -234,8 +234,8 @@ public class IdTokenVerifier {
    *
    * @param idToken ID token
    * @return {@code true} if verified successfully or {@code false} if failed
-   * @throws IOException thrown if verification failed to run. For example, failure to get
-   * public keys for signature validation.
+   * @throws IOException thrown if verification failed to run. For example, failure to get public
+   *     keys for signature validation.
    */
   public boolean verify(IdToken idToken) throws IOException {
     boolean payloadValid = verifyPayload(idToken);
@@ -247,10 +247,7 @@ public class IdTokenVerifier {
     try {
       return verifySignature(idToken);
     } catch (VerificationException ex) {
-      LOGGER.log(
-          Level.INFO,
-          "Id token signature verification failed. ",
-          ex);
+      LOGGER.log(Level.INFO, "Id token signature verification failed. ", ex);
       return false;
     }
   }
@@ -570,8 +567,9 @@ public class IdTokenVerifier {
                 .setMultiplier(RETRY_MULTIPLIER)
                 .build();
 
-        request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(backoff)
-            .setBackOffRequired(BackOffRequired.ALWAYS));
+        request.setUnsuccessfulResponseHandler(
+            new HttpBackOffUnsuccessfulResponseHandler(backoff)
+                .setBackOffRequired(BackOffRequired.ALWAYS));
 
         HttpResponse response = request.execute();
         jwks = response.parseAs(JsonWebKeySet.class);
