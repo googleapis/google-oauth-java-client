@@ -330,7 +330,7 @@ public class IdTokenVerifierTest extends TestCase {
             .build();
     assertTrue(tokenVerifier.verify(IdToken.parse(JSON_FACTORY, SERVICE_ACCOUNT_RS256_TOKEN)));
 
-    // a token with bad signature expected to fail in verify and work in verifyPayload
+    // a token with a bad signature that is expected to fail in verify, but work in verifyPayload
     assertFalse(
         tokenVerifier.verify(
             IdToken.parse(JSON_FACTORY, SERVICE_ACCOUNT_RS256_TOKEN_BAD_SIGNATURE)));
