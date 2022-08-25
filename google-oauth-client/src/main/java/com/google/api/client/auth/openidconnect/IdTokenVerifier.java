@@ -234,8 +234,8 @@ public class IdTokenVerifier {
    *
    * @param idToken ID token
    * @return {@code true} if verified successfully or {@code false} if failed
-   * @throws IOException if verification fails to run. For example, if it fails to get public
-   *     keys for signature validation.
+   * @throws IOException if verification fails to run. For example, if it fails to get public keys
+   *     for signature validation.
    */
   public boolean verify(IdToken idToken) throws IOException {
     boolean payloadValid = verifyPayload(idToken);
