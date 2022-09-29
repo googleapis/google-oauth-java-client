@@ -508,7 +508,7 @@ public class IdTokenVerifier {
   }
 
   /** Custom CacheLoader for mapping certificate urls to the contained public keys. */
-  static class PublicKeyLoader extends CacheLoader<String, Map<String, PublicKey>> {
+  public static class PublicKeyLoader extends CacheLoader<String, Map<String, PublicKey>> {
     private static final int DEFAULT_NUMBER_OF_RETRIES = 2;
     private static final int INITIAL_RETRY_INTERVAL_MILLIS = 1000;
     private static final double RETRY_RANDOMIZATION_FACTOR = 0.1;
