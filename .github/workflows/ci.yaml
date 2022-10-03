@@ -15,6 +15,7 @@ jobs:
     - uses: actions/setup-java@v3
       with:
         java-version: ${{matrix.java}}
+        distribution: temurin
     - run: java -version
     - run: .kokoro/build.sh
       env:
@@ -29,6 +30,7 @@ jobs:
     - uses: actions/setup-java@v3
       with:
         java-version: ${{matrix.java}}
+        distribution: temurin
     - run: java -version
     - run: .kokoro/dependencies.sh
   lint:
@@ -38,6 +40,7 @@ jobs:
     - uses: actions/setup-java@v3
       with:
         java-version: 11
+        distribution: temurin
     - run: java -version
     - run: .kokoro/build.sh
       env:
@@ -49,6 +52,7 @@ jobs:
     - uses: actions/setup-java@v3
       with:
         java-version: 8
+        distribution: temurin
     - run: java -version
     - run: .kokoro/build.sh
       env:
