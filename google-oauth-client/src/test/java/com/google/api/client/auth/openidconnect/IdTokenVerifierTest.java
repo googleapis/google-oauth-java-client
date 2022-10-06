@@ -68,7 +68,7 @@ public class IdTokenVerifierTest extends TestCase {
       "https://www.googleapis.com/oauth2/v1/certs";
 
   private static final String SERVICE_ACCOUNT_RS256_TOKEN =
-      "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE3MjdiNmI0OTQwMmI5Y2Y5NWJlNGU4ZmQzOGFhN2U3YzExNjQ0YjEiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJodHRwczovL2Nsb3VkdGFza3MuZ29vZ2xlYXBpcy5jb20vdjIvcHJvamVjdHMvZ2Nsb3VkLWRldmVsL2xvY2F0aW9ucyIsImF6cCI6InN0aW0tdGVzdEBzdGVsbGFyLWRheS0yNTQyMjIuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJlbWFpbCI6InN0aW0tdGVzdEBzdGVsbGFyLWRheS0yNTQyMjIuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZXhwIjoxNjYwODgwNjczLCJpYXQiOjE2NjA4NzcwNzMsImlzcyI6Imh0dHBzOi8vYWNjb3VudHMuZ29vZ2xlLmNvbSIsInN1YiI6IjExMjgxMDY3Mjk2MzcyODM2NjQwNiJ9.Q2tG-hN6UHecbzaCIlg58K9msp58nLZWs03CBGO_D6F3cI4LKQEUzsbcztZqmNGWd0ld4zkrKzIP9cQosa_xold4hEzSX_ORRHYQLimLYaQmP3rKqWPMsbIupPdpnGqBDzAYjc7Pw9pQBzuZJj8e3FEG6a5tblDfMcgeklXZIkwzN7ypWCbFDoDP2STSYJYZ-LQIB0-Zlex7dm2KhyB8QSkMQK60YvpXz4L1OtwG7spk3yUCWxul6hYF76klST0iS6DH03YdaDpt4gRXkTUKyTRfB10h-WhCAKKRzmT6d_IT9ApIyqPhimkgkBHhLNyjK8lgAJdk9CLriSEOgVpsow";
+      "eyJhbGciOiJSUzI1NiIsImtpZCI6ImVkMzZjMjU3YzQ3ZWJhYmI0N2I0NTY4MjhhODU4YWE1ZmNkYTEyZGQiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJodHRwczovL2ZpcmVzdG9yZS5nb29nbGVhcGlzLmNvbS8iLCJhenAiOiIxMDc2OTIyMjkyNzUyMzY5MDMyNzgiLCJleHAiOjE2NjUwODkxMjYsImlhdCI6MTY2NTA4NTUyNiwiaXNzIjoiaHR0cHM6Ly9hY2NvdW50cy5nb29nbGUuY29tIiwic3ViIjoiMTA3NjkyMjI5Mjc1MjM2OTAzMjc4In0.0lo5y5mQ6hhcQSQ-InCwCMELQyrhK0bLbEVS2RXK4XFxGlpLZgCDM1uJr-xFghQlVpP6RL6oa_amMPl2kv7zg9UiUSM9Njf2vMRpaKXGUB0NBv3Vgsj4GgCUBS2V_S1R2C0eJ3aPA2iyUg9xA7US-Xlpisx-o3uzxqRIuV2kMhfjUE8mJgzz-OhQRMtQcxgxDVeY8jasADIqDI-dSnzb5foKkO565iADfWhVX0x-WxbH69uATnnh6GF6kK8uPeeUlIV3jZ3uzZNllF7vp8NVi3cxOpY96urZ35K3CVTCzjjos5IMbZ02i20M9XRfqvpGk3DlQE7QQEj20zmYuTd8LQ";
   private static final String SERVICE_ACCOUNT_RS256_TOKEN_BAD_SIGNATURE =
       "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE3MjdiNmI0OTQwMmI5Y2Y5NWJlNGU4ZmQzOGFhN2U3YzExNjQ0YjEiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJodHRwczovL2Nsb3VkdGFza3MuZ29vZ2xlYXBpcy5jb20vdjIvcHJvamVjdHMvZ2Nsb3VkLWRldmVsL2xvY2F0aW9ucyIsImF6cCI6InN0aW0tdGVzdEBzdGVsbGFyLWRheS0yNTQyMjIuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJlbWFpbCI6InN0aW0tdGVzdEBzdGVsbGFyLWRheS0yNTQyMjIuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZXhwIjoxNjYwODgwNjczLCJpYXQiOjE2NjA4NzcwNzMsImlzcyI6Imh0dHBzOi8vYWNjb3VudHMuZ29vZ2xlLmNvbSIsInN1YiI6IjExMjgxMDY3Mjk2MzcyODM2NjQwNiJ9.Q2tG-hN6UHecbzaCIlg58K9msp58nLZWs03CBGO_D6F3cI4LKQEUzsbcztZqmNGWd0ld4zkrKzIP9cQosa_xold4hEzSX_ORRHYQLimLYaQmP3rKqWPMsbIupPdpnGqBDzAYjc7Pw9pQBzuZJj8e3FEG6a5tblDfMcgeklXZIkwzN7ypWCbFDoDP2STSYJYZ-LQIB0-Zlex7dm2KhyB8QSkMQK60YvpXz4L1OtwG7spk3yUCWxul6hYF76klST0iS6DH03YdaDpt4gRXkTUKyTRfB10h-WhCAKKRzmT6d_IT9ApIyqPhimkgkBHhLNyjK8lgAJdk9CLriSEOgVpruy";
   private static final String SERVICE_ACCOUNT_CERT_URL =
@@ -320,20 +320,25 @@ public class IdTokenVerifierTest extends TestCase {
     assertTrue(tokenVerifier.verify(IdToken.parse(JSON_FACTORY, FEDERATED_SIGNON_RS256_TOKEN)));
   }
 
-  public void testVerifyServiceAccountRs256Token() throws IOException {
-    MockClock clock = new MockClock(1660880973000L);
-    IdTokenVerifier tokenVerifier =
-        new IdTokenVerifier.Builder()
+  private IdTokenVerifier generateTokenVerifier(long mockClockTime) {
+    MockClock clock = new MockClock(mockClockTime);
+    return new IdTokenVerifier.Builder()
             .setClock(clock)
             .setCertificatesLocation(SERVICE_ACCOUNT_CERT_URL)
             .setHttpTransportFactory(new DefaultHttpTransportFactory())
             .build();
+  }
+
+  public void testVerifyServiceAccountRs256Token() throws IOException {
+    //use newly used signature
+    IdTokenVerifier tokenVerifier = generateTokenVerifier(1665085508212L);
     assertTrue(tokenVerifier.verify(IdToken.parse(JSON_FACTORY, SERVICE_ACCOUNT_RS256_TOKEN)));
 
     // a token with a bad signature that is expected to fail in verify, but work in verifyPayload
     assertFalse(
         tokenVerifier.verify(
             IdToken.parse(JSON_FACTORY, SERVICE_ACCOUNT_RS256_TOKEN_BAD_SIGNATURE)));
+    tokenVerifier = generateTokenVerifier(1660880973000L);
     assertTrue(
         tokenVerifier.verifyPayload(
             IdToken.parse(JSON_FACTORY, SERVICE_ACCOUNT_RS256_TOKEN_BAD_SIGNATURE)));
