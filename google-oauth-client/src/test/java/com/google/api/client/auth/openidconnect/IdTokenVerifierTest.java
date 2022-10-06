@@ -323,14 +323,14 @@ public class IdTokenVerifierTest extends TestCase {
   private IdTokenVerifier generateTokenVerifier(long mockClockTime) {
     MockClock clock = new MockClock(mockClockTime);
     return new IdTokenVerifier.Builder()
-            .setClock(clock)
-            .setCertificatesLocation(SERVICE_ACCOUNT_CERT_URL)
-            .setHttpTransportFactory(new DefaultHttpTransportFactory())
-            .build();
+        .setClock(clock)
+        .setCertificatesLocation(SERVICE_ACCOUNT_CERT_URL)
+        .setHttpTransportFactory(new DefaultHttpTransportFactory())
+        .build();
   }
 
   public void testVerifyServiceAccountRs256Token() throws IOException {
-    //use newly used signature
+    // use newly used signature
     IdTokenVerifier tokenVerifier = generateTokenVerifier(1665085508212L);
     assertTrue(tokenVerifier.verify(IdToken.parse(JSON_FACTORY, SERVICE_ACCOUNT_RS256_TOKEN)));
 
