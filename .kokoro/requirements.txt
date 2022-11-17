@@ -254,9 +254,9 @@ jinja2==3.0.3 \
     # via
     #   -r requirements.in
     #   gcp-releasetool
-keyring==23.11.0 \
-    --hash=sha256:3dd30011d555f1345dec2c262f0153f2f0ca6bca041fb1dc4588349bb4c0ac1e \
-    --hash=sha256:ad192263e2cdd5f12875dedc2da13534359a7e760e77f8d04b50968a821c2361
+keyring==23.4.1 \
+    --hash=sha256:17e49fb0d6883c2b4445359434dba95aad84aabb29bbff044ad0ed7100232eca \
+    --hash=sha256:89cbd74d4683ed164c8082fb38619341097741323b3786905c6dac04d6915a55
     # via
     #   -r requirements.in
     #   gcp-releasetool
