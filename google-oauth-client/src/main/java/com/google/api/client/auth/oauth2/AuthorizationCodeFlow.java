@@ -112,6 +112,9 @@ public class AuthorizationCodeFlow {
   /** Refresh listeners provided by the client. */
   private final Collection<CredentialRefreshListener> refreshListeners;
 
+  /** Additional parameters to pass to authorization url. */
+  private final Map<String, String> additionalParameters;
+
   /**
    * @param method method of presenting the access token to the resource server (for example {@link
    *     BearerToken#authorizationHeaderAccessMethod})
@@ -131,7 +134,8 @@ public class AuthorizationCodeFlow {
       GenericUrl tokenServerUrl,
       HttpExecuteInterceptor clientAuthentication,
       String clientId,
-      String authorizationServerEncodedUrl) {
+      String authorizationServerEncodedUrl,
+      Map<String, String> additionalParameters) {
     this(
         new Builder(
             method,
@@ -140,7 +144,8 @@ public class AuthorizationCodeFlow {
             tokenServerUrl,
             clientAuthentication,
             clientId,
-            authorizationServerEncodedUrl));
+            authorizationServerEncodedUrl,
+            additionalParameters));
   }
 
   /**
@@ -156,6 +161,7 @@ public class AuthorizationCodeFlow {
     clientId = Preconditions.checkNotNull(builder.clientId);
     authorizationServerEncodedUrl =
         Preconditions.checkNotNull(builder.authorizationServerEncodedUrl);
+    additionalParameters = Preconditions.checkNotNull(builder.additionalParameters);    
     requestInitializer = builder.requestInitializer;
     credentialStore = builder.credentialStore;
     credentialDataStore = builder.credentialDataStore;
@@ -191,6 +197,11 @@ public class AuthorizationCodeFlow {
     if (pkce != null) {
       url.setCodeChallenge(pkce.getChallenge());
       url.setCodeChallengeMethod(pkce.getChallengeMethod());
+    }
+    if (additionalParameters != null) {
+      for (Map.Entry<String, String> entry : additionalParameters.entrySet()) {
+        url.put(entry.getKey(), entry.getValue());
+      }
     }
     return url;
   }
@@ -549,6 +560,9 @@ public class AuthorizationCodeFlow {
     /** Refresh listeners provided by the client. */
     Collection<CredentialRefreshListener> refreshListeners = Lists.newArrayList();
 
+    /** Additional authorization url parameters provided by the client **/
+    Map<String, String> additionalParameters;
+
     /**
      * @param method method of presenting the access token to the resource server (for example
      *     {@link BearerToken#authorizationHeaderAccessMethod})
@@ -567,7 +581,8 @@ public class AuthorizationCodeFlow {
         GenericUrl tokenServerUrl,
         HttpExecuteInterceptor clientAuthentication,
         String clientId,
-        String authorizationServerEncodedUrl) {
+        String authorizationServerEncodedUrl,
+        Map<String, String> additionalParameters) {
       setMethod(method);
       setTransport(transport);
       setJsonFactory(jsonFactory);
@@ -575,6 +590,7 @@ public class AuthorizationCodeFlow {
       setClientAuthentication(clientAuthentication);
       setClientId(clientId);
       setAuthorizationServerEncodedUrl(authorizationServerEncodedUrl);
+      setAdditionalParameters(additionalParameters);
     }
 
     /** Returns a new instance of an authorization code flow based on this builder. */
@@ -714,6 +730,20 @@ public class AuthorizationCodeFlow {
     public Builder setAuthorizationServerEncodedUrl(String authorizationServerEncodedUrl) {
       this.authorizationServerEncodedUrl =
           Preconditions.checkNotNull(authorizationServerEncodedUrl);
+      return this;
+    }
+
+    /**
+     * Sets the additional url parameters.
+     *
+     * <p>Overriding is only supported for the purpose of calling the super implementation and
+     * changing the return type, but nothing else.
+     *
+     * @since 1.11
+     */
+    public Builder setAdditionalParameters(Map<String, String> additionalParameters) {
+      this.additionalParameters =
+          Preconditions.checkNotNull(additionalParameters);
       return this;
     }
 
