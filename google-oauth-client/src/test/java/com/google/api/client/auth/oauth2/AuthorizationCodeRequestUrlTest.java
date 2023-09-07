@@ -15,6 +15,8 @@
 package com.google.api.client.auth.oauth2;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import junit.framework.TestCase;
 
 /**
@@ -41,4 +43,23 @@ public class AuthorizationCodeRequestUrlTest extends TestCase {
             .setScopes(Arrays.asList("a", "b", "c"));
     assertEquals(EXPECTED, url.build());
   }
+
+  public void testAdditionalParams() {
+
+    Map<String, String> testMap = new HashMap<>();
+    String expectedUrl =
+    "https://server.example.com/authorize?client_id=s6BhdRkqt3&"
+    + "redirect_uri=https://client.example.com/rd&response_type=code"
+    + "&scope=a%20b%20c&state=xyz&param1=value1";
+
+    testMap.put("param1", "value1");
+    AuthorizationRequestUrl url =
+        new AuthorizationCodeRequestUrl("https://server.example.com/authorize", "s6BhdRkqt3")
+            .setState("xyz")
+            .setRedirectUri("https://client.example.com/rd")
+            .setScopes(Arrays.asList("a", "b", "c"));
+
+    assertEquals(expectedUrl, url.build());
+  }
+
 }

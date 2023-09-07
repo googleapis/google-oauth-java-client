@@ -134,8 +134,8 @@ public class AuthorizationCodeFlow {
       GenericUrl tokenServerUrl,
       HttpExecuteInterceptor clientAuthentication,
       String clientId,
-      String authorizationServerEncodedUrl,
-      Map<String, String> additionalParameters) {
+      String authorizationServerEncodedUrl)
+    {
     this(
         new Builder(
             method,
@@ -145,7 +145,8 @@ public class AuthorizationCodeFlow {
             clientAuthentication,
             clientId,
             authorizationServerEncodedUrl,
-            additionalParameters));
+            Collections.<String, String>emptyMap()
+    ));
   }
 
   /**
