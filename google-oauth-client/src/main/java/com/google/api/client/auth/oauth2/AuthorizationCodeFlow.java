@@ -166,8 +166,8 @@ public class AuthorizationCodeFlow {
             tokenServerUrl,
             clientAuthentication,
             clientId,
-            authorizationServerEncodedUrl,
-            additionalParameters)
+            authorizationServerEncodedUrl)
+          .setAdditionalParameters(additionalParameters)
     );
   }
 
@@ -184,7 +184,7 @@ public class AuthorizationCodeFlow {
     clientId = Preconditions.checkNotNull(builder.clientId);
     authorizationServerEncodedUrl =
         Preconditions.checkNotNull(builder.authorizationServerEncodedUrl);
-    additionalParameters = Preconditions.checkNotNull(builder.additionalParameters);    
+    additionalParameters = builder.additionalParameters;    
     requestInitializer = builder.requestInitializer;
     credentialStore = builder.credentialStore;
     credentialDataStore = builder.credentialDataStore;
@@ -615,25 +615,6 @@ public class AuthorizationCodeFlow {
     setAuthorizationServerEncodedUrl(authorizationServerEncodedUrl);
     setAdditionalParameters(Collections.<String, String>emptyMap());
   }
-
-     public Builder(
-        AccessMethod method,
-        HttpTransport transport,
-        JsonFactory jsonFactory,
-        GenericUrl tokenServerUrl,
-        HttpExecuteInterceptor clientAuthentication,
-        String clientId,
-        String authorizationServerEncodedUrl,
-        Map<String, String> additionalParameters) {
-      setMethod(method);
-      setTransport(transport);
-      setJsonFactory(jsonFactory);
-      setTokenServerUrl(tokenServerUrl);
-      setClientAuthentication(clientAuthentication);
-      setClientId(clientId);
-      setAuthorizationServerEncodedUrl(authorizationServerEncodedUrl);
-      setAdditionalParameters(additionalParameters);
-    }
 
     /** Returns a new instance of an authorization code flow based on this builder. */
     public AuthorizationCodeFlow build() {
