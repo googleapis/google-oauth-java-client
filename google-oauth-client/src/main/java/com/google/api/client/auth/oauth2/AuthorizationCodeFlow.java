@@ -144,9 +144,31 @@ public class AuthorizationCodeFlow {
             tokenServerUrl,
             clientAuthentication,
             clientId,
+            authorizationServerEncodedUrl)
+    );
+  }
+
+  public AuthorizationCodeFlow(
+      AccessMethod method,
+      HttpTransport transport,
+      JsonFactory jsonFactory,
+      GenericUrl tokenServerUrl,
+      HttpExecuteInterceptor clientAuthentication,
+      String clientId,
+      String authorizationServerEncodedUrl,
+      Map<String, String> additionalParameters)
+    {
+    this(
+        new Builder(
+            method,
+            transport,
+            jsonFactory,
+            tokenServerUrl,
+            clientAuthentication,
+            clientId,
             authorizationServerEncodedUrl,
-            Collections.<String, String>emptyMap()
-    ));
+            additionalParameters)
+    );
   }
 
   /**
@@ -575,7 +597,26 @@ public class AuthorizationCodeFlow {
      * @param clientId client identifier
      * @param authorizationServerEncodedUrl authorization server encoded URL
      */
-    public Builder(
+
+     public Builder(
+      AccessMethod method,
+      HttpTransport transport,
+      JsonFactory jsonFactory,
+      GenericUrl tokenServerUrl,
+      HttpExecuteInterceptor clientAuthentication,
+      String clientId,
+      String authorizationServerEncodedUrl) {
+    setMethod(method);
+    setTransport(transport);
+    setJsonFactory(jsonFactory);
+    setTokenServerUrl(tokenServerUrl);
+    setClientAuthentication(clientAuthentication);
+    setClientId(clientId);
+    setAuthorizationServerEncodedUrl(authorizationServerEncodedUrl);
+    setAdditionalParameters(Collections.<String, String>emptyMap());
+  }
+
+     public Builder(
         AccessMethod method,
         HttpTransport transport,
         JsonFactory jsonFactory,
