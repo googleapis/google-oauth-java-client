@@ -146,27 +146,6 @@ public class AuthorizationCodeFlow {
             authorizationServerEncodedUrl));
   }
 
-  public AuthorizationCodeFlow(
-      AccessMethod method,
-      HttpTransport transport,
-      JsonFactory jsonFactory,
-      GenericUrl tokenServerUrl,
-      HttpExecuteInterceptor clientAuthentication,
-      String clientId,
-      String authorizationServerEncodedUrl,
-      Map<String, String> additionalParameters) {
-    this(
-        new Builder(
-                method,
-                transport,
-                jsonFactory,
-                tokenServerUrl,
-                clientAuthentication,
-                clientId,
-                authorizationServerEncodedUrl)
-            .setAdditionalParameters(additionalParameters));
-  }
-
   /**
    * @param builder authorization code flow builder
    * @since 1.14
