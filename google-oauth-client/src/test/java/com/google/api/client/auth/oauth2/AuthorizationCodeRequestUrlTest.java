@@ -15,8 +15,6 @@
 package com.google.api.client.auth.oauth2;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import junit.framework.TestCase;
 
 /**
@@ -43,5 +41,4 @@ public class AuthorizationCodeRequestUrlTest extends TestCase {
             .setScopes(Arrays.asList("a", "b", "c"));
     assertEquals(EXPECTED, url.build());
   }
-
 }

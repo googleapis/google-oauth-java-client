@@ -134,8 +134,7 @@ public class AuthorizationCodeFlow {
       GenericUrl tokenServerUrl,
       HttpExecuteInterceptor clientAuthentication,
       String clientId,
-      String authorizationServerEncodedUrl)
-    {
+      String authorizationServerEncodedUrl) {
     this(
         new Builder(
             method,
@@ -144,8 +143,7 @@ public class AuthorizationCodeFlow {
             tokenServerUrl,
             clientAuthentication,
             clientId,
-            authorizationServerEncodedUrl)
-    );
+            authorizationServerEncodedUrl));
   }
 
   public AuthorizationCodeFlow(
@@ -156,19 +154,17 @@ public class AuthorizationCodeFlow {
       HttpExecuteInterceptor clientAuthentication,
       String clientId,
       String authorizationServerEncodedUrl,
-      Map<String, String> additionalParameters)
-    {
+      Map<String, String> additionalParameters) {
     this(
         new Builder(
-            method,
-            transport,
-            jsonFactory,
-            tokenServerUrl,
-            clientAuthentication,
-            clientId,
-            authorizationServerEncodedUrl)
-          .setAdditionalParameters(additionalParameters)
-    );
+                method,
+                transport,
+                jsonFactory,
+                tokenServerUrl,
+                clientAuthentication,
+                clientId,
+                authorizationServerEncodedUrl)
+            .setAdditionalParameters(additionalParameters));
   }
 
   /**
@@ -184,7 +180,7 @@ public class AuthorizationCodeFlow {
     clientId = Preconditions.checkNotNull(builder.clientId);
     authorizationServerEncodedUrl =
         Preconditions.checkNotNull(builder.authorizationServerEncodedUrl);
-    additionalParameters = builder.additionalParameters;    
+    additionalParameters = builder.additionalParameters;
     requestInitializer = builder.requestInitializer;
     credentialStore = builder.credentialStore;
     credentialDataStore = builder.credentialDataStore;
@@ -583,7 +579,7 @@ public class AuthorizationCodeFlow {
     /** Refresh listeners provided by the client. */
     Collection<CredentialRefreshListener> refreshListeners = Lists.newArrayList();
 
-    /** Additional authorization url parameters provided by the client **/
+    /** Additional authorization url parameters provided by the client * */
     Map<String, String> additionalParameters;
 
     /**
@@ -597,24 +593,23 @@ public class AuthorizationCodeFlow {
      * @param clientId client identifier
      * @param authorizationServerEncodedUrl authorization server encoded URL
      */
-
-     public Builder(
-      AccessMethod method,
-      HttpTransport transport,
-      JsonFactory jsonFactory,
-      GenericUrl tokenServerUrl,
-      HttpExecuteInterceptor clientAuthentication,
-      String clientId,
-      String authorizationServerEncodedUrl) {
-    setMethod(method);
-    setTransport(transport);
-    setJsonFactory(jsonFactory);
-    setTokenServerUrl(tokenServerUrl);
-    setClientAuthentication(clientAuthentication);
-    setClientId(clientId);
-    setAuthorizationServerEncodedUrl(authorizationServerEncodedUrl);
-    setAdditionalParameters(Collections.<String, String>emptyMap());
-  }
+    public Builder(
+        AccessMethod method,
+        HttpTransport transport,
+        JsonFactory jsonFactory,
+        GenericUrl tokenServerUrl,
+        HttpExecuteInterceptor clientAuthentication,
+        String clientId,
+        String authorizationServerEncodedUrl) {
+      setMethod(method);
+      setTransport(transport);
+      setJsonFactory(jsonFactory);
+      setTokenServerUrl(tokenServerUrl);
+      setClientAuthentication(clientAuthentication);
+      setClientId(clientId);
+      setAuthorizationServerEncodedUrl(authorizationServerEncodedUrl);
+      setAdditionalParameters(Collections.<String, String>emptyMap());
+    }
 
     /** Returns a new instance of an authorization code flow based on this builder. */
     public AuthorizationCodeFlow build() {
@@ -765,8 +760,7 @@ public class AuthorizationCodeFlow {
      * @since 1.11
      */
     public Builder setAdditionalParameters(Map<String, String> additionalParameters) {
-      this.additionalParameters =
-          Preconditions.checkNotNull(additionalParameters);
+      this.additionalParameters = Preconditions.checkNotNull(additionalParameters);
       return this;
     }
 

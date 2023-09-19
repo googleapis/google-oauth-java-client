@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -161,19 +161,19 @@ public class AuthorizationCodeFlowTest extends AuthenticationTestBase {
     Map<String, String> testMap = new HashMap<>();
     testMap.put("key", "value");
     AuthorizationCodeFlow flow =
-      new AuthorizationCodeFlow.Builder(
-        BearerToken.queryParameterAccessMethod(),
-        new AccessTokenTransport(),
-        new GsonFactory(),
-        TOKEN_SERVER_URL,
-        new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
-        CLIENT_ID,
-      "https://example.com")
-      .setAdditionalParameters(testMap)
-      .build();
+        new AuthorizationCodeFlow.Builder(
+                BearerToken.queryParameterAccessMethod(),
+                new AccessTokenTransport(),
+                new GsonFactory(),
+                TOKEN_SERVER_URL,
+                new BasicAuthentication(CLIENT_ID, CLIENT_SECRET),
+                CLIENT_ID,
+                "https://example.com")
+            .setAdditionalParameters(testMap)
+            .build();
 
-      AuthorizationCodeRequestUrl url = flow.newAuthorizationUrl();
-      String urlString = url.build();
-      assertTrue(urlString.contains("key=value"));
+    AuthorizationCodeRequestUrl url = flow.newAuthorizationUrl();
+    String urlString = url.build();
+    assertTrue(urlString.contains("key=value"));
   }
 }
