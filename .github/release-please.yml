@@ -1,6 +1,7 @@
 bumpMinorPreMajor: true
 handleGHRelease: true
 releaseType: java-yoshi
+versioning: always-bump-minor
 branches:
   - bumpMinorPreMajor: true
     handleGHRelease: true
