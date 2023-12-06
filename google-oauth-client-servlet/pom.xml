@@ -38,14 +38,6 @@
         </configuration>
       </plugin>
       <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.0</version>
-            <configuration>
-                <source>1.8</source>
-                <target>1.8</target>
-            </configuration>
-        </plugin>
-      <plugin>
         <artifactId>maven-source-plugin</artifactId>
         <executions>
           <execution>
@@ -100,7 +92,7 @@
         <configuration>
           <instructions>
             <Bundle-SymbolicName>com.google.oauth-client-servlet</Bundle-SymbolicName>
-            <Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
+            <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
           </instructions>
         </configuration>
         <executions>
