@@ -227,8 +227,8 @@ public class IdTokenVerifier {
    *       variable set to true.
    * </ul>
    *
-   * Deprecated, because returns a false-negatives in case of an error while getting public keys
-   * for signature verification. Use {@link IdTokenVerifier.verfyOrThrow(IdToken)} instead.
+   * Deprecated, because returns a false-negatives in case of an error while getting public keys for
+   * signature verification. Use {@link IdTokenVerifier.verfyOrThrow(IdToken)} instead.
    *
    * @param idToken ID token
    * @return {@code true} if verified successfully or {@code false} if failed
