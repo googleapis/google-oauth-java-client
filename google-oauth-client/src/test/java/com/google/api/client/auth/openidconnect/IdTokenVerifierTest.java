@@ -107,6 +107,8 @@ public class IdTokenVerifierTest extends TestCase {
   }
 
   public void testVerifyPayload() throws Exception {
+
+    System.out.println("Java Version is : " + System.getProperty("java.version"));
     MockClock clock = new MockClock();
     MockEnvironment testEnvironment = new MockEnvironment();
     testEnvironment.setVariable(IdTokenVerifier.SKIP_SIGNATURE_ENV_VAR, "true");
