@@ -230,14 +230,52 @@ public class IdTokenVerifier {
    *       variable set to true.
    * </ul>
    *
-   * <p>Overriding is allowed, but it must call the super implementation.
+   * Deprecated, because can return false-negatives if there was an error while getting public keys
+   * for signature verification. Use {@link IdTokenVerifier.verfyOrThrow(IdToken)} instead.
    *
    * @param idToken ID token
    * @return {@code true} if verified successfully or {@code false} if failed
-   * @throws IOException if verification fails to run. For example, if it fails to get public keys
-   *     for signature validation.
    */
-  public boolean verify(IdToken idToken) throws IOException {
+  @Deprecated
+  public boolean verify(IdToken idToken) {
+    try {
+      return verifyOrThrow(idToken);
+    } catch (IOException ex) {
+      LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+      return false;
+    }
+  }
+
+  /**
+   * Verifies that the given ID token is valid using the cached public keys.
+   *
+   * <p>It verifies:
+   *
+   * <ul>
+   *   <li>The issuer is one of {@link #getIssuers()} by calling {@link
+   *       IdToken#verifyIssuer(String)}.
+   *   <li>The audience is one of {@link #getAudience()} by calling {@link
+   *       IdToken#verifyAudience(Collection)}.
+   *   <li>The current time against the issued at and expiration time, using the {@link #getClock()}
+   *       and allowing for a time skew specified in {@link #getAcceptableTimeSkewSeconds()} , by
+   *       calling {@link IdToken#verifyTime(long, long)}.
+   *   <li>This method verifies token signature per current OpenID Connect Spec:
+   *       https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation. By default,
+   *       method gets a certificate from well-known location. A request to certificate location is
+   *       performed using {@link com.google.api.client.http.javanet.NetHttpTransport} Both
+   *       certificate location and transport implementation can be overridden via {@link Builder}
+   *       not recommended: this check can be disabled with OAUTH_CLIENT_SKIP_SIGNATURE environment
+   *       variable set to true.
+   * </ul>
+   *
+   * <p>Overriding is allowed, but it must call the super implementation.
+   *
+   * @param idToken ID token
+   * @return {@code true} if verified successfully or {@code false} if payload validation failed
+   * @throws IOException if verification fails to run. For example, if it fails to get public keys
+   *     for signature verification.
+   */
+  public boolean verifyOrThrow(IdToken idToken) throws IOException {
     boolean payloadValid = verifyPayload(idToken);
 
     if (!payloadValid) {
@@ -246,8 +284,8 @@ public class IdTokenVerifier {
 
     try {
       return verifySignature(idToken);
-    } catch (VerificationException ex) {
-      LOGGER.log(Level.INFO, "Id token signature verification failed. ", ex);
+    } catch (VerificationException vex) {
+      LOGGER.log(Level.INFO, "Id token signature verification failed. ", vex);
       return false;
     }
   }
@@ -331,14 +369,12 @@ public class IdTokenVerifier {
   }
 
   /**
-   * {@link Beta} <br>
    * Builder for {@link IdTokenVerifier}.
    *
    * <p>Implementation is not thread-safe.
    *
    * @since 1.16
    */
-  @Beta
   public static class Builder {
 
     /** Clock. */
