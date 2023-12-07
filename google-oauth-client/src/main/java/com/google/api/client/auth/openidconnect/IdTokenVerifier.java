@@ -25,7 +25,6 @@ import com.google.api.client.json.GenericJson;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.webtoken.JsonWebSignature.Header;
 import com.google.api.client.util.Base64;
-import com.google.api.client.util.Beta;
 import com.google.api.client.util.Clock;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.client.util.Key;
@@ -66,7 +65,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * {@link Beta} <br>
  * Thread-safe ID token verifier based on <a
  * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token
  * Validation</a>.
@@ -110,7 +108,6 @@ import java.util.logging.Logger;
  *
  * @since 1.16
  */
-@Beta
 public class IdTokenVerifier {
   private static final Logger LOGGER = Logger.getLogger(IdTokenVerifier.class.getName());
   private static final String IAP_CERT_URL = "https://www.gstatic.com/iap/verify/public_key-jwk";
@@ -230,7 +227,7 @@ public class IdTokenVerifier {
    *       variable set to true.
    * </ul>
    *
-   * Deprecated, because can return false-negatives if there was an error while getting public keys
+   * Deprecated, because returns a false-negatives in case of an error while getting public keys
    * for signature verification. Use {@link IdTokenVerifier.verfyOrThrow(IdToken)} instead.
    *
    * @param idToken ID token
@@ -284,8 +281,8 @@ public class IdTokenVerifier {
 
     try {
       return verifySignature(idToken);
-    } catch (VerificationException vex) {
-      LOGGER.log(Level.INFO, "Id token signature verification failed. ", vex);
+    } catch (VerificationException ex) {
+      LOGGER.log(Level.INFO, "Id token signature verification failed. ", ex);
       return false;
     }
   }
