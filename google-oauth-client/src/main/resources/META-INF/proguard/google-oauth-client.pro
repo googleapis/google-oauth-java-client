@@ -1,0 +1,1 @@
+-keep class com.google.api.client.auth.** { *; }
