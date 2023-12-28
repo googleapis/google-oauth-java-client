@@ -227,9 +227,9 @@ public class IdTokenVerifier {
    *       variable set to true. Use {@link #verifyPayload(IdToken)} instead.
    * </ul>
    *
-   * Deprecated. This method returns false if network requests to get certificates fail. Use
-   * {@link IdTokenVerifier.verfyOrThrow(IdToken)} instead to differentiate between potentially
-   * retryable network errors and false verification results.
+   * Deprecated. This method returns false if network requests to get certificates fail. Use {@link
+   * IdTokenVerifier.verfyOrThrow(IdToken)} instead to differentiate between potentially retryable
+   * network errors and false verification results.
    *
    * @param idToken ID token
    * @return {@code true} if verified successfully or {@code false} if failed
