@@ -69,7 +69,7 @@ import java.util.logging.Logger;
  * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token
  * Validation</a>.
  *
- * <p>Call {@link #verify(IdToken)} to verify a ID token. This is a light-weight object, so you may
+ * <p>Call {@link #verify(IdToken)} to verify an ID token. This is a light-weight object, so you may
  * use a new instance for each configuration of expected issuer and trusted client IDs. Sample
  * usage:
  *
@@ -99,7 +99,7 @@ import java.util.logging.Logger;
  * </pre>
  *
  * not recommended: this check can be disabled with OAUTH_CLIENT_SKIP_SIGNATURE environment variable
- * set to true.
+ * set to true. Use {@link #verifyPayload(IdToken)} instead.
  *
  * <p>Note that {@link #verify(IdToken)} only implements a subset of the verification steps, mostly
  * just the MUST steps. Please read <a
@@ -224,11 +224,12 @@ public class IdTokenVerifier {
    *       performed using {@link com.google.api.client.http.javanet.NetHttpTransport} Both
    *       certificate location and transport implementation can be overridden via {@link Builder}
    *       not recommended: this check can be disabled with OAUTH_CLIENT_SKIP_SIGNATURE environment
-   *       variable set to true.
+   *       variable set to true. Use {@link #verifyPayload(IdToken)} instead.
    * </ul>
    *
-   * Deprecated, because returns a false-negatives in case of an error while getting public keys for
-   * signature verification. Use {@link IdTokenVerifier.verfyOrThrow(IdToken)} instead.
+   * Deprecated. This method returns false if network requests to get certificates fail. Use
+   * {@link IdTokenVerifier.verfyOrThrow(IdToken)} instead to differentiate between potentially
+   * retryable network errors and false verification results.
    *
    * @param idToken ID token
    * @return {@code true} if verified successfully or {@code false} if failed
