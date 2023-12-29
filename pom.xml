@@ -233,7 +233,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.2.2</version>
+          <version>3.3.0</version>
           <executions>
             <execution>
               <goals>
@@ -434,7 +434,7 @@
       <plugin>
         <groupId>com.coveo</groupId>
         <artifactId>fmt-maven-plugin</artifactId>
-        <version>2.13</version>
+        <version>2.9</version>
         <configuration>
           <style>google</style>
           <verbose>true</verbose>
@@ -443,7 +443,7 @@
           <dependency>
             <groupId>com.google.googlejavaformat</groupId>
             <artifactId>google-java-format</artifactId>
-            <version>1.15.0</version>
+            <version>1.7</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -521,7 +521,7 @@
       </activation>
       <properties>
         <!-- default config values -->
-        <docletName>java-docfx-doclet-1.5.0</docletName>
+        <docletName>java-docfx-doclet-1.9.0</docletName>
         <outputpath>${project.build.directory}/docfx-yml</outputpath>
         <projectname>${project.artifactId}</projectname>
         <excludeclasses></excludeclasses>
