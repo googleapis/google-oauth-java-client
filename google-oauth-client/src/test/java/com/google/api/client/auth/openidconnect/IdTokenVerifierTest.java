@@ -68,7 +68,7 @@ public class IdTokenVerifierTest extends TestCase {
       "https://www.googleapis.com/oauth2/v1/certs";
 
   private static final String SERVICE_ACCOUNT_RS256_TOKEN =
-      "eyJhbGciOiJSUzI1NiIsImtpZCI6IjcxM2ZkNjhjOTY2ZTI5MzgwOTgxZWRjMDE2NGEyZjZjMDZjNTcwMmEiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJodHRwczovL2ZpcmVzdG9yZS5nb29nbGVhcGlzLmNvbS8iLCJhenAiOiIxMDc2OTIyMjkyNzUyMzY5MDMyNzgiLCJleHAiOjE2Njg3MTI3OTUsImlhdCI6MTY2ODcwOTE5NSwiaXNzIjoiaHR0cHM6Ly9hY2NvdW50cy5nb29nbGUuY29tIiwic3ViIjoiMTA3NjkyMjI5Mjc1MjM2OTAzMjc4In0.w62_tnl_8rAjpjsGFzawXxT_t6hZztpHUfHFi9yXkKcuOB0KEM__os7bbC3ApEBZo-S5zmhmzkq8JkHqAmW5VB3-Pu0tJpW2cVeuWDpAtwVOghxiVW0O3HSbEAr7Q9xjW1dTRjyojlxDXtgwQbY2P1DYzZdrE0l3LTHz8b4CTKrI7hxGAM6hM_vLncjlCIc3ykLA1IHy8sfBFEAwBFS6ZTwCutfFeb8ulwkqezx5B1tOg6Sr1QKy5OqIk1HIt958o_iFDVFZwsW4W12CYbyamHy8aDHJVu1UTRgt3DoMu9qEwVFzqiz7DWUrfOE9_dPi148d0uudkZIXqWs5YPN_Mg";
+      "eyJhbGciOiJSUzI1NiIsImtpZCI6IjYwODNkZDU5ODE2NzNmNjYxZmRlOWRhZTY0NmI2ZjAzODBhMDE0NWMiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiIzMjU1NTk0MDU1OS5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsImF6cCI6ImludGVncmF0aW9uLXRlc3RzQGNoaW5nb3ItdGVzdC5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsImVtYWlsIjoiaW50ZWdyYXRpb24tdGVzdHNAY2hpbmdvci10ZXN0LmlhbS5nc2VydmljZWFjY291bnQuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV4cCI6MTY4NjAwMjIyMywiaWF0IjoxNjg1OTk4NjIzLCJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJzdWIiOiIxMDQwMjkyOTI4NTMwOTk5NzgyOTMifQ.0sJwjljZk38dJck4swTZTkqg6A_cBJE3JKpwH3CBVuU5MdUyKxuQz7GTs9akUn9426dtdsZvY_CPrbE-erkUKq-Es5aayNFNa4MdSKfaHbXGs5wopBQ-rnSjE3kAOPdD527a-NvbujBQ-069qupbms9p003Dgj2ph4AeAxR5vukn7hjGQNCnsouaVUzEqa6dB1JTQb895YPF6UOcjVDZf6S00Dot2vKFRvY2jWQ2AxnGjyZnzjyOg8lnXQWeLTFj_oqJc7xYmcxN1QCkXgcJfoThTRzvFokB7Qryi0m14rjPzOgQAQSGNniSnEGY5A5ZwKTdYIwZxCrDcZmrKfz7vQ";
   private static final String SERVICE_ACCOUNT_RS256_TOKEN_BAD_SIGNATURE =
       "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE3MjdiNmI0OTQwMmI5Y2Y5NWJlNGU4ZmQzOGFhN2U3YzExNjQ0YjEiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJodHRwczovL2Nsb3VkdGFza3MuZ29vZ2xlYXBpcy5jb20vdjIvcHJvamVjdHMvZ2Nsb3VkLWRldmVsL2xvY2F0aW9ucyIsImF6cCI6InN0aW0tdGVzdEBzdGVsbGFyLWRheS0yNTQyMjIuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJlbWFpbCI6InN0aW0tdGVzdEBzdGVsbGFyLWRheS0yNTQyMjIuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZXhwIjoxNjYwODgwNjczLCJpYXQiOjE2NjA4NzcwNzMsImlzcyI6Imh0dHBzOi8vYWNjb3VudHMuZ29vZ2xlLmNvbSIsInN1YiI6IjExMjgxMDY3Mjk2MzcyODM2NjQwNiJ9.Q2tG-hN6UHecbzaCIlg58K9msp58nLZWs03CBGO_D6F3cI4LKQEUzsbcztZqmNGWd0ld4zkrKzIP9cQosa_xold4hEzSX_ORRHYQLimLYaQmP3rKqWPMsbIupPdpnGqBDzAYjc7Pw9pQBzuZJj8e3FEG6a5tblDfMcgeklXZIkwzN7ypWCbFDoDP2STSYJYZ-LQIB0-Zlex7dm2KhyB8QSkMQK60YvpXz4L1OtwG7spk3yUCWxul6hYF76klST0iS6DH03YdaDpt4gRXkTUKyTRfB10h-WhCAKKRzmT6d_IT9ApIyqPhimkgkBHhLNyjK8lgAJdk9CLriSEOgVpruy";
   private static final String SERVICE_ACCOUNT_CERT_URL =
@@ -320,18 +320,20 @@ public class IdTokenVerifierTest extends TestCase {
     assertTrue(tokenVerifier.verify(IdToken.parse(JSON_FACTORY, FEDERATED_SIGNON_RS256_TOKEN)));
   }
 
-  private IdTokenVerifier generateTokenVerifier(long mockClockTime) {
+  private IdTokenVerifier generateTokenVerifier(long mockClockTime) throws IOException {
     MockClock clock = new MockClock(mockClockTime);
+    HttpTransportFactory transportFactory =
+        mockTransport(SERVICE_ACCOUNT_CERT_URL, readResourceAsString("certs.json"));
     return new IdTokenVerifier.Builder()
         .setClock(clock)
         .setCertificatesLocation(SERVICE_ACCOUNT_CERT_URL)
-        .setHttpTransportFactory(new DefaultHttpTransportFactory())
+        .setHttpTransportFactory(transportFactory)
         .build();
   }
 
   public void testVerifyServiceAccountRs256Token() throws IOException {
     // use newly used signature
-    IdTokenVerifier tokenVerifier = generateTokenVerifier(1668709195000L);
+    IdTokenVerifier tokenVerifier = generateTokenVerifier(1686002000000L);
     assertTrue(tokenVerifier.verify(IdToken.parse(JSON_FACTORY, SERVICE_ACCOUNT_RS256_TOKEN)));
 
     // a token with a bad signature that is expected to fail in verify, but work in verifyPayload
