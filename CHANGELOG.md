@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.35.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.34.1...v1.35.0) (2023-12-29)
+
+
+### Features
+
+* Add googleapis-auth as codeowner team ([#923](https://github.com/googleapis/google-oauth-java-client/issues/923)) ([d7dc38c](https://github.com/googleapis/google-oauth-java-client/commit/d7dc38c3a701b074ac90faf6618f594c3675d126))
+
+
+### Bug Fixes
+
+* Adding retries to public key fetch for IdTokenVerifier to cover transient network issues. ([289f139](https://github.com/googleapis/google-oauth-java-client/commit/289f1397168ac825da68907b050a1ef41827c4ca))
+* Deprecating the IdTokenVerifier.verify, adding verifyOrThrow as an alternative ([#1091](https://github.com/googleapis/google-oauth-java-client/issues/1091)) ([a9a062e](https://github.com/googleapis/google-oauth-java-client/commit/a9a062ef8665495055571534b9fff4fcc630c8ad))
+* **test:** Update test tokens ([#953](https://github.com/googleapis/google-oauth-java-client/issues/953)) ([d523410](https://github.com/googleapis/google-oauth-java-client/commit/d5234104b28dfcc3c9424e200f2ede8832bede6f))
+* Update test tokens ([#971](https://github.com/googleapis/google-oauth-java-client/issues/971)) ([c28d149](https://github.com/googleapis/google-oauth-java-client/commit/c28d1495a9095753544651294373990207b25203))
+
+
+### Dependencies
+
+* Update doclet version to 1.9.0 ([#1054](https://github.com/googleapis/google-oauth-java-client/issues/1054)) ([ca216f9](https://github.com/googleapis/google-oauth-java-client/commit/ca216f9fd1499a2d76a199c74adeff5fd0d8b122))
+
 ## [1.34.1](https://github.com/googleapis/google-oauth-java-client/compare/v1.34.0...v1.34.1) (2022-06-09)
 
 
