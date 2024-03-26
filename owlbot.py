@@ -29,5 +29,7 @@ java.common_templates(
         "renovate.json",
         "license-checks.xml",
         ".github/workflows/ci.yaml",
+        ".kokoro/requirements.in",
+        ".kokoro/requirements.txt"
     ]
 )
