@@ -1,1 +1,1 @@
--keep class com.google.api.client.auth.** { *; }
+-keep,allowoptimization class com.google.api.client.auth.** { *; }
