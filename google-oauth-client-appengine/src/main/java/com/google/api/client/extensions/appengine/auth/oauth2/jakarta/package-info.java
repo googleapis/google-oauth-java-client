@@ -13,8 +13,8 @@
  */
 
 /**
- * OAuth 2.0 utilities that help simplify the authorization flow on Google App Engine.
- * This package uses the {@code jakarta.servlet} namespace.
+ * OAuth 2.0 utilities that help simplify the authorization flow on Google App Engine. This package
+ * uses the {@code jakarta.servlet} namespace.
  *
  * @since 1.36.0
  */

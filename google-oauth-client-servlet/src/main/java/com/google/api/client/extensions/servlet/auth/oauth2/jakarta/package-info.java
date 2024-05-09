@@ -13,8 +13,8 @@
  */
 
 /**
- * OAuth 2.0 utilities that help simplify the authorization flow in HTTP servlets in the
- * {@code jakarta.servlet} namespace.
+ * OAuth 2.0 utilities that help simplify the authorization flow in HTTP servlets in the {@code
+ * jakarta.servlet} namespace.
  *
  * @since 1.36.0
  */

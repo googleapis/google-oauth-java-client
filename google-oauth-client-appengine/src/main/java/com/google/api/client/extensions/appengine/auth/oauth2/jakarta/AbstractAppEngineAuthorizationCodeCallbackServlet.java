@@ -16,7 +16,6 @@ package com.google.api.client.extensions.appengine.auth.oauth2.jakarta;
 
 import com.google.api.client.extensions.servlet.auth.oauth2.jakarta.AbstractAuthorizationCodeCallbackServlet;
 import com.google.appengine.api.users.UserServiceFactory;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
