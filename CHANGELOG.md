@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.36.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.35.0...v1.36.0) (2024-05-10)
+
+
+### Features
+
+* Servlet classes that use the jakarta namespace ([#1115](https://github.com/googleapis/google-oauth-java-client/issues/1115)) ([11d6a3c](https://github.com/googleapis/google-oauth-java-client/commit/11d6a3cb30c4ebfe4fc4e196d99f5764c6ade878))
+
 ## [1.35.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.34.1...v1.35.0) (2023-12-29)
 
 
