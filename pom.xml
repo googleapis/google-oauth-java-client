@@ -117,6 +117,11 @@
         <version>${project.jdo2-api.version}</version>
       </dependency>
       <dependency>
+        <groupId>jakarta.servlet</groupId>
+        <artifactId>jakarta.servlet-api</artifactId>
+        <version>${project.jakarta-servlet-api.version}</version>
+      </dependency>
+      <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>servlet-api</artifactId>
         <version>${project.servlet-api.version}</version>
@@ -462,6 +467,8 @@
     <project.appengine.version>2.0.6</project.appengine.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.http.version>1.43.3</project.http.version>
+    <!-- jakarta-servlet-api 5.0.0 is the last version that works with Java 8 -->
+    <project.jakarta-servlet-api.version>5.0.0</project.jakarta-servlet-api.version>
     <project.jsr305.version>3.0.2</project.jsr305.version>
     <project.guava.version>31.1-android</project.guava.version>
     <project.xpp3.version>1.1.4c</project.xpp3.version>
