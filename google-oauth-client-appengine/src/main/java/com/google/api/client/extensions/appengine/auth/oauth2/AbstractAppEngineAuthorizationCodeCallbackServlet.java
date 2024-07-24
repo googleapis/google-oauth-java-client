@@ -43,7 +43,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * <p>Sample usage:
  *
- * <pre>
+ * <pre>{@code
  * public class ServletCallbackSample extends AbstractAppEngineAuthorizationCodeCallbackServlet {
  *
  * &#64;Override
@@ -77,7 +77,7 @@ import javax.servlet.http.HttpServletRequest;
  * "https://server.example.com/authorize").setCredentialStore(new AppEngineCredentialStore())
  * .build();
  * }
- * </pre>
+ * }</pre>
  *
  * @since 1.7
  * @author Yaniv Inbar

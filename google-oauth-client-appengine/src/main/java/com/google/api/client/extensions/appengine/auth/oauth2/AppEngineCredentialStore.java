@@ -84,14 +84,14 @@ public class AppEngineCredentialStore implements CredentialStore {
    *
    * <p>Sample usage:
    *
-   * <pre>
+   * <pre>{@code
    * public static AppEngineDataStore migrate(AppEngineCredentialStore credentialStore)
    * throws IOException {
    * AppEngineDataStore dataStore = new AppEngineDataStore();
    * credentialStore.migrateTo(dataStore);
    * return dataStore;
    * }
-   * </pre>
+   * }</pre>
    *
    * @param dataStoreFactory App Engine data store factory
    * @since 1.16

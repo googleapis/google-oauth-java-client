@@ -43,7 +43,7 @@ import java.io.IOException;
  *
  * <p>Sample usage:
  *
- * <pre>
+ * <pre>{@code
  * public class ServletSample extends AbstractAppEngineAuthorizationCodeServlet {
  *
  * &#64;Override
@@ -71,7 +71,7 @@ import java.io.IOException;
  * .build();
  * }
  * }
- * </pre>
+ * }</pre>
  *
  * @since 1.36.0
  */

@@ -40,7 +40,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * <p>Sample usage:
  *
- * <pre>
+ * <pre>{@code
  * public class ServletCallbackSample extends AbstractAuthorizationCodeCallbackServlet {
  *
  * &#64;Override
@@ -81,7 +81,7 @@ import javax.servlet.http.HttpServletResponse;
  * // return user ID
  * }
  * }
- * </pre>
+ * }</pre>
  *
  * @since 1.7
  * @author Yaniv Inbar

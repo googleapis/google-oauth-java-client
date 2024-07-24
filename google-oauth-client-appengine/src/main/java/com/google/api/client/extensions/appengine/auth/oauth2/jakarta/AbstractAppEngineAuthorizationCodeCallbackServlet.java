@@ -43,7 +43,7 @@ import java.io.IOException;
  *
  * <p>Sample usage:
  *
- * <pre>
+ * <pre>{@code
  * public class ServletCallbackSample extends AbstractAppEngineAuthorizationCodeCallbackServlet {
  *
  * &#64;Override
@@ -77,7 +77,7 @@ import java.io.IOException;
  * "https://server.example.com/authorize").setCredentialStore(new AppEngineCredentialStore())
  * .build();
  * }
- * </pre>
+ * }</pre>
  *
  * @since 1.36.0
  */
