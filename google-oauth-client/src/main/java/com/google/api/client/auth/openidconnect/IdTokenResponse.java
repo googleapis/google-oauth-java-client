@@ -32,12 +32,12 @@ import java.io.IOException;
  *
  * <p>Implementation is not thread-safe. Sample usage:
  *
- * <pre>
+ * <pre>{@code
  * static JsonWebSignature executeIdToken(TokenRequest tokenRequest) throws IOException {
  * IdTokenResponse idTokenResponse = IdTokenResponse.execute(tokenRequest);
  * return idTokenResponse.parseIdToken();
  * }
- * </pre>
+ * }</pre>
  *
  * @since 1.7
  * @author Yaniv Inbar

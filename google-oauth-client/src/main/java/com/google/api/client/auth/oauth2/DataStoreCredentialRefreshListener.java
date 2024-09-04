@@ -28,14 +28,14 @@ import java.io.IOException;
  * <p>It needs to be added as a refresh listener using {@link
  * Credential.Builder#addRefreshListener}. Sample usage:
  *
- * <pre>
+ * <pre>{@code
  * static void addDataStoreCredentialRefreshListener(
  * Credential.Builder credentialBuilder, String userId, DataStoreFactory dataStoreFactory)
  * throws IOException {
  * credentialBuilder.addRefreshListener(
  * new DataStoreCredentialRefreshListener(userId, dataStoreFactory));
  * }
- * </pre>
+ * }</pre>
  *
  * @since 1.6
  * @author Yaniv Inbar

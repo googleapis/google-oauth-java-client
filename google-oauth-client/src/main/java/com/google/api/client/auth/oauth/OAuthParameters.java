@@ -41,13 +41,13 @@ import java.util.Map;
  *
  * <p>Sample usage, taking advantage that this class implements {@link HttpRequestInitializer}:
  *
- * <pre>
+ * <pre>{@code
  * public static HttpRequestFactory createRequestFactory(HttpTransport transport) {
  * OAuthParameters parameters = new OAuthParameters();
  * // ...
  * return transport.createRequestFactory(parameters);
  * }
- * </pre>
+ * }</pre>
  *
  * <p>If you have a custom request initializer, take a look at the sample usage for {@link
  * HttpExecuteInterceptor}, which this class also implements.

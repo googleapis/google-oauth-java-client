@@ -174,14 +174,14 @@ public class FileCredentialStore implements CredentialStore {
    *
    * <p>Sample usage:
    *
-   * <pre>
+   * <pre>{@code
    * public static FileDataStore migrate(FileCredentialStore credentialStore, File dataDirectory)
    * throws IOException {
    * FileDataStore dataStore = new FileDataStore(dataDirectory);
    * credentialStore.migrateTo(dataStore);
    * return dataStore;
    * }
-   * </pre>
+   * }</pre>
    *
    * @param dataStoreFactory file data store factory
    * @throws IOException

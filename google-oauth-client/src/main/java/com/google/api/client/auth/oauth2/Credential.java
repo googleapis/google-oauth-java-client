@@ -43,7 +43,7 @@ import java.util.logging.Logger;
  *
  * <p>Sample usage:
  *
- * <pre>
+ * <pre>{@code
  * public static Credential createCredentialWithAccessTokenOnly(
  * HttpTransport transport, JsonFactory jsonFactory, TokenResponse tokenResponse) {
  * return new Credential(BearerToken.authorizationHeaderAccessMethod()).setFromTokenResponse(
@@ -61,7 +61,7 @@ import java.util.logging.Logger;
  * .build()
  * .setFromTokenResponse(tokenResponse);
  * }
- * </pre>
+ * }</pre>
  *
  * <p>If you need to persist the access token in a data store, use {@link DataStoreFactory} and
  * {@link Builder#addRefreshListener(CredentialRefreshListener)} with {@link

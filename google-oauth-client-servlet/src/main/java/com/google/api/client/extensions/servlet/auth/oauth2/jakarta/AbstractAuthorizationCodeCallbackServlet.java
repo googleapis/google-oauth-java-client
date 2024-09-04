@@ -40,7 +40,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  * <p>Sample usage:
  *
- * <pre>
+ * <pre>{@code
  * public class ServletCallbackSample extends AbstractAuthorizationCodeCallbackServlet {
  *
  * &#64;Override
@@ -81,7 +81,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * // return user ID
  * }
  * }
- * </pre>
+ * }</pre>
  *
  * @since 1.36.0
  */

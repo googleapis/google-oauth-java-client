@@ -27,14 +27,14 @@ import java.util.Collections;
  *
  * <p>Sample usage for a web application:
  *
- * <pre>
+ * <pre>{@code
  * public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
  * String url = new BrowserClientRequestUrl(
  * "https://server.example.com/authorize", "s6BhdRkqt3").setState("xyz")
  * .setRedirectUri("https://client.example.com/cb").build();
  * response.sendRedirect(url);
  * }
- * </pre>
+ * }</pre>
  *
  * <p>Implementation is not thread-safe.
  *

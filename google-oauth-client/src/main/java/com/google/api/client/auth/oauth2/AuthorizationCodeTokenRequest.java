@@ -34,7 +34,7 @@ import java.util.Collection;
  *
  * <p>Sample usage:
  *
- * <pre>
+ * <pre>{@code
  * static void requestAccessToken() throws IOException {
  * try {
  * TokenResponse response =
@@ -58,7 +58,7 @@ import java.util.Collection;
  * }
  * }
  * }
- * </pre>
+ * }</pre>
  *
  * <p>Some OAuth 2.0 providers don't support {@link BasicAuthentication} but instead support {@link
  * ClientParametersAuthentication}. In the above sample code, simply replace the class name and it

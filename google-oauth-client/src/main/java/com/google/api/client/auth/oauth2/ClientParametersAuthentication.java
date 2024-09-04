@@ -33,7 +33,7 @@ import java.util.Map;
  *
  * <p>Sample usage:
  *
- * <pre>
+ * <pre>{@code
  * static void requestAccessToken() throws IOException {
  * try {
  * TokenResponse response = new AuthorizationCodeTokenRequest(new NetHttpTransport(),
@@ -56,7 +56,7 @@ import java.util.Map;
  * }
  * }
  * }
- * </pre>
+ * }</pre>
  *
  * <p>Implementation is immutable and thread-safe.
  *
