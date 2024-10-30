@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.37.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.36.0...v1.37.0) (2024-10-30)
+
+
+### Documentation
+
+* Update javadoc sample code comments to render correctly in Cloud RAD ([#1121](https://github.com/googleapis/google-oauth-java-client/issues/1121)) ([ab4d5e7](https://github.com/googleapis/google-oauth-java-client/commit/ab4d5e7dae926b5d95ddc3021a82883a0f24415d))
+
 ## [1.36.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.35.0...v1.36.0) (2024-05-10)
 
 

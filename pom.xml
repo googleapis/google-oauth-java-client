@@ -5,7 +5,7 @@
 
   <groupId>com.google.oauth-client</groupId>
   <artifactId>google-oauth-client-parent</artifactId>
-  <version>1.37.0-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
+  <version>1.37.0</version><!-- {x-version-update:google-oauth-client:current} -->
   <packaging>pom</packaging>
   <name>Parent for the Google OAuth Client Library for Java</name>
   <description>Google OAuth Client Library for Java</description>
