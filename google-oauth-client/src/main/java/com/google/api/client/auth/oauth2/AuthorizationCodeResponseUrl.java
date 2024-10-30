@@ -27,7 +27,7 @@ import com.google.api.client.util.Preconditions;
  *
  * <p>Sample usage:
  *
- * <pre>
+ * <pre>{@code
  * public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
  * StringBuffer fullUrlBuf = request.getRequestURL();
  * if (request.getQueryString() != null) {
@@ -42,7 +42,7 @@ import com.google.api.client.util.Preconditions;
  * // request access token using authResponse.getCode()...
  * }
  * }
- * </pre>
+ * }</pre>
  *
  * <p>Implementation is not thread-safe.
  *

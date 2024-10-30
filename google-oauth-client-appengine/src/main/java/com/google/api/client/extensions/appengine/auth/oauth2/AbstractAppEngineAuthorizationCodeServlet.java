@@ -43,7 +43,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * <p>Sample usage:
  *
- * <pre>
+ * <pre>{@code
  * public class ServletSample extends AbstractAppEngineAuthorizationCodeServlet {
  *
  * &#64;Override
@@ -71,7 +71,7 @@ import javax.servlet.http.HttpServletRequest;
  * .build();
  * }
  * }
- * </pre>
+ * }</pre>
  *
  * @since 1.7
  * @author Yaniv Inbar

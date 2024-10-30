@@ -174,7 +174,7 @@ public class AuthorizationCodeFlow {
    * the {@link #getAuthorizationServerEncodedUrl()}, {@link #getClientId()}, and {@link
    * #getScopes()}. Sample usage:
    *
-   * <pre>
+   * <pre>{@code
    * private AuthorizationCodeFlow flow;
    *
    * public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -182,7 +182,7 @@ public class AuthorizationCodeFlow {
    * .setRedirectUri("https://client.example.com/rd").build();
    * response.sendRedirect(url);
    * }
-   * </pre>
+   * }</pre>
    */
   public AuthorizationCodeRequestUrl newAuthorizationUrl() {
     AuthorizationCodeRequestUrl url =
