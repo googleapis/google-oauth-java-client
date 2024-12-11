@@ -1,4 +1,4 @@
 # Format:
 # module:released-version:current-version
 
-google-oauth-client:1.36.0:1.37.0-SNAPSHOT
+google-oauth-client:1.37.0:1.37.0
