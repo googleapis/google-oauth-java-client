@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.oauth-client</groupId>
   <artifactId>google-oauth-client-bom</artifactId>
-  <version>1.37.0-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
+  <version>1.37.0</version><!-- {x-version-update:google-oauth-client:current} -->
   <packaging>pom</packaging>
 
   <name>Google OAuth Client Library for Java BOM</name>
@@ -63,27 +63,27 @@
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client</artifactId>
-        <version>1.37.0-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
+        <version>1.37.0</version><!-- {x-version-update:google-oauth-client:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client-appengine</artifactId>
-        <version>1.37.0-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
+        <version>1.37.0</version><!-- {x-version-update:google-oauth-client:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client-java6</artifactId>
-        <version>1.37.0-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
+        <version>1.37.0</version><!-- {x-version-update:google-oauth-client:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client-jetty</artifactId>
-        <version>1.37.0-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
+        <version>1.37.0</version><!-- {x-version-update:google-oauth-client:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client-servlet</artifactId>
-        <version>1.37.0-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
+        <version>1.37.0</version><!-- {x-version-update:google-oauth-client:current} -->
       </dependency>
     </dependencies>
   </dependencyManagement>
