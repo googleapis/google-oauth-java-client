@@ -11,5 +11,7 @@
   <suppress checks="LineLength" files="com.google.api.client.extensions.appengine.auth.AbstractAppEngineCallbackServlet.java"/>
   <!-- Don't check JavaDoc on package-info. -->
   <suppress checks="JavadocStyleCheck" files="package-info.java"/>
-
+  <!-- The openidconnect classes have different header (3-Clause BSD License) -->
+  <suppress checks="RegexpHeader" files="src/main/java/com/google/api/client/auth/openidconnect/HttpTransportFactory.java" />
+  <suppress checks="RegexpHeader" files="src/main/java/com/google/api/client/auth/openidconnect/Environment.java" />
 </suppressions>
