@@ -49,16 +49,6 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  <distributionManagement>
-    <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <url>https://google.oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>sonatype-nexus-staging</id>
-      <url>https://google.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
   <!--
     If you add a new module, make sure to also add it in the following places:
     * below in the dependencyManagement and maven-javadoc-plugin sections
