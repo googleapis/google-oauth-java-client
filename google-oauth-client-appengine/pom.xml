@@ -50,17 +50,6 @@
           </archive>
         </configuration>
       </plugin>
-      <plugin>
-        <artifactId>maven-source-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>source-jar</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <!--App Engine uses Java 7 or Java 8-->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
