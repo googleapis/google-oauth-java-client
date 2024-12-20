@@ -103,7 +103,7 @@ import java.util.logging.Logger;
  *
  * <p>Note that {@link #verify(IdToken)} only implements a subset of the verification steps, mostly
  * just the MUST steps. Please read <a
- * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation>ID Token
+ * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token
  * Validation</a> for the full list of verification steps.
  *
  * @since 1.16
@@ -228,7 +228,7 @@ public class IdTokenVerifier {
    * </ul>
    *
    * Deprecated. This method returns false if network requests to get certificates fail. Use {@link
-   * IdTokenVerifier.verfyOrThrow(IdToken)} instead to differentiate between potentially retryable
+   * IdTokenVerifier#verifyOrThrow(IdToken)} instead to differentiate between potentially retryable
    * network errors and false verification results.
    *
    * @param idToken ID token
