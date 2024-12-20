@@ -11,6 +11,11 @@
   <description>Google OAuth Client Library for Java</description>
 
   <url>https://github.com/googleapis/google-oauth-java-client</url>
+  <parent>
+    <groupId>com.google.cloud</groupId>
+    <artifactId>google-cloud-shared-config</artifactId>
+    <version>1.12.2</version>
+  </parent>
 
   <issueManagement>
     <system>GitHub</system>
