@@ -90,17 +90,6 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.6.13</version>
-        <extensions>true</extensions>
-        <configuration>
-          <serverId>sonatype-nexus-staging</serverId>
-          <nexusUrl>https://google.oss.sonatype.org/</nexusUrl>
-          <autoReleaseAfterClose>false</autoReleaseAfterClose>
-        </configuration>
-      </plugin>
-      <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.4.1</version>
         <configuration>
@@ -134,6 +123,27 @@
   </build>
 
   <profiles>
+    <profile>
+      <!-- By default, we release artifacts to Sonatype, which requires
+          nexus-staging-maven-plugin. -->
+      <id>release-sonatype</id>
+      <activation>
+        <property>
+          <!-- Only when we use the release-gcp-artifact-registry profile,
+          which comes with artifact-registry-url property, this profile is
+          turned off. -->
+          <name>!artifact-registry-url</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
       <id>release-sign-artifacts</id>
       <activation>
