@@ -123,6 +123,8 @@
   </build>
 
   <profiles>
+    <!-- Because the BOM artifact does not need to inherit other properties such as dependencies
+        in the root pom.xml, this needs to define publication-related profiles. -->
     <profile>
       <!-- By default, we release artifacts to Sonatype, which requires
           nexus-staging-maven-plugin. -->
