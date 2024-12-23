@@ -7,6 +7,7 @@
     <version>1.37.0</version><!-- {x-version-update:google-oauth-client:current} -->
     <relativePath>../pom.xml</relativePath>
   </parent>
+  <version>1.37.0</version><!-- {x-version-update:google-oauth-client:current} -->
   <artifactId>google-oauth-client</artifactId>
   <name>Google OAuth Client Library for Java</name>
   <description>
