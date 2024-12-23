@@ -145,6 +145,27 @@
       </build>
     </profile>
     <profile>
+      <!-- Optionally, we can publish the artifacts to GCP Artifact Registry specifying
+          this release-gcp-artifact-registry profile:
+          mvn deploy -P=release-gcp-artifact-registry -P=-release-sonatype \
+              -Dartifact-registry-url=artifactregistry://us-maven.pkg.dev/...
+          -->
+      <id>release-gcp-artifact-registry</id>
+      <properties>
+        <artifact-registry-url>artifactregistry://please-define-artifact-registry-url-property</artifact-registry-url>
+      </properties>
+      <distributionManagement>
+        <repository>
+          <id>gcp-artifact-registry-repository</id>
+          <url>${artifact-registry-url}</url>
+        </repository>
+        <snapshotRepository>
+          <id>gcp-artifact-registry-repository</id>
+          <url>${artifact-registry-url}</url>
+        </snapshotRepository>
+      </distributionManagement>
+    </profile>
+    <profile>
       <id>release-sign-artifacts</id>
       <activation>
         <property>
