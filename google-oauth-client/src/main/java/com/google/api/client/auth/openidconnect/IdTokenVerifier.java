@@ -103,7 +103,7 @@ import java.util.logging.Logger;
  *
  * <p>Note that {@link #verify(IdToken)} only implements a subset of the verification steps, mostly
  * just the MUST steps. Please read <a
- * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation>ID Token
+ * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token
  * Validation</a> for the full list of verification steps.
  *
  * @since 1.16
