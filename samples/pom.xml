@@ -43,14 +43,33 @@
           <skip>true</skip>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.6.13</version>
-        <configuration>
-          <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <!-- By default, we release artifacts to Sonatype, which requires
+          nexus-staging-maven-plugin. -->
+      <id>release-sonatype</id>
+      <activation>
+        <property>
+          <!-- Only when we use the release-gcp-artifact-registry profile,
+          which comes with artifact-registry-url property, this profile is
+          turned off. -->
+          <name>!artifact-registry-url</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.13</version>
+            <configuration>
+              <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project> 
