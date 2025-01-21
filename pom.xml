@@ -298,11 +298,6 @@
               <artifactId>plexus-sec-dispatcher</artifactId>
               <version>1.4</version>
             </dependency>
-            <dependency>
-              <groupId>org.sonatype.forge</groupId>
-              <artifactId>forge-parent</artifactId>
-              <version>13</version>
-            </dependency>
           </dependencies>
         </plugin>
         <plugin>
