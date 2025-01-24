@@ -354,7 +354,7 @@
               <links>
                 <link>https://docs.oracle.com/javase/7/docs/api/</link>
                 <link>https://cloud.google.com/appengine/docs/java/javadoc</link>
-                <link>https://googleapis.dev/java/google-http-client/${project.http.version}/</link>
+                <link>https://cloud.google.com/java/docs/reference/google-http-client/${project.http.version}/</link>
               </links>
               <doctitle>Google OAuth Client Library for Java ${project.version}</doctitle>
               <excludePackageNames>com.google.api.services</excludePackageNames>
