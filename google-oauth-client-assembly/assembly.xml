@@ -64,38 +64,38 @@
     </file>
     <!-- dependencies.html files -->
     <file>
-      <source>../google-oauth-client/target/site/dependencies.html</source>
+      <source>../google-oauth-client/target/reports/dependencies.html</source>
       <destName>google-oauth-client-dependencies.html</destName>
       <outputDirectory>google-oauth-java-client/dependencies</outputDirectory>
     </file>
     <file>
-      <source>../google-oauth-client-appengine/target/site/dependencies.html</source>
+      <source>../google-oauth-client-appengine/target/reports/dependencies.html</source>
       <destName>google-oauth-client-appengine-dependencies.html</destName>
       <outputDirectory>google-oauth-java-client/dependencies</outputDirectory>
     </file>
     <file>
-      <source>../google-oauth-client-java6/target/site/dependencies.html</source>
+      <source>../google-oauth-client-java6/target/reports/dependencies.html</source>
       <destName>google-oauth-client-java6-dependencies.html</destName>
       <outputDirectory>google-oauth-java-client/dependencies</outputDirectory>
     </file>
     <file>
-      <source>../google-oauth-client-jetty/target/site/dependencies.html</source>
+      <source>../google-oauth-client-jetty/target/reports/dependencies.html</source>
       <destName>google-oauth-client-jetty-dependencies.html</destName>
       <outputDirectory>google-oauth-java-client/dependencies</outputDirectory>
     </file>
     <file>
-      <source>../google-oauth-client-servlet/target/site/dependencies.html</source>
+      <source>../google-oauth-client-servlet/target/reports/dependencies.html</source>
       <destName>google-oauth-client-servlet-dependencies.html</destName>
       <outputDirectory>google-oauth-java-client/dependencies</outputDirectory>
     </file>
   </files>
   <fileSets>
     <fileSet>
-      <directory>target/site/css</directory>
+      <directory>target/reports/css</directory>
       <outputDirectory>google-oauth-java-client/dependencies/css</outputDirectory>
     </fileSet>
     <fileSet>
-      <directory>target/site/images</directory>
+      <directory>target/reports/images</directory>
       <outputDirectory>google-oauth-java-client/dependencies/images</outputDirectory>
     </fileSet>
     <fileSet>
