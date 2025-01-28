@@ -502,7 +502,7 @@
 
   <profiles>
     <profile>
-      <id>checkstyle</id>
+      <id>checkstyle-tests</id>
       <activation>
         <!-- Checkstyle plugin's dependency now requires Java 11 or higher -->
         <jdk>[11,)</jdk>
