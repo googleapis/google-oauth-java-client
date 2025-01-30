@@ -298,6 +298,43 @@
               <artifactId>plexus-sec-dispatcher</artifactId>
               <version>1.4</version>
             </dependency>
+            <!-- SCM -->
+            <dependency>
+              <groupId>org.apache.maven.scm</groupId>
+              <artifactId>maven-scm-api</artifactId>
+              <version>2.0.0</version>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.maven.scm</groupId>
+              <artifactId>maven-scm-manager-plexus</artifactId>
+              <version>2.0.0</version>
+              <scope>runtime</scope>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.maven.scm</groupId>
+              <artifactId>maven-scm-provider-hg</artifactId>
+              <version>2.0.0</version>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.maven.scm</groupId>
+              <artifactId>maven-scm-provider-svn-commons</artifactId>
+              <version>2.0.0</version>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.maven.scm</groupId>
+              <artifactId>maven-scm-provider-svnexe</artifactId>
+              <version>2.0.0</version>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.maven.scm</groupId>
+              <artifactId>maven-scm-provider-git-commons</artifactId>
+              <version>2.0.0</version>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.maven.scm</groupId>
+              <artifactId>maven-scm-provider-gitexe</artifactId>
+              <version>2.0.0</version>
+            </dependency>
           </dependencies>
         </plugin>
         <plugin>
@@ -398,22 +435,6 @@
             </plugin>
           </plugins>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>clirr-maven-plugin</artifactId>
-        <configuration>
-          <comparisonVersion>1.19.0</comparisonVersion>
-          <ignoredDifferencesFile>${basedir}/../clirr-ignored-differences.xml</ignoredDifferencesFile>
-          <logResults>true</logResults>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
       <!-- Build the dependencies report at package time (needed for the assembly artifact). -->
       <plugin>
@@ -639,6 +660,40 @@
           <url>${artifact-registry-url}</url>
         </snapshotRepository>
       </distributionManagement>
+    </profile>
+    <profile>
+      <id>clirr-compatibility-check</id>
+      <!--
+          CLIRR Maven plugin's dependencies are quite old and not available
+          in some build environment (Airlock).
+          https://github.com/googleapis/java-shared-config/issues/956
+          Extracting this plugin declaration as a profile enables us to disable
+          the CLIRR dependency resolution by `mvn -P=-clirr-compatibility-check ...`
+      -->
+      <activation>
+        <!-- The compatibility check runs by default in CIs -->
+        <jdk>[1.8,)</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>clirr-maven-plugin</artifactId>
+            <configuration>
+              <comparisonVersion>1.19.0</comparisonVersion>
+              <ignoredDifferencesFile>${basedir}/../clirr-ignored-differences.xml</ignoredDifferencesFile>
+              <logResults>true</logResults>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
     <profile>
       <id>animal-sniffer</id>
