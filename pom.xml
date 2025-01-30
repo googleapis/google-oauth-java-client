@@ -399,43 +399,6 @@
           </plugins>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>clirr-maven-plugin</artifactId>
-        <configuration>
-          <comparisonVersion>1.19.0</comparisonVersion>
-          <ignoredDifferencesFile>${basedir}/../clirr-ignored-differences.xml</ignoredDifferencesFile>
-          <logResults>true</logResults>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>animal-sniffer-maven-plugin</artifactId>
-        <configuration>
-          <signature>
-            <groupId>org.codehaus.mojo.signature</groupId>
-            <artifactId>java17</artifactId>
-            <version>1.0</version>
-          </signature>
-          <ignores>
-            <ignore>com.sun.net.httpserver.*</ignore>
-          </ignores>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <!-- Build the dependencies report at package time (needed for the assembly artifact). -->
       <plugin>
         <artifactId>maven-project-info-reports-plugin</artifactId>
@@ -660,6 +623,73 @@
           <url>${artifact-registry-url}</url>
         </snapshotRepository>
       </distributionManagement>
+    </profile>
+    <profile>
+      <id>clirr-compatibility-check</id>
+      <!--
+          CLIRR Maven plugin's dependencies are quite old and not available
+          in some build environment (Airlock).
+          https://github.com/googleapis/java-shared-config/issues/956
+          Extracting this plugin declaration as a profile enables us to disable
+          the CLIRR dependency resolution by `mvn -P=-clirr-compatibility-check ...`
+      -->
+      <activation>
+        <!-- The compatibility check runs by default in CIs -->
+        <jdk>[1.8,)</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>clirr-maven-plugin</artifactId>
+            <configuration>
+              <comparisonVersion>1.19.0</comparisonVersion>
+              <ignoredDifferencesFile>${basedir}/../clirr-ignored-differences.xml</ignoredDifferencesFile>
+              <logResults>true</logResults>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>animal-sniffer</id>
+      <activation>
+        <!-- The compatibility check runs by default in CIs -->
+        <jdk>[1.8,)</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>animal-sniffer-maven-plugin</artifactId>
+            <configuration>
+              <signature>
+                <groupId>org.codehaus.mojo.signature</groupId>
+                <!--Set minimum version to Java 7-->
+                <artifactId>java17</artifactId>
+                <version>1.0</version>
+              </signature>
+              <ignores>
+                <ignore>com.sun.net.httpserver.*</ignore>
+              </ignores>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>
