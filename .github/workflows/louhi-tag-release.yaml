@@ -34,7 +34,7 @@ jobs:
             echo "Couldn't get pull request number for ${SHA}"
             exit 1
           fi
-          echo "PR {PR_NUMBER} for ${SHA}"
-          TAG_NAME="louhi-{PR_NUMBER}"
+          echo "PR ${PR_NUMBER} for ${SHA}"
+          TAG_NAME="louhi-${PR_NUMBER}"
           git tag $TAG_NAME
           git push origin $TAG_NAME
