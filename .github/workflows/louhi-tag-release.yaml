@@ -25,6 +25,8 @@ jobs:
         run: git fetch --tags
       - name: Create additional tags
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           SHA=$(git log -1 --format=format:%H)
           PR_NUMBER=$(gh pr list --search "$SHA" --state merged --json number --jq '.[].number')
