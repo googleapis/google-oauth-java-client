@@ -25,6 +25,8 @@ jobs:
         run: git fetch --tags
       - name: Create additional tags
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           SHA=$(git log -1 --format=format:%H)
           PR_NUMBER=$(gh pr list --search "$SHA" --state merged --json number --jq '.[].number')
@@ -32,7 +34,7 @@ jobs:
             echo "Couldn't get pull request number for ${SHA}"
             exit 1
           fi
-          echo "PR {PR_NUMBER} for ${SHA}"
-          TAG_NAME="louhi-{PR_NUMBER}"
+          echo "PR ${PR_NUMBER} for ${SHA}"
+          TAG_NAME="louhi-${PR_NUMBER}"
           git tag $TAG_NAME
           git push origin $TAG_NAME
