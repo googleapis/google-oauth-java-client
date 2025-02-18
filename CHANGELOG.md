@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.38.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.37.0...v1.38.0) (2025-02-14)
+
+
+### Bug Fixes
+
+* Animal-sniffer and clirr to a profiles ([#1145](https://github.com/googleapis/google-oauth-java-client/issues/1145)) ([490bce7](https://github.com/googleapis/google-oauth-java-client/commit/490bce7d67bd6ea48ca01d50f0214b1698a2d816))
+* Javadoc fix in IdTokenVerifier ([#1134](https://github.com/googleapis/google-oauth-java-client/issues/1134)) ([9ff0f6b](https://github.com/googleapis/google-oauth-java-client/commit/9ff0f6bc57e4449f2877d3a3d5ac8e8adbc326e9))
+
+
+### Dependencies
+
+* Newer Maven plugin versions for Airlock ([#1140](https://github.com/googleapis/google-oauth-java-client/issues/1140)) ([11a8fca](https://github.com/googleapis/google-oauth-java-client/commit/11a8fca5203bde8721915dd57fef0094015ca51e))
+
 ## [1.37.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.36.0...v1.37.0) (2024-12-11)
 
 
