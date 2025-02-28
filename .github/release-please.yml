@@ -14,7 +14,3 @@ branches:
     handleGHRelease: true
     releaseType: java-backport
     branch: 1.33.x
-  - handleGHRelease: true
-    releaseType: java-backport
-    versioning: always-bump-minor
-    branch: 1.38.x-LTS8
