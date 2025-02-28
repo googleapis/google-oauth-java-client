@@ -54,6 +54,19 @@ branchProtectionRules:
       - dependencies (11)
       - clirr
       - cla/google
+  - pattern: 1.38.x
+    isAdminEnforced: true
+    requiredApprovingReviewCount: 1
+    requiresCodeOwnerReviews: true
+    requiresStrictStatusChecks: false
+    requiredStatusCheckContexts:
+      - checkstyle
+      - units (8)
+      - units (11)
+      - dependencies (8)
+      - dependencies (11)
+      - clirr
+      - cla/google
 permissionRules:
   - team: yoshi-admins
     permission: admin
