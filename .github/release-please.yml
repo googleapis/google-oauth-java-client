@@ -1,6 +1,7 @@
 handleGHRelease: true
 releaseType: java-yoshi
 versioning: always-bump-minor
+tagPullRequestNumber: true
 branches:
   - bumpMinorPreMajor: true
     handleGHRelease: true
