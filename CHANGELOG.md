@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.39.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.38.0...v1.39.0) (2025-03-03)
+
+
+### Features
+
+* Next release from main branch is 1.39.0 ([#1151](https://github.com/googleapis/google-oauth-java-client/issues/1151)) ([389afaa](https://github.com/googleapis/google-oauth-java-client/commit/389afaa270f2953a5afde593e4f04a245775cb63))
+* Next release from main branch is 1.39.0 ([#1153](https://github.com/googleapis/google-oauth-java-client/issues/1153)) ([5d58567](https://github.com/googleapis/google-oauth-java-client/commit/5d585670532e4207c6200fc82acbc2506b77792d))
+
+
+### Bug Fixes
+
+* Release-please's tagPullRequestNumber ([#1155](https://github.com/googleapis/google-oauth-java-client/issues/1155)) ([382e823](https://github.com/googleapis/google-oauth-java-client/commit/382e8237cad0639d7e99c2e784b6be8375044aec))
+
 ## [1.38.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.37.0...v1.38.0) (2025-02-14)
 
 
