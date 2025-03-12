@@ -27,8 +27,8 @@ This is an open-source library, and [contributions](CONTRIBUTING.md) are welcome
 
 ## Documentation
 
-- [Developer's Guide](https://github.com/googleapis/google-oauth-java-client/wiki)
-- [Setup Instructions](https://github.com/googleapis/google-oauth-java-client/wiki/Setup-Instructions)
+- [Developer's Guide](https://googleapis.github.io/google-oauth-java-client/index.html)
+- [Setup Instructions](https://googleapis.github.io/google-oauth-java-client/setup.html)
 - [Samples](https://github.com/googleapis/google-oauth-java-client/tree/main/samples)
 - [JavaDoc](https://googleapis.dev/java/google-oauth-client/latest/)
 - [Release Notes](https://github.com/googleapis/google-oauth-java-client/releases)
