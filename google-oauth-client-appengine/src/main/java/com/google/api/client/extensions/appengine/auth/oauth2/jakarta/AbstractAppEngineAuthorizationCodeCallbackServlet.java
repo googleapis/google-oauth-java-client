@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Google Inc.
+ * Copyright (c) 2024 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -12,19 +12,19 @@
  * the License.
  */
 
-package com.google.api.client.extensions.appengine.auth.oauth2;
+package com.google.api.client.extensions.appengine.auth.oauth2.jakarta;
 
-import com.google.api.client.extensions.servlet.auth.oauth2.AbstractAuthorizationCodeCallbackServlet;
+import com.google.api.client.extensions.servlet.auth.oauth2.jakarta.AbstractAuthorizationCodeCallbackServlet;
 import com.google.appengine.api.users.UserServiceFactory;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Simple extension of {@link AbstractAuthorizationCodeCallbackServlet} that uses the currently
  * logged-in Google Account user, as directed in <a
  * href="https://cloud.google.com/appengine/docs/standard/java/config/webxml#security-auth">Security
- * and Authentication</a>.
+ * and Authentication</a>. This uses the {@code jakarta.servlet} namespace.
  *
  * <p>Note that if there is no currently logged-in user, {@link #getUserId(HttpServletRequest)} will
  * throw a {@link NullPointerException}. Example to require login for all pages:
@@ -79,8 +79,7 @@ import javax.servlet.http.HttpServletRequest;
  * }
  * }</pre>
  *
- * @since 1.7
- * @author Yaniv Inbar
+ * @since 1.36.0
  */
 public abstract class AbstractAppEngineAuthorizationCodeCallbackServlet
     extends AbstractAuthorizationCodeCallbackServlet {

@@ -1,5 +1,65 @@
 # Changelog
 
+## [1.39.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.38.0...v1.39.0) (2025-03-03)
+
+
+### Features
+
+* Next release from main branch is 1.39.0 ([#1151](https://github.com/googleapis/google-oauth-java-client/issues/1151)) ([389afaa](https://github.com/googleapis/google-oauth-java-client/commit/389afaa270f2953a5afde593e4f04a245775cb63))
+* Next release from main branch is 1.39.0 ([#1153](https://github.com/googleapis/google-oauth-java-client/issues/1153)) ([5d58567](https://github.com/googleapis/google-oauth-java-client/commit/5d585670532e4207c6200fc82acbc2506b77792d))
+
+
+### Bug Fixes
+
+* Release-please's tagPullRequestNumber ([#1155](https://github.com/googleapis/google-oauth-java-client/issues/1155)) ([382e823](https://github.com/googleapis/google-oauth-java-client/commit/382e8237cad0639d7e99c2e784b6be8375044aec))
+
+## [1.38.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.37.0...v1.38.0) (2025-02-14)
+
+
+### Bug Fixes
+
+* Animal-sniffer and clirr to a profiles ([#1145](https://github.com/googleapis/google-oauth-java-client/issues/1145)) ([490bce7](https://github.com/googleapis/google-oauth-java-client/commit/490bce7d67bd6ea48ca01d50f0214b1698a2d816))
+* Javadoc fix in IdTokenVerifier ([#1134](https://github.com/googleapis/google-oauth-java-client/issues/1134)) ([9ff0f6b](https://github.com/googleapis/google-oauth-java-client/commit/9ff0f6bc57e4449f2877d3a3d5ac8e8adbc326e9))
+
+
+### Dependencies
+
+* Newer Maven plugin versions for Airlock ([#1140](https://github.com/googleapis/google-oauth-java-client/issues/1140)) ([11a8fca](https://github.com/googleapis/google-oauth-java-client/commit/11a8fca5203bde8721915dd57fef0094015ca51e))
+
+## [1.37.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.36.0...v1.37.0) (2024-12-11)
+
+
+### Bug Fixes
+
+* **docs:** Javadoc code comments to render correctly in reference docs ([ab4d5e7](https://github.com/googleapis/google-oauth-java-client/commit/ab4d5e7dae926b5d95ddc3021a82883a0f24415d))
+
+## [1.36.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.35.0...v1.36.0) (2024-05-10)
+
+
+### Features
+
+* Servlet classes that use the jakarta namespace ([#1115](https://github.com/googleapis/google-oauth-java-client/issues/1115)) ([11d6a3c](https://github.com/googleapis/google-oauth-java-client/commit/11d6a3cb30c4ebfe4fc4e196d99f5764c6ade878))
+
+## [1.35.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.34.1...v1.35.0) (2023-12-29)
+
+
+### Features
+
+* Add googleapis-auth as codeowner team ([#923](https://github.com/googleapis/google-oauth-java-client/issues/923)) ([d7dc38c](https://github.com/googleapis/google-oauth-java-client/commit/d7dc38c3a701b074ac90faf6618f594c3675d126))
+
+
+### Bug Fixes
+
+* Adding retries to public key fetch for IdTokenVerifier to cover transient network issues. ([289f139](https://github.com/googleapis/google-oauth-java-client/commit/289f1397168ac825da68907b050a1ef41827c4ca))
+* Deprecating the IdTokenVerifier.verify, adding verifyOrThrow as an alternative ([#1091](https://github.com/googleapis/google-oauth-java-client/issues/1091)) ([a9a062e](https://github.com/googleapis/google-oauth-java-client/commit/a9a062ef8665495055571534b9fff4fcc630c8ad))
+* **test:** Update test tokens ([#953](https://github.com/googleapis/google-oauth-java-client/issues/953)) ([d523410](https://github.com/googleapis/google-oauth-java-client/commit/d5234104b28dfcc3c9424e200f2ede8832bede6f))
+* Update test tokens ([#971](https://github.com/googleapis/google-oauth-java-client/issues/971)) ([c28d149](https://github.com/googleapis/google-oauth-java-client/commit/c28d1495a9095753544651294373990207b25203))
+
+
+### Dependencies
+
+* Update doclet version to 1.9.0 ([#1054](https://github.com/googleapis/google-oauth-java-client/issues/1054)) ([ca216f9](https://github.com/googleapis/google-oauth-java-client/commit/ca216f9fd1499a2d76a199c74adeff5fd0d8b122))
+
 ## [1.34.1](https://github.com/googleapis/google-oauth-java-client/compare/v1.34.0...v1.34.1) (2022-06-09)
 
 

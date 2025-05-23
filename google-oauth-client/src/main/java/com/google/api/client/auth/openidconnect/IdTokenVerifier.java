@@ -25,7 +25,6 @@ import com.google.api.client.json.GenericJson;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.webtoken.JsonWebSignature.Header;
 import com.google.api.client.util.Base64;
-import com.google.api.client.util.Beta;
 import com.google.api.client.util.Clock;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.client.util.Key;
@@ -66,12 +65,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * {@link Beta} <br>
  * Thread-safe ID token verifier based on <a
  * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token
  * Validation</a>.
  *
- * <p>Call {@link #verify(IdToken)} to verify a ID token. This is a light-weight object, so you may
+ * <p>Call {@link #verify(IdToken)} to verify an ID token. This is a light-weight object, so you may
  * use a new instance for each configuration of expected issuer and trusted client IDs. Sample
  * usage:
  *
@@ -101,16 +99,15 @@ import java.util.logging.Logger;
  * </pre>
  *
  * not recommended: this check can be disabled with OAUTH_CLIENT_SKIP_SIGNATURE environment variable
- * set to true.
+ * set to true. Use {@link #verifyPayload(IdToken)} instead.
  *
  * <p>Note that {@link #verify(IdToken)} only implements a subset of the verification steps, mostly
  * just the MUST steps. Please read <a
- * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation>ID Token
+ * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token
  * Validation</a> for the full list of verification steps.
  *
  * @since 1.16
  */
-@Beta
 public class IdTokenVerifier {
   private static final Logger LOGGER = Logger.getLogger(IdTokenVerifier.class.getName());
   private static final String IAP_CERT_URL = "https://www.gstatic.com/iap/verify/public_key-jwk";
@@ -227,17 +224,56 @@ public class IdTokenVerifier {
    *       performed using {@link com.google.api.client.http.javanet.NetHttpTransport} Both
    *       certificate location and transport implementation can be overridden via {@link Builder}
    *       not recommended: this check can be disabled with OAUTH_CLIENT_SKIP_SIGNATURE environment
+   *       variable set to true. Use {@link #verifyPayload(IdToken)} instead.
+   * </ul>
+   *
+   * Deprecated. This method returns false if network requests to get certificates fail. Use {@link
+   * IdTokenVerifier.verfyOrThrow(IdToken)} instead to differentiate between potentially retryable
+   * network errors and false verification results.
+   *
+   * @param idToken ID token
+   * @return {@code true} if verified successfully or {@code false} if failed
+   */
+  @Deprecated
+  public boolean verify(IdToken idToken) {
+    try {
+      return verifyOrThrow(idToken);
+    } catch (IOException ex) {
+      LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+      return false;
+    }
+  }
+
+  /**
+   * Verifies that the given ID token is valid using the cached public keys.
+   *
+   * <p>It verifies:
+   *
+   * <ul>
+   *   <li>The issuer is one of {@link #getIssuers()} by calling {@link
+   *       IdToken#verifyIssuer(String)}.
+   *   <li>The audience is one of {@link #getAudience()} by calling {@link
+   *       IdToken#verifyAudience(Collection)}.
+   *   <li>The current time against the issued at and expiration time, using the {@link #getClock()}
+   *       and allowing for a time skew specified in {@link #getAcceptableTimeSkewSeconds()} , by
+   *       calling {@link IdToken#verifyTime(long, long)}.
+   *   <li>This method verifies token signature per current OpenID Connect Spec:
+   *       https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation. By default,
+   *       method gets a certificate from well-known location. A request to certificate location is
+   *       performed using {@link com.google.api.client.http.javanet.NetHttpTransport} Both
+   *       certificate location and transport implementation can be overridden via {@link Builder}
+   *       not recommended: this check can be disabled with OAUTH_CLIENT_SKIP_SIGNATURE environment
    *       variable set to true.
    * </ul>
    *
    * <p>Overriding is allowed, but it must call the super implementation.
    *
    * @param idToken ID token
-   * @return {@code true} if verified successfully or {@code false} if failed
+   * @return {@code true} if verified successfully or {@code false} if payload validation failed
    * @throws IOException if verification fails to run. For example, if it fails to get public keys
-   *     for signature validation.
+   *     for signature verification.
    */
-  public boolean verify(IdToken idToken) throws IOException {
+  public boolean verifyOrThrow(IdToken idToken) throws IOException {
     boolean payloadValid = verifyPayload(idToken);
 
     if (!payloadValid) {
@@ -331,14 +367,12 @@ public class IdTokenVerifier {
   }
 
   /**
-   * {@link Beta} <br>
    * Builder for {@link IdTokenVerifier}.
    *
    * <p>Implementation is not thread-safe.
    *
    * @since 1.16
    */
-  @Beta
   public static class Builder {
 
     /** Clock. */

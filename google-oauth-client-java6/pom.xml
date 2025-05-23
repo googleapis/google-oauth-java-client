@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.google.oauth-client</groupId>
     <artifactId>google-oauth-client-parent</artifactId>
-    <version>1.34.2-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
+    <version>1.40.0-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>google-oauth-client-java6</artifactId>
@@ -16,7 +16,7 @@
         <configuration>
           <links>
             <link>http://download.oracle.com/javase/7/docs/api/</link>
-            <link>https://googleapis.dev/java/google-http-client/${project.http.version}/</link>
+            <link>https://cloud.google.com/java/docs/reference/google-http-client/${project.http.version}/</link>
           </links>
           <doctitle>${project.name} ${project.version}</doctitle>
           <windowtitle>${project.artifactId} ${project.version}</windowtitle>
@@ -46,18 +46,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-      <!--Set minimum version to Java 7-->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>animal-sniffer-maven-plugin</artifactId>
-        <configuration>
-          <signature>
-            <groupId>org.codehaus.mojo.signature</groupId>
-            <artifactId>java17</artifactId>
-            <version>1.0</version>
-          </signature>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.felix</groupId>

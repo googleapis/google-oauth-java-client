@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Google Inc.
+ * Copyright (c) 2024 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -12,23 +12,23 @@
  * the License.
  */
 
-package com.google.api.client.extensions.servlet.auth.oauth2;
+package com.google.api.client.extensions.servlet.auth.oauth2.jakarta;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
- * Thread-safe OAuth 2.0 authorization code callback servlet to process the authorization code or
- * error response from authorization page redirect.
+ * Thread-safe OAuth 2.0 authorization code callback servlet using the jakarta namespace to process
+ * the authorization code or error response from authorization page redirect.
  *
  * <p>This is designed to simplify the flow in which an end-user authorizes your web application to
  * access their protected data. The main servlet class extends {@link
@@ -83,8 +83,7 @@ import javax.servlet.http.HttpServletResponse;
  * }
  * }</pre>
  *
- * @since 1.7
- * @author Yaniv Inbar
+ * @since 1.36.0
  */
 public abstract class AbstractAuthorizationCodeCallbackServlet extends HttpServlet {
 

@@ -1,0 +1,40 @@
+name: Louhi Release Tag
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      # Permission to create tag
+      # https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps?apiVersion=2022-11-28#repository-permissions-for-contents
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "Louhi Release Tag"
+      - name: Fetch all tags
+        run: git fetch --tags
+      - name: Create additional tags
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          SHA=$(git log -1 --format=format:%H)
+          PR_NUMBER=$(gh pr list --search "$SHA" --state merged --json number --jq '.[].number')
+          if [[ -z "${PR_NUMBER}" ]]; then
+            echo "Couldn't get pull request number for ${SHA}"
+            exit 1
+          fi
+          echo "PR ${PR_NUMBER} for ${SHA}"
+          TAG_NAME="louhi-${PR_NUMBER}"
+          git tag $TAG_NAME
+          git push origin $TAG_NAME

@@ -5,7 +5,7 @@
 
   <groupId>com.google.oauth-client</groupId>
   <artifactId>google-oauth-client-parent</artifactId>
-  <version>1.34.2-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
+  <version>1.40.0-SNAPSHOT</version><!-- {x-version-update:google-oauth-client:current} -->
   <packaging>pom</packaging>
   <name>Parent for the Google OAuth Client Library for Java</name>
   <description>Google OAuth Client Library for Java</description>
@@ -117,6 +117,11 @@
         <version>${project.jdo2-api.version}</version>
       </dependency>
       <dependency>
+        <groupId>jakarta.servlet</groupId>
+        <artifactId>jakarta.servlet-api</artifactId>
+        <version>${project.jakarta-servlet-api.version}</version>
+      </dependency>
+      <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>servlet-api</artifactId>
         <version>${project.servlet-api.version}</version>
@@ -220,7 +225,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.4.1</version>
+          <version>3.11.2</version>
           <executions>
             <execution>
               <id>attach-javadocs</id>
@@ -229,11 +234,18 @@
               </goals>
             </execution>
           </executions>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.maven.wagon</groupId>
+              <artifactId>wagon-provider-api</artifactId>
+              <version>3.3.3</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.2.2</version>
+          <version>3.3.0</version>
           <executions>
             <execution>
               <goals>
@@ -244,7 +256,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.0.0-M7</version>
+          <version>3.2.3</version>
           <configuration>
             <argLine>-Xmx1024m</argLine>
             <reportNameSuffix>sponge_log</reportNameSuffix>
@@ -252,7 +264,14 @@
         </plugin>
         <plugin>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.6.0</version>
+          <dependencies>
+            <dependency>
+              <groupId>com.puppycrawl.tools</groupId>
+              <artifactId>checkstyle</artifactId>
+              <version>10.21.1</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -267,17 +286,34 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>animal-sniffer-maven-plugin</artifactId>
-          <version>1.22</version>
+          <version>1.24</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.4.1</version>
+          <version>3.8.0</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.sonatype.plexus</groupId>
+              <artifactId>plexus-sec-dispatcher</artifactId>
+              <version>1.4</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.12.1</version>
+          <version>3.21.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.4.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>3.1.3</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -285,7 +321,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.1.0</version><executions>
+        <version>3.5.0</version><executions>
         <execution>
           <id>enforce-maven</id>
           <goals>
@@ -318,7 +354,7 @@
               <links>
                 <link>https://docs.oracle.com/javase/7/docs/api/</link>
                 <link>https://cloud.google.com/appengine/docs/java/javadoc</link>
-                <link>https://googleapis.dev/java/google-http-client/${project.http.version}/</link>
+                <link>https://cloud.google.com/java/docs/reference/google-http-client/${project.http.version}/</link>
               </links>
               <doctitle>Google OAuth Client Library for Java ${project.version}</doctitle>
               <excludePackageNames>com.google.api.services</excludePackageNames>
@@ -350,21 +386,6 @@
         </executions>
       </plugin>
       <plugin>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <configLocation>checkstyle.xml</configLocation>
-          <consoleOutput>true</consoleOutput>
-          <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
         <configuration>
@@ -378,43 +399,6 @@
           </plugins>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>clirr-maven-plugin</artifactId>
-        <configuration>
-          <comparisonVersion>1.19.0</comparisonVersion>
-          <ignoredDifferencesFile>${basedir}/../clirr-ignored-differences.xml</ignoredDifferencesFile>
-          <logResults>true</logResults>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>animal-sniffer-maven-plugin</artifactId>
-        <configuration>
-          <signature>
-            <groupId>org.codehaus.mojo.signature</groupId>
-            <artifactId>java17</artifactId>
-            <version>1.0</version>
-          </signature>
-          <ignores>
-            <ignore>com.sun.net.httpserver.*</ignore>
-          </ignores>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <!-- Build the dependencies report at package time (needed for the assembly artifact). -->
       <plugin>
         <artifactId>maven-project-info-reports-plugin</artifactId>
@@ -426,10 +410,10 @@
             <phase>package</phase>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <configuration>
+          <!-- Helpful to see Airlock dependency resolutions -->
+          <skip>${mpir.skip}</skip>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>com.coveo</groupId>
@@ -461,7 +445,9 @@
     -->
     <project.appengine.version>2.0.6</project.appengine.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.http.version>1.42.3</project.http.version>
+    <project.http.version>1.43.3</project.http.version>
+    <!-- jakarta-servlet-api 5.0.0 is the last version that works with Java 8 -->
+    <project.jakarta-servlet-api.version>5.0.0</project.jakarta-servlet-api.version>
     <project.jsr305.version>3.0.2</project.jsr305.version>
     <project.guava.version>31.1-android</project.guava.version>
     <project.xpp3.version>1.1.4c</project.xpp3.version>
@@ -474,9 +460,36 @@
     <project.datanucleus-maven-plugin.version>5.2.1</project.datanucleus-maven-plugin.version>
     <project.servlet-api.version>2.5</project.servlet-api.version>
     <deploy.autorelease>false</deploy.autorelease>
+    <mpir.skip>false</mpir.skip>
   </properties>
 
   <profiles>
+    <profile>
+      <id>checkstyle-tests</id>
+      <activation>
+        <!-- Checkstyle plugin's dependency now requires Java 11 or higher -->
+        <jdk>[11,)</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <configuration>
+              <configLocation>checkstyle.xml</configLocation>
+              <consoleOutput>true</consoleOutput>
+              <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
       <id>release-sign-artifacts</id>
       <activation>
@@ -490,7 +503,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>3.0.1</version>
+            <version>3.2.7</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -510,7 +523,6 @@
         </plugins>
       </build>
     </profile>
-
     <profile>
       <id>docFX</id>
       <activation>
@@ -521,40 +533,161 @@
       </activation>
       <properties>
         <!-- default config values -->
-        <docletName>java-docfx-doclet-1.9.0</docletName>
         <outputpath>${project.build.directory}/docfx-yml</outputpath>
         <projectname>${project.artifactId}</projectname>
-        <excludeclasses></excludeclasses>
-        <excludePackages></excludePackages>
-        <source>7</source>            
-        <sourceFileExclude></sourceFileExclude>
+        <source>17</source>
       </properties>
       <build>
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.4.1</version>
             <configuration>
               <doclet>com.microsoft.doclet.DocFxDoclet</doclet>
               <useStandardDocletOptions>false</useStandardDocletOptions>
                <!-- custom config with -Dproperty=value -->
-              <docletPath>${env.KOKORO_GFILE_DIR}/${docletName}.jar</docletPath>
               <additionalOptions>
                 -outputpath ${outputpath} 
-                -projectname ${projectname} 
-                -excludeclasses ${excludeclasses}: 
-                -excludepackages ${excludePackages}:
+                -projectname ${projectname}
               </additionalOptions>
+              <excludePackageNames>com.google.api.services</excludePackageNames>
+              <groups>
+                <group>
+                  <title>google-oauth-client</title>
+                  <packages>com.google.api.client.auth*</packages>
+                </group>
+                <group>
+                  <title>google-oauth-client-appengine</title>
+                  <packages>com.google.api.client.extensions.appengine.*</packages>
+                </group>
+                <group>
+                  <title>google-oauth-client-servlet</title>
+                  <packages>com.google.api.client.extensions.servlet.*:com.google.api.client.extensions.auth.*:com.google.api.client.extensions.jdo.*</packages>
+                </group>
+                <group>
+                  <title>google-oauth-client-java6</title>
+                  <packages>com.google.api.client.extensions.java6.*</packages>
+                </group>
+                <group>
+                  <title>google-oauth-client-jetty</title>
+                  <packages>com.google.api.client.extensions.jetty.*</packages>
+                </group>
+              </groups>
               <doclint>none</doclint>
               <show>protected</show>
               <nohelp>true</nohelp>
               <source>${source}</source>
-              <sourceFileExcludes>
-                <exclude>${sourceFileExclude}</exclude>
-              </sourceFileExcludes>
             </configuration>
           </plugin>  
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!-- By default, we release artifacts to Sonatype, which requires
+          nexus-staging-maven-plugin. -->
+      <id>release-sonatype</id>
+      <activation>
+        <property>
+          <!-- Only when we use the release-gcp-artifact-registry profile,
+          which comes with artifact-registry-url property, this profile is
+          turned off. -->
+          <name>!artifact-registry-url</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!-- Optionally, we can publish the artifacts to GCP Artifact Registry specifying
+          this release-gcp-artifact-registry profile:
+          mvn deploy -P=release-gcp-artifact-registry -P=-release-sonatype \
+              -Dartifact-registry-url=artifactregistry://us-maven.pkg.dev/...
+          -->
+      <id>release-gcp-artifact-registry</id>
+      <properties>
+        <artifact-registry-url>artifactregistry://please-define-artifact-registry-url-property</artifact-registry-url>
+      </properties>
+      <distributionManagement>
+        <repository>
+          <id>gcp-artifact-registry-repository</id>
+          <url>${artifact-registry-url}</url>
+        </repository>
+        <snapshotRepository>
+          <id>gcp-artifact-registry-repository</id>
+          <url>${artifact-registry-url}</url>
+        </snapshotRepository>
+      </distributionManagement>
+    </profile>
+    <profile>
+      <id>clirr-compatibility-check</id>
+      <!--
+          CLIRR Maven plugin's dependencies are quite old and not available
+          in some build environment (Airlock).
+          https://github.com/googleapis/java-shared-config/issues/956
+          Extracting this plugin declaration as a profile enables us to disable
+          the CLIRR dependency resolution by `mvn -P=-clirr-compatibility-check ...`
+      -->
+      <activation>
+        <!-- The compatibility check runs by default in CIs -->
+        <jdk>[1.8,)</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>clirr-maven-plugin</artifactId>
+            <configuration>
+              <comparisonVersion>1.19.0</comparisonVersion>
+              <ignoredDifferencesFile>${basedir}/../clirr-ignored-differences.xml</ignoredDifferencesFile>
+              <logResults>true</logResults>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>animal-sniffer</id>
+      <activation>
+        <!-- The compatibility check runs by default in CIs -->
+        <jdk>[1.8,)</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>animal-sniffer-maven-plugin</artifactId>
+            <configuration>
+              <signature>
+                <groupId>org.codehaus.mojo.signature</groupId>
+                <!--Set minimum version to Java 7-->
+                <artifactId>java17</artifactId>
+                <version>1.0</version>
+              </signature>
+              <ignores>
+                <ignore>com.sun.net.httpserver.*</ignore>
+              </ignores>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
       </build>
     </profile>
