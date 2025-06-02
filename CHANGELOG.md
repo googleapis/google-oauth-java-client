@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.40.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.39.0...v1.40.0) (2025-06-02)
+
+
+### Dependencies
+
+* Maven-gpg-plugin 3.2.7 ([#1164](https://github.com/googleapis/google-oauth-java-client/issues/1164)) ([e771f81](https://github.com/googleapis/google-oauth-java-client/commit/e771f812900b03c37f50c2ec6376998a178ee8c3))
+
 ## [1.39.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.38.0...v1.39.0) (2025-03-03)
 
 
