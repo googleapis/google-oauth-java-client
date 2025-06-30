@@ -443,7 +443,7 @@
       - google-api-java-client/google-api-client-assembly/android-properties (make the filenames match the version here)
       - Internally, update the default features.json file
     -->
-    <project.appengine.version>2.0.6</project.appengine.version>
+    <project.appengine.version>2.0.38</project.appengine.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.http.version>1.43.3</project.http.version>
     <!-- jakarta-servlet-api 5.0.0 is the last version that works with Java 8 -->
