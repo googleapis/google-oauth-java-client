@@ -1,8 +1,8 @@
-on:
+'on':
   push:
     branches:
-    - main
-  pull_request:
+      - 1.39.x
+  pull_request: null
 name: ci
 jobs:
   units:
@@ -10,55 +10,59 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [8, 11, 17]
+        java:
+          - 8
+          - 11
+          - 17
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: ${{matrix.java}}
-    - run: java -version
-    - run: .kokoro/build.sh
-      env:
-        JOB_TYPE: test
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: ${{matrix.java}}
+      - run: java -version
+      - run: .kokoro/build.sh
+        env:
+          JOB_TYPE: test
   dependencies:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        java: [8, 11, 17]
+        java:
+          - 8
+          - 11
+          - 17
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: ${{matrix.java}}
-    - run: java -version
-    - run: .kokoro/dependencies.sh
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: ${{matrix.java}}
+      - run: java -version
+      - run: .kokoro/dependencies.sh
   lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: 11
-    - run: java -version
-    - run: .kokoro/build.sh
-      env:
-        JOB_TYPE: lint
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - run: java -version
+      - run: .kokoro/build.sh
+        env:
+          JOB_TYPE: lint
   clirr:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: 8
-    - run: java -version
-    - run: .kokoro/build.sh
-      env:
-        JOB_TYPE: clirr
-        
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 8
+      - run: java -version
+      - run: .kokoro/build.sh
+        env:
+          JOB_TYPE: clirr
   units-java21:
-    # Building using Java 8 and run the tests with Java 21 runtime
-    name: "units (21)"
+    name: units (21)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -66,9 +70,9 @@ jobs:
         with:
           java-version: 21
           distribution: temurin
-      - name: "Set jvm system property environment variable for surefire plugin (unit tests)"
-        # Maven surefire plugin (unit tests) allows us to specify JVM to run the tests.
-        # https://maven.apache.org/surefire/maven-surefire-plugin/test-mojo.html#jvm
+      - name: >-
+          Set jvm system property environment variable for surefire plugin (unit
+          tests)
         run: echo "SUREFIRE_JVM_OPT=-Djvm=${JAVA_HOME}/bin/java" >> $GITHUB_ENV
         shell: bash
       - uses: actions/setup-java@v3
