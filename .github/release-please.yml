@@ -19,3 +19,8 @@ branches:
     releaseType: java-backport
     versioning: always-bump-minor
     branch: 1.38.x
+  - handleGHRelease: true
+    releaseType: java-backport
+    versioning: always-bump-minor
+    tagPullRequestNumber: true
+    branch: 1.39.x
