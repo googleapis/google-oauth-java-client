@@ -63,27 +63,27 @@
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client</artifactId>
-        <version>1.38.0</version><!-- {x-version-update:google-oauth-client:current} -->
+        <version>1.38.1</version><!-- {x-version-update:google-oauth-client:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client-appengine</artifactId>
-        <version>1.38.0</version><!-- {x-version-update:google-oauth-client:current} -->
+        <version>1.38.1</version><!-- {x-version-update:google-oauth-client:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client-java6</artifactId>
-        <version>1.38.0</version><!-- {x-version-update:google-oauth-client:current} -->
+        <version>1.38.1</version><!-- {x-version-update:google-oauth-client:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client-jetty</artifactId>
-        <version>1.38.0</version><!-- {x-version-update:google-oauth-client:current} -->
+        <version>1.38.1</version><!-- {x-version-update:google-oauth-client:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client-servlet</artifactId>
-        <version>1.38.0</version><!-- {x-version-update:google-oauth-client:current} -->
+        <version>1.38.1</version><!-- {x-version-update:google-oauth-client:current} -->
       </dependency>
     </dependencies>
   </dependencyManagement>
