@@ -4,8 +4,8 @@
 # For syntax help see:
 # https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners#codeowners-syntax
 
-# The @googleapis/cloud-java-team-teamsync is the default owner for changes in this repo
-*                        @googleapis/cloud-java-team-teamsync @googleapis/googleapis-auth
+# The @googleapis/cloud-sdk-java-team is the default owner for changes in this repo
+*                        @googleapis/cloud-sdk-java-team @googleapis/googleapis-auth
 
 
 # The java-samples-reviewers team is the default owner for samples changes
