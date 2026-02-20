@@ -87,5 +87,5 @@ permissionRules:
     permission: admin
   - team: yoshi-java
     permission: push
-  - team: googleapis-auth
+  - team: cloud-sdk-auth-team
     permission: admin

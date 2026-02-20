@@ -5,7 +5,7 @@
 # https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners#codeowners-syntax
 
 # The @googleapis/cloud-sdk-java-team is the default owner for changes in this repo
-*                        @googleapis/cloud-sdk-java-team @googleapis/googleapis-auth
+*                        @googleapis/cloud-sdk-java-team @googleapis/cloud-sdk-auth-team
 
 
 # The java-samples-reviewers team is the default owner for samples changes
