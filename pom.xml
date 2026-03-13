@@ -445,7 +445,7 @@
     -->
     <project.appengine.version>2.0.6</project.appengine.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.http.version>1.43.3</project.http.version>
+    <project.http.version>2.1.0</project.http.version>
     <!-- jakarta-servlet-api 5.0.0 is the last version that works with Java 8 -->
     <project.jakarta-servlet-api.version>5.0.0</project.jakarta-servlet-api.version>
     <project.jsr305.version>3.0.2</project.jsr305.version>
