@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.40.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.39.0...v1.40.0) (2026-04-20)
+
+
+### Features
+
+* Next release from main branch is 1.40.0 ([#1166](https://github.com/googleapis/google-oauth-java-client/issues/1166)) ([6551dfb](https://github.com/googleapis/google-oauth-java-client/commit/6551dfbed4cf4ec474ef3fa437633c49688927f4))
+
+
+### Bug Fixes
+
+* Update renovate config check to use npx ([#1173](https://github.com/googleapis/google-oauth-java-client/issues/1173)) ([5a7f92b](https://github.com/googleapis/google-oauth-java-client/commit/5a7f92b00c361f2a58e3c8aefa0f3adac4091696))
+
+
+### Dependencies
+
+* Maven-gpg-plugin 3.2.7 ([#1164](https://github.com/googleapis/google-oauth-java-client/issues/1164)) ([e771f81](https://github.com/googleapis/google-oauth-java-client/commit/e771f812900b03c37f50c2ec6376998a178ee8c3))
+
 ## [1.39.0](https://github.com/googleapis/google-oauth-java-client/compare/v1.38.0...v1.39.0) (2025-03-03)
 
 
