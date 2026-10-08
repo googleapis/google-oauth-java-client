@@ -124,7 +124,7 @@ public final class LocalServerReceiver implements VerificationCodeReceiver {
   @Override
   public String getRedirectUri() throws IOException {
 
-    server = HttpServer.create(new InetSocketAddress(port != -1 ? port : findOpenPort()), 0);
+    server = HttpServer.create(new InetSocketAddress(host, port != -1 ? port : findOpenPort()), 0);
     HttpContext context = server.createContext(callbackPath, new CallbackHandler());
     server.setExecutor(null);
 
