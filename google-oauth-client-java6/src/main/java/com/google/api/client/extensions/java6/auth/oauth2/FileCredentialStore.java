@@ -81,21 +81,28 @@ public class FileCredentialStore implements CredentialStore {
     }
     // create new file (if necessary)
     if (!file.createNewFile()) {
+      // restrict access to the owner before reading secrets back from an existing file
+      setPermissionsToOwnerOnly(file);
       // load credentials from existing file
       loadCredentials(file);
     } else {
-      // disable access by other users if O/S allows it
-      if (!file.setReadable(false, false)
-          || !file.setWritable(false, false)
-          || !file.setExecutable(false, false)) {
-        LOGGER.warning("unable to change file permissions for everybody: " + file);
-      }
-      // set file permissions to readable and writable by user
-      if (!file.setReadable(true) || !file.setWritable(true)) {
-        throw new IOException("unable to set file permissions: " + file);
-      }
+      setPermissionsToOwnerOnly(file);
       // save the credentials to create a new file
       save();
+    }
+  }
+
+  /** Restricts read and write access to the owner of the given credential file. */
+  private void setPermissionsToOwnerOnly(File file) throws IOException {
+    // disable access by other users if O/S allows it
+    if (!file.setReadable(false, false)
+        || !file.setWritable(false, false)
+        || !file.setExecutable(false, false)) {
+      LOGGER.warning("unable to change file permissions for everybody: " + file);
+    }
+    // set file permissions to readable and writable by user
+    if (!file.setReadable(true) || !file.setWritable(true)) {
+      throw new IOException("unable to set file permissions: " + file);
     }
   }
 
