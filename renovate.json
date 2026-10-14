@@ -20,6 +20,11 @@
     {
       "packagePatterns": ["^com.google.appengine:appengine-"],
       "groupName": "AppEngine packages"
+    },
+    {
+      "description": "Pin jdo2-api to 2.3-eb. Maven version ordering ranks 2.3-20090302111651 higher, but that build is older and its POM has no license.",
+      "matchPackageNames": ["javax.jdo:jdo2-api"],
+      "enabled": false
     }
   ],
   "dependencyDashboard": true
