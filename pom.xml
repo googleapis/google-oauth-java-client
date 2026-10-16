@@ -115,6 +115,13 @@
         <groupId>javax.jdo</groupId>
         <artifactId>jdo2-api</artifactId>
         <version>${project.jdo2-api.version}</version>
+        <exclusions>
+          <!-- 2.3-eb declares transaction-api in compile scope; earlier versions used provided. -->
+          <exclusion>
+            <groupId>javax.transaction</groupId>
+            <artifactId>transaction-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>jakarta.servlet</groupId>
@@ -452,7 +459,7 @@
     <project.guava.version>31.1-android</project.guava.version>
     <project.xpp3.version>1.1.4c</project.xpp3.version>
     <project.commons-logging.version>1.1.1</project.commons-logging.version>
-    <project.jdo2-api.version>2.3-20090302111651</project.jdo2-api.version>
+    <project.jdo2-api.version>2.3-eb</project.jdo2-api.version>
     <project.transaction-api.version>1.1</project.transaction-api.version>
     <project.datanucleus-core.version>3.2.15</project.datanucleus-core.version>
     <project.datanucleus-api-jdo.version>3.2.8</project.datanucleus-api-jdo.version>
