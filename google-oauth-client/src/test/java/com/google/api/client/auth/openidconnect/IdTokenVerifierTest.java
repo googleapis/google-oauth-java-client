@@ -305,6 +305,26 @@ public class IdTokenVerifierTest extends TestCase {
     assertTrue(tokenVerifier.verify(IdToken.parse(JSON_FACTORY, FEDERATED_SIGNON_RS256_TOKEN)));
   }
 
+  public void testVerifyRs256TokenSkipsUnsupportedKeyInKeySet() throws IOException {
+    // A JWK Set may legitimately contain a key this client cannot build a PublicKey from, e.g. a
+    // key whose algorithm is not RS256/ES256. That key must be skipped so the remaining valid keys
+    // are still usable, instead of aborting the whole key set.
+    String unsupportedKey =
+        "{\"kid\":\"unsupported\",\"kty\":\"oct\",\"alg\":\"HS256\",\"k\":\"c2VjcmV0\"},";
+    String keysWithUnsupportedKey =
+        readResourceAsString("federated_keys.json")
+            .replace("\"keys\": [", "\"keys\": [" + unsupportedKey);
+    HttpTransportFactory httpTransportFactory =
+        mockTransport("https://www.googleapis.com/oauth2/v3/certs", keysWithUnsupportedKey);
+    MockClock clock = new MockClock(1587625988000L);
+    IdTokenVerifier tokenVerifier =
+        new IdTokenVerifier.Builder()
+            .setClock(clock)
+            .setHttpTransportFactory(httpTransportFactory)
+            .build();
+    assertTrue(tokenVerifier.verify(IdToken.parse(JSON_FACTORY, FEDERATED_SIGNON_RS256_TOKEN)));
+  }
+
   public void testVerifyRs256TokenWithLegacyCertificateUrlFormat()
       throws IOException, VerificationException {
     HttpTransportFactory httpTransportFactory =
