@@ -25,6 +25,11 @@
       "description": "Pin jdo2-api to 2.3-eb. Maven version ordering ranks 2.3-20090302111651 higher, but that build is older and its POM has no license.",
       "matchPackageNames": ["javax.jdo:jdo2-api"],
       "enabled": false
+    },
+    {
+      "description": "Pin plexus-i18n to 1.0-beta-10; newer 1.2.0 has no approved license in Airlock maven-3p-trusted.",
+      "matchPackageNames": ["org.codehaus.plexus:plexus-i18n"],
+      "enabled": false
     }
   ],
   "dependencyDashboard": true
