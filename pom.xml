@@ -299,7 +299,7 @@
             <!--
               Airlock (maven-3p-trusted) has no approved license for antlr 2.7.2
               and plexus-i18n 1.0-beta-7, which this plugin pulls in through
-              findbugs 3.0.1 and doxia-site-renderer 1.7.
+              doxia-site-renderer 1.7.
             -->
             <dependency>
               <groupId>antlr</groupId>
@@ -311,7 +311,7 @@
               <artifactId>plexus-i18n</artifactId>
               <version>1.0-beta-10</version>
               <exclusions>
-                <!-- Its parent adds old Plexus container JARs that Airlock does not have. Maven core provides them. -->
+                <!-- Its parent adds old Plexus container JARs that maven-3p-trusted does not have. Maven core provides them. -->
                 <exclusion>
                   <groupId>*</groupId>
                   <artifactId>*</artifactId>
@@ -334,7 +334,7 @@
               <artifactId>plexus-i18n</artifactId>
               <version>1.0-beta-10</version>
               <exclusions>
-                <!-- Its parent adds old Plexus container JARs that Airlock does not have. Maven core provides them. -->
+                <!-- Its parent adds old Plexus container JARs that maven-3p-trusted does not have. Maven core provides them. -->
                 <exclusion>
                   <groupId>*</groupId>
                   <artifactId>*</artifactId>
@@ -452,7 +452,7 @@
             <plugin>
               <groupId>com.google.http-client</groupId>
               <artifactId>google-http-client-findbugs</artifactId>
-              <!-- 1.43.3 POM has no license in Airlock; 1.47.1 is in maven-3p-trusted with identical detectors. -->
+              <!-- 1.43.3 is not in Airlock maven-3p-trusted; 1.47.1 is, with identical detectors. -->
               <version>1.47.1</version>
             </plugin>
           </plugins>
