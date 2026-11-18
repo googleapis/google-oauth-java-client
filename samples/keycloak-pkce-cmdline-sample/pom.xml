@@ -36,7 +36,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>3.0.5</version>
         <configuration>
           <excludeFilterFile>../../findbugs-exclude.xml</excludeFilterFile>
           <failOnError>false</failOnError>
@@ -52,7 +51,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>3.0.0</version>
         <configuration>
           <skip>true</skip>
         </configuration>
