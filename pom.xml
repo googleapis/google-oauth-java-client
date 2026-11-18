@@ -323,7 +323,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>5.1.8</version>
+          <version>5.1.9</version>
           <dependencies>
             <!--
               Airlock (maven-3p-trusted) has no approved license for plexus-i18n 1.0-beta-7,
