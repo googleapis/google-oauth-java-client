@@ -21,10 +21,13 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.io.CharStreams;
+import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import org.junit.Test;
@@ -39,6 +42,25 @@ public class LocalServerReceiverTest {
       receiver.getRedirectUri();
       assertNotEquals(0, receiver.getPort());
       assertNotEquals(-1, receiver.getPort());
+    } finally {
+      receiver.stop();
+    }
+  }
+
+  @Test
+  public void testServerBindsToLoopback() throws IOException, ReflectiveOperationException {
+    LocalServerReceiver receiver = new LocalServerReceiver();
+
+    try {
+      receiver.getRedirectUri();
+      Field serverField = LocalServerReceiver.class.getDeclaredField("server");
+      serverField.setAccessible(true);
+      HttpServer server = (HttpServer) serverField.get(receiver);
+      InetSocketAddress bound = server.getAddress();
+      assertFalse(
+          "callback server must not listen on all interfaces",
+          bound.getAddress().isAnyLocalAddress());
+      assertTrue(bound.getAddress().isLoopbackAddress());
     } finally {
       receiver.stop();
     }
