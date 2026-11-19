@@ -625,7 +625,10 @@ public class IdTokenVerifier {
       } else {
         for (JsonWebKey key : jwks.keys) {
           try {
-            keyCacheBuilder.put(key.kid, buildPublicKey(key));
+            PublicKey publicKey = buildPublicKey(key);
+            if (publicKey != null && key.kid != null) {
+              keyCacheBuilder.put(key.kid, publicKey);
+            }
           } catch (NoSuchAlgorithmException
               | InvalidKeySpecException
               | InvalidParameterSpecException ignored) {
