@@ -38,6 +38,10 @@ import com.google.common.io.Files;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.Set;
 import junit.framework.TestCase;
 
 /**
@@ -120,6 +124,25 @@ public class FileCredentialStoreTest extends TestCase {
   public void testDeleteCredentials() throws Exception {
     FileCredentialStore store = new FileCredentialStore(createTempFile(), JSON_FACTORY);
     store.delete(USER_ID, createCredential());
+  }
+
+  public void testExistingFilePermissionsAreTightened() throws Exception {
+    if (!FileSystems.getDefault().supportedFileAttributeViews().contains("posix")) {
+      return; // POSIX permissions are not available on this platform (e.g. Windows)
+    }
+    File file = createTempFile();
+    // simulate a pre-existing credential file left world/group readable and writable
+    java.nio.file.Files.setPosixFilePermissions(
+        file.toPath(), PosixFilePermissions.fromString("rw-rw-rw-"));
+
+    new FileCredentialStore(file, JSON_FACTORY);
+
+    Set<PosixFilePermission> permissions =
+        java.nio.file.Files.getPosixFilePermissions(file.toPath());
+    assertFalse(permissions.contains(PosixFilePermission.GROUP_READ));
+    assertFalse(permissions.contains(PosixFilePermission.GROUP_WRITE));
+    assertFalse(permissions.contains(PosixFilePermission.OTHERS_READ));
+    assertFalse(permissions.contains(PosixFilePermission.OTHERS_WRITE));
   }
 
   private Credential createCredential() {
