@@ -1,0 +1,1 @@
+-keep,allowoptimization class com.google.api.client.auth.** { *; }
